@@ -1,0 +1,640 @@
+/**
+ * JavaCC file for parsing Profile-Formula-ExpressionAST
+ */
+
+options {
+LOOKAHEAD=1;
+STATIC=false;
+}
+
+PARSER_BEGIN(ExpressionParserImp)
+
+package com.squid.core.expression.parser;
+
+import java.io.StringReader;
+import java.util.*;
+import com.squid.core.expression.*;
+import com.squid.core.expression.scope.*;
+
+public class ExpressionParserImp
+extends ExpressionParser
+{
+	
+	public ExpressionParserImp(ExpressionScope scope, String text) {
+		this(new StringReader(text));
+		this.scope = scope;
+	} 
+	
+	/*
+	public ConstantExpression parseConstant(ExpressionScope scope) throws ParseException {
+		return constant(scope);
+	}
+	*/
+
+	public ExpressionAST parseExpression() throws ParseException {
+		return expression(scope);
+	}
+	
+	protected ExpressionAST createRawOperator(int operatorKind, ExpressionAST expression, ExpressionAST sub) throws ScopeException {
+		ExpressionAST result = null;
+		switch (operatorKind) {
+			case PLUS:
+				result = scope.createSigmaOperator(expression,sub);
+				break;
+			case MINUS:
+				result = scope.createOperator("SUBTRACTION",expression,sub);
+				break;
+			case DIVIDE:
+				result = scope.createOperator("DIVIDE",expression,sub);
+				break;
+			case MULTIPLY:
+				result = scope.createOperator("MULTIPLY",expression,sub);
+				break;
+			case LESSTHAN:
+				result = scope.createOperator("LESS",expression,sub);
+				break;
+			case LESSOREQUALTHAN:
+				result = scope.createOperator("LESS_OR_EQUAL",expression,sub);
+				break;
+			case GREATERTHAN:
+				result = scope.createOperator("GREATER",expression,sub);
+				break;
+			case GREATEROREQUALTHAN:
+				result = scope.createOperator("GREATER_OR_EQUAL",expression,sub);
+				break;
+			case EQUAL:
+				result = scope.createOperator("EQUAL",expression,sub);
+				break;
+			case NOTEQUAL:
+				result = scope.createOperator("NOT_EQUAL",expression,sub);
+				break;
+			case AND:
+				result = scope.createOperator("AND",expression,sub);
+				break;
+			case OR:
+				result = scope.createOperator("OR",expression,sub);
+				break;
+			case MODULO:
+				result = scope.createOperator("MODULO",expression,sub);
+				break;
+			case EXPONENTIATE:
+				result = scope.createOperator("EXPONENTIATE",expression,sub);
+				break;
+		}
+		return result;
+	}
+	
+	protected Operator createInfixOperator(int operatorKind) throws ScopeException {
+		switch (operatorKind) {
+			case PLUS:
+				return scope.createOperator("PLUS");
+			case MINUS:
+				return scope.createOperator("SUBTRACTION");
+			case DIVIDE:
+				return scope.createOperator("DIVIDE");
+			case MULTIPLY:
+				return scope.createOperator("MULTIPLY");
+			case LESSTHAN:
+				return scope.createOperator("LESS");
+			case LESSOREQUALTHAN:
+				return scope.createOperator("LESS_OR_EQUAL");
+			case GREATERTHAN:
+				return scope.createOperator("GREATER");
+			case GREATEROREQUALTHAN:
+				return scope.createOperator("GREATER_OR_EQUAL");
+			case EQUAL:
+				return scope.createOperator("EQUAL");
+			case NOTEQUAL:
+				return scope.createOperator("NOT_EQUAL");
+			case AND:
+				return scope.createOperator("AND");
+			case OR:
+				return scope.createOperator("OR");
+			case MODULO:
+				return scope.createOperator("MODULO");
+			case EXPONENTIATE:
+				return scope.createOperator("EXPONENTIATE");
+			default:
+				return scope.createOperator("UNDEFINED");
+		}
+	}
+	
+}
+
+PARSER_END(ExpressionParserImp)
+
+SKIP :
+{
+  " "
+|
+  "\r"
+|
+  "\t"
+|
+  "\n"
+|
+  "/*" : IN_COMMENT
+
+}
+
+SKIP :
+{
+  <  "//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")? >
+}
+
+<IN_LINE_COMMENT> MORE:
+{
+  < ~[] >
+}
+
+<IN_COMMENT> SKIP:
+{
+   "*/" : DEFAULT
+}
+
+<IN_COMMENT> MORE:
+{
+  < ~[] >
+}
+
+TOKEN : //[IGNORE_CASE] : /* OPERATORS */
+{
+	< PLUS: "+" >
+|	< MINUS: "-" >
+|	< EXPONENTIATE: "**" >
+|	< MULTIPLY: "*" >
+|	< DIVIDE: "/" >
+|	< LESSTHAN: "<" >
+|	< LESSOREQUALTHAN: "<=" >
+|	< GREATERTHAN: ">" >
+|	< GREATEROREQUALTHAN: ">=" >
+|	< OR: "or" | "OR" | "||">
+|	< AND: "and" | "AND" | "&&">
+|	< EQUAL: "=" >
+|	< NOTEQUAL: "!=" >
+|   < AROBASE : "@" >
+|	< AMPERSAND : "&" >
+|	< SHARP : "#" >
+|	< MODULO : "%" >
+|   < DOLLAR : "$" >
+}
+
+TOKEN [IGNORE_CASE]:
+{
+	< NULL: "NULL" >
+| 	< TRUE: "TRUE" >
+|	< FALSE: "FALSE" >
+}
+
+TOKEN :
+{    < #DIGIT: ["0" - "9"] >
+  | < #LETTER: ["A"-"Z", "a"-"z"] >
+}
+
+TOKEN : /* NUMERICAL */
+{
+    < INTEGER: ( <DIGIT> )+ (" ")*>
+}
+
+TOKEN:
+{
+	<STRING_LITERAL: 
+	"\""
+	(~["@","\"","\\","\n","\r"] | "\\" (["n","t","b","r","f","\\","\'","\""] | ["0"-"7"] (["0"-"7"])? | ["0"-"3"] ["0"-"7"] ["0"-"7"]))* 
+	"\""
+	>
+}
+
+TOKEN:
+{
+	<STRING_IDENTIFIER: 
+	"'"
+	(~["@","'","\"","\\","\n","\r"] | "\\" (["n","t","b","r","f","\\","\'","\""] | ["0"-"7"] (["0"-"7"])? | ["0"-"3"] ["0"-"7"] ["0"-"7"]))* 
+	"'"
+	>
+}
+
+TOKEN: /* Operator */
+{
+    < IDENTIFIER: ( <LETTER> )+ ( "_" | <DIGIT> | <LETTER> )* >
+}
+
+TOKEN:
+{
+	< SPECIAL_IDENTIFIER: ( "_" | "$" | "#" | <DIGIT>)+ >
+}
+
+TOKEN : /* SEPARATORS */
+{
+  < LPAREN: "(" >
+| < RPAREN: ")" >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < DOT: "." >
+}
+
+ExpressionAST expression(ExpressionScope scope) :
+{
+	ExpressionAST expression;
+}
+{
+	expression = expression_X(scope) < EOF >
+	{
+		return expression;
+	}
+}
+
+ExpressionAST expression_X(ExpressionScope scope) :
+{
+	ArrayList<ExpressionOperatorPair> L2 = null;
+}
+{
+	L2 = expressionL2(scope)
+	{
+		return buildExpression(L2);
+	}
+}
+
+ArrayList<ExpressionOperatorPair> expressionL2(ExpressionScope scope) :
+{
+	ExpressionAST expression;
+	Operator operator = null;
+	ArrayList<ExpressionOperatorPair> sub = null;
+}
+{
+	expression = signed_expression(scope)
+	[
+		operator = infix_operator() sub = expressionL2(scope)
+	]
+	{
+		if (operator==null) {
+			sub = new ArrayList<ExpressionOperatorPair>(2);
+			sub.add(new ExpressionOperatorPair(expression));
+			return sub;
+		} else {
+			sub.add(0,new ExpressionOperatorPair(expression,operator));
+			return sub;
+		}
+	}
+}
+
+Token extended_identifier() :
+{
+	Token t1;
+}
+{
+	t1 = <STRING_IDENTIFIER>
+	{
+		return removeSurrounding(t1);
+	}
+	
+}
+
+Operator infix_operator() :
+{
+	Token operator;
+}
+{
+      operator = infix_token() { return createInfixOperator(operator.kind); }
+    | operator = <IDENTIFIER> { return createInfixOperator(operator.image); }
+}
+
+Token infix_token() :
+{
+	Token operator;
+}
+{
+	  operator = <PLUS> { return operator; }
+	| operator = <MINUS> { return operator; }
+	| operator = <DIVIDE> { return operator; }
+	| operator = <MULTIPLY> { return operator; }
+	| operator = <LESSTHAN> { return operator; }
+	| operator = <LESSOREQUALTHAN> { return operator; }
+	| operator = <GREATERTHAN> { return operator; }
+	| operator = <GREATEROREQUALTHAN> { return operator; }
+	| operator = <EQUAL> { return operator; }
+	| operator = <NOTEQUAL> { return operator; }
+	| operator = <AND> { return operator; }
+	| operator = <OR> { return operator; }
+	| operator = <MODULO> { return operator; }
+	| operator = <EXPONENTIATE> { return operator; }
+}
+
+ExpressionAST signed_expression(ExpressionScope scope) :
+{
+	ExpressionAST simple;
+}
+{
+	<MINUS> simple = simple_expression(scope)
+	{
+		return createOperator(scope,"MINUS",simple);
+	}
+	|
+	simple = simple_expression(scope)
+	{
+		return simple;
+	}
+}
+
+ExpressionAST simple_expression(ExpressionScope scope) :
+{
+	ExpressionAST expression;
+}
+{
+	(
+	  expression = null_constant(scope)
+	| expression = boolean_constant(scope)
+	| expression = date_constant(scope)
+	| expression = primitive_constant(scope)
+	| expression = apply_operator(scope)
+	| expression = group_expression(scope)
+	| expression = vector_expression(scope)
+    | expression = column_reference(scope)
+	| (LOOKAHEAD(composable_expression(scope) <DOT>) expression = compose_path(scope)
+	| expression = attribute_reference(scope)
+	| expression = id_reference(scope)
+    | expression = typed_reference(scope)
+	| expression = parameter_reference(scope))
+	)
+	{
+		return expression;
+	}
+}
+
+
+
+ExpressionAST vector_expression(ExpressionScope scope) :
+{
+	ExpressionAST head;
+	List tail=null;
+}
+{
+	<LBRACE> head = expression_X(scope) ["," tail = expression_list(scope)] <RBRACE>
+	{
+		if (tail==null) tail = new ArrayList();
+		tail.add(0,head);
+		return createOperator(scope,"VECTOR",tail);
+	}
+}
+
+ExpressionAST group_expression(ExpressionScope scope) :
+{
+	ExpressionAST expr;
+}
+{
+	<LPAREN> expr = expression_X(scope) <RPAREN>
+	{
+		return createOperator(scope,"GROUP",expr);
+	}
+}
+
+ExpressionAST null_constant(ExpressionScope scope) :
+{
+	ExpressionAST expr;
+}
+{
+	<NULL>
+	{
+		return scope.createNullValue();
+	}
+}
+
+ExpressionAST boolean_constant(ExpressionScope scope) :
+{
+	ExpressionAST constant;
+}
+{
+	( constant = true_constant(scope) | constant = false_constant(scope) )
+	{
+		return constant;
+	}
+}
+
+ExpressionAST true_constant(ExpressionScope scope) :
+{
+}
+{
+	<TRUE>
+	{
+		return createConstant(scope,true);
+	}
+}
+
+ExpressionAST false_constant(ExpressionScope scope) :
+{
+}
+{
+	<FALSE>
+	{
+		return createConstant(scope,false);
+	}
+}
+
+ExpressionAST date_constant(ExpressionScope scope) :
+{
+	Token year,month,day;
+	Token date;
+	Token decimal = null;
+}
+{
+	"DATE(" date = <STRING_LITERAL> ")"
+	{
+		//String y = year.image;
+		//String m = month.image;
+		//String d = day.image;
+		//return scope.createDateConstantValue(y,m,d);
+		String image = date.image;
+		if (image.length()>1) {
+			return scope.createDateConstantValue(image.substring(1,image.length()-1));
+		} else {
+			throw new ParseException("invalid date format");
+		}
+	}
+}
+
+ConstantValue primitive_constant(ExpressionScope scope) :
+{
+	ConstantValue constant;
+}
+{
+	( constant = numerical_constant(scope) | constant = string_constant(scope))
+	{
+		return constant;
+	}
+}
+
+ConstantValue numerical_constant(ExpressionScope scope) :
+{
+	Token identifier;
+	Token decimal = null;
+}
+{
+	identifier = < INTEGER > [ "." decimal = < INTEGER > ]
+	{
+		String image = identifier.image;
+		if (decimal!=null) {
+			image += "."+decimal.image;
+		}
+		return scope.createNumericalConstantValue(image);
+	}
+}
+
+ConstantValue string_constant(ExpressionScope scope) :
+{
+	Token identifier;
+}
+{
+	identifier = < STRING_LITERAL >
+	{
+		String image = identifier.image;
+		return scope.createStringConstantValue(image);
+	}
+}
+
+ExpressionAST compose_path(ExpressionScope scope) :
+{
+    ExpressionAST first = null;
+    ExpressionAST second = null;
+}
+{
+    (first = composable_expression(scope)
+    <DOT>
+    second = simple_expression(scope.applyExpression(first)))
+    {
+        if (second!=null) {
+            return scope.createCompose(first,second);
+        } else {
+            return first;
+        }
+    }
+}
+
+ExpressionAST composable_expression(ExpressionScope scope) :
+{
+  ExpressionAST expr = null;}
+{    (expr = composable_attribute_reference(scope) | expr = id_reference(scope) | expr = typed_reference(scope))
+    {        return expr;
+    }
+}
+
+ExpressionAST composable_attribute_reference(ExpressionScope scope) : 
+{
+    Token identifier;
+}
+{
+    identifier = extended_identifier()
+    {
+        String image = identifier.image;
+        Object attr = scope.lookupComposableObject(IdentifierType.DEFAULT,image);
+        return bindIdentifier(scope.createReferringExpression(attr),identifier,IdentifierType.DEFAULT);
+    }
+}
+
+ExpressionAST attribute_reference(ExpressionScope scope) : 
+{
+	Token identifier;
+}
+{
+	identifier = extended_identifier()
+	{
+		String image = identifier.image;
+		Object attr = scope.lookupObject(IdentifierType.DEFAULT,image);
+		return bindIdentifier(scope.createReferringExpression(attr),identifier,IdentifierType.DEFAULT);
+	}
+}
+
+ExpressionAST column_reference(ExpressionScope scope) : 
+{
+	Token identifier;
+}
+{
+	<SHARP> identifier = extended_identifier()
+	{
+		String image = identifier.image;
+		Object column = scope.lookupObject(IdentifierType.COLUMN,image);
+		return bindPrefixedIdentifier(scope.createReferringExpression(column),identifier,IdentifierType.COLUMN);
+	}
+}
+
+ExpressionAST parameter_reference(ExpressionScope scope) : 
+{
+	Token identifier;
+}
+{
+	<DOLLAR> identifier = extended_identifier()
+	{
+		String image = identifier.image;
+		Object column = scope.lookupObject(IdentifierType.PARAMETER,image);
+		return bindPrefixedIdentifier(scope.createReferringExpression(column),identifier,IdentifierType.PARAMETER);
+	}
+}
+
+ExpressionAST id_reference(ExpressionScope scope) :
+{
+	Token identifier;
+}
+{
+	<AROBASE> identifier = extended_identifier()
+	{
+		String image = identifier.image;
+		Object instance = scope.lookupObject(IdentifierType.IDENTIFIER,image);
+		return bindPrefixedIdentifier(scope.createReferringExpression(instance),identifier,IdentifierType.IDENTIFIER);
+	}
+}
+
+ExpressionAST typed_reference(ExpressionScope scope) :
+{
+	Token type;
+	Token identifier;
+}
+{
+	<LBRACKET> type = <IDENTIFIER> ":" identifier = extended_identifier() <RBRACKET>
+	{
+		IdentifierType identifierType = scope.lookupIdentifierType(type.image);
+		Object instance = scope.lookupObject(identifierType,identifier.image);
+		return bindTypedIdentifier(scope.createReferringExpression(instance),identifier,identifierType);
+	}
+}
+
+ExpressionAST apply_operator(ExpressionScope scope) :
+{
+	Token identifier;
+	List args=null;
+}
+{
+	identifier = <IDENTIFIER> <LPAREN> [args = expression_list(scope)] <RPAREN>
+	{
+		String fun = identifier.image;
+		return createOperator(scope,fun,args);
+	}
+}
+
+List expression_list(ExpressionScope scope) :
+{
+	ExpressionAST head;
+	List tail=null;
+}
+{
+	head = expression_X(scope) ["," tail = expression_list(scope)]
+	{
+		if (tail==null) tail = new ArrayList();
+		tail.add(0,head);
+		return tail;
+	}
+}
+
+ExpressionAST sigma_expression(ExpressionScope scope) : 
+{
+	ExpressionAST first;
+	ExpressionAST second;
+}
+{
+	first = simple_expression(scope) <PLUS> second = expression_X(scope)
+	{
+		return scope.createSigmaOperator(first,second);
+	}
+}

@@ -1,0 +1,7 @@
+## $stat  : com.squid.core.sql2.statement.CreateTableAsStatement
+## $skin : com.squid.core.sql2.render.SQLSkin
+##
+##-- Template: default SQL ANSI, V2.0
+
+CREATE TABLE $stat.InsertIntoTable.render($skin)
+AS ($stat.InsertValue.render($skin))
