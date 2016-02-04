@@ -85,9 +85,7 @@ implements ExpressionScope
     public ExpressionAST createCompose(ExpressionAST first, ExpressionAST second) throws ScopeException {
         // check validity
         if (!first.getImageDomain().isInstanceOf(second.getSourceDomain())) {
-        	IDomain image = first.getImageDomain();
-        	IDomain source = second.getSourceDomain();
-            throw new ScopeException("cannot compose: invalid types");
+        	throw new ScopeException("cannot compose: invalid types");
         }
         //
         return compose(first, second);
@@ -179,11 +177,10 @@ implements ExpressionScope
         OperatorDiagnostic diag = def.validateParameters(domains);
         if (diag!=OperatorDiagnostic.IS_VALID) {
             String message = diag.getErrorMessage();
-            int pos = diag.getPosition();
-            if (pos>0 && pos<=domains.size()) {
-                message = message.replaceAll("#"+pos, args.get(pos-1).prettyPrint());
+            for (int pos=0;pos<args.size();pos++) {
+            	message = message.replaceAll("#"+(pos+1), args.get(pos).prettyPrint());
             }
-            throw new ScopeException(def.getName()+": "+message+(diag.getHint()!=null?" \n"+diag.getHint():""));
+            throw new ScopeException(def.getName()+": "+message+(diag.getHint()!=null?"\nUsage: "+diag.getHint():""));
         }
         Operator operator = new Operator(def);
         if (args!=null)
