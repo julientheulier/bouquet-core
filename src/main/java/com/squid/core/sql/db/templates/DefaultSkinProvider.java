@@ -23,7 +23,6 @@
  *******************************************************************************/
 package com.squid.core.sql.db.templates;
 
-import com.squid.core.database.impl.DataSourceReliable;
 import com.squid.core.database.model.DatabaseProduct;
 import com.squid.core.domain.aggregate.QuotientOperatorDefinition;
 import com.squid.core.domain.analytics.WindowingOperatorRegistry;
@@ -31,6 +30,7 @@ import com.squid.core.domain.extensions.AddMonthsOperatorDefinition;
 import com.squid.core.domain.extensions.CastOperatorDefinition;
 import com.squid.core.domain.extensions.DateOperatorDefinition;
 import com.squid.core.domain.extensions.DateTruncateOperatorDefinition;
+import com.squid.core.domain.extensions.DateTruncateShortcutsOperatorDefinition;
 import com.squid.core.domain.extensions.ExtractOperatorDefinition;
 import com.squid.core.domain.extensions.PadOperatorDefinition;
 import com.squid.core.domain.extensions.StringLengthOperatorsDefinition;
@@ -114,6 +114,11 @@ implements ISkinProvider
 		registerOperatorRender(DateOperatorDefinition.FROM_UNIXTIME, new DateEpochOperatorRenderer(DateEpochOperatorRenderer.FROM));
 		registerOperatorRender(DateOperatorDefinition.TO_UNIXTIME, new DateEpochOperatorRenderer(DateEpochOperatorRenderer.TO));
 		registerOperatorRender(DateTruncateOperatorDefinition.DATE_TRUNCATE, new DateTruncateOperatorRenderer());
+		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.HOURLY_ID, new DateTruncateOperatorRenderer());
+		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.DAILY_ID, new DateTruncateOperatorRenderer());
+		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.WEEKLY_ID, new DateTruncateOperatorRenderer());
+		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.MONTHLY_ID, new DateTruncateOperatorRenderer());
+		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.YEARLY_ID, new DateTruncateOperatorRenderer());
 		//
 		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_DAY, new ExtractOperatorRenderer("DAY"));
 		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_DAY_OF_WEEK, new ExtractOperatorRenderer("DAY_OF_WEEK"));
