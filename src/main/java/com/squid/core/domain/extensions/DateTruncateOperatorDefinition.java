@@ -36,7 +36,7 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
  * DATE_TRUNCATE(date or timestamp, string). String could be "week", "month" or
  * "year". This function returns the first day of the week, month or year as a
  * date.
- *
+ * 
  * @author luatnn
  * @rev 2011-06-29 by jth: More enhanced validation of parameters (date or timestamp for first param & static value for second parameter)
  */
@@ -93,7 +93,8 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
-        return ExtendedType.DATE;
+    	ExtendedType dateType = types[0];
+    	return fixExtendedTypeDomain(dateType, types);
     }
 
 	@Override
@@ -101,13 +102,31 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 		if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
         IDomain argument0 = imageDomains.get(0);
 		boolean is_aggregate = argument0.isInstanceOf(AggregateDomain.DOMAIN);
-		IDomain domain = IDomain.DATE;
+		IDomain domain = IDomain.UNKNOWN;
+		if (argument0.isInstanceOf(IDomain.TIMESTAMP)) {
+			DomainStringConstant mode = (DomainStringConstant)imageDomains.get(1);
+			if (isConvertToDate(mode.getValue())) {
+				domain = IDomain.DATE;
+			} else {
+				domain = IDomain.TIMESTAMP;
+			}
+		} else {
+			domain = IDomain.DATE;
+		}
         if (is_aggregate) {
         	// compose with Aggregate
         	domain = AggregateDomain.MANAGER.createMetaDomain(domain);
         }
         //
         return domain;
+	}
+	
+	private boolean isConvertToDate(String mode) {
+		return 
+				mode.equalsIgnoreCase(YEAR) || 
+				mode.equalsIgnoreCase(MONTH) ||
+				mode.equalsIgnoreCase(WEEK) ||
+				mode.equalsIgnoreCase(DAY);
 	}
 
 }
