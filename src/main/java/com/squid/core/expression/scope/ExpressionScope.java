@@ -29,6 +29,7 @@ import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.expression.ConstantValue;
 import com.squid.core.expression.ExpressionAST;
 import com.squid.core.expression.Operator;
+import com.squid.core.expression.parser.Token;
 
 public interface ExpressionScope {
 	
@@ -190,5 +191,7 @@ public interface ExpressionScope {
 	 * @return
 	 */
 	public ExpressionDiagnostic validateExpression(ExpressionAST expression);
+
+	public ExpressionAST createCompose(ExpressionAST first, ExpressionAST second, Token operator) throws ScopeException;
 
 }

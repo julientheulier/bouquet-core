@@ -36,6 +36,7 @@ import com.squid.core.expression.ExpressionAST;
 import com.squid.core.expression.parser.ExpressionParser;
 import com.squid.core.expression.parser.ExpressionParserImp;
 import com.squid.core.expression.parser.ParseException;
+import com.squid.core.expression.parser.Token;
 import com.squid.core.expression.parser.TokenMgrError;
 
 public class DefaultScope 
@@ -191,6 +192,15 @@ implements ExpressionScope
     		return ExpressionDiagnostic.IS_VALID;
     	} else {
     		return new ExpressionDiagnostic("the expression is not well defined (unknown type)");
+    	}
+    }
+    
+    @Override
+    public ExpressionAST createCompose(ExpressionAST first, ExpressionAST second, Token operator) throws ScopeException {
+    	if (operator.kind==ExpressionParserImp.DOT) {
+    		return createCompose(first, second);
+    	} else {
+    		throw new ScopeException("composition operator '"+operator.image+"' is not supported in this scope");
     	}
     }
     
