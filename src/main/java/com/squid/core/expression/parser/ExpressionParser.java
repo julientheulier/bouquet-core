@@ -27,8 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.aggregate.AggregateDomain;
-import com.squid.core.domain.aggregate.QuotientOperatorDefinition;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 import com.squid.core.expression.ExpressionAST;
@@ -227,6 +225,14 @@ public abstract class ExpressionParser
 	
 	protected ExpressionAST createConstant(ExpressionScope scope, boolean value) {
 		return ExpressionMaker.CONSTANT(value);
+	}
+	
+	protected ExpressionAST createQuery(ExpressionScope cope, ExpressionAST from, List<QueryTerm> terms) throws ScopeException {
+		ExpressionAST query = from;
+		for (QueryTerm term : terms) {
+			query = scope.createCompose(query, term.getLeft(), term.getTerm());
+		}
+		return query;
 	}
     	
 }

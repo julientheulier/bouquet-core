@@ -179,6 +179,12 @@ TOKEN : //[IGNORE_CASE] : /* OPERATORS */
 |   < DOLLAR : "$" >
 }
 
+TOKEN : //[IGNORE_CASE] : /* OPERATORS */
+{    < FILTER: "filter" | "FILTER" >
+|   < FACET: "facet" | "FACET" >
+|   < METRIC: "metric" | "METRIC" >
+}
+
 TOKEN [IGNORE_CASE]:
 {
 	< NULL: "NULL" >
@@ -242,10 +248,57 @@ ExpressionAST expression(ExpressionScope scope) :
 	ExpressionAST expression;
 }
 {
-	expression = expression_X(scope) < EOF >
+	expression = query(scope) < EOF >
 	{
 		return expression;
 	}
+}
+
+ExpressionAST query(ExpressionScope scope) :
+{    ExpressionAST expression;
+    List<QueryTerm> terms = null;
+}
+{    expression = expression_X(scope)
+    [
+        terms = query_terms(scope.applyExpression(expression))
+    ]
+    {
+        if (terms==null) {            return expression;
+        } else {            return createQuery(scope, expression, terms);
+          }
+    }
+}
+
+List<QueryTerm> query_terms(ExpressionScope scope) :
+{
+    Token operator;
+    ExpressionAST expression;
+    List<QueryTerm> sub_query = null;
+}
+{
+    operator = query_operator(scope)
+    expression = expression_X(scope)
+    [
+        sub_query = query_terms(scope)
+    ]
+    {        if (sub_query==null)        {            ArrayList<QueryTerm> terminal = new ArrayList<QueryTerm>();
+            terminal.add(new QueryTerm(operator,expression));
+            return terminal;
+        }
+         else        {            sub_query.add(0, new QueryTerm(operator,expression));
+            return sub_query;
+        }
+    }
+}
+
+Token query_operator(ExpressionScope scope) :
+{
+    Token operator;
+}
+{
+    operator = <FILTER> { return operator; }
+  | operator = <FACET> { return operator; }
+  | operator = <METRIC> { return operator; }
 }
 
 ExpressionAST expression_X(ExpressionScope scope) :
@@ -436,17 +489,12 @@ ExpressionAST false_constant(ExpressionScope scope) :
 
 ExpressionAST date_constant(ExpressionScope scope) :
 {
-	Token year,month,day;
 	Token date;
 	Token decimal = null;
 }
 {
 	"DATE(" date = <STRING_LITERAL> ")"
 	{
-		//String y = year.image;
-		//String m = month.image;
-		//String d = day.image;
-		//return scope.createDateConstantValue(y,m,d);
 		String image = date.image;
 		if (image.length()>1) {
 			return scope.createDateConstantValue(image.substring(1,image.length()-1));
@@ -498,6 +546,7 @@ ConstantValue string_constant(ExpressionScope scope) :
 ExpressionAST compose_path(ExpressionScope scope) :
 {
     ExpressionAST first = null;
+    Token operator = null;
     ExpressionAST second = null;
 }
 {
