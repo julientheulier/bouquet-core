@@ -26,8 +26,9 @@ package com.squid.core.expression.reference;
 import com.squid.core.database.model.Table;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.domain.set.SetDomain;
 import com.squid.core.expression.ExpressionRef;
+import com.squid.core.expression.PrettyPrintConstant;
+import com.squid.core.expression.scope.IdentifierType;
 import com.squid.core.sql.render.SQLSkin;
 
 /**
@@ -77,6 +78,15 @@ public class TableReference extends ExpressionRef {
 	public String getReferenceIdentifier() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public String prettyPrint() {
+		return PrettyPrintConstant.OPEN_TYPED_IDENTIFIER+
+				IdentifierType.TABLE+PrettyPrintConstant.TYPE_SEPARATOR+PrettyPrintConstant.OPEN_IDENT+
+				getReferenceName()+
+				PrettyPrintConstant.CLOSE_IDENT+
+				PrettyPrintConstant.CLOSE_TYPED_IDENTIFIER;
 	}
 
 	/**
