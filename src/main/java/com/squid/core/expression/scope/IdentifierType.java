@@ -29,6 +29,9 @@ public class IdentifierType {
 	
 	// a column-reference is prefixed with #
 	public static final IdentifierType COLUMN = new IdentifierType("col");
+	
+	// a table (or view) identifier
+	public static final IdentifierType TABLE = new IdentifierType("table");
 
 	// a identifier-reference is prefixed with @
 	public static final IdentifierType IDENTIFIER = new IdentifierType("id");
@@ -73,6 +76,11 @@ public class IdentifierType {
 		} else if (!token.equals(other.token))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return getToken();
 	}
 
 }
