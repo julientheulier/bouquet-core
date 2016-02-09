@@ -565,7 +565,7 @@ ExpressionAST compose_path(ExpressionScope scope) :
 ExpressionAST composable_expression(ExpressionScope scope) :
 {
   ExpressionAST expr = null;}
-{    (expr = composable_attribute_reference(scope) | expr = id_reference(scope) | expr = typed_reference(scope))
+{    (expr = composable_attribute_reference(scope) | expr = id_reference(scope) | expr = typed_reference(scope) | expr = parameter_reference(scope))
     {        return expr;
     }
 }
