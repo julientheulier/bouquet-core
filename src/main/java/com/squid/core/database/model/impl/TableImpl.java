@@ -224,7 +224,7 @@ public class TableImpl implements Table {
 	
 	@Override
 	public String toString() {
-		return this.schema.getName()+"."+getName();
+		return (this.schema==null?"":this.schema.getName()+".")+getName();
 	}
 
 	@Override
