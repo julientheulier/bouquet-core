@@ -23,10 +23,11 @@
  *******************************************************************************/
 package com.squid.core.sql.render;
 
+import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
 
 /**
- * A piece that can make a reference to a selected field from a sub-query
+ * A piece that can make a reference to a selected piece from a sub-query
  * @author sfantino
  *
  */
@@ -64,7 +65,13 @@ implements IPiece, ITypedPiece
 	public ExtendedType getType() {
 		IPiece inner = this.select.getSelect();
 		if (inner instanceof ITypedPiece) {
-			return ((ITypedPiece)inner).getType();
+			ExtendedType type = ((ITypedPiece)inner).getType();
+			if (type.getDomain().isInstanceOf(AggregateDomain.DOMAIN)) {
+				// need to hide that the domain is aggregate
+				return new ExtendedType(((AggregateDomain)type.getDomain()).getSubdomain(), type);
+			} else {
+				return type;
+			}
 		} else {
 			return ExtendedType.UNDEFINED;
 		}
