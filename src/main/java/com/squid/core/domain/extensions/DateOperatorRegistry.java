@@ -81,6 +81,11 @@ implements OperatorRegistry
 		scope.registerExtension(new ExtractOperatorDefinition("SECOND",ExtractOperatorDefinition.EXTRACT_SECOND, OperatorDefinition.DATE_TIME_TYPE));
 		//
 		scope.registerExtension(new DateTruncateOperatorDefinition("DATE_TRUNCATE",DateTruncateOperatorDefinition.DATE_TRUNCATE,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("HOURLY",DateTruncateShortcutsOperatorDefinition.HOURLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("DAILY",DateTruncateShortcutsOperatorDefinition.DAILY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("WEEKLY",DateTruncateShortcutsOperatorDefinition.WEEKLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("MONTHLY",DateTruncateShortcutsOperatorDefinition.MONTHLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("YEARLY",DateTruncateShortcutsOperatorDefinition.YEARLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
 		//
 //See Ticket #1620
 //		scope.registerExtension(new IntervalOperatorDefinition("INTERVAL_DAY",IntervalOperatorDefinition.INTERVAL_DAY, OperatorDefinition.DATE_TIME_TYPE));

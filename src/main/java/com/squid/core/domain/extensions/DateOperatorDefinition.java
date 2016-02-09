@@ -109,9 +109,12 @@ public class DateOperatorDefinition extends OperatorDefinition {
 				}
 			} else {
 				if (DATE_ADD.equals(this.getExtendedID()) || DATE_SUB.equals(this.getExtendedID())){
-					if (!imageDomains.get(0).isInstanceOf(IDomain.DATE) || !(imageDomains.get(1) instanceof DomainNumericConstant) || !(imageDomains.get(2) instanceof DomainStringConstant)) {
-//					if (imageDomains.get(0)!=IDomain.DATE && imageDomains.get(0)!=IDomain.TIMESTAMP && imageDomains.get(0)!=IDomain.TIME && imageDomains.get(0)!=IDomain.INTERVAL || imageDomains.get(1)!=IDomain.NUMERIC || imageDomains.get(2)!=IDomain.STRING) {
-						return new OperatorDiagnostic("Invalid type of parameters",getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
+					if (!imageDomains.get(0).isInstanceOf(IDomain.DATE)) {
+						return new OperatorDiagnostic("Invalid type of parameter #1, expecting a DATE or TIMESTAMP but found "+ imageDomains.get(0).toString(),getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
+					}else if (!(imageDomains.get(1) instanceof DomainNumericConstant)) {
+						return new OperatorDiagnostic("Invalid type of parameter #2, expecting a NUMERIC CONSTANT but found "+ imageDomains.get(1).toString(),getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
+					} else if (!(imageDomains.get(2) instanceof DomainStringConstant)) {
+						return new OperatorDiagnostic("Invalid type of parameter #3, expecting a STRING CONSTANT {SECOND,MINUTE,HOUR,DAY,MONTH,YEAR} but found "+ imageDomains.get(0).toString(),getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
 					} else {
 						double d = ((DomainNumericConstant)imageDomains.get(1)).getValue();
 						if (Math.floor(d)!=d || Math.abs(d)!=d) {
