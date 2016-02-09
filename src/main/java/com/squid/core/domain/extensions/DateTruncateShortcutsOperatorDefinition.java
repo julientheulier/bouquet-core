@@ -25,7 +25,6 @@ package com.squid.core.domain.extensions;
 
 import java.util.List;
 
-import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
@@ -86,6 +85,7 @@ public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition 
         }
         return OperatorDiagnostic.IS_VALID;
     }
+    
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
     	ExtendedType dateType = types[0];
