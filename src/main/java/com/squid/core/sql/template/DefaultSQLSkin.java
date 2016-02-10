@@ -116,25 +116,25 @@ implements SQLSkin
 	
 	public ExtendedType createExtendedType(IDomain domain) {
 		if (domain.isInstanceOf(IDomain.NUMERIC)) {
-			return ExtendedType.NUMERIC;
+			return new ExtendedType(domain, ExtendedType.NUMERIC);
 		} else
 		if (domain.isInstanceOf(IDomain.STRING)) {
-			return ExtendedType.STRING;
+			return new ExtendedType(domain, ExtendedType.STRING);
 		} else
 		if (domain.isInstanceOf(IDomain.TIMESTAMP)) {
-			return ExtendedType.TIMESTAMP;
+			return new ExtendedType(domain, ExtendedType.TIMESTAMP);
 		} else
 		if (domain.isInstanceOf(IDomain.DATE)) {
-			return ExtendedType.DATE;
+			return new ExtendedType(domain, ExtendedType.DATE);
 		} else
 		if (domain.isInstanceOf(IDomain.TIME)) {
-			return ExtendedType.TIME;
+			return new ExtendedType(domain, ExtendedType.TIME);
 		} else 
 		if (domain.isInstanceOf(IDomain.INTERVAL)) {
-			return ExtendedType.INTERVAL;
+			return new ExtendedType(domain, ExtendedType.INTERVAL);
 		} else 
 		if (domain.isInstanceOf(IDomain.CONDITIONAL)) {
-			return ExtendedType.BOOLEAN;
+			return new ExtendedType(domain, ExtendedType.BOOLEAN);
 		} else {
 			return ExtendedType.UNDEFINED;
 		}
