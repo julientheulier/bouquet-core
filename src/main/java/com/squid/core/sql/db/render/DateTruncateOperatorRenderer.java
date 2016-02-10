@@ -25,6 +25,7 @@ package com.squid.core.sql.db.render;
 
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.extensions.DateTruncateOperatorDefinition;
+import com.squid.core.domain.extensions.DateTruncateShortcutsOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.sql.render.OperatorPiece;
@@ -39,8 +40,18 @@ public class DateTruncateOperatorRenderer extends BaseOperatorRenderer {
 
 	@Override
 	public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef, String[] args) throws RenderingException {
-		if (args.length == 2) {
+		if (args.length == 2 && opDef.getExtendedID().equals(DateTruncateOperatorDefinition.DATE_TRUNCATE)) {
 			return prettyPrintTwoArgs(skin, piece, opDef, args);
+		} else if (args.length == 1 && opDef.getExtendedID().startsWith(DateTruncateShortcutsOperatorDefinition.SHORTCUT_BASE)) {
+			if (opDef.getExtendedID().equals(DateTruncateShortcutsOperatorDefinition.DAILY_ID) && piece!=null) {
+				// if DAILY, only applies if the data is a timestamp
+				ExtendedType type0 = piece.getParamTypes()[0];
+				if (!type0.getDomain().isInstanceOf(IDomain.TIMESTAMP)) {
+					return "("+args[0]+")";
+				}
+			}
+			String arg1 = getArgument(opDef.getExtendedID());
+			return prettyPrintTwoArgs(skin, piece, opDef, new String[]{args[0],arg1});
 		} else {
 			throw new RenderingException("Invalid operator " + opDef.getSymbol());
 		}
@@ -67,6 +78,25 @@ public class DateTruncateOperatorRenderer extends BaseOperatorRenderer {
             return args[0];
         }
         return opDef.getSymbol() + "(" + args[0] + "," + args[1] + ")";
+	}
+	
+	private String getArgument(String extendedID) throws RenderingException {
+		if (extendedID.equalsIgnoreCase(DateTruncateShortcutsOperatorDefinition.HOURLY_ID)) {
+			return DateTruncateOperatorDefinition.HOUR;
+		}
+		if (extendedID.equalsIgnoreCase(DateTruncateShortcutsOperatorDefinition.DAILY_ID)) {
+			return DateTruncateOperatorDefinition.DAY;
+		}
+		if (extendedID.equalsIgnoreCase(DateTruncateShortcutsOperatorDefinition.WEEKLY_ID)) {
+			return DateTruncateOperatorDefinition.WEEK;
+		}
+		if (extendedID.equalsIgnoreCase(DateTruncateShortcutsOperatorDefinition.MONTHLY_ID)) {
+			return DateTruncateOperatorDefinition.MONTH;
+		}
+		if (extendedID.equalsIgnoreCase(DateTruncateShortcutsOperatorDefinition.YEARLY_ID)) {
+			return DateTruncateOperatorDefinition.YEAR;
+		}
+		throw new RenderingException("invalid argument for DATE_TRUNCATE");
 	}
 
 }

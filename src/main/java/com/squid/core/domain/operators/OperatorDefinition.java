@@ -305,11 +305,11 @@ public abstract class OperatorDefinition {
 	  */
 	 protected ExtendedType fixExtendedTypeDomain(ExtendedType fixme, ExtendedType[] types) {
 		 ArrayList<IDomain> domains = new ArrayList<IDomain>(types.length);
-		for (ExtendedType ext : types) {
-			domains.add(ext.getDomain());
-		}
-		IDomain true_domain = computeImageDomain(domains);
-		return new ExtendedType(true_domain, fixme);
+		 for (ExtendedType ext : types) {
+			 domains.add(ext.getDomain());
+		 }
+		 IDomain true_domain = computeImageDomain(domains);
+		 return new ExtendedType(true_domain, fixme);
 	 }
 
 	 /**
