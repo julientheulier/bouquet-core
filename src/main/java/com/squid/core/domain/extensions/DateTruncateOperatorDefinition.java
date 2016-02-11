@@ -99,26 +99,30 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 
 	@Override
 	public IDomain computeImageDomain(List<IDomain> imageDomains) {
-		if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
+		if (imageDomains.size()!=2) return IDomain.UNKNOWN;
         IDomain argument0 = imageDomains.get(0);
 		boolean is_aggregate = argument0.isInstanceOf(AggregateDomain.DOMAIN);
-		IDomain domain = IDomain.UNKNOWN;
+		IDomain image = IDomain.UNKNOWN;
 		if (argument0.isInstanceOf(IDomain.TIMESTAMP)) {
-			DomainStringConstant mode = (DomainStringConstant)imageDomains.get(1);
-			if (isConvertToDate(mode.getValue())) {
-				domain = IDomain.DATE;
+			if ((imageDomains.get(1) instanceof DomainStringConstant)) {
+				DomainStringConstant mode = (DomainStringConstant)imageDomains.get(1);
+				if (isConvertToDate(mode.getValue())) {
+					image = IDomain.DATE;
+				} else {
+					image = argument0;
+				}
 			} else {
-				domain = IDomain.TIMESTAMP;
+				image = argument0;
 			}
 		} else {
-			domain = IDomain.DATE;
+			image = IDomain.DATE;
 		}
         if (is_aggregate) {
         	// compose with Aggregate
-        	domain = AggregateDomain.MANAGER.createMetaDomain(domain);
+        	image = AggregateDomain.MANAGER.createMetaDomain(image);
         }
         //
-        return domain;
+        return image;
 	}
 	
 	private boolean isConvertToDate(String mode) {
