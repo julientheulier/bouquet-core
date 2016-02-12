@@ -37,7 +37,7 @@ implements ITypedPiece
 {
 
 	protected Column column;
-	private String alias;
+	private String alias;// the table alias
 	
 	public ColumnPiece(Scope scope, Column column) {
 		super(scope);
