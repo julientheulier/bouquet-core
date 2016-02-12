@@ -177,7 +177,7 @@ implements ExpressionScope
         OperatorDiagnostic diag = def.validateParameters(domains);
         if (diag!=OperatorDiagnostic.IS_VALID) {
             String message = diag.getErrorMessage();
-            for (int pos=0;pos<args.size();pos++) {
+            for (int pos=0;pos<(args!=null?args.size():0);pos++) {
             	message = message.replaceAll("#"+(pos+1), args.get(pos).prettyPrint());
             }
             throw new ScopeException(def.getName()+": "+message+(diag.getHint()!=null?"\nUsage: "+diag.getHint():""));
