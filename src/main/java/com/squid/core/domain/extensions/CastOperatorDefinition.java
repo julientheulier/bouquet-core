@@ -70,20 +70,20 @@ public class CastOperatorDefinition extends OperatorDefinition {
 					if (imageDomains.size() == 1) {
 						if (imageDomains.get(0).isInstanceOf(IDomain.DATE) == false) {
 							return new OperatorDiagnostic(
-									"Invalid type for parameter #1, is "+imageDomains.get(0).getName()+" expecting "+IDomain.DATE.getName(), getName()
-											+ "(timestamp)");
+									"Invalid type for parameter #1, is "+imageDomains.get(0).getName()+" expecting "+IDomain.DATE.getName()
+									, getName()+"(timestamp) or "+getName()+"(string,format)");
 						}
 					} else if (imageDomains.size() == 2) {
 						if (!imageDomains.get(0)
 							.isInstanceOf(IDomain.STRING)) {
 							return new OperatorDiagnostic(
-								"Invalid type for parameter #1, is "+imageDomains.get(0).getName()+" expecting "+IDomain.STRING.getName(), getName()
-										+ "(string,format)");
+								"Invalid type for parameter #1, is "+imageDomains.get(0).getName()+" expecting "+IDomain.STRING.getName()
+								, getName()+"(timestamp) or "+getName()+"(string,format)");
 						} else if (!imageDomains.get(1)
 								.isInstanceOf(IDomain.STRING)) {
 							return new OperatorDiagnostic(
-									"Invalid type for parameter #1, is "+imageDomains.get(0).getName()+" expecting "+IDomain.STRING.getName(), getName()
-											+ "(string,format)");
+									"Invalid type for parameter #1, is "+imageDomains.get(0).getName()+" expecting "+IDomain.STRING.getName()
+									, getName()+"(timestamp) or "+getName()+"(string,format)");
 						} 
 					}
 				} else {
