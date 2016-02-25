@@ -62,7 +62,7 @@ public class ColumnReference extends ExpressionRef {
 	@Override
 	public ExtendedType computeType(SQLSkin skin){
 		if (getColumn() != null) {
-			return getColumn().getTypeDomain().computeType(skin);
+			return getColumn().getType();
 		} else {
 			return IDomain.UNKNOWN.computeType(skin);
 		}
