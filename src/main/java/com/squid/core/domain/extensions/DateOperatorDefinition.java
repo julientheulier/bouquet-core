@@ -152,6 +152,10 @@ public class DateOperatorDefinition extends OperatorDefinition {
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+		return fixExtendedTypeDomain(computeRawExtendedType(types), types);
+	}
+	
+	public ExtendedType computeRawExtendedType(ExtendedType[] types) {
 		if (CURRENT_DATE.equals(this.getExtendedID())) {
 			return ExtendedType.DATE;
 		} else if (FROM_UNIXTIME.equals(this.getExtendedID())) {
