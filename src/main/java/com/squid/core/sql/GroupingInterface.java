@@ -328,15 +328,15 @@ public class GroupingInterface {
 				 && !type.getDomain().equals(IDomain.UNKNOWN)) {// this is the case if the piece is a constant or the null value - if so don't need to group-by
 					groupBy.add(new GroupingElement(piece.getSelect()));
 				}
-			} else
-			if (binding!=null && binding instanceof ExpressionAST) {
+			} else if (binding!=null && binding instanceof ExpressionAST) {
 				ExpressionAST expr = (ExpressionAST)binding;
 				if (!expr.getImageDomain().isInstanceOf(AggregateDomain.DOMAIN)) {
 					groupBy.add(new GroupingElement(expr));
 				} else {
 					// don't add
 				}
-			} else {
+			} else 
+			{
 				// no binding, so we cannot add it...
 				// throw new SQLScopeException("invalid select piece");
 				// loose hypothesis: if we don't know, add it

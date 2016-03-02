@@ -177,6 +177,7 @@ TOKEN : //[IGNORE_CASE] : /* OPERATORS */
 |	< SHARP : "#" >
 |	< MODULO : "%" >
 |   < DOLLAR : "$" >
+|   < AS : "AS" | "as" | "=>">
 }
 
 TOKEN : //[IGNORE_CASE] : /* OPERATORS */
@@ -250,7 +251,7 @@ ExpressionAST expression(ExpressionScope scope) :
 {
 	expression = query(scope) < EOF >
 	{
-		return expression;
+	  return expression;
 	}
 }
 
@@ -258,7 +259,7 @@ ExpressionAST query(ExpressionScope scope) :
 {    ExpressionAST expression;
     List<QueryTerm> terms = null;
 }
-{    expression = expression_X(scope)
+{    expression = named_expression(scope)
     [
         terms = query_terms(scope.applyExpression(expression))
     ]
@@ -277,7 +278,7 @@ List<QueryTerm> query_terms(ExpressionScope scope) :
 }
 {
     operator = query_operator(scope)
-    expression = expression_X(scope)
+    expression = named_expression(scope)
     [
         sub_query = query_terms(scope)
     ]
@@ -299,6 +300,22 @@ Token query_operator(ExpressionScope scope) :
     operator = <FILTER> { return operator; }
   | operator = <FACET> { return operator; }
   | operator = <METRIC> { return operator; }
+}
+
+ExpressionAST named_expression(ExpressionScope scope) :
+{
+    ExpressionAST expression;
+    Token identifier = null;
+}
+{
+    expression = expression_X(scope) [ <AS> identifier = extended_identifier()]
+    {
+      if (identifier!=null)
+      {
+        expression.setName(identifier.image);
+      }
+      return expression;
+    }
 }
 
 ExpressionAST expression_X(ExpressionScope scope) :

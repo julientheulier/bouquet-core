@@ -27,7 +27,7 @@ import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.sql.render.SQLSkin;
 
-public class NullExpression implements ExpressionLeaf {
+public class NullExpression extends NamedExpression implements ExpressionLeaf {
 
 	@Override
 	public ExtendedType computeType(SQLSkin skin) {

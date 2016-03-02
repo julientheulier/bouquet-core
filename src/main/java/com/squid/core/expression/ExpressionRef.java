@@ -23,7 +23,7 @@
  *******************************************************************************/
 package com.squid.core.expression;
 
-public abstract class ExpressionRef implements ExpressionLeaf {
+public abstract class ExpressionRef extends NamedExpression implements ExpressionLeaf {
 	
 	// this is the token position as provided by the parser
 	private TokenPosition tokenPosition = null;

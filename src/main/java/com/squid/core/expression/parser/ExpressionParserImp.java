@@ -112,14 +112,14 @@ extends ExpressionParser implements ExpressionParserImpConstants {
         ExpressionAST expression;
     expression = query(scope);
     jj_consume_token(0);
-                {if (true) return expression;}
+          {if (true) return expression;}
     throw new Error("Missing return statement in function");
   }
 
   final public ExpressionAST query(ExpressionScope scope) throws ParseException {
     ExpressionAST expression;
     List<QueryTerm> terms = null;
-    expression = expression_X(scope);
+    expression = named_expression(scope);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case FILTER:
     case FACET:
@@ -143,7 +143,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     ExpressionAST expression;
     List<QueryTerm> sub_query = null;
     operator = query_operator(scope);
-    expression = expression_X(scope);
+    expression = named_expression(scope);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case FILTER:
     case FACET:
@@ -191,6 +191,27 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     throw new Error("Missing return statement in function");
   }
 
+  final public ExpressionAST named_expression(ExpressionScope scope) throws ParseException {
+    ExpressionAST expression;
+    Token identifier = null;
+    expression = expression_X(scope);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case AS:
+      jj_consume_token(AS);
+      identifier = extended_identifier();
+      break;
+    default:
+      jj_la1[3] = jj_gen;
+      ;
+    }
+      if (identifier!=null)
+      {
+        expression.setName(identifier.image);
+      }
+      {if (true) return expression;}
+    throw new Error("Missing return statement in function");
+  }
+
   final public ExpressionAST expression_X(ExpressionScope scope) throws ParseException {
         ArrayList<ExpressionOperatorPair> L2 = null;
     L2 = expressionL2(scope);
@@ -223,7 +244,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       sub = expressionL2(scope);
       break;
     default:
-      jj_la1[3] = jj_gen;
+      jj_la1[4] = jj_gen;
       ;
     }
                 if (operator==null) {
@@ -269,7 +290,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
                                 {if (true) return createInfixOperator(operator.image);}
       break;
     default:
-      jj_la1[4] = jj_gen;
+      jj_la1[5] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -336,7 +357,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
                                       {if (true) return operator;}
       break;
     default:
-      jj_la1[5] = jj_gen;
+      jj_la1[6] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -364,12 +385,12 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case LPAREN:
     case LBRACE:
     case LBRACKET:
-    case 50:
+    case 51:
       simple = simple_expression(scope);
                 {if (true) return simple;}
       break;
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[7] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -386,7 +407,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case FALSE:
       expression = boolean_constant(scope);
       break;
-    case 50:
+    case 51:
       expression = date_constant(scope);
       break;
     case INTEGER:
@@ -426,14 +447,14 @@ extends ExpressionParser implements ExpressionParserImpConstants {
           expression = parameter_reference(scope);
           break;
         default:
-          jj_la1[7] = jj_gen;
+          jj_la1[8] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
       }
       break;
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[9] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -452,7 +473,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       tail = expression_list(scope);
       break;
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[10] = jj_gen;
       ;
     }
     jj_consume_token(RBRACE);
@@ -488,7 +509,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       constant = false_constant(scope);
       break;
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[11] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -511,7 +532,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
   final public ExpressionAST date_constant(ExpressionScope scope) throws ParseException {
         Token date;
         Token decimal = null;
-    jj_consume_token(50);
+    jj_consume_token(51);
     date = jj_consume_token(STRING_LITERAL);
     jj_consume_token(RPAREN);
                 String image = date.image;
@@ -533,7 +554,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       constant = string_constant(scope);
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -551,7 +572,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       decimal = jj_consume_token(INTEGER);
       break;
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[13] = jj_gen;
       ;
     }
                 String image = identifier.image;
@@ -601,7 +622,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       expr = parameter_reference(scope);
       break;
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[14] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -662,7 +683,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
         Token identifier;
     jj_consume_token(LBRACKET);
     type = jj_consume_token(IDENTIFIER);
-    jj_consume_token(51);
+    jj_consume_token(52);
     identifier = extended_identifier();
     jj_consume_token(RBRACKET);
                 IdentifierType identifierType = scope.lookupIdentifierType(type.image);
@@ -691,11 +712,11 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case LPAREN:
     case LBRACE:
     case LBRACKET:
-    case 50:
+    case 51:
       args = expression_list(scope);
       break;
     default:
-      jj_la1[14] = jj_gen;
+      jj_la1[15] = jj_gen;
       ;
     }
     jj_consume_token(RPAREN);
@@ -714,7 +735,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       tail = expression_list(scope);
       break;
     default:
-      jj_la1[15] = jj_gen;
+      jj_la1[16] = jj_gen;
       ;
     }
                 if (tail==null) tail = new ArrayList();
@@ -738,6 +759,20 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     try { return !jj_3_1(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(0, xla); }
+  }
+
+  private boolean jj_3R_5() {
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_8() {
+    if (jj_scan_token(LBRACKET)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(52)) return true;
+    if (jj_3R_10()) return true;
+    if (jj_scan_token(RBRACKET)) return true;
+    return false;
   }
 
   private boolean jj_3R_6() {
@@ -799,20 +834,6 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     return false;
   }
 
-  private boolean jj_3R_5() {
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_8() {
-    if (jj_scan_token(LBRACKET)) return true;
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(51)) return true;
-    if (jj_3R_10()) return true;
-    if (jj_scan_token(RBRACKET)) return true;
-    return false;
-  }
-
   /** Generated Token Manager. */
   public ExpressionParserImpTokenManager token_source;
   SimpleCharStream jj_input_stream;
@@ -824,7 +845,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[16];
+  final private int[] jj_la1 = new int[17];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -832,10 +853,10 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x70000000,0x70000000,0x70000000,0x47ffc00,0x47ffc00,0x47ffc00,0x8a800800,0x8800000,0x8a800000,0x0,0x0,0x0,0x0,0x8800000,0x8a800800,0x0,};
+      jj_la1_0 = new int[] {0xe0000000,0xe0000000,0xe0000000,0x10000000,0x47ffc00,0x47ffc00,0x47ffc00,0xa800800,0x8800000,0xa800000,0x0,0x0,0x0,0x0,0x8800000,0xa800800,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x80,0x80,0x0,0x42af3,0x2040,0x42af3,0x10000,0x3,0x30,0x20000,0x2040,0x42af3,0x10000,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x100,0x100,0x0,0x855e7,0x4080,0x855e7,0x20000,0x6,0x60,0x40000,0x4080,0x855e7,0x20000,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[1];
   private boolean jj_rescan = false;
@@ -852,7 +873,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -867,7 +888,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -878,7 +899,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -889,7 +910,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -899,7 +920,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -909,7 +930,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -1021,12 +1042,12 @@ extends ExpressionParser implements ExpressionParserImpConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[52];
+    boolean[] la1tokens = new boolean[53];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 17; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1038,7 +1059,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
         }
       }
     }
-    for (int i = 0; i < 52; i++) {
+    for (int i = 0; i < 53; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

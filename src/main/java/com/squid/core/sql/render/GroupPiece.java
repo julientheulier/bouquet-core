@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.sql.render;
 
+import com.squid.core.domain.operators.ExtendedType;
 
 /**
  * Just add () around another expression
@@ -44,5 +45,6 @@ implements IPiece
 	public String render(SQLSkin skin) throws RenderingException {
 		return "("+this.piece.render(skin)+")";
 	}
+
 
 }

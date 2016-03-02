@@ -47,49 +47,51 @@ public interface ExpressionParserImpConstants {
   /** RegularExpression Id. */
   int DOLLAR = 27;
   /** RegularExpression Id. */
-  int FILTER = 28;
+  int AS = 28;
   /** RegularExpression Id. */
-  int FACET = 29;
+  int FILTER = 29;
   /** RegularExpression Id. */
-  int METRIC = 30;
+  int FACET = 30;
   /** RegularExpression Id. */
-  int NULL = 31;
+  int METRIC = 31;
   /** RegularExpression Id. */
-  int TRUE = 32;
+  int NULL = 32;
   /** RegularExpression Id. */
-  int FALSE = 33;
+  int TRUE = 33;
   /** RegularExpression Id. */
-  int DIGIT = 34;
+  int FALSE = 34;
   /** RegularExpression Id. */
-  int LETTER = 35;
+  int DIGIT = 35;
   /** RegularExpression Id. */
-  int INTEGER = 36;
+  int LETTER = 36;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 37;
+  int INTEGER = 37;
   /** RegularExpression Id. */
-  int STRING_IDENTIFIER = 38;
+  int STRING_LITERAL = 38;
   /** RegularExpression Id. */
-  int IDENTIFIER = 39;
+  int STRING_IDENTIFIER = 39;
   /** RegularExpression Id. */
-  int SPECIAL_IDENTIFIER = 40;
+  int IDENTIFIER = 40;
   /** RegularExpression Id. */
-  int LPAREN = 41;
+  int SPECIAL_IDENTIFIER = 41;
   /** RegularExpression Id. */
-  int RPAREN = 42;
+  int LPAREN = 42;
   /** RegularExpression Id. */
-  int LBRACE = 43;
+  int RPAREN = 43;
   /** RegularExpression Id. */
-  int RBRACE = 44;
+  int LBRACE = 44;
   /** RegularExpression Id. */
-  int LBRACKET = 45;
+  int RBRACE = 45;
   /** RegularExpression Id. */
-  int RBRACKET = 46;
+  int LBRACKET = 46;
   /** RegularExpression Id. */
-  int SEMICOLON = 47;
+  int RBRACKET = 47;
   /** RegularExpression Id. */
-  int COMMA = 48;
+  int SEMICOLON = 48;
   /** RegularExpression Id. */
-  int DOT = 49;
+  int COMMA = 49;
+  /** RegularExpression Id. */
+  int DOT = 50;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -128,6 +130,7 @@ public interface ExpressionParserImpConstants {
     "\"#\"",
     "\"%\"",
     "\"$\"",
+    "<AS>",
     "<FILTER>",
     "<FACET>",
     "<METRIC>",

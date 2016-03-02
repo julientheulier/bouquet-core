@@ -33,7 +33,7 @@ import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.expression.scope.ScopeException;
 import com.squid.core.sql.render.SQLSkin;
 
-public class Compose implements ExpressionAST {
+public class Compose extends NamedExpression {
 	
 	private List<ExpressionAST> body = null;
 	
