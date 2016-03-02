@@ -105,8 +105,13 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
         // source domain should be one dimension
         if (getParamCount()>=0&&sourceDomain.size()!=getParamCount()) {
             return IDomain.UNKNOWN;
-        } else {
-            return getDomain();
+        } else if (getParamCount()>=1) {
+            IDomain source = sourceDomain.get(0);
+            // by default this operator is not associative
+            return AggregateDomain.MANAGER.createMetaDomain(source);
+        } else {// no param
+        	// it's the count...
+        	return AggregateDomain.MANAGER.createMetaDomain(IDomain.NUMERIC);
         }
     }
 
