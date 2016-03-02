@@ -162,6 +162,10 @@ public class CastOperatorDefinition extends OperatorDefinition {
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+		return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		ExtendedType castExtendedType = null;
 		if (getExtendedID().equals(TO_CHAR)) {
 			int size = getPieceLength(types);
