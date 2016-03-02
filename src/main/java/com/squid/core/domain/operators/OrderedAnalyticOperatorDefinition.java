@@ -33,6 +33,12 @@ import com.squid.core.domain.analytics.WindowingDomain;
 import com.squid.core.domain.analytics.WindowingType;
 import com.squid.core.domain.sort.DomainSort;
 
+/**
+ * this is the base class for defining operators supporting analytics (aka windowing) syntax.
+ * Usually those operators can return either aggregate or analytic data types
+ * @author sergefantino
+ *
+ */
 public class OrderedAnalyticOperatorDefinition extends
 		AggregateOperatorDefinition {
 
