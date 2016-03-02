@@ -28,9 +28,7 @@ import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.sql.render.SQLSkin;
 
-import java.sql.Types;
-
-public class StringConstant implements ConstantValue
+public class StringConstant extends NamedExpression implements ConstantValue
 {
 	
 	private String value;

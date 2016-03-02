@@ -31,7 +31,7 @@ import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.sql.render.SQLSkin;
 
-public class DateConstant implements ConstantValue
+public class DateConstant extends NamedExpression implements ConstantValue
 {
 	
 	private Date value;

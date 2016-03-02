@@ -28,6 +28,7 @@ import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.expression.Compose;
 import com.squid.core.expression.ConstantValue;
 import com.squid.core.expression.ExpressionAST;
+import com.squid.core.expression.NamedExpression;
 import com.squid.core.expression.Operator;
 import com.squid.core.expression.reference.ColumnReference;
 import com.squid.core.expression.scope.ExpressionMaker;
@@ -35,7 +36,7 @@ import com.squid.core.expression.scope.ScopeException;
 import com.squid.core.sql.model.SQLScopeException;
 import com.squid.core.sql.render.SQLSkin;
 
-public class Expression implements ExpressionAST {
+public class Expression extends NamedExpression implements ExpressionAST {
 	
 	private Select scope;
 	private ExpressionAST proxy;

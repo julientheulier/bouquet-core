@@ -34,7 +34,7 @@ import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.sql.render.SQLSkin;
 
-public class Operator implements ExpressionAST {
+public class Operator extends NamedExpression {
 		
 	/**
 	 * the actual operator definition as defined by the domain

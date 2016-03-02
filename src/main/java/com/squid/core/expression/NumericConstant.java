@@ -23,18 +23,14 @@
  *******************************************************************************/
 package com.squid.core.expression;
 
-import com.squid.core.database.model.impl.DatabaseImpl;
-import com.squid.core.database.model.impl.DatabaseProductImpl;
 import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.sql.db.templates.SkinRegistry;
 import com.squid.core.sql.render.SQLSkin;
-import com.squid.core.sql.render.SQLSkinProxy;
 
 import java.sql.Types;
 
-public class NumericConstant implements ConstantValue
+public class NumericConstant extends NamedExpression implements ConstantValue
 {
 	
 	private double value;

@@ -27,9 +27,7 @@ import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.sql.render.SQLSkin;
 
-import java.sql.Types;
-
-public class ConditionalConstant implements ConstantValue {
+public class ConditionalConstant extends NamedExpression implements ConstantValue {
 	
 	private Boolean value = null;
 

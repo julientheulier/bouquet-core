@@ -36,5 +36,16 @@ public interface ExpressionAST {
 	public IDomain getSourceDomain();
 
 	public String prettyPrint();
+	
+	/**
+	 * return the expression name if defined or NULL for unnamed expression
+	 * @return
+	 */
+	public String getName();
+	
+	/**
+	 * set the expression name
+	 */
+	public void setName(String name);
 
 }
