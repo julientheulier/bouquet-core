@@ -177,6 +177,7 @@ TOKEN : //[IGNORE_CASE] : /* OPERATORS */
 |	< SHARP : "#" >
 |	< MODULO : "%" >
 |   < DOLLAR : "$" >
+|   < AS : "AS" | "as" | "=>">
 }
 
 TOKEN [IGNORE_CASE]:
@@ -240,11 +241,14 @@ TOKEN : /* SEPARATORS */
 ExpressionAST expression(ExpressionScope scope) :
 {
 	ExpressionAST expression;
+	Token identifier = null;
 }
 {
-	expression = expression_X(scope) < EOF >
+	expression = expression_X(scope) [ <AS> identifier = extended_identifier()]< EOF >
 	{
-		return expression;
+	  if (identifier!=null)	  {        expression.setName(identifier.image);
+	  }
+	  return expression;
 	}
 }
 
