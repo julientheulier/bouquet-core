@@ -55,7 +55,7 @@ extends BaseOperatorRenderer
 			for (int i=0;i<args.length;i++) {
 				boolean needComa = true;
 				if (mode==0) {
-					if (types[i].getDomain().isInstanceOf(DomainSort.SORT)) {
+					if (types[i].getDomain().isInstanceOf(DomainSort.DOMAIN)) {
 						mode=2;
 						result += "ORDER BY ";
 						needComa = false;
@@ -65,7 +65,7 @@ extends BaseOperatorRenderer
 						needComa = false;
 					}
 				} else if (mode==1) {
-					if (types[i].getDomain().isInstanceOf(DomainSort.SORT)) {
+					if (types[i].getDomain().isInstanceOf(DomainSort.DOMAIN)) {
 						mode=2;
 						result += " ORDER BY ";
 						needComa = false;

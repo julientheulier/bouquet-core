@@ -71,7 +71,7 @@ extends BaseOperatorRenderer
 			int mode = 0;
 			for (int i=1;i<args.length;i++) {
 				boolean needComa = true;
-				if (types[i].getDomain().isInstanceOf(DomainSort.SORT)) {
+				if (types[i].getDomain().isInstanceOf(DomainSort.DOMAIN)) {
 					mode=2;
 					result += " ORDER BY ";
 					needComa = false;
