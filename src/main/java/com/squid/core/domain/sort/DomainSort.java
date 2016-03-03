@@ -23,26 +23,35 @@
  *******************************************************************************/
 package com.squid.core.domain.sort;
 
-import com.squid.core.domain.DomainBase;
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.IDomainMetaDomain;
 
 /**
- * A pseudo domain that allow to specify sort order using operator ASC and DSC
- * @author Serge Fantino
+ * Sort domain is a meta-domain that carries a sort direction. 
+ * This domain is created by using SortOperators for instance.
+ * If an ExpressionAST has this type it can be use to sort/orderBy
+ * @author sergefantino
  *
  */
-public class DomainSort extends DomainBase {
-
-	public static final IDomain SORT = new DomainSort();
-	public static final IDomain ASC = new DomainSort(true);
-	public static final IDomain DESC = new DomainSort(false);
+public interface DomainSort
+extends IDomain, IDomainMetaDomain
+{
 	
-	protected DomainSort() {
-		super(UNKNOWN);
+	public enum SortDirection {
+		ASC, DESC
 	}
+	
+	public static final DomainSort DOMAIN = new DomainSortImp();
+	
+	public SortDirection getDirection();
+	
+	public void setDirection(SortDirection direction);
+	
+	public IDomain getSubdomain();
 
-	protected DomainSort(boolean b) {
-		super(SORT);
-	}
+	/**
+	 * custom constructor
+	 */
+	public IDomain createMetaDomain(IDomain baseDomain, SortDirection direction);
 
 }

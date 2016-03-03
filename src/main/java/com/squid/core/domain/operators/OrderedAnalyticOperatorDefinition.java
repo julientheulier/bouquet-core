@@ -137,7 +137,7 @@ public class OrderedAnalyticOperatorDefinition extends
 					}
 				}
 				if (state==2) {
-					if (domain.isInstanceOf(DomainSort.SORT)) {
+					if (domain.isInstanceOf(DomainSort.DOMAIN)) {
 						// ok, it is a valid sort
 					} else {
 						// not a valid sort, try next

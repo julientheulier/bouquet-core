@@ -92,7 +92,7 @@ extends OrderedAnalyticOperatorDefinition {
 				}
 			}
 			if (orderBy) {
-				if (!domain.isInstanceOf(DomainSort.SORT)) {
+				if (!domain.isInstanceOf(DomainSort.DOMAIN)) {
 					return OperatorDiagnostic.invalidType(i,domain,"Sort expression","([partitionBy,[partitionBy,]ASC|DESC(orderBy)[,ASC|DESC(orderBy)]");
 				}
 			}

@@ -23,38 +23,49 @@
  *******************************************************************************/
 package com.squid.core.domain.sort;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.domain.operators.OperatorRegistry;
-import com.squid.core.domain.operators.OperatorScope;
-import com.squid.core.domain.operators.OperatorScopeException;
+import com.squid.core.domain.DomainBase;
+import com.squid.core.domain.IDomain;
 
 /**
- * support SORT operators (ASC & DESC)
+ * A pseudo domain that allow to specify sort order using operator ASC and DSC
  * @author Serge Fantino
  *
  */
-public class SortOperatorRegistry 
-implements OperatorRegistry
+public class DomainSortImp extends DomainBase 
+implements DomainSort
 {
 	
-	private final static Logger logger = LoggerFactory.getLogger(OperatorRegistry.class);
-	
-	public SortOperatorRegistry(OperatorScope scope) {
-		try {
-			apply(scope);
-			logger.info("init SortOperatorRegistry");
-		} catch (OperatorScopeException e) {
-			logger.error("unable to init the SortOperatorRegistry", e);
-		}
+	protected DomainSortImp() {
+		super(IDomain.META);
 	}
 
 	@Override
-	public void apply(OperatorScope scope) throws OperatorScopeException {
-		scope.registerExtension(new SortOperatorDefinition("ASC",SortOperatorDefinition.ASC_ID,DomainSort.SortDirection.ASC, OperatorDefinition.MISC_TYPE));
-		scope.registerExtension(new SortOperatorDefinition("DESC",SortOperatorDefinition.DESC_ID,DomainSort.SortDirection.DESC, OperatorDefinition.MISC_TYPE));
+	public IDomain createMetaDomain(IDomain subdomain) {
+		return new ProxyDomainSort(subdomain);
+	}
+
+	@Override
+	public IDomain createMetaDomain(IDomain subdomain, SortDirection direction) {
+		return new ProxyDomainSort(subdomain, direction);
+	}
+
+	@Override
+	public IDomain getMetadomain() {
+		return null;
+	}
+
+	@Override
+	public SortDirection getDirection() {
+		return null;
+	}
+	
+	@Override
+	public void setDirection(SortDirection direction) {
+	}
+
+	@Override
+	public IDomain getSubdomain() {
+		return null;
 	}
 
 }
