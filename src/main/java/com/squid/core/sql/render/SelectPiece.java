@@ -46,17 +46,6 @@ implements ISelectPiece, IAlias, ITypedPiece
 	public String getAlias() {
 		return alias;
 	}
-	
-	/**
-	 * setAlias is protected ON PURPOSE. The alias is supposed to be set by the constructor, usually the SelectStatement, and guaranty to be unique in the statement scope.
-	 * Also the alias is an internal string (something like a2, a3,...) to avoid possible collision with existing objects.
-	 * User code should not try to modify the alias; if you really really need to override the alias definition, consider providing your own DatabaseSelectInterface...
-	 * 
-	 * @param alias
-	 */
-	protected void setAlias(String alias) {
-		this.alias = alias;
-	}
 
 	public IPiece getSelect () {
 		return select;	
