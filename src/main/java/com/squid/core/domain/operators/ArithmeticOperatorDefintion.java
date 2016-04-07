@@ -110,8 +110,12 @@ public class ArithmeticOperatorDefintion extends AlgebraicOperatorDefinition {
 			}
 		}
         if (is_aggregate) {
+        	if (lessGeneric.isInstanceOf(AggregateDomain.DOMAIN)) {
+        		IDomain subdomain = ((IDomainMetaDomain)lessGeneric).getSubdomain();
+        		lessGeneric = subdomain!=null?subdomain:lessGeneric;
+        	}
         	// compose with Aggregate 
-        	if (!is_not_sum_associative && isAssociative()) {
+        	if (!lessGeneric.isInstanceOf(AggregateDomain.DOMAIN) && !is_not_sum_associative && isAssociative()) {
         		// the result is still sum associative
         		lessGeneric = AggregateDomain.MANAGER.createMetaDomain(lessGeneric, asociative_operator);
         	} else {

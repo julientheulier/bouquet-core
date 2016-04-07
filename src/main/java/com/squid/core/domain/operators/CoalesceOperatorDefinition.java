@@ -69,6 +69,15 @@ extends ArithmeticOperatorDefintion {
 			return ExtendedType.FLOAT;
 		}
 	}
+	
+	@Override
+	public IDomain computeImageDomain(List<IDomain> imageDomains) {
+		if (imageDomains.isEmpty()) {
+			return IDomain.UNKNOWN;
+		} else {
+			return imageDomains.get(0);
+		}
+	}
 
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
