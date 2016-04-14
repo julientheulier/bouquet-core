@@ -376,7 +376,10 @@ public class ExpressionMaker {
 		} else if (value instanceof Boolean) {
 			ConditionalConstant constant = new ConditionalConstant((Boolean)value);
 			return constant;
-		} 
+		} else if (value==null) {
+			// handling null value constant
+			return new NullExpression();
+		}
 		//else
 			throw new ScopeException("invalid constant");
 	}
