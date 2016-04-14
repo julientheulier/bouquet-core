@@ -36,7 +36,7 @@ public class ExcelWriter implements Closeable, Flushable {
 
   static final Logger logger = LoggerFactory.getLogger(ExcelWriter.class);
 
-  private static final int XLS_MAX_ROWS = 65535;
+  private static final int XLS_MAX_ROWS = 65536;
 
   private static final int XLSX_MAX_ROWS = 1048576;
 
@@ -75,7 +75,7 @@ public class ExcelWriter implements Closeable, Flushable {
     sheet = wb.createSheet();
   }
 
-  protected void writeColumnNames(final String[] columnNames) throws SQLException, TooManyRowsException {
+  protected void writeColumnNames(final String[] columnNames) throws SQLException {
     writeNext(columnNames, true, null);
   }
 
@@ -90,8 +90,8 @@ public class ExcelWriter implements Closeable, Flushable {
 
   }
 
-  private void writeNext(final Object[] nextLine, final boolean isHeader, String[] columnsFormat) throws TooManyRowsException {
-    Row row = getRow(index++);
+  private void writeNext(final Object[] nextLine, final boolean isHeader, String[] columnsFormat) {
+    Row row = getRow();
     for (int iCell = 0; iCell < nextLine.length; iCell++) {
       Cell cell = row.createCell(iCell); // Create cell
       if (isHeader) { // Apply header and footer style
@@ -140,18 +140,13 @@ public class ExcelWriter implements Closeable, Flushable {
     return styles.get(format);
   }
 
-  private Row getRow(int index) throws TooManyRowsException {
+  private Row getRow() {
 
-    if (index > maxRows) {
-      throw new TooManyRowsException();
-    } else {
-      Row r = sheet.getRow(index);
-      if (r == null) {
-        r = sheet.createRow(index);
-      }
-
-      return r;
+    Row r = sheet.getRow(index);
+    if (r == null) {
+      r = sheet.createRow(index);
     }
+    return r;
   }
 
   private int getMaxRows() {
@@ -199,7 +194,7 @@ public class ExcelWriter implements Closeable, Flushable {
     return linesWritten;
   }
 
-  public boolean writeResultSet(IRawExportSource source, IJDBCDataFormatter formatter) throws SQLException, TooManyRowsException {
+  public boolean writeResultSet(IRawExportSource source, IJDBCDataFormatter formatter) throws SQLException {
     int columnCount = source.getNumberOfColumns();
 
     if (logger.isDebugEnabled()) {
@@ -207,6 +202,7 @@ public class ExcelWriter implements Closeable, Flushable {
     }
 
     if (insertHeader) {
+      ++linesWritten;
       writeColumnNames(source.getColumnNames());
     }
     // write data up to split limit
@@ -221,6 +217,9 @@ public class ExcelWriter implements Closeable, Flushable {
           nextLine[i] = value != null ? formatter.formatJDBCObject(value, source.getColumnType(i)) : "";
         }
         writeNext(nextLine, false, null);
+      }
+      if (linesWritten >= maxRows) {
+        break;
       }
     }
     return true;
