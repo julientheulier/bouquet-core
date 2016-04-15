@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -51,9 +51,8 @@ public class ExcelWriter implements Closeable, Flushable {
 
   private Hashtable<String, CellStyle> styles = new Hashtable<String, CellStyle>();
 
-  private int index = 0;
   private int maxRows;
-  private long linesWritten = 0;
+  private int linesWritten = 0;
   private static int ROW_ACCESS_WINDOW_SIZE = 100;
 
   private ExcelFile excelFile = ExcelFile.XLS;
@@ -62,6 +61,7 @@ public class ExcelWriter implements Closeable, Flushable {
     this.stream = stream;
     this.insertHeader = settings.isInsertHeader();
 
+    // NPE can occur in XMLBeans but no impact
     if (ExcelFile.XLSX.equals(settings.getExcelFile())) {
       excelFile = ExcelFile.XLSX;
       wb = new SXSSFWorkbook(ROW_ACCESS_WINDOW_SIZE);
@@ -76,7 +76,7 @@ public class ExcelWriter implements Closeable, Flushable {
   }
 
   protected void writeColumnNames(final String[] columnNames) throws SQLException {
-    writeNext(columnNames, true, null);
+    writeNext(columnNames, true, null, null);
   }
 
   protected static Object getColumnValue(final IJDBCDataFormatter formatter, final ResultSet rs, int colType, int colIndex) throws SQLException, IOException {
@@ -90,7 +90,7 @@ public class ExcelWriter implements Closeable, Flushable {
 
   }
 
-  private void writeNext(final Object[] nextLine, final boolean isHeader, String[] columnsFormat) {
+  private void writeNext(final Object[] nextLine, final boolean isHeader, String[] columnsFormat, int[] cellsType) {
     Row row = getRow();
     for (int iCell = 0; iCell < nextLine.length; iCell++) {
       Cell cell = row.createCell(iCell); // Create cell
@@ -100,15 +100,22 @@ public class ExcelWriter implements Closeable, Flushable {
 
       Object value = nextLine[iCell];
       String format = "General";
+      if (columnsFormat != null && columnsFormat.length > iCell && columnsFormat[iCell] != null) {
+        cell.setCellStyle(getStyle(columnsFormat[iCell]));
+      } else {
+        cell.setCellStyle(getStyle(format));
+      }
 
       // Guess cell data type
+      if (cellsType != null && cellsType.length > iCell) {
+        cell.setCellType(cellsType[iCell]);
+      } else {
+        cell.setCellType(Cell.CELL_TYPE_STRING);
+      }
+
       if (value instanceof String) {
-        cell.setCellType(HSSFCell.CELL_TYPE_STRING);
         cell.setCellValue((String) value);
       } else if (value instanceof Date) {
-        if (columnsFormat != null && columnsFormat[iCell] != null) {
-          format = columnsFormat[iCell];
-        }
         cell.setCellValue((Date) value);
       } else if (value instanceof Boolean) {
         cell.setCellValue((Boolean) value);
@@ -124,10 +131,6 @@ public class ExcelWriter implements Closeable, Flushable {
         }
       }
 
-      if (columnsFormat != null && columnsFormat.length > iCell && columnsFormat[iCell] != null) {
-        format = columnsFormat[iCell];
-      }
-      cell.setCellStyle(getStyle(format));
     }
   }
 
@@ -142,9 +145,9 @@ public class ExcelWriter implements Closeable, Flushable {
 
   private Row getRow() {
 
-    Row r = sheet.getRow(index);
+    Row r = sheet.getRow(linesWritten);
     if (r == null) {
-      r = sheet.createRow(index);
+      r = sheet.createRow(linesWritten);
     }
     return r;
   }
@@ -173,11 +176,11 @@ public class ExcelWriter implements Closeable, Flushable {
     if (stream != null) {
       stream.flush();
     }
+
   }
 
   @Override
   public void close() throws IOException {
-    flush();
     if (stream != null) {
       stream.close();
     }
@@ -195,28 +198,23 @@ public class ExcelWriter implements Closeable, Flushable {
   }
 
   public boolean writeResultSet(IRawExportSource source, IJDBCDataFormatter formatter) throws SQLException {
-    int columnCount = source.getNumberOfColumns();
-
+    String[] columnsFormat = getColumnsFormat(source);
+    int[] cellsType = getCellsType(source);
     if (logger.isDebugEnabled()) {
       logger.debug((source.getColumnTypes().toString()));
     }
 
     if (insertHeader) {
-      ++linesWritten;
       writeColumnNames(source.getColumnNames());
+      ++linesWritten;
     }
     // write data up to split limit
     Iterator<Object[]> iter = source.iterator();
     while (iter.hasNext()) {
-      ++linesWritten;
       Object[] rawRow = iter.next();
       if (rawRow != null) {
-        String[] nextLine = new String[columnCount];
-        for (int i = 0; i < columnCount; i++) {
-          Object value = rawRow[i];
-          nextLine[i] = value != null ? formatter.formatJDBCObject(value, source.getColumnType(i)) : "";
-        }
-        writeNext(nextLine, false, null);
+        writeNext(rawRow, false, columnsFormat, cellsType);
+        ++linesWritten;
       }
       if (linesWritten >= maxRows) {
         break;
@@ -226,4 +224,79 @@ public class ExcelWriter implements Closeable, Flushable {
 
   }
 
+  private String[] getColumnsFormat(IRawExportSource source) throws SQLException {
+    String[] columnsFormat = null;
+    if (source != null && source.getNumberOfColumns() > 0) {
+      columnsFormat = new String[source.getNumberOfColumns()];
+      for (int i = 0; i < source.getNumberOfColumns(); i++) {
+        columnsFormat[i] = ExcelWriter.getExcelFormatFromColumn(source.getColumnType(i));
+      }
+    }
+    return columnsFormat;
+  }
+
+  private int[] getCellsType(IRawExportSource source) throws SQLException {
+    int[] cellTypes = null;
+    if (source != null && source.getNumberOfColumns() > 0) {
+      cellTypes = new int[source.getNumberOfColumns()];
+      for (int i = 0; i < source.getNumberOfColumns(); i++) {
+        cellTypes[i] = ExcelWriter.getCellTypeFromColumn(source.getColumnType(i));
+      }
+    }
+    return cellTypes;
+  }
+
+  private static String getExcelFormatFromColumn(int colType) {
+    String stringFormat = null;
+    switch (colType) {
+
+      case Types.DATE:
+        stringFormat = "yyyy-mm-dd";
+        break;
+      case Types.TIME:
+        stringFormat = "hh:mm:ss";
+        break;
+      case Types.TIMESTAMP:
+        stringFormat = "yyyy-mm-dd hh:mm:ss";
+        break;
+      case Types.TINYINT:
+      case Types.SMALLINT:
+      case Types.INTEGER:
+      case Types.BIGINT:
+      case Types.NUMERIC:
+        stringFormat = "0";
+        break;
+
+      case Types.DOUBLE:
+      case Types.FLOAT:
+      case Types.DECIMAL:
+        stringFormat = "0.00";
+        break;
+    }
+    return stringFormat;
+  }
+
+  private static int getCellTypeFromColumn(int colType) {
+    int cellType = Cell.CELL_TYPE_STRING;
+    switch (colType) {
+
+      case Types.DATE:
+      case Types.TIME:
+      case Types.TIMESTAMP:
+      case Types.TINYINT:
+      case Types.SMALLINT:
+      case Types.INTEGER:
+      case Types.BIGINT:
+      case Types.NUMERIC:
+      case Types.DOUBLE:
+      case Types.FLOAT:
+      case Types.DECIMAL:
+        cellType = Cell.CELL_TYPE_NUMERIC;
+        break;
+      case Types.BOOLEAN:
+        cellType = Cell.CELL_TYPE_BOOLEAN;
+        break;
+    }
+    return cellType;
+  }
 }
