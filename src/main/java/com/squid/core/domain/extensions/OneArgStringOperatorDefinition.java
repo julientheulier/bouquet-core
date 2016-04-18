@@ -30,27 +30,21 @@ import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
-public class TrimOperatorDefinition extends OperatorDefinition {
+public class OneArgStringOperatorDefinition extends OperatorDefinition {
 
-  // TODO USE STRING registry for STRING_BASE
-  public static final String STRING_BASE = "com.squid.domain.operator.string.";
+  public static final String STRING_UPPER = StringFunctionsRegistry.STRING_BASE + "UPPER";
+  public static final String STRING_LOWER = StringFunctionsRegistry.STRING_BASE + "LOWER";
+  public static final String STRING_REVERSE = StringFunctionsRegistry.STRING_BASE + "REVERSE";
+  public static final String STRING_MD5 = StringFunctionsRegistry.STRING_BASE + "MD5";
 
-  public static final String STRING_TRIM = STRING_BASE + "TRIM";
-  public static final String STRING_LTRIM = STRING_BASE + "LTRIM";
-  public static final String STRING_RTRIM = STRING_BASE + "RTRIM";
-
-  private String hint = "";
-
-  public TrimOperatorDefinition(String name, String ID, IDomain domain) {
-    super(name, ID, PREFIX_POSITION, name, IDomain.STRING);
-    setDomain(domain);
-    hint = name + "(string[,trim_character])";
-  }
-
-  public TrimOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
+  public OneArgStringOperatorDefinition(String name, String ID, IDomain domain) {
     super(name, ID, PREFIX_POSITION, name, domain);
     setDomain(domain);
-    hint = name + "(string[,trim_character])";
+  }
+
+  public OneArgStringOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
+    super(name, ID, PREFIX_POSITION, name, domain, categoryType);
+    setDomain(domain);
   }
 
   @Override
@@ -60,21 +54,18 @@ public class TrimOperatorDefinition extends OperatorDefinition {
 
   @Override
   public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-    if (!(imageDomains.size() == 1 || imageDomains.size() == 2)) {
-      return new OperatorDiagnostic("Invalid number of parameters", hint);
+    if (imageDomains.size() != 1) {
+      return new OperatorDiagnostic("Invalid number of parameters", getName() + "(string)");
     }
     if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-      return new OperatorDiagnostic("Parameter must be a string", 0, hint);
-    }
-    if (imageDomains.size() == 2 && !imageDomains.get(1).isInstanceOf(IDomain.STRING)) {
-      return new OperatorDiagnostic("Parameter must be a string", 1, hint);
+      return new OperatorDiagnostic("Parameter must be a string", getName() + "(string)");
     }
     return OperatorDiagnostic.IS_VALID;
   }
 
   @Override
   public ExtendedType computeExtendedType(ExtendedType[] types) {
-    if (types.length > 0) {
+    if (types.length == 1) {
       return types[0];
     } else {
       return ExtendedType.UNDEFINED;

@@ -71,6 +71,7 @@ public interface IntrinsicOperators {
 	public static final int COVAR_POP       = FIRST_ID+30;
 	public static final int PERCENTILE = FIRST_ID+31;
 	public static final int COUNT_DISTINCT = FIRST_ID+32;
+  public static final int RLIKE = FIRST_ID+33;
 
 	public static final int ADD_MONTHS  = FIRST_ID+100;
 	public static final int ISNULL		= FIRST_ID+101;

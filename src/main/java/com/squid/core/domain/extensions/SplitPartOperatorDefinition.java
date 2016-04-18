@@ -25,32 +25,40 @@ package com.squid.core.domain.extensions;
 
 import java.util.List;
 
+import com.squid.core.domain.DomainNumericConstant;
+import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
-public class TrimOperatorDefinition extends OperatorDefinition {
+/*
+ * case
+  when pos>1 and INSTR(string, delimiter, 1, pos - 1) = 0 then null
+  else
+    case when INSTR(string,delimiter,INSTR(string, delimiter, 1, pos - 1)+ length(delimiter),1)>0 then
+    substr(string,INSTR(string, delimiter, 1, pos - 1)+ length(delimiter), INSTR(string,delimiter,INSTR(string, delimiter, 1, pos - 1)+ length(delimiter),1) - (INSTR(string, delimiter, 1, pos - 1)+ length(delimiter)))
+    else
+      substr(string,INSTR(string, delimiter, 1, pos - 1)+ length(delimiter))
+    end
+end
+ */
+public class SplitPartOperatorDefinition extends OperatorDefinition {
 
-  // TODO USE STRING registry for STRING_BASE
   public static final String STRING_BASE = "com.squid.domain.operator.string.";
 
-  public static final String STRING_TRIM = STRING_BASE + "TRIM";
-  public static final String STRING_LTRIM = STRING_BASE + "LTRIM";
-  public static final String STRING_RTRIM = STRING_BASE + "RTRIM";
+  public static final String STRING_SPLIT_PART = STRING_BASE + "SPLIT_PART";
 
   private String hint = "";
 
-  public TrimOperatorDefinition(String name, String ID, IDomain domain) {
-    super(name, ID, PREFIX_POSITION, name, IDomain.STRING);
-    setDomain(domain);
-    hint = name + "(string[,trim_character])";
+  public SplitPartOperatorDefinition(String name, String ID, IDomain domain) {
+    super(name, ID, PREFIX_POSITION, name, domain);
+    hint = name + "(string,delimiter, position)";
   }
 
-  public TrimOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-    super(name, ID, PREFIX_POSITION, name, domain);
-    setDomain(domain);
-    hint = name + "(string[,trim_character])";
+  public SplitPartOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
+    super(name, ID, PREFIX_POSITION, name, domain, categoryType);
+    hint = name + "(string,delimiter, position)";
   }
 
   @Override
@@ -60,14 +68,17 @@ public class TrimOperatorDefinition extends OperatorDefinition {
 
   @Override
   public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-    if (!(imageDomains.size() == 1 || imageDomains.size() == 2)) {
+    if (imageDomains.size() != 3) {
       return new OperatorDiagnostic("Invalid number of parameters", hint);
     }
     if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-      return new OperatorDiagnostic("Parameter must be a string", 0, hint);
+      return new OperatorDiagnostic("1sr parameter must be a string", 0, hint);
     }
-    if (imageDomains.size() == 2 && !imageDomains.get(1).isInstanceOf(IDomain.STRING)) {
-      return new OperatorDiagnostic("Parameter must be a string", 1, hint);
+    if (!(imageDomains.get(1) instanceof DomainStringConstant)) {
+      return new OperatorDiagnostic("Second parameter must be a string delimiter", 1, hint);
+    }
+    if (imageDomains.size() == 3 && !(imageDomains.get(2) instanceof DomainNumericConstant)) {
+      return new OperatorDiagnostic("Third parameter must be an element position", 2, hint);
     }
     return OperatorDiagnostic.IS_VALID;
   }

@@ -33,7 +33,7 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
 
 public class JSONOperatorDefinition extends OperatorDefinition {
 
-  public static final String JSON_BASE = "com.squid.domain.operator.j.";
+  public static final String JSON_BASE = "com.squid.domain.operator.json.";
   public static final String JSON_ARRAY_LENGTH = JSON_BASE + "JSON_ARRAY_LENGTH";
   public static final String JSON_EXTRACT_FROM_ARRAY = JSON_BASE + "JSON_EXTRACT_ARRAY_ELEMENT_TEXT";
   public static final String JSON_EXTRACT_PATH_TEXT = JSON_BASE + "JSON_EXTRACT_PATH_TEXT";

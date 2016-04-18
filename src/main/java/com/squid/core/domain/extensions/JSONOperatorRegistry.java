@@ -47,13 +47,9 @@ public class JSONOperatorRegistry implements OperatorRegistry {
 
   @Override
   public void apply(OperatorScope scope) throws OperatorScopeException {
-    JSONOperatorDefinition arrayLength = new JSONOperatorDefinition("JSON_ARRAY_LENGTH", JSONOperatorDefinition.JSON_ARRAY_LENGTH, IDomain.NUMERIC, OperatorDefinition.MISC_TYPE);
-    scope.registerExtension(arrayLength);
-    JSONOperatorDefinition extractArrayElement = new JSONOperatorDefinition("JSON_EXTRACT_ARRAY_ELEMENT_TEXT", JSONOperatorDefinition.JSON_EXTRACT_FROM_ARRAY, IDomain.STRING,
-        OperatorDefinition.MISC_TYPE);
-    scope.registerExtension(extractArrayElement);
-    JSONOperatorDefinition extractPathElement = new JSONOperatorDefinition("JSON_EXTRACT_PATH_TEXT", JSONOperatorDefinition.JSON_EXTRACT_PATH_TEXT, IDomain.STRING, OperatorDefinition.MISC_TYPE);
-    scope.registerExtension(extractPathElement);
+    scope.registerExtension(new JSONOperatorDefinition("JSON_ARRAY_LENGTH", JSONOperatorDefinition.JSON_ARRAY_LENGTH, IDomain.NUMERIC, OperatorDefinition.MISC_TYPE));
+    scope.registerExtension(new JSONOperatorDefinition("JSON_EXTRACT_ARRAY_ELEMENT_TEXT", JSONOperatorDefinition.JSON_EXTRACT_FROM_ARRAY, IDomain.STRING, OperatorDefinition.MISC_TYPE));
+    scope.registerExtension(new JSONOperatorDefinition("JSON_EXTRACT_PATH_TEXT", JSONOperatorDefinition.JSON_EXTRACT_PATH_TEXT, IDomain.STRING, OperatorDefinition.MISC_TYPE));
 
   }
 
