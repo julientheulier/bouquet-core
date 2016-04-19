@@ -36,14 +36,21 @@ import com.squid.core.sql.render.SQLSkin;
  */
 public class RLikeOperatorRenderer extends BaseOperatorRenderer implements OperatorRenderer {
 
-  @Override
-  public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef, String[] args) throws RenderingException {
-    return prettyPrint(skin, piece, opDef, args);
-  }
+	String operator = "RLIKE";
 
-  @Override
-  public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
-    return args[0] + " RLIKE " + args[1];
-  }
+	public RLikeOperatorRenderer(String operator) {
+		this.operator = operator;
+	}
+
+	@Override
+	public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef, String[] args)
+			throws RenderingException {
+		return prettyPrint(skin, piece, opDef, args);
+	}
+
+	@Override
+	public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
+		return args[0] + operator + args[1];
+	}
 
 }

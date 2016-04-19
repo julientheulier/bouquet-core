@@ -30,29 +30,31 @@ import com.squid.core.sql.render.SQLSkin;
 
 public class RegexpOperatorRenderer extends BaseOperatorRenderer {
 
-  protected final String prepend;
+	protected final String prepend;
 
-  public RegexpOperatorRenderer(String mode) {
-    this.prepend = mode;
-  }
+	public RegexpOperatorRenderer(String mode) {
+		this.prepend = mode;
+	}
 
-  @Override
-  public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef, String[] args) throws RenderingException {
-    if (args != null) {
-      String str = prepend + "(" + args[0] + ", " + args[1];
-      if (args.length == 3) {
-        str = str + ", " + args[2] + ")";
-      }
-      return str;
-    } else {
-      throw new RenderingException("Invalid arguments for function " + prepend);
-    }
-  }
+	@Override
+	public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef, String[] args)
+			throws RenderingException {
+		if (args != null) {
+			String str = prepend + "(" + args[0] + ", " + args[1];
+			if (args.length == 3) {
+				str = str + ", " + args[2];
+			}
+			str = str + ")";
+			return str;
+		} else {
+			throw new RenderingException("Invalid arguments for function " + prepend);
+		}
+	}
 
-  @Override
-  public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
-    // TODO Auto-generated method stub
-    return prettyPrint(skin, null, opDef, args);
-  }
+	@Override
+	public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
+		// TODO Auto-generated method stub
+		return prettyPrint(skin, null, opDef, args);
+	}
 
 }

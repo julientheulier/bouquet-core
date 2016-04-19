@@ -34,42 +34,61 @@ import com.squid.core.domain.operators.OperatorScopeException;
 
 public class StringFunctionsRegistry implements OperatorRegistry {
 
-  public static final String STRING_BASE = "com.squid.domain.operator.string.";
+	public static final String STRING_BASE = "com.squid.domain.operator.string.";
 
-  private final static Logger logger = LoggerFactory.getLogger(OperatorRegistry.class);
+	private final static Logger logger = LoggerFactory.getLogger(OperatorRegistry.class);
 
-  public StringFunctionsRegistry(OperatorScope scope) {
-    try {
-      apply(scope);
-      logger.info("init StringFunctionsRegistry");
-    } catch (OperatorScopeException e) {
-      logger.error("unable to init the StringFunctionsRegistry", e);
-    }
-  }
+	public StringFunctionsRegistry(OperatorScope scope) {
+		try {
+			apply(scope);
+			logger.info("init StringFunctionsRegistry");
+		} catch (OperatorScopeException e) {
+			logger.error("unable to init the StringFunctionsRegistry", e);
+		}
+	}
 
-  @Override
-  public void apply(OperatorScope scope) throws OperatorScopeException {
-    scope.registerExtension(new SubstringOperatorDefinition("SUBSTRING", SubstringOperatorDefinition.STRING_SUBSTRING, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new PosStringOperatorDefinition("POSITION", PosStringOperatorDefinition.STRING_POSITION, IDomain.NUMERIC, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new OneArgStringOperatorDefinition("UPPER", OneArgStringOperatorDefinition.STRING_UPPER, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new OneArgStringOperatorDefinition("LOWER", OneArgStringOperatorDefinition.STRING_LOWER, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new OneArgStringOperatorDefinition("REVERSE", OneArgStringOperatorDefinition.STRING_REVERSE, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new OneArgStringOperatorDefinition("MD5", OneArgStringOperatorDefinition.STRING_MD5, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new OneArgStringOperatorDefinition("SPLIT_PART", SplitPartOperatorDefinition.STRING_SPLIT_PART, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new StringLengthOperatorsDefinition("LENGTH", StringLengthOperatorsDefinition.STRING_LENGTH, IDomain.NUMERIC, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new TrimOperatorDefinition("TRIM", TrimOperatorDefinition.STRING_TRIM, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new TrimOperatorDefinition("LTRIM", TrimOperatorDefinition.STRING_LTRIM, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new TrimOperatorDefinition("RTRIM", TrimOperatorDefinition.STRING_RTRIM, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new PadOperatorDefinition("LPAD", PadOperatorDefinition.STRING_LPAD, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new PadOperatorDefinition("RPAD", PadOperatorDefinition.STRING_RPAD, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new TranslateOperatorDefinition("REPLACE", TranslateOperatorDefinition.STRING_REPLACE, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new TranslateOperatorDefinition("TRANSLATE", TranslateOperatorDefinition.STRING_TRANSLATE, IDomain.STRING, OperatorDefinition.STRING_TYPE));
+	@Override
+	public void apply(OperatorScope scope) throws OperatorScopeException {
+		scope.registerExtension(new SubstringOperatorDefinition("SUBSTRING",
+				SubstringOperatorDefinition.STRING_SUBSTRING, IDomain.STRING, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new PosStringOperatorDefinition("POSITION", PosStringOperatorDefinition.STRING_POSITION,
+				IDomain.NUMERIC, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new OneArgStringOperatorDefinition("UPPER", OneArgStringOperatorDefinition.STRING_UPPER,
+				IDomain.STRING, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new OneArgStringOperatorDefinition("LOWER", OneArgStringOperatorDefinition.STRING_LOWER,
+				IDomain.STRING, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new OneArgStringOperatorDefinition("REVERSE",
+				OneArgStringOperatorDefinition.STRING_REVERSE, IDomain.STRING, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new OneArgStringOperatorDefinition("MD5", OneArgStringOperatorDefinition.STRING_MD5,
+				IDomain.STRING, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new SplitPartOperatorDefinition("SPLIT_PART",
+				SplitPartOperatorDefinition.STRING_SPLIT_PART, IDomain.STRING, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new StringLengthOperatorsDefinition("LENGTH",
+				StringLengthOperatorsDefinition.STRING_LENGTH, IDomain.NUMERIC, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new TrimOperatorDefinition("TRIM", TrimOperatorDefinition.STRING_TRIM, IDomain.STRING,
+				OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new TrimOperatorDefinition("LTRIM", TrimOperatorDefinition.STRING_LTRIM, IDomain.STRING,
+				OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new TrimOperatorDefinition("RTRIM", TrimOperatorDefinition.STRING_RTRIM, IDomain.STRING,
+				OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new PadOperatorDefinition("LPAD", PadOperatorDefinition.STRING_LPAD, IDomain.STRING,
+				OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new PadOperatorDefinition("RPAD", PadOperatorDefinition.STRING_RPAD, IDomain.STRING,
+				OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new TranslateOperatorDefinition("REPLACE", TranslateOperatorDefinition.STRING_REPLACE,
+				IDomain.STRING, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new TranslateOperatorDefinition("TRANSLATE",
+				TranslateOperatorDefinition.STRING_TRANSLATE, IDomain.STRING, OperatorDefinition.STRING_TYPE));
 
-    scope.registerExtension(new RegexpOperatorDefinition("REGEXP_COUNT", RegexpOperatorDefinition.REGEXP_COUNT, IDomain.NUMERIC, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new RegexpOperatorDefinition("REGEXP_INSTR", RegexpOperatorDefinition.REGEXP_INSTR, IDomain.NUMERIC, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new RegexpOperatorDefinition("REGEXP_REPLACE", RegexpOperatorDefinition.REGEXP_REPLACE, IDomain.STRING, OperatorDefinition.STRING_TYPE));
-    scope.registerExtension(new RegexpOperatorDefinition("REGEXP_SUBSTRING", RegexpOperatorDefinition.REGEXP_SUBSTR, IDomain.STRING, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new RegexpOperatorDefinition("REGEXP_COUNT", RegexpOperatorDefinition.REGEXP_COUNT,
+				IDomain.NUMERIC, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new RegexpOperatorDefinition("REGEXP_INSTR", RegexpOperatorDefinition.REGEXP_INSTR,
+				IDomain.NUMERIC, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new RegexpOperatorDefinition("REGEXP_REPLACE", RegexpOperatorDefinition.REGEXP_REPLACE,
+				IDomain.STRING, OperatorDefinition.STRING_TYPE));
+		scope.registerExtension(new RegexpOperatorDefinition("REGEXP_SUBSTRING", RegexpOperatorDefinition.REGEXP_SUBSTR,
+				IDomain.STRING, OperatorDefinition.STRING_TYPE));
 
-  }
+	}
 
 }

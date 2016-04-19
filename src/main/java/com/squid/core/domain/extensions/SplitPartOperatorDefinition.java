@@ -45,51 +45,51 @@ end
  */
 public class SplitPartOperatorDefinition extends OperatorDefinition {
 
-  public static final String STRING_BASE = "com.squid.domain.operator.string.";
+	public static final String STRING_BASE = "com.squid.domain.operator.string.";
 
-  public static final String STRING_SPLIT_PART = STRING_BASE + "SPLIT_PART";
+	public static final String STRING_SPLIT_PART = STRING_BASE + "SPLIT_PART";
 
-  private String hint = "";
+	private String hint = "";
 
-  public SplitPartOperatorDefinition(String name, String ID, IDomain domain) {
-    super(name, ID, PREFIX_POSITION, name, domain);
-    hint = name + "(string,delimiter, position)";
-  }
+	public SplitPartOperatorDefinition(String name, String ID, IDomain domain) {
+		super(name, ID, PREFIX_POSITION, name, domain);
+		hint = name + "(string, delimiter, position)";
+	}
 
-  public SplitPartOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-    super(name, ID, PREFIX_POSITION, name, domain, categoryType);
-    hint = name + "(string,delimiter, position)";
-  }
+	public SplitPartOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
+		super(name, ID, PREFIX_POSITION, name, domain, categoryType);
+		hint = name + "(string, delimiter, position)";
+	}
 
-  @Override
-  public int getType() {
-    return ALGEBRAIC_TYPE;
-  }
+	@Override
+	public int getType() {
+		return ALGEBRAIC_TYPE;
+	}
 
-  @Override
-  public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-    if (imageDomains.size() != 3) {
-      return new OperatorDiagnostic("Invalid number of parameters", hint);
-    }
-    if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-      return new OperatorDiagnostic("1sr parameter must be a string", 0, hint);
-    }
-    if (!(imageDomains.get(1) instanceof DomainStringConstant)) {
-      return new OperatorDiagnostic("Second parameter must be a string delimiter", 1, hint);
-    }
-    if (imageDomains.size() == 3 && !(imageDomains.get(2) instanceof DomainNumericConstant)) {
-      return new OperatorDiagnostic("Third parameter must be an element position", 2, hint);
-    }
-    return OperatorDiagnostic.IS_VALID;
-  }
+	@Override
+	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
+		if (imageDomains.size() != 3) {
+			return new OperatorDiagnostic("Invalid number of parameters", hint);
+		}
+		if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
+			return new OperatorDiagnostic("1sr parameter must be a string", 0, hint);
+		}
+		if (!(imageDomains.get(1) instanceof DomainStringConstant)) {
+			return new OperatorDiagnostic("Second parameter must be a string delimiter", 1, hint);
+		}
+		if (imageDomains.size() == 3 && !(imageDomains.get(2) instanceof DomainNumericConstant)) {
+			return new OperatorDiagnostic("Third parameter must be an element position", 2, hint);
+		}
+		return OperatorDiagnostic.IS_VALID;
+	}
 
-  @Override
-  public ExtendedType computeExtendedType(ExtendedType[] types) {
-    if (types.length > 0) {
-      return types[0];
-    } else {
-      return ExtendedType.UNDEFINED;
-    }
-  }
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+		if (types.length > 0) {
+			return types[0];
+		} else {
+			return ExtendedType.UNDEFINED;
+		}
+	}
 
 }
