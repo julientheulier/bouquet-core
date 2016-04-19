@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions;
 
+import java.sql.Types;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -32,44 +33,48 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
 
 public class OneArgStringOperatorDefinition extends OperatorDefinition {
 
-  public static final String STRING_UPPER = StringFunctionsRegistry.STRING_BASE + "UPPER";
-  public static final String STRING_LOWER = StringFunctionsRegistry.STRING_BASE + "LOWER";
-  public static final String STRING_REVERSE = StringFunctionsRegistry.STRING_BASE + "REVERSE";
-  public static final String STRING_MD5 = StringFunctionsRegistry.STRING_BASE + "MD5";
+	public static final String STRING_UPPER = StringFunctionsRegistry.STRING_BASE + "UPPER";
+	public static final String STRING_LOWER = StringFunctionsRegistry.STRING_BASE + "LOWER";
+	public static final String STRING_REVERSE = StringFunctionsRegistry.STRING_BASE + "REVERSE";
+	public static final String STRING_MD5 = StringFunctionsRegistry.STRING_BASE + "MD5";
 
-  public OneArgStringOperatorDefinition(String name, String ID, IDomain domain) {
-    super(name, ID, PREFIX_POSITION, name, domain);
-    setDomain(domain);
-  }
+	public OneArgStringOperatorDefinition(String name, String ID, IDomain domain) {
+		super(name, ID, PREFIX_POSITION, name, domain);
+		setDomain(domain);
+	}
 
-  public OneArgStringOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-    super(name, ID, PREFIX_POSITION, name, domain, categoryType);
-    setDomain(domain);
-  }
+	public OneArgStringOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
+		super(name, ID, PREFIX_POSITION, name, domain, categoryType);
+		setDomain(domain);
+	}
 
-  @Override
-  public int getType() {
-    return ALGEBRAIC_TYPE;
-  }
+	@Override
+	public int getType() {
+		return ALGEBRAIC_TYPE;
+	}
 
-  @Override
-  public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-    if (imageDomains.size() != 1) {
-      return new OperatorDiagnostic("Invalid number of parameters", getName() + "(string)");
-    }
-    if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-      return new OperatorDiagnostic("Parameter must be a string", getName() + "(string)");
-    }
-    return OperatorDiagnostic.IS_VALID;
-  }
+	@Override
+	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
+		if (imageDomains.size() != 1) {
+			return new OperatorDiagnostic("Invalid number of parameters", getName() + "(string)");
+		}
+		if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
+			return new OperatorDiagnostic("Parameter must be a string", getName() + "(string)");
+		}
+		return OperatorDiagnostic.IS_VALID;
+	}
 
-  @Override
-  public ExtendedType computeExtendedType(ExtendedType[] types) {
-    if (types.length == 1) {
-      return types[0];
-    } else {
-      return ExtendedType.UNDEFINED;
-    }
-  }
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+		if (types.length == 1) {
+			if (STRING_MD5.equals(getExtendedID())) {
+				return new ExtendedType(IDomain.STRING, "VARCHAR", Types.VARCHAR, 0, 32);
+			} else {
+				return types[0];
+			}
+		} else {
+			return ExtendedType.UNDEFINED;
+		}
+	}
 
 }
