@@ -23,7 +23,9 @@
  *******************************************************************************/
 package com.squid.core.sql.db.templates;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.sql.db.render.OperatorRenderer;
@@ -57,6 +59,13 @@ public class DelegateOperatorRendererRegistry {
 	public boolean canRender(String extendedID) {
 		return delegateRenderer.get(extendedID)!=null;
 	}
+
+	public List<String> canRender() {
+		ArrayList<String> func= new ArrayList<String>();
+		func.addAll(delegateRenderer.keySet());
+		return func;
+	}
+
 
 	public void unregisterOperatorRender(String extendedID) {
 		delegateRenderer.remove(extendedID);
