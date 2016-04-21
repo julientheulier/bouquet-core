@@ -531,6 +531,11 @@ public class DefaultJDBCSkin extends DefaultSQLSkin {
 	}
 
 	@Override
+	public List<String> canRender() {
+		return getProvider().canRender();
+	}
+
+	@Override
 	public ISkinFeatureSupport getFeatureSupport(String featureID) {
 		return getProvider().getFeatureSupport(this, featureID);
 	}

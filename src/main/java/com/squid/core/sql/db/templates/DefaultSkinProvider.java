@@ -93,6 +93,8 @@ import com.squid.core.sql.render.ISkinFeatureSupport;
 import com.squid.core.sql.render.ISkinPref;
 import com.squid.core.sql.render.SQLSkin;
 
+import java.util.List;
+
 /**
  * The default skin provider
  *
@@ -249,6 +251,11 @@ public class DefaultSkinProvider implements ISkinProvider {
 	@Override
 	public boolean canRender(String extendedID) {
 		return delegateRendererRegistry.canRender(extendedID);
+	}
+
+	@Override
+	public List<String> canRender() {
+		return delegateRendererRegistry.canRender();
 	}
 
 	@Override
