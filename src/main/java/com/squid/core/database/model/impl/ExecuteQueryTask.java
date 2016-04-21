@@ -111,8 +111,7 @@ public class ExecuteQueryTask implements CancellableCallable<IExecutionItem>{
 	                    // ignore
 	                }
 	            }
-	            logger.error(e.toString());
-	            logger.error("SQLQuery#" + queryNum + " failed to prepare");
+	            logger.error("failed to prepare SQLQuery#" + queryNum + " queryid=" + queryNum + " method=prepare() status=error error="+e.toString());
 	            throw e;
 	        }
     	}
@@ -123,11 +122,8 @@ public class ExecuteQueryTask implements CancellableCallable<IExecutionItem>{
         try {
         	prepare();
         	//
-            if (connection==null) {
-            	throw new SQLException("SQLQuery#" + queryNum + " failed: cannot create connection");
-            }
-            if (statement==null) {
-            	throw new SQLException("SQLQuery#" + queryNum + " failed: cannot create statement");
+            if (connection==null || statement==null) {
+            	throw new SQLException("failed to connect SQLQuery#" + queryNum + " queryid=" + queryNum + " method=call() status=error");
             }
             // ok to start
         	ExecutionManager.INSTANCE.registerTask(this);
@@ -181,9 +177,12 @@ public class ExecuteQueryTask implements CancellableCallable<IExecutionItem>{
                     // ignore
                 }
             }
-            logger.error(e.toString());
-            logger.error("SQLQuery#" + queryNum + " failed in "
-                    + (System.currentTimeMillis() - now) + " ms.");
+			logger.error("error SQLQuery#" + queryNum
+					+ " method=executeQuery" + " duration="
+					+  (System.currentTimeMillis() - now)
+					+ " status=error queryid=" + queryNum
+					+ " task=" + this.getClass().getName()
+					+ " error=" + e.toString());
             throw new ExecutionException("SQLQuery#" + queryNum + " failed: ",e);
         } finally {
 

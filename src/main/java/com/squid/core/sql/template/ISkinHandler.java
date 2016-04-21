@@ -26,6 +26,8 @@ package com.squid.core.sql.template;
 import com.squid.core.database.model.DatabaseProduct;
 import com.squid.core.sql.render.SQLSkin;
 
+import java.util.List;
+
 public interface ISkinHandler {
 
 	public SQLSkin createSkin(DatabaseProduct product);
@@ -35,8 +37,13 @@ public interface ISkinHandler {
 	 * @return true if the extendedID is an id of an operator that can be rendered
 	 */
 	public boolean canRender (String extendedID);
-    
-    /**
+
+	/**
+	 * @return true if the extendedID is an id of an operator that can be rendered
+	 */
+	public List<String> canRender ();
+
+	/**
      * the skin prefix for getting template
      * @return
      */
