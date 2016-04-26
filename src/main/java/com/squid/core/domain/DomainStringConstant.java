@@ -84,5 +84,16 @@ public class DomainStringConstant extends DomainString implements IConstantValue
 			return super.isInstanceOf(domain);
 		}
     }
+	
+	@Override
+	public Object getAdapter(Class<?> adapter) {
+		if (adapter.equals(DomainStringConstant.class)) {
+			return this;
+		}
+		if (adapter.equals(DomainConstant.class)) {
+			return this;
+		}
+		return super.getAdapter(adapter);
+	}
 
 }

@@ -24,6 +24,7 @@
 package com.squid.core.sql.render;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.squid.core.database.model.Column;
 import com.squid.core.database.model.DatabaseProduct;
@@ -50,6 +51,10 @@ implements SQLSkin
 
 	public boolean canRender(String id) {
 		return this.skin.canRender(id);
+	}
+
+	public List<String> canRender() {
+		return this.skin.canRender();
 	}
 
 	public String comment(String text) {

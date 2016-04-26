@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -21,55 +21,31 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.expression;
+package com.squid.core.sql.db.render;
 
-import com.squid.core.domain.IDomain;
-import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.OperatorDefinition;
+import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
 
-public class NullExpression extends NamedExpression 
-implements ConstantValue {
+public class StringOneArgOperatorRenderer extends BaseOperatorRenderer {
 
-	@Override
-	public ExtendedType computeType(SQLSkin skin) {
-		return ExtendedType.UNDEFINED;
-	}
-	
-	@Override
-	public Object getValue() {
-		return null;
-	}
+  protected final String prepend;
 
-	@Override
-	public IDomain getImageDomain() {
-		return IDomain.NULL;// null by itself
-	}
+  public StringOneArgOperatorRenderer(String mode) {
+    this.prepend = mode;
+  }
 
-	@Override
-	public IDomain getSourceDomain() {
-		return IDomain.NULL;// this is a constant
-	}
-	
-	@Override
-	public String prettyPrint() {
-		return "NULL";
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		// else
-		return true;
-	}
-	
-	@Override
-	public int hashCode() {
-		return this.getClass().hashCode();
-	}
+  @Override
+  public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
+    String principalstring = null;
+    if (args != null) {
+      if (args.length != 1) {
+        throw new RenderingException("invalid syntax for " + prepend + " operator");
+      }
+      principalstring = args[0];
+    }
+    String str = prepend + "(" + principalstring + ")";
+    return str;
+  }
 
 }

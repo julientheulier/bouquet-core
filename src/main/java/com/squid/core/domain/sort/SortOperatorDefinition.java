@@ -23,24 +23,25 @@
  *******************************************************************************/
 package com.squid.core.domain.sort;
 
-import java.sql.Types;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
+import com.squid.core.domain.sort.DomainSort.SortDirection;
 
 public class SortOperatorDefinition extends OperatorDefinition {
 	
 	public static final String ASC_ID = "com.squid.domain.model.sort.ASC";
 	public static final String DESC_ID = "com.squid.domain.model.sort.DESC";
 	
-	public static final ExtendedType SORT_TYPE = new ExtendedType(DomainSort.SORT,Types.NULL,0,0);
+	private SortDirection direction;
 	
-	public SortOperatorDefinition(String name, String id, IDomain domain, int categoryType) {
-		super(name,id,OperatorDefinition.PREFIX_POSITION,name,domain, categoryType);
+	public SortOperatorDefinition(String name, String id, SortDirection direction, int categoryType) {
+		super(name,id,OperatorDefinition.PREFIX_POSITION,name,DomainSort.DOMAIN, categoryType);
 		setParamCount(1);
+		this.direction=direction;
 	}
 	
 	@Override
@@ -59,9 +60,19 @@ public class SortOperatorDefinition extends OperatorDefinition {
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length==1) {
-			return SORT_TYPE;
+			ExtendedType copy = new ExtendedType(types[0]);
+			return fixExtendedTypeDomain(copy, types);
 		} else {
 			return ExtendedType.UNDEFINED;
+		}
+	}
+	
+	@Override
+	public IDomain computeImageDomain(List<IDomain> imageDomains) {
+		if (imageDomains.size()==1) {
+			return DomainSort.DOMAIN.createMetaDomain(imageDomains.get(0), this.direction);
+		} else {
+			return IDomain.UNKNOWN;
 		}
 	}
 

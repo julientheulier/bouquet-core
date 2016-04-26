@@ -24,6 +24,7 @@
 package com.squid.core.sql.render;
 
 import java.sql.Connection;
+import java.util.List;
 
 import com.squid.core.database.model.Column;
 import com.squid.core.database.model.DatabaseProduct;
@@ -133,7 +134,12 @@ public interface SQLSkin {
      * @return whether the operator can be rendered 
      */
     public boolean canRender (String id);
-    
+
+	/**
+	 * @return all the functions that a skin can render
+	 */
+	public List<String> canRender ();
+
 	public ExtendedType createExtendedType(IDomain domain);
 	
 	public ExtendedType createExtendedType(IDomain domain, int dataType,

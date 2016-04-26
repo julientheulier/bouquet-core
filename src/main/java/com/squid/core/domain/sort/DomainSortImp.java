@@ -21,55 +21,51 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.expression;
+package com.squid.core.domain.sort;
 
+import com.squid.core.domain.DomainBase;
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.sql.render.SQLSkin;
 
-public class NullExpression extends NamedExpression 
-implements ConstantValue {
-
-	@Override
-	public ExtendedType computeType(SQLSkin skin) {
-		return ExtendedType.UNDEFINED;
-	}
+/**
+ * A pseudo domain that allow to specify sort order using operator ASC and DSC
+ * @author Serge Fantino
+ *
+ */
+public class DomainSortImp extends DomainBase 
+implements DomainSort
+{
 	
+	protected DomainSortImp() {
+		super(IDomain.META);
+	}
+
 	@Override
-	public Object getValue() {
+	public IDomain createMetaDomain(IDomain subdomain) {
+		return new ProxyDomainSort(subdomain);
+	}
+
+	@Override
+	public IDomain createMetaDomain(IDomain subdomain, SortDirection direction) {
+		return new ProxyDomainSort(subdomain, direction);
+	}
+
+	@Override
+	public IDomain getMetadomain() {
 		return null;
 	}
 
 	@Override
-	public IDomain getImageDomain() {
-		return IDomain.NULL;// null by itself
+	public SortDirection getDirection() {
+		return null;
+	}
+	
+	@Override
+	public void setDirection(SortDirection direction) {
 	}
 
 	@Override
-	public IDomain getSourceDomain() {
-		return IDomain.NULL;// this is a constant
-	}
-	
-	@Override
-	public String prettyPrint() {
-		return "NULL";
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		// else
-		return true;
-	}
-	
-	@Override
-	public int hashCode() {
-		return this.getClass().hashCode();
+	public IDomain getSubdomain() {
+		return null;
 	}
 
 }

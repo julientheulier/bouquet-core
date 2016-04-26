@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -28,33 +28,34 @@ import com.squid.core.sql.render.OperatorPiece;
 import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
 
-public class PadOperatorRenderer
-extends BaseOperatorRenderer
-{
+public class PadOperatorRenderer extends BaseOperatorRenderer {
 
-	protected final String prepend;
+  protected final String prepend;
 
-	public PadOperatorRenderer(String mode) {
-		this.prepend = mode;
-	}
+  public PadOperatorRenderer(String mode) {
+    this.prepend = mode;
+  }
 
-	@Override
-	public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef, String[] args) throws RenderingException {
-		if (args != null) {
-			if (args.length!=3) {
-				throw new RenderingException("invalid syntax for pad operator");
-			}
+  @Override
+  public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef, String[] args) throws RenderingException {
+    if (args != null) {
+      if (args.length < 2 || args.length > 3) {
+        throw new RenderingException("invalid syntax for " + prepend + " function");
+      }
 
-		}
-		String str = prepend+"(" + args[0] + ", " + args[1] + ", " + args[2] + ")";
-		return str;
-	}
+    }
+    String complement = " ";
+    if (args.length == 3) {
+      complement = args[2];
+    }
+    String str = prepend + "(" + args[0] + ", " + args[1] + ", " + complement + ")";
+    return str;
+  }
 
-	@Override
-	public String prettyPrint(SQLSkin skin, OperatorDefinition opDef,
-			String[] args) throws RenderingException {
-		// TODO Auto-generated method stub
-		return prettyPrint(skin, null, opDef, args);
-	}
+  @Override
+  public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
+    // TODO Auto-generated method stub
+    return prettyPrint(skin, null, opDef, args);
+  }
 
 }

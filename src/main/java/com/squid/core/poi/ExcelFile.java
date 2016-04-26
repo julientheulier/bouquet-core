@@ -21,55 +21,16 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.expression;
+package com.squid.core.poi;
 
-import com.squid.core.domain.IDomain;
-import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.sql.render.SQLSkin;
+/**
+ * @author hautn
+ *
+ */
+public enum ExcelFile {
+  XLS("xls"), XLSX("xlsx");
 
-public class NullExpression extends NamedExpression 
-implements ConstantValue {
+  ExcelFile(String name) {
 
-	@Override
-	public ExtendedType computeType(SQLSkin skin) {
-		return ExtendedType.UNDEFINED;
-	}
-	
-	@Override
-	public Object getValue() {
-		return null;
-	}
-
-	@Override
-	public IDomain getImageDomain() {
-		return IDomain.NULL;// null by itself
-	}
-
-	@Override
-	public IDomain getSourceDomain() {
-		return IDomain.NULL;// this is a constant
-	}
-	
-	@Override
-	public String prettyPrint() {
-		return "NULL";
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		// else
-		return true;
-	}
-	
-	@Override
-	public int hashCode() {
-		return this.getClass().hashCode();
-	}
-
+  }
 }

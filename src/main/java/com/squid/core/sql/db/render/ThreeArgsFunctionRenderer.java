@@ -21,55 +21,33 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.expression;
+package com.squid.core.sql.db.render;
 
-import com.squid.core.domain.IDomain;
-import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.OperatorDefinition;
+import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
 
-public class NullExpression extends NamedExpression 
-implements ConstantValue {
+public class ThreeArgsFunctionRenderer
+extends BaseOperatorRenderer
+{
 
-	@Override
-	public ExtendedType computeType(SQLSkin skin) {
-		return ExtendedType.UNDEFINED;
-	}
-	
-	@Override
-	public Object getValue() {
-		return null;
+	protected String prepend = "TRANSLATE";
+
+	public ThreeArgsFunctionRenderer() {
 	}
 
-	@Override
-	public IDomain getImageDomain() {
-		return IDomain.NULL;// null by itself
+	public ThreeArgsFunctionRenderer(String prepend) {
+		this.prepend = prepend;
 	}
+	public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
+		if (args != null) {
+			if (args.length!=3) {
+				throw new RenderingException("invalid syntax for " + prepend + " operator");
+			}
 
-	@Override
-	public IDomain getSourceDomain() {
-		return IDomain.NULL;// this is a constant
-	}
-	
-	@Override
-	public String prettyPrint() {
-		return "NULL";
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		// else
-		return true;
-	}
-	
-	@Override
-	public int hashCode() {
-		return this.getClass().hashCode();
+		}
+		String str = prepend+"(" + args[0] + ", " + args[1] + ", " + args[2] + ")";
+		return str;
 	}
 
 }

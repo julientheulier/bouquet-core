@@ -67,7 +67,7 @@ public class DomainNumericConstant extends DomainNumeric implements IConstantVal
      */
 	@Override
 	public boolean isInstanceOf(IDomain domain) {
-		if (domain==DomainConstant.DOMAIN) {
+		if (domain==DomainConstant.DOMAIN || domain==DomainNumericConstant.DOMAIN) {
 			return true;
 		} else if (super.isInstanceOf(domain)) {
 			return true;
@@ -93,5 +93,16 @@ public class DomainNumericConstant extends DomainNumeric implements IConstantVal
 			return false;
 		}
     }
+	
+	@Override
+	public Object getAdapter(Class<?> adapter) {
+		if (adapter.equals(DomainNumericConstant.class)) {
+			return this;
+		}
+		if (adapter.equals(DomainConstant.class)) {
+			return this;
+		}
+		return super.getAdapter(adapter);
+	}
 
 }

@@ -40,7 +40,7 @@ extends OrderedAnalyticOperatorDefinition {
 	@Override
 	public IDomain computeImageDomain(List<IDomain> sourceDomain) {
 		if (sourceDomain.size()<=1) {
-			return AggregateDomain.MANAGER.createMetaDomain(IDomain.NUMERIC);
+			return AggregateDomain.MANAGER.createMetaDomain(IDomain.NUMERIC, OperatorScope.getDefault().lookupByID(IntrinsicOperators.SUM));
 		} else {
 			return AnalyticDomain.MANAGER.createMetaDomain(IDomain.NUMERIC);
 		}

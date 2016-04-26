@@ -100,11 +100,8 @@ public class ExtendedType {
     }
 
     public ExtendedType(IDomain domain, ExtendedType copy) {
-        super();
-        this.dataType = copy.dataType;
+        this(copy);
         this.domain = domain;
-        this.scale = copy.scale;
-        this.size = copy.size;
     }
 
     /**

@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -21,40 +21,36 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.sort;
+package com.squid.core.domain.extensions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorRegistry;
 import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.domain.operators.OperatorScopeException;
 
-/**
- * support SORT operators (ASC & DESC)
- * @author Serge Fantino
- *
- */
-public class SortOperatorRegistry 
-implements OperatorRegistry
-{
-	
-	private final static Logger logger = LoggerFactory.getLogger(OperatorRegistry.class);
-	
-	public SortOperatorRegistry(OperatorScope scope) {
-		try {
-			apply(scope);
-			logger.info("init SortOperatorRegistry");
-		} catch (OperatorScopeException e) {
-			logger.error("unable to init the SortOperatorRegistry", e);
-		}
-	}
+public class JSONOperatorRegistry implements OperatorRegistry {
 
-	@Override
-	public void apply(OperatorScope scope) throws OperatorScopeException {
-		scope.registerExtension(new SortOperatorDefinition("ASC",SortOperatorDefinition.ASC_ID,DomainSort.SortDirection.ASC, OperatorDefinition.MISC_TYPE));
-		scope.registerExtension(new SortOperatorDefinition("DESC",SortOperatorDefinition.DESC_ID,DomainSort.SortDirection.DESC, OperatorDefinition.MISC_TYPE));
-	}
+  private final static Logger logger = LoggerFactory.getLogger(OperatorRegistry.class);
+
+  public JSONOperatorRegistry(OperatorScope scope) {
+    try {
+      apply(scope);
+      logger.info("init JSONOperatorRegistry");
+    } catch (OperatorScopeException e) {
+      logger.error("unable to init the JSONOperatorRegistry", e);
+    }
+  }
+
+  @Override
+  public void apply(OperatorScope scope) throws OperatorScopeException {
+    scope.registerExtension(new JSONOperatorDefinition("JSON_ARRAY_LENGTH", JSONOperatorDefinition.JSON_ARRAY_LENGTH, IDomain.NUMERIC, OperatorDefinition.MISC_TYPE));
+    scope.registerExtension(new JSONOperatorDefinition("JSON_EXTRACT_ARRAY_ELEMENT_TEXT", JSONOperatorDefinition.JSON_EXTRACT_FROM_ARRAY, IDomain.STRING, OperatorDefinition.MISC_TYPE));
+    scope.registerExtension(new JSONOperatorDefinition("JSON_EXTRACT_PATH_TEXT", JSONOperatorDefinition.JSON_EXTRACT_PATH_TEXT, IDomain.STRING, OperatorDefinition.MISC_TYPE));
+
+  }
 
 }

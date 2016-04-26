@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions;
 
+import java.sql.Types;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -30,20 +31,23 @@ import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
-public class UpperLowerOperatorsDefinition extends OperatorDefinition {
+public class OneArgStringOperatorDefinition extends OperatorDefinition {
 
-	public static final String STRING_UPPER = StringFunctionsRegistry.STRING_BASE+"UPPER";
-	public static final String STRING_LOWER = StringFunctionsRegistry.STRING_BASE+"LOWER";
-	
-	public UpperLowerOperatorsDefinition(String name, String ID, IDomain domain) {
-		super(name,ID,PREFIX_POSITION,name,domain);
+	public static final String STRING_UPPER = StringFunctionsRegistry.STRING_BASE + "UPPER";
+	public static final String STRING_LOWER = StringFunctionsRegistry.STRING_BASE + "LOWER";
+	public static final String STRING_REVERSE = StringFunctionsRegistry.STRING_BASE + "REVERSE";
+	public static final String STRING_MD5 = StringFunctionsRegistry.STRING_BASE + "MD5";
+
+	public OneArgStringOperatorDefinition(String name, String ID, IDomain domain) {
+		super(name, ID, PREFIX_POSITION, name, domain);
 		setDomain(domain);
 	}
-	
-	public UpperLowerOperatorsDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,domain, categoryType);
+
+	public OneArgStringOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
+		super(name, ID, PREFIX_POSITION, name, domain, categoryType);
 		setDomain(domain);
 	}
+
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
@@ -51,22 +55,26 @@ public class UpperLowerOperatorsDefinition extends OperatorDefinition {
 
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()!=1) {
-			return new OperatorDiagnostic("Invalid number of parameters",getName()+"(string)");
+		if (imageDomains.size() != 1) {
+			return new OperatorDiagnostic("Invalid number of parameters", getName() + "(string)");
 		}
 		if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-			return new OperatorDiagnostic("Parameter must be a string",getName()+"(string)");
+			return new OperatorDiagnostic("Parameter must be a string", getName() + "(string)");
 		}
 		return OperatorDiagnostic.IS_VALID;
 	}
-	
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
-		if (types.length==1) {
-			return types[0];
+		if (types.length == 1) {
+			if (STRING_MD5.equals(getExtendedID())) {
+				return new ExtendedType(IDomain.STRING, "VARCHAR", Types.VARCHAR, 0, 32);
+			} else {
+				return types[0];
+			}
 		} else {
 			return ExtendedType.UNDEFINED;
 		}
 	}
-	
+
 }

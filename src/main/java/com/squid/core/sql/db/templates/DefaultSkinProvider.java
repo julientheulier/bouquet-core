@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -32,11 +32,13 @@ import com.squid.core.domain.extensions.DateOperatorDefinition;
 import com.squid.core.domain.extensions.DateTruncateOperatorDefinition;
 import com.squid.core.domain.extensions.DateTruncateShortcutsOperatorDefinition;
 import com.squid.core.domain.extensions.ExtractOperatorDefinition;
+import com.squid.core.domain.extensions.OneArgStringOperatorDefinition;
 import com.squid.core.domain.extensions.PadOperatorDefinition;
+import com.squid.core.domain.extensions.RegexpOperatorDefinition;
+import com.squid.core.domain.extensions.SplitPartOperatorDefinition;
 import com.squid.core.domain.extensions.StringLengthOperatorsDefinition;
 import com.squid.core.domain.extensions.TranslateOperatorDefinition;
 import com.squid.core.domain.extensions.TrimOperatorDefinition;
-import com.squid.core.domain.extensions.UpperLowerOperatorsDefinition;
 import com.squid.core.domain.maths.CeilOperatorDefintion;
 import com.squid.core.domain.maths.DegreesOperatorDefintion;
 import com.squid.core.domain.maths.FloorOperatorDefintion;
@@ -75,6 +77,7 @@ import com.squid.core.sql.db.render.PadOperatorRenderer;
 import com.squid.core.sql.db.render.PiOperatorRenderer;
 import com.squid.core.sql.db.render.PowerOperatorRenderer;
 import com.squid.core.sql.db.render.QuotientOperatorRenderer;
+import com.squid.core.sql.db.render.RegexpOperatorRenderer;
 import com.squid.core.sql.db.render.RoundOperatorRenderer;
 import com.squid.core.sql.db.render.RowsOperatorRenderer;
 import com.squid.core.sql.db.render.SignOperatorRenderer;
@@ -82,37 +85,41 @@ import com.squid.core.sql.db.render.SinhCoshTanhOperatorRenderer;
 import com.squid.core.sql.db.render.SortOperatorRenderer;
 import com.squid.core.sql.db.render.StddevOperatorRenderer;
 import com.squid.core.sql.db.render.StringLengthRenderer;
-import com.squid.core.sql.db.render.TranslateOperatorRenderer;
+import com.squid.core.sql.db.render.StringOneArgOperatorRenderer;
+import com.squid.core.sql.db.render.ThreeArgsFunctionRenderer;
 import com.squid.core.sql.db.render.TrimOperatorRenderer;
 import com.squid.core.sql.db.render.TruncateOperatorRenderer;
-import com.squid.core.sql.db.render.UpperLowerOperatorRenderer;
 import com.squid.core.sql.render.ISkinFeatureSupport;
 import com.squid.core.sql.render.ISkinPref;
 import com.squid.core.sql.render.SQLSkin;
 
+import java.util.List;
+
 /**
  * The default skin provider
+ *
  * @author serge fantino
  *
  */
-public class DefaultSkinProvider
-implements ISkinProvider
-{
+public class DefaultSkinProvider implements ISkinProvider {
 
 	private DelegateOperatorRendererRegistry delegateRendererRegistry;
 
 	public DefaultSkinProvider() {
 		delegateRendererRegistry = new DelegateOperatorRendererRegistry();
 		//
-		registerOperatorRender(OperatorScope.getDefault().lookupByID(OperatorScope.COUNT).getExtendedID(), new CountOperatorRenderer());
+		registerOperatorRender(OperatorScope.getDefault().lookupByID(OperatorScope.COUNT).getExtendedID(),
+				new CountOperatorRenderer());
 		//
 		registerOperatorRender(AddMonthsOperatorDefinition.ADD_MONTHS, new AddMonthsOperatorRenderer());
 		//
 		registerOperatorRender(DateOperatorDefinition.DATE_ADD, new DateAddOperatorRenderer());
 		registerOperatorRender(DateOperatorDefinition.DATE_SUB, new DateSubOperatorRenderer());
 		registerOperatorRender(DateOperatorDefinition.DATE_INTERVAL, new DateIntervalOperatorRenderer());
-		registerOperatorRender(DateOperatorDefinition.FROM_UNIXTIME, new DateEpochOperatorRenderer(DateEpochOperatorRenderer.FROM));
-		registerOperatorRender(DateOperatorDefinition.TO_UNIXTIME, new DateEpochOperatorRenderer(DateEpochOperatorRenderer.TO));
+		registerOperatorRender(DateOperatorDefinition.FROM_UNIXTIME,
+				new DateEpochOperatorRenderer(DateEpochOperatorRenderer.FROM));
+		registerOperatorRender(DateOperatorDefinition.TO_UNIXTIME,
+				new DateEpochOperatorRenderer(DateEpochOperatorRenderer.TO));
 		registerOperatorRender(DateTruncateOperatorDefinition.DATE_TRUNCATE, new DateTruncateOperatorRenderer());
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.HOURLY_ID, new DateTruncateOperatorRenderer());
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.DAILY_ID, new DateTruncateOperatorRenderer());
@@ -121,34 +128,51 @@ implements ISkinProvider
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.YEARLY_ID, new DateTruncateOperatorRenderer());
 		//
 		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_DAY, new ExtractOperatorRenderer("DAY"));
-		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_DAY_OF_WEEK, new ExtractOperatorRenderer("DAY_OF_WEEK"));
-		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_DAY_OF_YEAR, new ExtractOperatorRenderer("DAY_OF_YEAR"));
+		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_DAY_OF_WEEK,
+				new ExtractOperatorRenderer("DAY_OF_WEEK"));
+		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_DAY_OF_YEAR,
+				new ExtractOperatorRenderer("DAY_OF_YEAR"));
 		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_MONTH, new ExtractOperatorRenderer("MONTH"));
 		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_YEAR, new ExtractOperatorRenderer("YEAR"));
 		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_HOUR, new ExtractOperatorRenderer("HOUR"));
 		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_MINUTE, new ExtractOperatorRenderer("MINUTE"));
 		registerOperatorRender(ExtractOperatorDefinition.EXTRACT_SECOND, new ExtractOperatorRenderer("SECOND"));
 		//
-//See Ticket #1620
-//		registerOperatorRender(IntervalOperatorDefinition.INTERVAL_DAY, new IntervalOperatorRenderer("DAY"));
-//		registerOperatorRender(IntervalOperatorDefinition.INTERVAL_MONTH, new IntervalOperatorRenderer("MONTH"));
-//		registerOperatorRender(IntervalOperatorDefinition.INTERVAL_YEAR, new IntervalOperatorRenderer("YEAR"));
-//		registerOperatorRender(IntervalOperatorDefinition.INTERVAL_HOUR, new IntervalOperatorRenderer("HOUR"));
-//		registerOperatorRender(IntervalOperatorDefinition.INTERVAL_MINUTE, new IntervalOperatorRenderer("MINUTE"));
-//		registerOperatorRender(IntervalOperatorDefinition.INTERVAL_SECOND, new IntervalOperatorRenderer("SECOND"));
+		// See Ticket #1620
+		// registerOperatorRender(IntervalOperatorDefinition.INTERVAL_DAY, new
+		// IntervalOperatorRenderer("DAY"));
+		// registerOperatorRender(IntervalOperatorDefinition.INTERVAL_MONTH, new
+		// IntervalOperatorRenderer("MONTH"));
+		// registerOperatorRender(IntervalOperatorDefinition.INTERVAL_YEAR, new
+		// IntervalOperatorRenderer("YEAR"));
+		// registerOperatorRender(IntervalOperatorDefinition.INTERVAL_HOUR, new
+		// IntervalOperatorRenderer("HOUR"));
+		// registerOperatorRender(IntervalOperatorDefinition.INTERVAL_MINUTE,
+		// new IntervalOperatorRenderer("MINUTE"));
+		// registerOperatorRender(IntervalOperatorDefinition.INTERVAL_SECOND,
+		// new IntervalOperatorRenderer("SECOND"));
 		//
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.CASE), new CaseOperatorRender());
 		//
 		registerOperatorRender(StringLengthOperatorsDefinition.STRING_LENGTH, new StringLengthRenderer());
-		registerOperatorRender(TranslateOperatorDefinition.STRING_REPLACE, new TranslateOperatorRenderer("REPLACE"));
-		registerOperatorRender(TranslateOperatorDefinition.STRING_TRANSLATE, new TranslateOperatorRenderer("TRANSLATE"));
-		registerOperatorRender(UpperLowerOperatorsDefinition.STRING_UPPER, new UpperLowerOperatorRenderer("UPPER"));
-		registerOperatorRender(UpperLowerOperatorsDefinition.STRING_LOWER, new UpperLowerOperatorRenderer("LOWER"));
+		registerOperatorRender(TranslateOperatorDefinition.STRING_REPLACE, new ThreeArgsFunctionRenderer("REPLACE"));
+		registerOperatorRender(TranslateOperatorDefinition.STRING_TRANSLATE,
+				new ThreeArgsFunctionRenderer("TRANSLATE"));
+		registerOperatorRender(OneArgStringOperatorDefinition.STRING_UPPER, new StringOneArgOperatorRenderer("UPPER"));
+		registerOperatorRender(OneArgStringOperatorDefinition.STRING_LOWER, new StringOneArgOperatorRenderer("LOWER"));
+		registerOperatorRender(OneArgStringOperatorDefinition.STRING_REVERSE,
+				new StringOneArgOperatorRenderer("REVERSE"));
+		registerOperatorRender(OneArgStringOperatorDefinition.STRING_MD5, new StringOneArgOperatorRenderer("MD5"));
+		registerOperatorRender(SplitPartOperatorDefinition.STRING_SPLIT_PART,
+				new ThreeArgsFunctionRenderer("SPLIT_PART"));
 		registerOperatorRender(TrimOperatorDefinition.STRING_TRIM, new TrimOperatorRenderer("BOTH"));
 		registerOperatorRender(TrimOperatorDefinition.STRING_LTRIM, new TrimOperatorRenderer("LEADING"));
 		registerOperatorRender(TrimOperatorDefinition.STRING_RTRIM, new TrimOperatorRenderer("TRAILING"));
 		registerOperatorRender(PadOperatorDefinition.STRING_LPAD, new PadOperatorRenderer("LPAD"));
 		registerOperatorRender(PadOperatorDefinition.STRING_RPAD, new PadOperatorRenderer("RPAD"));
+		//
+		registerOperatorRender(RegexpOperatorDefinition.REGEXP_REPLACE, new RegexpOperatorRenderer("REGEXP_REPLACE"));
+		registerOperatorRender(RegexpOperatorDefinition.REGEXP_SUBSTR, new RegexpOperatorRenderer("REGEXP_SUBSTR"));
 		//
 		registerOperatorRender(SortOperatorDefinition.ASC_ID, new SortOperatorRenderer("ASC"));
 		registerOperatorRender(SortOperatorDefinition.DESC_ID, new SortOperatorRenderer("DESC"));
@@ -175,13 +199,15 @@ implements ISkinProvider
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.AVG), new AverageOperatorRenderer());
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.MIN), new MinMaxOperatorRenderer());
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.MAX), new MinMaxOperatorRenderer());
-		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.STDDEV), new StddevOperatorRenderer());
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.STDDEV),
+				new StddevOperatorRenderer());
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.IN), new InOperatorRenderer());
 		//
-		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.COVAR_POP), new CoVarianceRenderer());
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.COVAR_POP),
+				new CoVarianceRenderer());
 		// default support for LEAST and GREATEST
-		registerOperatorRender(GreatestLeastOperatorDefinition.LEAST,new GreatestLeastOperatorRenderer());
-		registerOperatorRender(GreatestLeastOperatorDefinition.GREATEST,new GreatestLeastOperatorRenderer());
+		registerOperatorRender(GreatestLeastOperatorDefinition.LEAST, new GreatestLeastOperatorRenderer());
+		registerOperatorRender(GreatestLeastOperatorDefinition.GREATEST, new GreatestLeastOperatorRenderer());
 		//
 		// proto: QUOTIENT operator
 		registerOperatorRender(QuotientOperatorDefinition.ID, new QuotientOperatorRenderer());
@@ -189,12 +215,14 @@ implements ISkinProvider
 		registerOperatorRender(WindowingOperatorRegistry.WINDOWING_ROWS_ID, new RowsOperatorRenderer());
 	}
 
+	@Override
 	public DelegateOperatorRendererRegistry getDelegateRendererRegistry() {
 		return delegateRendererRegistry;
 	}
 
 	/**
 	 * register an OperatorRenderer for an operator extendedID
+	 *
 	 * @param extract_day
 	 * @param renderer
 	 */
@@ -206,20 +234,28 @@ implements ISkinProvider
 		delegateRendererRegistry.unregisterOperatorRender(extendedID);
 	}
 
+	@Override
 	public double computeAccuracy(DatabaseProduct product) {
 		/**
-		 * the accuracy of the default provider is the lowest acceptable possible
+		 * the accuracy of the default provider is the lowest acceptable
+		 * possible
 		 */
 		return LOWEST_APPLICABLE;
 	}
 
 	@Override
 	public SQLSkin createSkin(DatabaseProduct product) {
-		return new DefaultJDBCSkin(this,product);
+		return new DefaultJDBCSkin(this, product);
 	}
 
+	@Override
 	public boolean canRender(String extendedID) {
 		return delegateRendererRegistry.canRender(extendedID);
+	}
+
+	@Override
+	public List<String> canRender() {
+		return delegateRendererRegistry.canRender();
 	}
 
 	@Override
