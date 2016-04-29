@@ -75,11 +75,11 @@ public class ExecuteQueryTask implements CancellableCallable<IExecutionItem>{
             try {
                 statement.cancel();
 	            logger.info("cancel SQLQuery#" + queryNum);
-                this.abort = true;// signal that client should abort asap
             } catch (SQLException e) {
 	            logger.error("failed to cancel SQLQuery#" + queryNum);
             }
         }
+        this.abort = true;// signal that client should abort asap
     }
     
     /**
