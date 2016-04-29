@@ -36,10 +36,15 @@ public class CustomFuturTask<V> extends FutureTask<V> {
 
     @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
-        if (mayInterruptIfRunning && !isDone()) {
+        if (cancellable!=null) {
             cancellable.cancel();
         }
-        return super.cancel(mayInterruptIfRunning);
+        if (mayInterruptIfRunning) {
+        	return super.cancel(mayInterruptIfRunning);
+        } else {
+        	// do not call super.cancel() so we can still wait for job completion
+        	return true;
+        }
     }
     
 }
