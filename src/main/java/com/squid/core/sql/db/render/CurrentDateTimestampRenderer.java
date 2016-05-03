@@ -27,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import com.squid.core.domain.extensions.DateOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateCurrentDateOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateCurrentTimestampOperatorDefinition;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.sql.render.OperatorPiece;
 import com.squid.core.sql.render.RenderingException;
@@ -46,9 +48,9 @@ extends BaseOperatorRenderer {
 			return opDef.getSymbol();
 		} else {
 			Calendar currentDate = Calendar.getInstance();
-			if (DateOperatorDefinition.CURRENT_DATE.equals(opDef.getExtendedID())) {
+			if (DateCurrentDateOperatorDefinition.ID.equals(opDef.getExtendedID())) {
 				return "DATE '"+df.format(currentDate.getTime())+"'";
-			} else if (DateOperatorDefinition.CURRENT_TIMESTAMP.equals(opDef.getExtendedID())) {
+			} else if (DateCurrentTimestampOperatorDefinition.ID.equals(opDef.getExtendedID())) {
 				return "TIMESTAMP '"+tf.format(currentDate.getTime())+"'";
 			} else {
 				throw new RenderingException("Invalide operator " +  opDef.getSymbol());

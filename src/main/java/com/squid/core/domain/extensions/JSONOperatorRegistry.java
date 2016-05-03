@@ -23,6 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions;
 
+import com.squid.core.domain.extensions.JSON.JSONArrayLengthOperatorDefinition;
+import com.squid.core.domain.extensions.JSON.JSONExtractArrayElementTextOperatorDefinition;
+import com.squid.core.domain.extensions.JSON.JSONExtractPathTextOperatorDefinition;
+import com.squid.core.domain.extensions.JSON.JSONOperatorDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,9 +51,9 @@ public class JSONOperatorRegistry implements OperatorRegistry {
 
   @Override
   public void apply(OperatorScope scope) throws OperatorScopeException {
-    scope.registerExtension(new JSONOperatorDefinition("JSON_ARRAY_LENGTH", JSONOperatorDefinition.JSON_ARRAY_LENGTH, IDomain.NUMERIC, OperatorDefinition.MISC_TYPE));
-    scope.registerExtension(new JSONOperatorDefinition("JSON_EXTRACT_ARRAY_ELEMENT_TEXT", JSONOperatorDefinition.JSON_EXTRACT_FROM_ARRAY, IDomain.STRING, OperatorDefinition.MISC_TYPE));
-    scope.registerExtension(new JSONOperatorDefinition("JSON_EXTRACT_PATH_TEXT", JSONOperatorDefinition.JSON_EXTRACT_PATH_TEXT, IDomain.STRING, OperatorDefinition.MISC_TYPE));
+    scope.registerExtension(new JSONArrayLengthOperatorDefinition("JSON_ARRAY_LENGTH", IDomain.NUMERIC, OperatorDefinition.MISC_TYPE));
+    scope.registerExtension(new JSONExtractArrayElementTextOperatorDefinition("JSON_EXTRACT_ARRAY_ELEMENT_TEXT", IDomain.STRING, OperatorDefinition.MISC_TYPE));
+    scope.registerExtension(new JSONExtractPathTextOperatorDefinition("JSON_EXTRACT_PATH_TEXT", IDomain.STRING, OperatorDefinition.MISC_TYPE));
 
   }
 

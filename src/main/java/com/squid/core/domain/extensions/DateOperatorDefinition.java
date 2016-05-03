@@ -24,6 +24,7 @@
 package com.squid.core.domain.extensions;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -74,7 +75,15 @@ public class DateOperatorDefinition extends OperatorDefinition {
 		return ALGEBRAIC_TYPE;
 	}
 
-	@Override
+    public List getSignature() {
+        List signature = new ArrayList();
+        signature.add(IDomain.DATE);
+        signature.add(IDomain.NUMERIC);
+        signature.add(IDomain.STRING);
+        return signature;
+    }
+
+    /*@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()<=1 && (CURRENT_DATE.equals(this.getExtendedID()) || CURRENT_TIMESTAMP.equals(this.getExtendedID()))) {
 			return OperatorDiagnostic.IS_VALID;
@@ -148,139 +157,5 @@ public class DateOperatorDefinition extends OperatorDefinition {
 		} else {
 			return new OperatorDiagnostic("Invalid number of parameters",getName());
 		}
-	}
-
-	@Override
-	public ExtendedType computeExtendedType(ExtendedType[] types) {
-		return fixExtendedTypeDomain(computeRawExtendedType(types), types);
-	}
-	
-	public ExtendedType computeRawExtendedType(ExtendedType[] types) {
-		if (CURRENT_DATE.equals(this.getExtendedID())) {
-			return ExtendedType.DATE;
-		} else if (FROM_UNIXTIME.equals(this.getExtendedID())) {
-			return ExtendedType.TIMESTAMP;
-		} else if (TO_UNIXTIME.equals(this.getExtendedID())) {
-			return ExtendedType.INTEGER;
-		} else if (CURRENT_TIMESTAMP.equals(this.getExtendedID())) {
-			return ExtendedType.TIMESTAMP;
-		} else if (DATE_MONTHS_BETWEEN.equals(this.getExtendedID())) {
-			return new ExtendedType(IDomain.NUMERIC,Types.FLOAT,0,0);
-		} else if (DATE_INTERVAL.equals(this.getExtendedID())) {
-			return new ExtendedType(IDomain.NUMERIC,Types.INTEGER,0,0);
-		} else {
-			if (types.length==2) {
-				if (types[0].getDomain().isInstanceOf(IDomain.TIMESTAMP) && types[1].getDomain().isInstanceOf(IDomain.TIMESTAMP)) {
-					return ExtendedType.INTERVAL;
-				} else if (types[0].getDomain().isInstanceOf(IDomain.DATE) && types[0].getDomain().isInstanceOf(IDomain.TIMESTAMP)==false && types[1].getDomain().isInstanceOf(IDomain.DATE) && types[1].getDomain().isInstanceOf(IDomain.TIMESTAMP)==false) {
-					return new ExtendedType(IDomain.NUMERIC,Types.INTEGER,0,0);
-				} else if (types[0].getDomain().isInstanceOf(IDomain.DATE) && types[0].getDomain().isInstanceOf(IDomain.TIMESTAMP)==false) {
-					if (types[1].getDomain().isInstanceOf(IDomain.INTERVAL)) {
-						if (types[1].getScale()==1 || types[1].getScale()==2 || types[1].getScale()==3) {
-							return ExtendedType.DATE;
-						} else {
-							return ExtendedType.TIMESTAMP;
-						}
-					} else if (types[1].getDomain().isInstanceOf(IDomain.TIMESTAMP)) {
-						return ExtendedType.INTERVAL;
-					} else if (types[1].getDomain().isInstanceOf(IDomain.NUMERIC)) {
-						return ExtendedType.DATE;
-					} else {
-						return new ExtendedType(IDomain.NUMERIC,Types.INTEGER,0,0);
-					}
-				} else if (types[0].getDomain().isInstanceOf(IDomain.TIMESTAMP)) {
-					if (types[1].getDomain().isInstanceOf(IDomain.DATE) && types[1].getDomain().isInstanceOf(IDomain.TIMESTAMP)==false) {
-						return ExtendedType.INTERVAL;
-					}
-					return ExtendedType.TIMESTAMP;
-				} else if (types[0].getDomain().isInstanceOf(IDomain.INTERVAL) ){
-					return ExtendedType.INTERVAL;
-				}
-			} else if (types.length==3) {
-				if (DATE_SUB.equals(this.getExtendedID()) || DATE_ADD.equals(this.getExtendedID())) {
-					if (types[0].getDomain().isInstanceOf(IDomain.DATE) && types[0].getDomain().isInstanceOf(IDomain.TIMESTAMP)==false) {
-						if (types[2].getDomain() instanceof DomainStringConstant) {
-							String unit = ((DomainStringConstant)types[2].getDomain()).getValue();
-							if ("SECOND".equals(unit) || "MINUTE".equals(unit) || "HOUR".equals(unit)) {
-								return ExtendedType.TIMESTAMP;
-							} else {
-								return ExtendedType.DATE;
-							}
-						}
-					}
-					return ExtendedType.TIMESTAMP;
-				}
-			}
-		}
-		return new ExtendedType(IDomain.NUMERIC,Types.INTEGER,0,0);
-	}
-	
-	 @Override
-	public IDomain computeImageDomain(List<IDomain> imageDomains) {
-		 IDomain rawDomain = computeRawImageDomain(imageDomains);
-		 for (IDomain domain : imageDomains) {
-			 if (domain.isInstanceOf(DomainMetaDomain.META)) {
-				 return ((IDomainMetaDomain)domain).createMetaDomain(rawDomain);
-			 }
-		 }
-		 //
-		 return rawDomain;
-	}
-	 
-	public IDomain computeRawImageDomain(List<IDomain> imageDomains) {
-		if (CURRENT_DATE.equals(this.getExtendedID())) {
-			return IDomain.DATE;
-		} else if (FROM_UNIXTIME.equals(this.getExtendedID())) {
-			return IDomain.TIMESTAMP;
-		} else if (TO_UNIXTIME.equals(this.getExtendedID())) {
-			return IDomain.NUMERIC;
-		} else if (CURRENT_TIMESTAMP.equals(this.getExtendedID())) {
-			return IDomain.TIMESTAMP;
-		} else if (DATE_MONTHS_BETWEEN.equals(this.getExtendedID())) {
-			return IDomain.NUMERIC;
-		} else if (DATE_INTERVAL.equals(this.getExtendedID())) {
-			return IDomain.NUMERIC;
-		} else {
-			if (imageDomains.size()==2) {
-				if (imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP) && imageDomains.get(1).isInstanceOf(IDomain.TIMESTAMP)) {
-					return IDomain.INTERVAL;
-				} else if (imageDomains.get(0).isInstanceOf(IDomain.DATE) && imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP)==false && imageDomains.get(1).isInstanceOf(IDomain.DATE) && imageDomains.get(1).isInstanceOf(IDomain.TIMESTAMP)==false) {
-					return IDomain.NUMERIC;
-				} else if (imageDomains.get(0).isInstanceOf(IDomain.DATE) && imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP)==false) {
-					if (imageDomains.get(1).isInstanceOf(IDomain.INTERVAL)) {
-						return IDomain.DATE;
-					} else if (imageDomains.get(1).isInstanceOf(IDomain.TIMESTAMP)) {
-						return IDomain.INTERVAL;
-					} else if (imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
-						return IDomain.DATE;
-					} else {
-						return IDomain.NUMERIC;
-					}
-				} else if (imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP)) {
-					if (imageDomains.get(1).isInstanceOf(IDomain.DATE) && imageDomains.get(1).isInstanceOf(IDomain.TIMESTAMP)==false) {
-						return IDomain.INTERVAL;
-					}
-					return IDomain.TIMESTAMP;
-				} else if (imageDomains.get(0).isInstanceOf(IDomain.INTERVAL) ){
-					return IDomain.INTERVAL;
-				}
-			} else if (imageDomains.size()==3) {
-				if (DATE_SUB.equals(this.getExtendedID()) || DATE_ADD.equals(this.getExtendedID())) {
-					if (imageDomains.get(0).isInstanceOf(IDomain.DATE) && imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP)==false) {
-						if (imageDomains.get(2) instanceof DomainStringConstant) {
-							String unit = ((DomainStringConstant)imageDomains.get(2)).getValue();
-							if ("SECOND".equals(unit) || "MINUTE".equals(unit) || "HOUR".equals(unit)) {
-								return IDomain.TIMESTAMP;
-							} else {
-								return IDomain.DATE;
-							}
-						}
-					}
-					return IDomain.TIMESTAMP;
-				}
-			}
-		}
-		return IDomain.NUMERIC;
-	 }
-	
+	}*/
 }

@@ -23,7 +23,7 @@
  *******************************************************************************/
 package com.squid.core.sql.db.render;
 
-import com.squid.core.domain.extensions.CastOperatorDefinition;
+import com.squid.core.domain.extensions.cast.*;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.sql.render.OperatorPiece;
 import com.squid.core.sql.render.RenderingException;
@@ -46,7 +46,7 @@ extends BaseOperatorRenderer {
 		} else if (args.length==2) {
 			return prettyPrintTwoArgs(skin, piece, opDef, args);
 		} else {
-			if (CastOperatorDefinition.TO_NUMBER.equals(opDef.getExtendedID())) {
+			if (CastToNumberOperatorDefinition.ID.equals(opDef.getExtendedID())) {
 				return prettyPrintSingleArg(skin, opDef, piece, args);
 			} else {
 				throw new RenderingException("Invalid operator " +  opDef.getSymbol());
@@ -61,20 +61,20 @@ extends BaseOperatorRenderer {
 	protected String prettyPrintSingleArg(SQLSkin skin, OperatorDefinition opDef, OperatorPiece piece, String[] args) throws RenderingException {
 		String txt = "CAST(";
 		txt += args[0] + " AS ";
-		if (CastOperatorDefinition.TO_TIMESTAMP.equals(opDef.getExtendedID())) {
+		if (CastToTimestampOperatorDefinition.ID.equals(opDef.getExtendedID())) {
 			txt +="TIMESTAMP)";
-		} else if (CastOperatorDefinition.TO_DATE.equals(opDef.getExtendedID())){
+		} else if (CastToDateOperatorDefinition.ID.equals(opDef.getExtendedID())){
 			txt +="DATE)";
-		} else if (CastOperatorDefinition.TO_CHAR.equals(opDef.getExtendedID())){
+		} else if (CastToCharOperatorDefinition.ID.equals(opDef.getExtendedID())){
 			txt +="VARCHAR(";
 			txt+=((CastOperatorDefinition)opDef).getPieceLength(getExtendedPieces(piece))+"))";
-		} else if (CastOperatorDefinition.TO_NUMBER.equals(opDef.getExtendedID())){
+		} else if (CastToNumberOperatorDefinition.ID.equals(opDef.getExtendedID())){
 			if (args.length==1) {
 				txt +="NUMERIC)";
 			} else if (args.length==3) {
 				txt +="DECIMAL("+args[1]+","+args[2]+"))";
 			}
-		} else if (CastOperatorDefinition.TO_INTEGER.equals(opDef.getExtendedID())){
+		} else if (CastToIntegerOperatorDefinition.ID.equals(opDef.getExtendedID())){
 			txt +="INTEGER)";
 		}
 		return txt;

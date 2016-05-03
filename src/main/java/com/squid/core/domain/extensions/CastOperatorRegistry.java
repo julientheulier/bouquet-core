@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions;
 
+import com.squid.core.domain.extensions.cast.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,15 +49,15 @@ public class CastOperatorRegistry implements OperatorRegistry {
 	@Override
 	public void apply(OperatorScope scope) throws OperatorScopeException {
 		// TODO Auto-generated method stub
-		CastOperatorDefinition to_char = new CastOperatorDefinition("TO_CHAR",CastOperatorDefinition.TO_CHAR,IDomain.STRING, OperatorDefinition.STRING_TYPE);
+		CastToCharOperatorDefinition to_char = new CastToCharOperatorDefinition("TO_CHAR",IDomain.STRING, OperatorDefinition.STRING_TYPE);
 		scope.registerExtension(to_char);
-		CastOperatorDefinition to_date = new CastOperatorDefinition("TO_DATE",CastOperatorDefinition.TO_DATE,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+		CastToDateOperatorDefinition to_date = new CastToDateOperatorDefinition("TO_DATE",IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
 		scope.registerExtension(to_date);
-		CastOperatorDefinition to_number = new CastOperatorDefinition("TO_NUMBER",CastOperatorDefinition.TO_NUMBER,IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE);
+		CastToNumberOperatorDefinition to_number = new CastToNumberOperatorDefinition("TO_NUMBER",IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE);
 		scope.registerExtension(to_number);
-		CastOperatorDefinition to_integer = new CastOperatorDefinition("TO_INTEGER",CastOperatorDefinition.TO_INTEGER,IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE);
+		CastToIntegerOperatorDefinition to_integer = new CastToIntegerOperatorDefinition("TO_INTEGER",IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE);
 		scope.registerExtension(to_integer);
-		CastOperatorDefinition to_timestamp = new CastOperatorDefinition("TO_TIMESTAMP",CastOperatorDefinition.TO_TIMESTAMP,IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
+		CastToTimestampOperatorDefinition to_timestamp = new CastToTimestampOperatorDefinition("TO_TIMESTAMP",IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
 		scope.registerExtension(to_timestamp);
 
 	}
