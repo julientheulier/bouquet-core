@@ -102,5 +102,7 @@ public class DatabaseManager {
 	}
 
 	
-	
+	public JDBCConfig getConfig(){
+		return this.config;
+	}
 }
