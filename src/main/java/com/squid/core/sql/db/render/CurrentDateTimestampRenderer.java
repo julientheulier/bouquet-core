@@ -26,7 +26,6 @@ package com.squid.core.sql.db.render;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import com.squid.core.domain.extensions.DateOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateCurrentDateOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateCurrentTimestampOperatorDefinition;
 import com.squid.core.domain.operators.OperatorDefinition;

@@ -28,7 +28,7 @@ import com.squid.core.domain.aggregate.QuotientOperatorDefinition;
 import com.squid.core.domain.analytics.WindowingOperatorRegistry;
 import com.squid.core.domain.extensions.AddMonthsOperatorDefinition;
 import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
-import com.squid.core.domain.extensions.DateOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
 import com.squid.core.domain.extensions.DateTruncateOperatorDefinition;
 import com.squid.core.domain.extensions.DateTruncateShortcutsOperatorDefinition;
 import com.squid.core.domain.extensions.date.extract.ExtractOperatorDefinition;

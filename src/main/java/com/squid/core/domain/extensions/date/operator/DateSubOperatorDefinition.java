@@ -24,7 +24,6 @@
 package com.squid.core.domain.extensions.date.operator;
 
 import com.squid.core.domain.*;
-import com.squid.core.domain.extensions.DateOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 

@@ -28,7 +28,7 @@ import java.sql.Types;
 import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.extensions.DateOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateAddOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateSubOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;

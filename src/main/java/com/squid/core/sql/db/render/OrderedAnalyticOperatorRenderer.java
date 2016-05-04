@@ -30,7 +30,7 @@ import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.analytics.WindowingDomain;
 import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
-import com.squid.core.domain.extensions.DateOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
 import com.squid.core.domain.extensions.cast.CastToTimestampOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateIntervalOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;

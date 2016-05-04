@@ -21,7 +21,7 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.extensions;
+package com.squid.core.domain.extensions.date.operator;
 
 import java.sql.Types;
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class DateOperatorDefinition extends OperatorDefinition {
         return signature;
     }
 
-    /*@Override
+    @Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()<=1 && (CURRENT_DATE.equals(this.getExtendedID()) || CURRENT_TIMESTAMP.equals(this.getExtendedID()))) {
 			return OperatorDiagnostic.IS_VALID;
@@ -157,5 +157,5 @@ public class DateOperatorDefinition extends OperatorDefinition {
 		} else {
 			return new OperatorDiagnostic("Invalid number of parameters",getName());
 		}
-	}*/
+	}
 }
