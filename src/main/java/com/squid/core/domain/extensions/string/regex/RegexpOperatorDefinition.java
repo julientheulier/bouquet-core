@@ -21,7 +21,7 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.extensions;
+package com.squid.core.domain.extensions.string.regex;
 
 import java.sql.Types;
 import java.util.List;
@@ -31,21 +31,20 @@ import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
-public class OneArgStringOperatorDefinition extends OperatorDefinition {
+public class RegexpOperatorDefinition extends OperatorDefinition {
 
-	public static final String STRING_UPPER = StringFunctionsRegistry.STRING_BASE + "UPPER";
-	public static final String STRING_LOWER = StringFunctionsRegistry.STRING_BASE + "LOWER";
-	public static final String STRING_REVERSE = StringFunctionsRegistry.STRING_BASE + "REVERSE";
-	public static final String STRING_MD5 = StringFunctionsRegistry.STRING_BASE + "MD5";
+	public static final String JSON_BASE = "com.squid.domain.operator.string.";
+	public static final String REGEXP_SUBSTR = JSON_BASE + "REGEXP_SUBSTR";
+	public static final String REGEXP_REPLACE = JSON_BASE + "REGEXP_REPLACE";
+	public static final String REGEXP_INSTR = JSON_BASE + "REGEXP_INSTR";
+	public static final String REGEXP_COUNT = JSON_BASE + "REGEXP_COUNT";
 
-	public OneArgStringOperatorDefinition(String name, String ID, IDomain domain) {
+	public RegexpOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name, ID, PREFIX_POSITION, name, domain);
-		setDomain(domain);
 	}
 
-	public OneArgStringOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
+	public RegexpOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
 		super(name, ID, PREFIX_POSITION, name, domain, categoryType);
-		setDomain(domain);
 	}
 
 	@Override
@@ -55,26 +54,35 @@ public class OneArgStringOperatorDefinition extends OperatorDefinition {
 
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 1) {
-			return new OperatorDiagnostic("Invalid number of parameters", getName() + "(string)");
+		String hint = "Invalid number of parameters for " + getName() + "(string, regexp, ...)";
+		if (imageDomains.size() < 2) {
+			return new OperatorDiagnostic("Invalid number of parameters", hint);
 		}
 		if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-			return new OperatorDiagnostic("Parameter must be a string", getName() + "(string)");
+			return new OperatorDiagnostic("1st parameter must be a string", 0, hint);
+		}
+		if (!imageDomains.get(1).isInstanceOf(IDomain.STRING)) {
+			return new OperatorDiagnostic("2nd parameter must be a string", 1, hint);
+		}
+		if (this.getExtendedID().equals(REGEXP_REPLACE)) {
+			if (imageDomains.size() != 3 || !imageDomains.get(2).isInstanceOf(IDomain.STRING)) {
+				return new OperatorDiagnostic("3rd parameter must be a string", 2, hint);
+			}
+		} else if (imageDomains.size() > 2) {
+			return new OperatorDiagnostic("Invalid number of parameters", 2,
+					"Invalid number of parameters for " + getName() + "(string, regexp)");
 		}
 		return OperatorDiagnostic.IS_VALID;
 	}
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
-		if (types.length == 1) {
-			if (STRING_MD5.equals(getExtendedID())) {
-				return new ExtendedType(IDomain.STRING, "VARCHAR", Types.VARCHAR, 0, 32);
-			} else {
-				return types[0];
-			}
-		} else {
-			return ExtendedType.UNDEFINED;
-		}
+		return new ExtendedType(IDomain.STRING, Types.VARCHAR, 0, (types[0].getSize()));
+	}
+
+	@Override
+	public IDomain computeImageDomain(List<IDomain> imageDomains) {
+		return IDomain.STRING;
 	}
 
 }

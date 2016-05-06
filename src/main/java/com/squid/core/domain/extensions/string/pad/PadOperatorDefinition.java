@@ -21,36 +21,35 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.extensions;
+package com.squid.core.domain.extensions.string.pad;
 
+import java.sql.Types;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.extensions.registry.StringFunctionsRegistry;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
-public class TrimOperatorDefinition extends OperatorDefinition {
+public class PadOperatorDefinition extends OperatorDefinition {
 
-  // TODO USE STRING registry for STRING_BASE
-  public static final String STRING_BASE = "com.squid.domain.operator.string.";
-
-  public static final String STRING_TRIM = STRING_BASE + "TRIM";
-  public static final String STRING_LTRIM = STRING_BASE + "LTRIM";
-  public static final String STRING_RTRIM = STRING_BASE + "RTRIM";
+  public static final String STRING_RPAD = StringFunctionsRegistry.STRING_BASE + "RPAD";
+  public static final String STRING_LPAD = StringFunctionsRegistry.STRING_BASE + "LPAD";
 
   private String hint = "";
 
-  public TrimOperatorDefinition(String name, String ID, IDomain domain) {
+  public PadOperatorDefinition(String name, String ID, IDomain domain) {
     super(name, ID, PREFIX_POSITION, name, IDomain.STRING);
     setDomain(domain);
-    hint = name + "(string[,trim_character])";
+    hint = name + "(string,n,string_pad)";
   }
 
-  public TrimOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-    super(name, ID, PREFIX_POSITION, name, domain);
+  public PadOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
+    super(name, ID, PREFIX_POSITION, name, domain, categoryType);
     setDomain(domain);
-    hint = name + "(string[,trim_character])";
+    hint = name + "(string,n[,string_pad])";
   }
 
   @Override
@@ -60,14 +59,20 @@ public class TrimOperatorDefinition extends OperatorDefinition {
 
   @Override
   public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-    if (!(imageDomains.size() == 1 || imageDomains.size() == 2)) {
+    if (imageDomains.size() < 2 || imageDomains.size() > 3) {
       return new OperatorDiagnostic("Invalid number of parameters", hint);
     }
     if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
       return new OperatorDiagnostic("Parameter must be a string", 0, hint);
     }
-    if (imageDomains.size() == 2 && !imageDomains.get(1).isInstanceOf(IDomain.STRING)) {
-      return new OperatorDiagnostic("Parameter must be a string", 1, hint);
+    if (!imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
+      return new OperatorDiagnostic("Parameter must be a static integer", 1, hint);
+    }
+    // Null pointer exception.
+    if(imageDomains.size() == 3) {
+      if (!imageDomains.get(2).isInstanceOf(IDomain.STRING)) {
+        return new OperatorDiagnostic("Parameter must be a string", 2, hint);
+      }
     }
     return OperatorDiagnostic.IS_VALID;
   }
@@ -75,7 +80,13 @@ public class TrimOperatorDefinition extends OperatorDefinition {
   @Override
   public ExtendedType computeExtendedType(ExtendedType[] types) {
     if (types.length > 0) {
-      return types[0];
+      int size = 250;
+      try {
+        size = new Double(((DomainNumericConstant) types[1].getDomain()).getValue()).intValue();
+      } catch (Exception e) {
+      }
+      ExtendedType type = new ExtendedType(IDomain.STRING, Types.VARCHAR, 0, size);
+      return type;
     } else {
       return ExtendedType.UNDEFINED;
     }

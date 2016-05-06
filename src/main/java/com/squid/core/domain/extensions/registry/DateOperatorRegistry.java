@@ -21,8 +21,11 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.extensions;
+package com.squid.core.domain.extensions.registry;
 
+import com.squid.core.domain.extensions.AddMonthsOperatorDefinition;
+import com.squid.core.domain.extensions.DateTruncateOperatorDefinition;
+import com.squid.core.domain.extensions.DateTruncateShortcutsOperatorDefinition;
 import com.squid.core.domain.extensions.date.extract.*;
 import com.squid.core.domain.extensions.date.operator.*;
 import org.slf4j.Logger;

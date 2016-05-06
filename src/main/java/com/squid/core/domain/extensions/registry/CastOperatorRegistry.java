@@ -21,7 +21,7 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.extensions;
+package com.squid.core.domain.extensions.registry;
 
 import com.squid.core.domain.extensions.cast.*;
 import org.slf4j.Logger;
