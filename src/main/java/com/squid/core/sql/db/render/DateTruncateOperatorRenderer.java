@@ -24,8 +24,8 @@
 package com.squid.core.sql.db.render;
 
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.extensions.DateTruncateOperatorDefinition;
-import com.squid.core.domain.extensions.DateTruncateShortcutsOperatorDefinition;
+import com.squid.core.domain.extensions.date.DateTruncateOperatorDefinition;
+import com.squid.core.domain.extensions.date.DateTruncateShortcutsOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.sql.render.OperatorPiece;

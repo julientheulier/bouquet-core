@@ -23,9 +23,9 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.registry;
 
-import com.squid.core.domain.extensions.AddMonthsOperatorDefinition;
-import com.squid.core.domain.extensions.DateTruncateOperatorDefinition;
-import com.squid.core.domain.extensions.DateTruncateShortcutsOperatorDefinition;
+import com.squid.core.domain.extensions.date.AddMonthsOperatorDefinition;
+import com.squid.core.domain.extensions.date.DateTruncateOperatorDefinition;
+import com.squid.core.domain.extensions.date.DateTruncateShortcutsOperatorDefinition;
 import com.squid.core.domain.extensions.date.extract.*;
 import com.squid.core.domain.extensions.date.operator.*;
 import org.slf4j.Logger;
@@ -86,6 +86,7 @@ implements OperatorRegistry
 		scope.registerExtension(new ExtractSecondOperatorDefinition("SECOND", OperatorDefinition.DATE_TIME_TYPE));
 		//
 		scope.registerExtension(new DateTruncateOperatorDefinition("DATE_TRUNCATE",DateTruncateOperatorDefinition.DATE_TRUNCATE,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
+		// For this ones, I dont really need to separate.
 		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("HOURLY",DateTruncateShortcutsOperatorDefinition.HOURLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
 		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("DAILY",DateTruncateShortcutsOperatorDefinition.DAILY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
 		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("WEEKLY",DateTruncateShortcutsOperatorDefinition.WEEKLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));

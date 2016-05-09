@@ -71,7 +71,7 @@ public abstract class OperatorDefinition {
 
   private IDomain m_domain = IDomain.UNKNOWN;
 
-  //private Types[] m_parameters;
+  private List m_parameters;
 
   // category type
   private int categoryType = MISC_TYPE;// MISC is default category
@@ -212,9 +212,13 @@ public abstract class OperatorDefinition {
     return m_id == IntrinsicOperators.EXTENDED_ID;
   }
 
-  /*public Types[] getParameters(){
+  public List getParametersTypes(){
     return m_parameters;
-  }*/
+  }
+
+  public void setParametersTypes(List parameters){
+     m_parameters=parameters;
+  }
 
   public String getName() {
     return m_name;

@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.extensions.AddMonthsOperatorDefinition;
+import com.squid.core.domain.extensions.date.AddMonthsOperatorDefinition;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.domain.operators.Operators;

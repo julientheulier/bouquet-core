@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.maths;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -54,6 +55,18 @@ public class RandOperatorDefinition extends OperatorDefinition {
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		poly.add(type);
+		type.clear();
+		type.add(IDomain.NUMERIC);
+		type.add(IDomain.NUMERIC);
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

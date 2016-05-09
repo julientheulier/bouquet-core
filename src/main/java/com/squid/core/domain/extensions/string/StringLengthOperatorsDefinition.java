@@ -21,36 +21,30 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.extensions;
+package com.squid.core.domain.extensions.string;
 
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.extensions.registry.StringFunctionsRegistry;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
-public class AddMonthsOperatorDefinition
-extends OperatorDefinition {
+public class StringLengthOperatorsDefinition extends OperatorDefinition {
 
-	public static final String ADD_MONTHS_BASE = "com.squid.domain.operator.date.";
-	public static final String ADD_MONTHS = ADD_MONTHS_BASE+"ADD_MONTHS";
-
-	private static final String HINT = "ADD_MONTHS(date or timestamp,integer)";
-
-	public AddMonthsOperatorDefinition(String name, int id, IDomain domain, int categoryType) {
-		super(name, id, domain, categoryType);
-		setParamCount(2);
-	}
-
-	public AddMonthsOperatorDefinition(String name, String ID) {
+	public static final String STRING_LENGTH = StringFunctionsRegistry.STRING_BASE+"LENGTH";
+	
+	public StringLengthOperatorsDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC);
+		setDomain(domain);
 	}
-
-	public AddMonthsOperatorDefinition(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC,categoryType);
+	
+	public StringLengthOperatorsDefinition(String name, String ID, IDomain domain, int categoryType) {
+		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
+		setDomain(domain);
 	}
-
+	
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
@@ -58,36 +52,14 @@ extends OperatorDefinition {
 
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()!=2) {
-			return new OperatorDiagnostic("Invalid number of parameters",HINT);
-		}
-		if (!imageDomains.get(0).isInstanceOf(IDomain.DATE) && !imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP)) {
-		    return OperatorDiagnostic.invalidType(1, imageDomains.get(0), "Date or Timestamp");
-		};
-		if (!imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
-			return OperatorDiagnostic.invalidType(2, imageDomains.get(1), "Integer");
-		};
-		//
+		if (imageDomains.size()!=1) return new OperatorDiagnostic("Invalid number of parameters",getName()+"(string)");
+		if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) return new OperatorDiagnostic("Parameter must be a string",getName()+"(string)");
 		return OperatorDiagnostic.IS_VALID;
 	}
-
+	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
-		if (types.length!=2) {
-			return ExtendedType.UNDEFINED;
-		} else {
-			return types[0];
-		}
+		return ExtendedType.INTEGER;
 	}
-
-	@Override
-	public IDomain computeImageDomain(List<IDomain> imageDomains) {
-		if (imageDomains.size()>0) {
-			//setDomain(types[0].getDomain());
-			return imageDomains.get(0);
-		} else {
-			return IDomain.NUMERIC;
-		}
-	}
-
+	
 }

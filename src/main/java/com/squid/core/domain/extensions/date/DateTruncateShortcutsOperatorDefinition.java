@@ -21,11 +21,10 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.extensions;
+package com.squid.core.domain.extensions.date;
 
 import java.util.List;
 
-import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
@@ -33,39 +32,41 @@ import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 /**
- * DATE_TRUNCATE(date or timestamp, string). String could be "week", "month" or
- * "year". This function returns the first day of the week, month or year as a
- * date.
+ * This OperatorDefinition supports the following shortcuts: 
+ * DAILY(), WEEKLY(), MONTHLY(), YEARLY(), HOURLY(). 
  * 
- * @author luatnn
- * @rev 2011-06-29 by jth: More enhanced validation of parameters (date or timestamp for first param & static value for second parameter)
+ * For example YEARLY(date) is equivalent to DATE_TRUNCATE(date,"year")
+ * 
+ * Note that the rendering is supported by DateTruncateRenderer directly so we can just extend the base class and don't have to edit every database specific version
+ *
+ * @author sfantino
  */
-public class DateTruncateOperatorDefinition extends OperatorDefinition {
+public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition {
 
-    public static final String DATE_TRUNCATE_BASE = "com.squid.domain.operator.date.";
+    // shortcuts
+	public static final String SHORTCUT_BASE = DateTruncateOperatorDefinition.DATE_TRUNCATE_BASE+"shortcut.";
+    public static final String HOURLY_ID = SHORTCUT_BASE+DateTruncateOperatorDefinition.HOUR;
+    public static final String DAILY_ID = SHORTCUT_BASE+DateTruncateOperatorDefinition.DAY;
+    public static final String WEEKLY_ID = SHORTCUT_BASE+DateTruncateOperatorDefinition.WEEK;
+    public static final String MONTHLY_ID = SHORTCUT_BASE+DateTruncateOperatorDefinition.MONTH;
+    public static final String YEARLY_ID = SHORTCUT_BASE+DateTruncateOperatorDefinition.YEAR;
 
-    public static final String DATE_TRUNCATE = DATE_TRUNCATE_BASE + "DATE_TRUNCATE";
-
-    public static final String DAY = "day";
-    public static final String WEEK = "week";
-    public static final String MONTH = "month";
-    public static final String YEAR = "year";
-    public static final String HOUR = "hour";
-    public static final String MINUTE = "minute";
-    public static final String SECOND = "second";
-
+    public static final String HOURLY = "HOURLY";
+    public static final String DAILY = "DAILY";
+    public static final String WEEKLY = "WEEKLY";
+    public static final String MONTHLY = "MONTHLY";
+    public static final String YEARLY = "YEARLY";
+    
     private String hint = "";
 
-    public DateTruncateOperatorDefinition(String name, String ID, IDomain domain) {
-        super(name, ID, PREFIX_POSITION, name, IDomain.STRING);
-        setDomain(domain);
-        hint = name + "( date or timestamp,  format = \"day\" or \"week\" or \"month\" or \"year\"  )";
+    public DateTruncateShortcutsOperatorDefinition(String name, String ID, IDomain domain) {
+        super(name, ID, PREFIX_POSITION, name, domain);
+        hint = name + "( date or timestamp)";
     }
 
-    public DateTruncateOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
+    public DateTruncateShortcutsOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
         super(name, ID, PREFIX_POSITION, name, domain, categoryType);
-        setDomain(domain);
-        hint = name + "( date or timestamp,  format = \"day\" or \"week\" or \"month\" or \"year\"  )";
+        hint = name + "( date or timestamp)";
     }
 
     @Override
@@ -75,22 +76,13 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size() != 2) {
-            return new OperatorDiagnostic("Invalid number of parameters", 0, hint);
+        if (imageDomains.size() != 1) {
+            return new OperatorDiagnostic("Invalid number of parameters", hint);
         } else if (!(imageDomains.get(0).isInstanceOf(IDomain.DATE) || imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP))) {
-            return new OperatorDiagnostic("Invalid type for parameter #1, must be a date or a timestamp but it is a "+imageDomains.get(0).getName(), 1, hint);
-        } else if (!(imageDomains.get(1) instanceof DomainStringConstant)) {
-            return new OperatorDiagnostic("Invalid type for parameter #2, must be a format constant", 2, hint);
-        } else {
-        	// check the constant value
-        	String unit = ((DomainStringConstant)imageDomains.get(1)).getValue();
-        	if (!DAY.equals(unit) && !WEEK.equals(unit) && !MONTH.equals(unit) && !YEAR.equals(unit)){
-        		return new OperatorDiagnostic("Invalid format constant for parameter #2", 2, hint);
-        	}
+            return new OperatorDiagnostic("Invalid type for parameter #1, must be a date or a timestamp but it is a "+imageDomains.get(0).getName(),hint);
         }
         return OperatorDiagnostic.IS_VALID;
     }
-
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
     	ExtendedType dateType = types[0];
@@ -104,8 +96,7 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 		boolean is_aggregate = argument0.isInstanceOf(AggregateDomain.DOMAIN);
 		IDomain domain = IDomain.UNKNOWN;
 		if (argument0.isInstanceOf(IDomain.TIMESTAMP)) {
-			DomainStringConstant mode = (DomainStringConstant)imageDomains.get(1);
-			if (isConvertToDate(mode.getValue())) {
+			if (isConvertToDate(getExtendedID())) {
 				domain = IDomain.DATE;
 			} else {
 				domain = IDomain.TIMESTAMP;
@@ -123,10 +114,10 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 	
 	private boolean isConvertToDate(String mode) {
 		return 
-				mode.equalsIgnoreCase(YEAR) || 
-				mode.equalsIgnoreCase(MONTH) ||
-				mode.equalsIgnoreCase(WEEK) ||
-				mode.equalsIgnoreCase(DAY);
+				mode.equalsIgnoreCase(YEARLY_ID) || 
+				mode.equalsIgnoreCase(MONTHLY_ID) ||
+				mode.equalsIgnoreCase(WEEKLY_ID) ||
+				mode.equalsIgnoreCase(DAILY_ID);
 	}
 
 }

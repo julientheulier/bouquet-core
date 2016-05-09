@@ -23,10 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.registry;
 
-import com.squid.core.domain.extensions.PosStringOperatorDefinition;
-import com.squid.core.domain.extensions.SplitPartOperatorDefinition;
-import com.squid.core.domain.extensions.StringLengthOperatorsDefinition;
-import com.squid.core.domain.extensions.SubstringOperatorDefinition;
+import com.squid.core.domain.extensions.string.PosStringOperatorDefinition;
+import com.squid.core.domain.extensions.string.SplitPartOperatorDefinition;
+import com.squid.core.domain.extensions.string.StringLengthOperatorsDefinition;
+import com.squid.core.domain.extensions.string.SubstringOperatorDefinition;
 import com.squid.core.domain.extensions.string.oneArgStringOperator.*;
 import com.squid.core.domain.extensions.string.pad.PadLPadOperatorDefinition;
 import com.squid.core.domain.extensions.string.pad.PadOperatorDefinition;

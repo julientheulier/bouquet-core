@@ -28,7 +28,7 @@ import java.util.Calendar;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
-import com.squid.core.domain.extensions.IntervalOperatorDefinition;
+import com.squid.core.domain.extensions.date.IntervalOperatorDefinition;
 import com.squid.core.domain.extensions.cast.CastToCharOperatorDefinition;
 import com.squid.core.domain.extensions.cast.CastToTimestampOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateAddOperatorDefinition;

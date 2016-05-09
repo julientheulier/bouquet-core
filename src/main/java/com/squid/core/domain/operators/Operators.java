@@ -24,7 +24,7 @@
 package com.squid.core.domain.operators;
 
 import com.squid.core.domain.extensions.cast.*;
-import com.squid.core.domain.extensions.DateTruncateOperatorDefinition;
+import com.squid.core.domain.extensions.date.DateTruncateOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateAddOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateSubOperatorDefinition;
 import com.squid.core.domain.vector.VectorOperatorDefinition;
