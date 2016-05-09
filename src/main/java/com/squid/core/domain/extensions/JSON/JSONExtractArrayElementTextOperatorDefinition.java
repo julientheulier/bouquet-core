@@ -23,11 +23,13 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.JSON;
 
+        import com.squid.core.domain.DomainStringConstant;
         import com.squid.core.domain.IDomain;
         import com.squid.core.domain.operators.ExtendedType;
         import com.squid.core.domain.operators.OperatorDiagnostic;
 
         import java.sql.Types;
+        import java.util.ArrayList;
         import java.util.List;
 
 /**
@@ -52,6 +54,18 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
         super(name, ID, domain, categoryType);
     }
 
+    @Override
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.STRING);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.STRING);
+        type.add(IDomain.NUMERIC);
+        poly.add(type);
+        return poly;
+    }
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

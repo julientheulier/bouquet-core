@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.maths;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -52,6 +53,19 @@ public class RoundOperatorDefintion extends OperatorDefinition {
 	
 	public RoundOperatorDefintion(String name, String ID, int categoryType) {
 		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.NUMERIC);
+		poly.add(type);
+		type.clear();
+		type.add(IDomain.NUMERIC);
+		type.add(IDomain.NUMERIC);
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

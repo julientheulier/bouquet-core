@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.string;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainNumericConstant;
@@ -64,6 +65,17 @@ public class SplitPartOperatorDefinition extends OperatorDefinition {
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.STRING);
+		type.add(DomainStringConstant.DOMAIN);
+		type.add(DomainNumericConstant.DOMAIN);
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

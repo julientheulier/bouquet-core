@@ -45,11 +45,15 @@ public class ExtractSecondOperatorDefinition extends ExtractOperatorDefinition {
     }
 
     @Override
-    public List getSignature(){
-        List signature =  new ArrayList();
-        signature.add(IDomain.TIME);
-        signature.add(IDomain.NUMERIC);
-        return signature;
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.TIME);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.TIMESTAMP);
+        poly.add(type);
+        return poly;
     }
 
     @Override

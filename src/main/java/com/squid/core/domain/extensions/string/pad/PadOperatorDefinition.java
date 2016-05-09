@@ -24,6 +24,7 @@
 package com.squid.core.domain.extensions.string.pad;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainNumericConstant;
@@ -40,6 +41,7 @@ public class PadOperatorDefinition extends OperatorDefinition {
 
   private String hint = "";
 
+
   public PadOperatorDefinition(String name, String ID, IDomain domain) {
     super(name, ID, PREFIX_POSITION, name, IDomain.STRING);
     setDomain(domain);
@@ -55,6 +57,21 @@ public class PadOperatorDefinition extends OperatorDefinition {
   @Override
   public int getType() {
     return ALGEBRAIC_TYPE;
+  }
+
+  @Override
+  public List getParametersTypes() {
+    List poly = new ArrayList<List>();
+    List type = new ArrayList<IDomain>();
+    type.add(IDomain.STRING);
+    type.add(IDomain.NUMERIC);
+    poly.add(type);
+    type.clear();
+    type.add(IDomain.STRING);
+    type.add(IDomain.NUMERIC);
+    type.add(IDomain.STRING);
+    poly.add(type);
+    return poly;
   }
 
   @Override

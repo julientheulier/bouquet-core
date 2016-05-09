@@ -31,6 +31,7 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
 import com.squid.core.domain.vector.VectorDomain;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,6 +76,36 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
         }
     }
 
+    @Override
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.NUMERIC);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.STRING);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.NUMERIC);
+        type.add(IDomain.STRING);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.STRING);
+        type.add(IDomain.STRING);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.ANY);
+        type.add(DomainNumericConstant.DOMAIN);
+        type.add(DomainNumericConstant.DOMAIN);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.ANY);
+        type.add(IDomain.NUMERIC);
+        type.add(IDomain.NUMERIC);
+        type.add(IDomain.STRING);
+        poly.add(type);
+        return poly;
+    }
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
         if (imageDomains.size() > 0 && imageDomains.size() <= 3) {

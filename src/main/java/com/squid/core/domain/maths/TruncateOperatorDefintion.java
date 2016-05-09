@@ -24,6 +24,7 @@
 package com.squid.core.domain.maths;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainNumericConstant;
@@ -56,6 +57,23 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.NUMERIC);
+		poly.add(type);
+		type.clear();
+		type.add(IDomain.NUMERIC);
+		type.add(IDomain.NUMERIC);
+		poly.add(type);
+		type.clear();
+		type.add(IDomain.NUMERIC);
+		type.add(DomainNumericConstant.DOMAIN);
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

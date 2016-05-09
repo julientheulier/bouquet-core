@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.string.trim;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -56,6 +57,19 @@ public class TrimOperatorDefinition extends OperatorDefinition {
   @Override
   public int getType() {
     return ALGEBRAIC_TYPE;
+  }
+
+  @Override
+  public List getParametersTypes() {
+    List poly = new ArrayList<List>();
+    List type = new ArrayList<IDomain>();
+    type.add(IDomain.STRING);
+    poly.add(type);
+    type.clear();
+    type.add(IDomain.STRING);
+    type.add(IDomain.STRING);
+    poly.add(type);
+    return poly;
   }
 
   @Override

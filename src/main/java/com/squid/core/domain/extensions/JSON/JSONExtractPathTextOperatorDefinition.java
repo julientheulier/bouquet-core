@@ -28,6 +28,7 @@ import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,6 +53,28 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
         super(name, ID, domain, categoryType);
     }
 
+    public List getParametersTypes() { //TODO handle this specific case differrntly.
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.STRING);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.STRING);
+        type.add(IDomain.STRING);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.STRING);
+        type.add(IDomain.STRING);
+        type.add(IDomain.STRING);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.STRING);
+        type.add(IDomain.STRING);
+        type.add(IDomain.STRING);
+        type.add(IDomain.STRING);
+        poly.add(type);
+        return poly;
+    }
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

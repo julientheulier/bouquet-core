@@ -53,11 +53,14 @@ public class DateCurrentDateOperatorDefinition extends DateOperatorDefinition {
     }
 
     @Override
-    public List getSignature() {
-        List signature = new ArrayList<IDomain>();
-        signature.add(IDomain.DATE);
-        signature.add(IDomain.NUMERIC);
-        return signature;
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.ANY);
+        poly.add(type);
+        type.clear();
+        poly.add(type);
+        return poly;
     }
 
     @Override

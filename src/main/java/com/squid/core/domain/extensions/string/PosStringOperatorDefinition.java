@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.string;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -49,7 +50,17 @@ public class PosStringOperatorDefinition extends OperatorDefinition {
 	public int getType() {
 		return ALGEBRAIC_TYPE;
 	}
-	
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.STRING);
+		type.add(IDomain.STRING);
+		poly.add(type);
+		return poly;
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()!=2) return new OperatorDiagnostic("Invalid number of parameters",getName()+"(string)");

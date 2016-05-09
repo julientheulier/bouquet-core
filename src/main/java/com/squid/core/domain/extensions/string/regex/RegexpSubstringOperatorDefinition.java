@@ -26,6 +26,7 @@ package com.squid.core.domain.extensions.string.regex;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +51,16 @@ public class RegexpSubstringOperatorDefinition extends RegexpOperatorDefinition 
     public RegexpSubstringOperatorDefinition(String name, String ID, IDomain domain,
                                          int categoryType) {
         super(name, ID, domain, categoryType);
+    }
+
+    @Override
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.STRING);
+        type.add(IDomain.STRING);
+        poly.add(type);
+        return poly;
     }
 
     @Override

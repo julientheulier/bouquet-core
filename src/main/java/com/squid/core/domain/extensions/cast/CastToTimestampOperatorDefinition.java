@@ -23,12 +23,14 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.cast;
 
+import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.IDomainMetaDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 import com.squid.core.domain.vector.VectorDomain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -72,6 +74,20 @@ public class CastToTimestampOperatorDefinition extends CastOperatorDefinition {
             return computedDomain;
         }
     }
+
+    @Override
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.DATE);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.STRING);
+        type.add(IDomain.STRING);
+        poly.add(type);
+        return poly;
+    }
+
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

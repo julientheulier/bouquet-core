@@ -27,6 +27,7 @@ import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,6 +51,23 @@ public class DateFromEpochOperatorDefinition extends DateOperatorDefinition {
 
     public DateFromEpochOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
         super(name,ID, domain, categoryType);
+    }
+
+    @Override
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.NUMERIC);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.TEMPORAL);
+        type.add(IDomain.NUMERIC);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.TEMPORAL);
+        type.add(IDomain.TEMPORAL);
+        poly.add(type);
+        return poly;
     }
 
     @Override

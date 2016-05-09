@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.string;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -48,6 +49,15 @@ public class StringLengthOperatorsDefinition extends OperatorDefinition {
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.STRING);
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

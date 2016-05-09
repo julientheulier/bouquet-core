@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.date;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainStringConstant;
@@ -71,6 +72,20 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
     @Override
     public int getType() {
         return ALGEBRAIC_TYPE;
+    }
+
+    @Override
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.DATE);
+        type.add(DomainStringConstant.DOMAIN);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.TIMESTAMP);
+        type.add(DomainStringConstant.DOMAIN);
+        poly.add(type);
+        return poly;
     }
 
     @Override

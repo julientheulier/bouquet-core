@@ -24,6 +24,7 @@
 package com.squid.core.domain.extensions.string;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainNumericConstant;
@@ -54,7 +55,41 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 	public int getType() {
 		return ALGEBRAIC_TYPE;
 	}
-	
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.STRING);
+		type.add(DomainNumericConstant.DOMAIN);
+		poly.add(type);
+		type.clear();
+		type.add(IDomain.STRING);
+		type.add(IDomain.NUMERIC);
+		poly.add(type);
+		type.clear();
+		type.add(IDomain.STRING);
+		type.add(DomainNumericConstant.DOMAIN);
+		type.add(IDomain.NUMERIC);
+		poly.add(type);
+		type.clear();
+		type.add(IDomain.STRING);
+		type.add(IDomain.NUMERIC);
+		type.add(IDomain.NUMERIC);
+		poly.add(type);
+		type.clear();
+		type.add(IDomain.STRING);
+		type.add(DomainNumericConstant.DOMAIN);
+		type.add(DomainNumericConstant.DOMAIN);
+		poly.add(type);
+		type.clear();
+		type.add(IDomain.STRING);
+		type.add(IDomain.NUMERIC);
+		type.add(DomainNumericConstant.DOMAIN);
+		poly.add(type);
+		return poly;
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (!(imageDomains.size()==2 || imageDomains.size()==3)) {

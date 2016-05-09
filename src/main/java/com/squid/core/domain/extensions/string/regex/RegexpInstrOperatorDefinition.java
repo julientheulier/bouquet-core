@@ -28,6 +28,7 @@ import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,6 +53,16 @@ public class RegexpInstrOperatorDefinition extends RegexpOperatorDefinition {
     public RegexpInstrOperatorDefinition(String name, String ID, IDomain domain,
                                          int categoryType) {
         super(name, ID, domain, categoryType);
+    }
+
+    @Override
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.STRING);
+        type.add(IDomain.STRING);
+        poly.add(type);
+        return poly;
     }
 
     @Override

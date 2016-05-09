@@ -43,12 +43,17 @@ public class ExtractMinuteOperatorDefinition extends ExtractOperatorDefinition {
     public ExtractMinuteOperatorDefinition(String name, String ID, int categoryType) {
         super(name, ID, categoryType);
     }
+
     @Override
-    public List getSignature(){
-        List signature =  new ArrayList<IDomain>();
-        signature.add(IDomain.TIME);
-        signature.add(IDomain.NUMERIC);
-        return signature;
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.TIME);
+        poly.add(type);
+        type.clear();
+        type.add(IDomain.TIMESTAMP);
+        poly.add(type);
+        return poly;
     }
 
     @Override

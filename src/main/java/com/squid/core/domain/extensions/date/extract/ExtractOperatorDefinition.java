@@ -58,17 +58,18 @@ public class ExtractOperatorDefinition extends OperatorDefinition {
         return ALGEBRAIC_TYPE;
     }
 
-    // take a domain of dates and return a numerical domain
-    public List getSignature() {
-        List signature = new ArrayList<IDomain>();
-        signature.add(IDomain.DATE);
-        signature.add(IDomain.NUMERIC);
-        return signature;
+    @Override
+    public List getParametersTypes() {
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+        type.add(IDomain.DATE);
+        poly.add(type);
+        return poly;
     }
+
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        List signature = this.getSignature();
         //TODO Use the signature to check type
         if (imageDomains.size() != 1) {
             return new OperatorDiagnostic("Invalid number of parameters", getName() + "(temporal)");
