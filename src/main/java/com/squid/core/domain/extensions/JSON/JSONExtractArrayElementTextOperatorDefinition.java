@@ -60,7 +60,7 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
         List type = new ArrayList<IDomain>();
         type.add(IDomain.STRING);
         poly.add(type);
-        type.clear();
+        type = new ArrayList<IDomain>(); ;
         type.add(IDomain.STRING);
         type.add(IDomain.NUMERIC);
         poly.add(type);

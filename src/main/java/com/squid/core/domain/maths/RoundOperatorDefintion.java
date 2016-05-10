@@ -61,7 +61,7 @@ public class RoundOperatorDefintion extends OperatorDefinition {
 		List type = new ArrayList<IDomain>();
 		type.add(IDomain.NUMERIC);
 		poly.add(type);
-		type.clear();
+		type = new ArrayList<IDomain>();
 		type.add(IDomain.NUMERIC);
 		type.add(IDomain.NUMERIC);
 		poly.add(type);

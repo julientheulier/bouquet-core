@@ -50,7 +50,7 @@ public class ExtractMinuteOperatorDefinition extends ExtractOperatorDefinition {
         List type = new ArrayList<IDomain>();
         type.add(IDomain.TIME);
         poly.add(type);
-        type.clear();
+        type = new ArrayList<IDomain>(); ;
         type.add(IDomain.TIMESTAMP);
         poly.add(type);
         return poly;

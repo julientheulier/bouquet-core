@@ -81,7 +81,7 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
         type.add(IDomain.DATE);
         type.add(DomainStringConstant.DOMAIN);
         poly.add(type);
-        type.clear();
+        type = new ArrayList<IDomain>(); ;
         type.add(IDomain.TIMESTAMP);
         type.add(DomainStringConstant.DOMAIN);
         poly.add(type);

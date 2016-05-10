@@ -60,7 +60,7 @@ public class DateMonthsBetweenOperatorDefinition extends DateOperatorDefinition{
         type.add(IDomain.TEMPORAL);
         type.add(IDomain.TEMPORAL);
         poly.add(type);
-        type.clear();
+        type = new ArrayList<IDomain>(); ;
         type.add(IDomain.TEMPORAL);
         type.add(IDomain.NUMERIC);
         poly.add(type);

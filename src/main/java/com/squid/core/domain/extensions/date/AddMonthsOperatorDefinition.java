@@ -64,7 +64,7 @@ extends OperatorDefinition {
 		type.add(IDomain.DATE);
 		type.add(IDomain.NUMERIC);
 		poly.add(type);
-		type.clear();
+		type = new ArrayList<IDomain>(); ;
 		type.add(IDomain.TIMESTAMP);
 		type.add(IDomain.NUMERIC);
 		poly.add(type);

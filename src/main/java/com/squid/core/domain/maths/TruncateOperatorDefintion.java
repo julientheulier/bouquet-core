@@ -65,11 +65,11 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 		List type = new ArrayList<IDomain>();
 		type.add(IDomain.NUMERIC);
 		poly.add(type);
-		type.clear();
+		type = new ArrayList<IDomain>(); ;
 		type.add(IDomain.NUMERIC);
 		type.add(IDomain.NUMERIC);
 		poly.add(type);
-		type.clear();
+		type = new ArrayList<IDomain>(); ;
 		type.add(IDomain.NUMERIC);
 		type.add(DomainNumericConstant.DOMAIN);
 		poly.add(type);

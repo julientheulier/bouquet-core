@@ -81,7 +81,7 @@ public class CastToTimestampOperatorDefinition extends CastOperatorDefinition {
         List type = new ArrayList<IDomain>();
         type.add(IDomain.DATE);
         poly.add(type);
-        type.clear();
+        type = new ArrayList<IDomain>(); ;
         type.add(IDomain.STRING);
         type.add(IDomain.STRING);
         poly.add(type);

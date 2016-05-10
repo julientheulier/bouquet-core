@@ -66,7 +66,7 @@ public class PadOperatorDefinition extends OperatorDefinition {
     type.add(IDomain.STRING);
     type.add(IDomain.NUMERIC);
     poly.add(type);
-    type.clear();
+    type = new ArrayList<IDomain>(); ;
     type.add(IDomain.STRING);
     type.add(IDomain.NUMERIC);
     type.add(IDomain.STRING);

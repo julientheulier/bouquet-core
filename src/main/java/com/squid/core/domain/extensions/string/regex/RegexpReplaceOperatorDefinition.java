@@ -60,7 +60,7 @@ public class RegexpReplaceOperatorDefinition extends RegexpOperatorDefinition {
         type.add(IDomain.STRING);
         type.add(IDomain.STRING);
         poly.add(type);
-        type.clear();
+        type = new ArrayList<IDomain>(); ;
         type.add(IDomain.STRING);
         type.add(IDomain.STRING);
         type.add(IDomain.STRING);

@@ -115,7 +115,15 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
         }
     }
 
-    
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.ANY);
+		poly.add(type);
+		return poly;
+	}
+
     @Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
     	if (imageDomains.size()!=1) {
