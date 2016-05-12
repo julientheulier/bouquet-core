@@ -41,6 +41,9 @@ public class JDBCConfig {
 				|| !jdbcUrl.toLowerCase().startsWith("jdbc:")) {
 			throw new IllegalArgumentException("invalid jdbc url");
 		}
+		if (jdbcUrl.toLowerCase().equals("jdbc:test:")) {
+			throw new IllegalArgumentException("jdbc test url");
+		}
 		this.jdbcUrl = jdbcUrl;
 		this.username = username;
 		if (password == null || password == "") {
