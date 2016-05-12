@@ -110,4 +110,27 @@ public interface IDomain
 	 */
 	public Object getAdapter(Class<?> adapter);
 
+
+	/**
+	 * Returns the label seen by the user for completion.
+	 * Correspond to the list seen in eclipse when using autocompletion
+	 * this is the text "function(String s, Int i)"
+	 * @return
+     */
+	public String getContentAssistLabel();
+
+	public void setContentAssistLabel(String label);
+
+	/**
+	 * Returns the proposal seen by the user for completion.
+	 * Correspond to the actual text replacing the code
+	 * Most of the time, one letter character,
+	 * for example "i" for integer type
+	 * @return
+	 */
+	public String getContentAssistProposal();
+
+	public void setContentAssistProposal(String proposal);
+
+
 }

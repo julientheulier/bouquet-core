@@ -37,19 +37,19 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
  * @author loivd
  * Ceil function definition
  */
-public class CeilOperatorDefintion extends OperatorDefinition {
+public class CeilOperatorDefinition extends OperatorDefinition {
 
 	public static final String CEIL = MathsOperatorRegistry.MATHS_BASE + "CEIL";
 
-	public CeilOperatorDefintion(String name, String ID) {
+	public CeilOperatorDefinition(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
 	}
 
-	public CeilOperatorDefintion(String name, String ID, IDomain domain) {
+	public CeilOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
 	}
 
-	public CeilOperatorDefintion(String name, String ID, int categoryType) {
+	public CeilOperatorDefinition(String name, String ID, int categoryType) {
 		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
 	}
 

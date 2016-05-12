@@ -37,7 +37,10 @@ extends AbstractSingletonDomain
 	
 	private String name = "";
 	private IDomain parent = null;
-    
+
+	private String label = "";
+	private String proposal = "";
+
     public DomainBase() {
         // on purpose
     }
@@ -66,5 +69,30 @@ extends AbstractSingletonDomain
 	public void setParentDomain(IDomain parent) {
 		this.parent = parent;
 	}
-    
+
+	@Override
+	public String getContentAssistLabel(){
+		if(label==""){
+			setContentAssistLabel(getName()+" "+getName().toLowerCase().charAt(0));
+		}
+		return label;
+	}
+
+	@Override
+	public void setContentAssistLabel(String label){
+		this.label=label;
+	}
+
+	@Override
+	public String getContentAssistProposal(){
+		if(proposal == ""){
+			setContentAssistProposal(String.valueOf(getName().toLowerCase().charAt(0)));
+		}
+		return proposal;
+	}
+
+	@Override
+	public void setContentAssistProposal(String proposal){
+		this.proposal=proposal;
+	}
 }

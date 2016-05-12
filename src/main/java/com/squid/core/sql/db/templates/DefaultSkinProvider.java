@@ -39,7 +39,7 @@ import com.squid.core.domain.extensions.string.SplitPartOperatorDefinition;
 import com.squid.core.domain.extensions.string.StringLengthOperatorsDefinition;
 import com.squid.core.domain.extensions.string.translate.TranslateOperatorDefinition;
 import com.squid.core.domain.extensions.string.trim.TrimOperatorDefinition;
-import com.squid.core.domain.maths.CeilOperatorDefintion;
+import com.squid.core.domain.maths.CeilOperatorDefinition;
 import com.squid.core.domain.maths.DegreesOperatorDefintion;
 import com.squid.core.domain.maths.FloorOperatorDefintion;
 import com.squid.core.domain.maths.GreatestLeastOperatorDefinition;
@@ -183,7 +183,7 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(CastOperatorDefinition.TO_INTEGER, new CastOperatorRenderer());
 		registerOperatorRender(CastOperatorDefinition.TO_NUMBER, new CastOperatorRenderer());
 		registerOperatorRender(CastOperatorDefinition.TO_TIMESTAMP, new CastOperatorRenderer());
-		registerOperatorRender(CeilOperatorDefintion.CEIL, new CeilOperatorRenderer());
+		registerOperatorRender(CeilOperatorDefinition.CEIL, new CeilOperatorRenderer());
 		registerOperatorRender(FloorOperatorDefintion.FLOOR, new FloorOperatorRenderer());
 		registerOperatorRender(SignOperatorDefintion.SIGN, new SignOperatorRenderer());
 		registerOperatorRender(TruncateOperatorDefintion.TRUNCATE, new TruncateOperatorRenderer());

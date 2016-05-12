@@ -73,6 +73,8 @@ public abstract class OperatorDefinition {
 
   private List m_parameters;
 
+  private ListContentAssistEntry listContentAssistEntry;
+
   // category type
   private int categoryType = MISC_TYPE;// MISC is default category
 
@@ -408,4 +410,11 @@ public abstract class OperatorDefinition {
     return getSymbol();
   }
 
+  public ListContentAssistEntry getListContentAssistEntry() {
+    return listContentAssistEntry;
+  }
+
+  public void setListContentAssistEntry(ListContentAssistEntry listContentAssistEntry) {
+    this.listContentAssistEntry = listContentAssistEntry;
+  }
 }

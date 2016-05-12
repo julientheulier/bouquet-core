@@ -59,4 +59,12 @@ extends AbstractSingletonDomain
 		
 	}
 
+
+	@Override
+	public void setContentAssistLabel(String label){
+	}
+
+	@Override
+	public void setContentAssistProposal(String proposal){
+	}
 }
