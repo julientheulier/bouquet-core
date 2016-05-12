@@ -98,6 +98,10 @@ implements ExpressionScope
         return getOperatorScope().lookupByName(fun.toUpperCase().trim());
     }
 
+    public OperatorDefinition looseLookup(String fun) throws ScopeException {
+        return getOperatorScope().looseLookupByName(fun.toUpperCase().trim());
+    }
+
     /* (non-Javadoc)
 	 * @see com.squid.ldm.model.api.expression.managers.ExpressionConstructor#createOperator(com.squid.domain.model.operators.OperatorDefinition)
 	 */

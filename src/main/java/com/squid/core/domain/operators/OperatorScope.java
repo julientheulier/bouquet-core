@@ -23,12 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.special.DivideOperatorDefinition;
@@ -186,18 +181,31 @@ public class OperatorScope implements IntrinsicOperators {
   }
 
   /**
-   * @param fun
+   * @param name
    * @throws ScopeException
    */
   public OperatorDefinition lookupByName(String name) throws ScopeException {
     OperatorDefinition def = m_lookupByName.get(name);
     if (def == null) {
       // T471: no more handling undefined function - it's a nightmare for the user, and it's not really used
-      throw new ScopeException("unkwon function '" + name + "'");
+      throw new ScopeException("unknown function '" + name + "'");
     } else {
       return def;
     }
   }
+
+  public OperatorDefinition looseLookupByName(String name) throws ScopeException {
+    Set<String> set = m_lookupByName.keySet();
+    Set<String> proposal = new HashSet<String>();
+    for(String func : set){
+      if(func.startsWith(name)){
+        proposal.add(func); //take the first one for now
+        return  m_lookupByName.get(func);
+      }
+    }
+    throw new ScopeException("unknown function '" + name + "'");
+  }
+
 
   /**
    * @param fun

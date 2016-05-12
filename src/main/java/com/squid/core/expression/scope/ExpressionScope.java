@@ -54,6 +54,14 @@ public interface ExpressionScope {
 
 	/**
 	 * @param fun
+	 * @return
+	 * @throws ScopeException
+	 */
+	public abstract OperatorDefinition looseLookup(String fun) throws ScopeException;
+
+
+	/**
+	 * @param fun
 	 * @param expr
 	 * @return
 	 */
