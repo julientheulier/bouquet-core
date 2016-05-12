@@ -23,14 +23,14 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.JSON;
 
-        import com.squid.core.domain.DomainStringConstant;
-        import com.squid.core.domain.IDomain;
-        import com.squid.core.domain.operators.ExtendedType;
-        import com.squid.core.domain.operators.OperatorDiagnostic;
+import com.squid.core.domain.IDomain;
+import com.squid.core.domain.operators.ListContentAssistEntry;
+import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.OperatorDiagnostic;
 
-        import java.sql.Types;
-        import java.util.ArrayList;
-        import java.util.List;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lrabiet on 03/05/16.
@@ -54,16 +54,37 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
         super(name, ID, domain, categoryType);
     }
 
+
+    @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+
+            List type1 = new ArrayList<IDomain>();
+            List type2 = new ArrayList<IDomain>();
+
+            type1.add(IDomain.STRING);
+
+            type2.add(IDomain.STRING);
+            type2.add(IDomain.NUMERIC);
+
+            ListContentAssistEntry entry = new ListContentAssistEntry("",type1,type2);
+            setListContentAssistEntry(entry);
+
+        }
+        return super.getListContentAssistEntry();
+    }
+
     @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
-        List type = new ArrayList<IDomain>();
-        type.add(IDomain.STRING);
-        poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.STRING);
-        type.add(IDomain.NUMERIC);
-        poly.add(type);
+        List type1 = new ArrayList<IDomain>();
+        List type2 = new ArrayList<IDomain>();
+        type1.add(IDomain.STRING);
+        poly.add(type1);
+        type2 = new ArrayList<IDomain>(); ;
+        type2.add(IDomain.STRING);
+        type2.add(IDomain.NUMERIC);
+        poly.add(type2);
         return poly;
     }
 

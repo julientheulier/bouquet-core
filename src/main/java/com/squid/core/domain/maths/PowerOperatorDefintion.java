@@ -26,8 +26,10 @@ package com.squid.core.domain.maths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
@@ -59,12 +61,35 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 		return ALGEBRAIC_TYPE;
 	}
 
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+
+			List type = new ArrayList<IDomain>();
+
+			type.add(IDomain.NUMERIC);
+			IDomain exponent = new DomainNumeric();
+			exponent.setContentAssistLabel("Numeric exponent");
+			type.add(exponent);
+
+			ListContentAssistEntry entry = new ListContentAssistEntry("Function that take two arguments: a number and an exponent",type);
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
 	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
+
 		type.add(IDomain.NUMERIC);
-		type.add(IDomain.NUMERIC);
+		IDomain exponent = new DomainNumeric();
+		exponent.setContentAssistLabel("Numeric exponent");
+		type.add(exponent);
+
 		poly.add(type);
 		return poly;
 	}
