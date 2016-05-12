@@ -114,7 +114,5 @@ public class ExecutionItem implements IExecutionItem {
 			connection = null;
 		}
 	}
-	
-	
 
 }
