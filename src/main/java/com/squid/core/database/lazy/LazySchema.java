@@ -174,5 +174,44 @@ public class LazySchema implements Schema {
 	public String toString() {
 		return "Schema [db=" + db + ", name=" + name + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((catalog == null) ? 0 : catalog.hashCode());
+		result = prime * result + ((db == null) ? 0 : db.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LazySchema other = (LazySchema) obj;
+		if (catalog == null) {
+			if (other.catalog != null)
+				return false;
+		} else if (!catalog.equals(other.catalog))
+			return false;
+		if (db == null) {
+			if (other.db != null)
+				return false;
+		} else if (!db.equals(other.db))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+	
+	
  
 }

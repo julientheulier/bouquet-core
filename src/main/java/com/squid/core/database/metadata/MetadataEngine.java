@@ -361,7 +361,7 @@ public class MetadataEngine implements IMetadataEngine {
 				 }
 			 }
 		 } catch (SQLException e) {
-			 throw new ExecutionException("Failed to populate columns", e);
+			 throw new ExecutionException("Failed to populate columns due to SQLException: "+e.getLocalizedMessage(), e);
 		 }
 	 }
 
@@ -436,61 +436,47 @@ public class MetadataEngine implements IMetadataEngine {
 	 }
 	 
 	 public void populateImportedKeys(Table table) throws ExecutionException {
-		 String product = table.getSchema().getDatabase().getProductName();
-		 if (product.equals(REDSHIFT_NAME)) {
-			 // do nothing
-		 } else {
-			 Connection conn = null;
+		 Connection conn = null;
+		 try {
+			 conn = getBlockingConnection();
+			 populateImportedKeys(conn, table);
+		 } catch (SQLException e) {
+			 throw new ExecutionException("failed to populate imported keys", e);
+		 } finally {
 			 try {
-				 conn = getBlockingConnection();
-				 populateImportedKeys(conn, table);
-			 } catch (SQLException e) {
-				 throw new ExecutionException("failed to populate imported keys", e);
-			 } finally {
-				 try {
-					 if (conn!=null) {
-						 conn.close();
-						 ds.releaseSemaphore();
-					 }
-				 } catch (SQLException e) {
-					 logger.error(e.getLocalizedMessage());
+				 if (conn!=null) {
+					 conn.close();
+					 ds.releaseSemaphore();
 				 }
+			 } catch (SQLException e) {
+				 logger.error(e.getLocalizedMessage());
 			 }
 		 }
 	 }
 
 	 protected void populateImportedKeys(Connection conn, Table table) throws ExecutionException {
-		 String product = table.getSchema().getDatabase().getProductName();
-		 if (product.equals(REDSHIFT_NAME)) {
-			 populateImportedKeys_Redshift(conn, table);
-		 } else {
+		 try {
+			 // standard procedure
+			 List<ForeignKeyData> ldata = new ArrayList<ForeignKeyData>();
+			 ResultSet res = vendorSpecific.getImportedKeys(conn,table.getCatalog(),table.getSchema().getName(),table.getName());
 			 try {
-				 // standard procedure
-				 List<ForeignKeyData> ldata = new ArrayList<ForeignKeyData>();
-				 ResultSet res = vendorSpecific.getImportedKeys(conn,table.getCatalog(),table.getSchema().getName(),table.getName());
-				 try {
-					 while (res.next()) {
-						 ForeignKeyData data = new ForeignKeyData();
-						 loadForeignKeyData(res,data);
-						 ldata.add(data);
-					 }
-				 } finally {
-					 res.close();
+				 while (res.next()) {
+					 ForeignKeyData data = new ForeignKeyData();
+					 loadForeignKeyData(res,data);
+					 ldata.add(data);
 				 }
-				 // update in batch
-				 // note: updating may invoke lazy population for columns/tables => batch avoid nested jdbc call
-				 for (ForeignKeyData data : ldata) {
-					 updateForeignKey(table.getSchema().getDatabase(), table, data);
-				 }
-			 } catch (SQLException e) {
-				 throw new ExecutionException("Failed to populate imported keys for table '"+table.getName()+"'", e);
+			 } finally {
+				 res.close();
 			 }
+			 // update in batch
+			 // note: updating may invoke lazy population for columns/tables => batch avoid nested jdbc call
+			 for (ForeignKeyData data : ldata) {
+				 updateForeignKey(table.getSchema().getDatabase(), table, data);
+			 }
+		 } catch (SQLException e) {
+			 throw new ExecutionException("Failed to populate imported keys for table '"+table.getName()+"'", e);
 		 }
 	 }
-
-	 private void populateImportedKeys_Redshift(Connection conn, Table table) {
-		logger.warn("populateImportedKeys_Redshift NYI");
-	}
 
 	private final String[] FK_CNAMES = new String[]{
 			 getColumnDef(MetadataConst.PKTABLE_CAT),
