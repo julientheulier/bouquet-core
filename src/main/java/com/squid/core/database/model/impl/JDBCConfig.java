@@ -26,8 +26,6 @@ package com.squid.core.database.model.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.squid.core.database.impl.DatabaseServiceException;
-
 public class JDBCConfig {
 
 	static final Logger logger = LoggerFactory
@@ -37,11 +35,11 @@ public class JDBCConfig {
     private String username;
     private String password;
     
-	public JDBCConfig(String jdbcUrl, String username, String password) throws DatabaseServiceException {
+	public JDBCConfig(String jdbcUrl, String username, String password) throws IllegalArgumentException {
 		super();
 		if (jdbcUrl == null || jdbcUrl == ""
 				|| !jdbcUrl.toLowerCase().startsWith("jdbc:")) {
-			throw new DatabaseServiceException("invalid jdbc url");
+			throw new IllegalArgumentException("invalid jdbc url");
 		}
 		this.jdbcUrl = jdbcUrl;
 		this.username = username;
