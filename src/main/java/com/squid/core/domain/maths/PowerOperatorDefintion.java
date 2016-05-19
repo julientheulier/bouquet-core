@@ -65,15 +65,11 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 	@Override
 	public ListContentAssistEntry getListContentAssistEntry(){
 		if(super.getListContentAssistEntry()==null){
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Function that take two arguments: a number and an exponent");
 
-			List type = new ArrayList<IDomain>();
 
-			type.add(IDomain.NUMERIC);
-			IDomain exponent = new DomainNumeric();
-			exponent.setContentAssistLabel("Numeric exponent");
-			type.add(exponent);
-
-			ListContentAssistEntry entry = new ListContentAssistEntry("Function that take two arguments: a number and an exponent",type);
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
 			setListContentAssistEntry(entry);
 
 		}
@@ -85,9 +81,13 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
 
-		type.add(IDomain.NUMERIC);
+		IDomain number = new DomainNumeric();
+		number.setContentAssistLabel("Numeric n");
+		number.setContentAssistProposal("${1:n}");
+		type.add(number);
 		IDomain exponent = new DomainNumeric();
 		exponent.setContentAssistLabel("Numeric exponent");
+		exponent.setContentAssistProposal("${2:p}");
 		type.add(exponent);
 
 		poly.add(type);

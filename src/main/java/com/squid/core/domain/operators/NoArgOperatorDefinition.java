@@ -117,9 +117,10 @@ public class NoArgOperatorDefinition extends OperatorDefinition {
     public ListContentAssistEntry getListContentAssistEntry(){
         if(super.getListContentAssistEntry()==null){
 
-            List type = new ArrayList<IDomain>();
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Descriptiont");
 
-            ListContentAssistEntry entry = new ListContentAssistEntry("Description",type);
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
             setListContentAssistEntry(entry);
 
         }

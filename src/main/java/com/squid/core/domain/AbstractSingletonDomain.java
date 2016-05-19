@@ -107,5 +107,4 @@ implements ISingletonDomain
         return String.valueOf(getName().toLowerCase().charAt(0));
     }
 
-
 }

@@ -36,7 +36,10 @@ public class ListContentAssistEntry {
 
     private List<ContentAssistEntry> contentAssistEntries;
 
-    public ListContentAssistEntry(String description, List<IDomain>... poly){
+    public ListContentAssistEntry(List<String> description, List<List<IDomain>> poly){
+        if(description.size()!=poly.size()){
+            return;
+        }
         this.setContentAssistEntries(new ArrayList<ContentAssistEntry>());
         for(List<IDomain> type : poly){
             String proposal="";
@@ -50,13 +53,17 @@ public class ListContentAssistEntry {
                     label += domain.getContentAssistLabel()+",";
                     proposal+= domain.getContentAssistProposal()+",";
                 }
-                label=label.substring(0, label.length()-1);
-                proposal=proposal.substring(0, proposal.length()-1);
+                    if(label.length()>1){
+                    label=label.substring(0, label.length()-1);
+                }
+                if(proposal.length()>1){
+                    proposal=proposal.substring(0, proposal.length()-1);
+                }
             }
             entry.setLabel(label);
             entry.setProposal(proposal);
             // Description need to be function's specific.
-            entry.setDescription(description);
+            entry.setDescription(description.get(poly.indexOf(type)));
             getContentAssistEntries().add(entry);
         }
     }

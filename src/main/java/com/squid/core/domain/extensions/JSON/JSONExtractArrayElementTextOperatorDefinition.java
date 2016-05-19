@@ -23,6 +23,8 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.JSON;
 
+import com.squid.core.domain.DomainNumeric;
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.ExtendedType;
@@ -58,18 +60,11 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
     @Override
     public ListContentAssistEntry getListContentAssistEntry(){
         if(super.getListContentAssistEntry()==null){
-
-            List type1 = new ArrayList<IDomain>();
-            List type2 = new ArrayList<IDomain>();
-
-            type1.add(IDomain.STRING);
-
-            type2.add(IDomain.STRING);
-            type2.add(IDomain.NUMERIC);
-
-            ListContentAssistEntry entry = new ListContentAssistEntry("",type1,type2);
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("");
+            descriptions.add("Return the pos_th element in the json element");
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
             setListContentAssistEntry(entry);
-
         }
         return super.getListContentAssistEntry();
     }
@@ -79,12 +74,21 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
         List poly = new ArrayList<List>();
         List type1 = new ArrayList<IDomain>();
         List type2 = new ArrayList<IDomain>();
-        type1.add(IDomain.STRING);
+
+        IDomain json = new DomainString();
+        json.setContentAssistLabel("json");
+        json.setContentAssistProposal("{1:json}");
+        type1.add(json);
         poly.add(type1);
-        type2 = new ArrayList<IDomain>(); ;
-        type2.add(IDomain.STRING);
-        type2.add(IDomain.NUMERIC);
+
+        type2 = new ArrayList<IDomain>();
+        type2.add(json);
+        IDomain index = new DomainNumeric();
+        index.setContentAssistLabel("index");
+        index.setContentAssistProposal("{2:index}");
+        type2.add(index);
         poly.add(type2);
+
         return poly;
     }
 

@@ -117,10 +117,10 @@ public class OneNumericArgOperatorDefinition extends OperatorDefinition {
     public ListContentAssistEntry getListContentAssistEntry(){
         if(super.getListContentAssistEntry()==null){
 
-            List type = new ArrayList<IDomain>();
-            type.add(IDomain.NUMERIC);
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Description");
 
-            ListContentAssistEntry entry = new ListContentAssistEntry("Description",type);
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, getParametersTypes());
             setListContentAssistEntry(entry);
 
         }
