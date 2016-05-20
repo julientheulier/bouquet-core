@@ -25,6 +25,7 @@ package com.squid.core.domain.extensions.date.operator;
 
 import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.sql.Types;
@@ -54,33 +55,85 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Substract an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
+            descriptions.add("Substract an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
+            descriptions.add("Substract an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
+            //(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)"
+            descriptions.add("Substract an interval (second argument) to the given timestamp (first argument)");
+            descriptions.add("Substract an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
+            //(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)"
+            descriptions.add("SUBTRACT using (datex or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
+
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.TEMPORAL);
-        type.add(IDomain.TEMPORAL);
+
+        IDomain temporal1 = new DomainTemporal();
+        temporal1.setContentAssistLabel("temporal");
+        temporal1.setContentAssistProposal("${1:temporal}");
+        IDomain temporal2 = new DomainTemporal();
+        temporal2.setContentAssistLabel("temporal");
+        temporal2.setContentAssistProposal("${2:format}");
+        IDomain timestamp1 = new DomainTimestamp();
+        timestamp1.setContentAssistLabel("timestamp");
+        timestamp1.setContentAssistProposal("${1:timestamp}");
+        IDomain num2 = new DomainNumeric();
+        num2.setContentAssistLabel("num");
+        num2.setContentAssistProposal("${2:n}");
+        IDomain date1 = new DomainDate();
+        date1.setContentAssistLabel("date");
+        date1.setContentAssistProposal("${1:date}");
+        IDomain interval2 = new DomainInterval();
+        interval2.setContentAssistLabel("interval");
+        interval2.setContentAssistProposal("${2:interval}");
+        IDomain numConst2 = new DomainNumericConstant();
+        numConst2.setContentAssistLabel("numConst");
+        numConst2.setContentAssistProposal("${2:numConst}");
+        IDomain stringConst3 = new DomainStringConstant("");
+        stringConst3.setContentAssistLabel("unit");
+        stringConst3.setContentAssistProposal("${3:unit}");
+
+
+        type.add(temporal1);
+        type.add(num2);
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.TEMPORAL);
-        type.add(IDomain.NUMERIC);
+
+        type = new ArrayList<IDomain>();
+        type.add(temporal1);
+        type.add(temporal2);
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.DATE);
-        type.add(DomainNumericConstant.DOMAIN);
-        type.add(DomainStringConstant.DOMAIN);
+
+        type = new ArrayList<IDomain>();
+        type.add(timestamp1);
+        type.add(num2);
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.TIMESTAMP);
-        type.add(IDomain.INTERVAL);
+
+        type = new ArrayList<IDomain>();
+        type.add(timestamp1);
+        type.add(interval2);
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.DATE);
-        type.add(IDomain.NUMERIC);
+
+        type = new ArrayList<IDomain>();
+        type.add(date1);
+        type.add(num2);
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.TIMESTAMP);
-        type.add(IDomain.NUMERIC);
+
+        type = new ArrayList<IDomain>();
+        type.add(date1);
+        type.add(numConst2);
+        type.add(stringConst3);
         poly.add(type);
+
         return poly;
     }
 

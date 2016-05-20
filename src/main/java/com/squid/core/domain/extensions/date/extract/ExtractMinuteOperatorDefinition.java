@@ -23,7 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.date.extract;
 
+import com.squid.core.domain.DomainTime;
+import com.squid.core.domain.DomainTimestamp;
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.util.ArrayList;
@@ -45,14 +48,40 @@ public class ExtractMinuteOperatorDefinition extends ExtractOperatorDefinition {
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Extract minutes from the given time");
+            descriptions.add("Extract minutes from the given timestamp");
+
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.TIME);
+
+        IDomain time1 = new DomainTime();
+        time1.setContentAssistLabel("time");
+        time1.setContentAssistProposal("${1:time}");
+
+        IDomain timestamp1 = new DomainTimestamp();
+        timestamp1.setContentAssistLabel("timestamp");
+        timestamp1.setContentAssistProposal("${1:timestamp}");
+
+
+        type.add(time1);
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.TIMESTAMP);
+
+        type = new ArrayList<IDomain>();
+        type.add(timestamp1);
         poly.add(type);
+
+
         return poly;
     }
 

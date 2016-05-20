@@ -26,10 +26,10 @@ package com.squid.core.domain.extensions.date;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.squid.core.domain.DomainStringConstant;
-import com.squid.core.domain.IDomain;
+import com.squid.core.domain.*;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -75,18 +75,41 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Add n months to the date");
+            descriptions.add("Add n months to the timestamp");
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.DATE);
-        type.add(DomainStringConstant.DOMAIN);
+
+        IDomain date = new DomainDate();
+        date.setContentAssistLabel("date");
+        date.setContentAssistProposal("${1:date}");
+        IDomain timestamp = new DomainTimestamp();
+        timestamp.setContentAssistLabel("timestamp");
+        timestamp.setContentAssistProposal("${1:timestamp}");
+        IDomain truncateType = new DomainStringConstant("");
+        truncateType.setContentAssistLabel("truncateType");
+        truncateType.setContentAssistProposal("${2:truncateType}");
+        type.add(date);
+        type.add(truncateType);
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.TIMESTAMP);
-        type.add(DomainStringConstant.DOMAIN);
+        type = new ArrayList<IDomain>();
+        type.add(timestamp);
+        type.add(truncateType);
         poly.add(type);
         return poly;
     }
+
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

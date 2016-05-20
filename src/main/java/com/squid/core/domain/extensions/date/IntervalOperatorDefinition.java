@@ -26,9 +26,9 @@ package com.squid.core.domain.extensions.date;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.squid.core.domain.CustomTypes;
-import com.squid.core.domain.IDomain;
+import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -53,10 +53,25 @@ public class IntervalOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Interval (not usable)");
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			setListContentAssistEntry(entry);
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-		type.add(IDomain.NUMERIC);
+
+		IDomain num = new DomainNumeric();
+		num.setContentAssistLabel("integer");
+		num.setContentAssistProposal("${1:n}");
+		type.add(num);
 		poly.add(type);
 		return poly;
 	}

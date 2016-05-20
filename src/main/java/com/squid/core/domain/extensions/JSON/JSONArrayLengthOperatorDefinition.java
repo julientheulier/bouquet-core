@@ -23,8 +23,11 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.JSON;
 
+import com.squid.core.domain.DomainNumeric;
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.sql.Types;
@@ -54,11 +57,26 @@ public class JSONArrayLengthOperatorDefinition extends JSONOperatorDefinition {
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Return the length of the json array");
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
-        List type = new ArrayList<IDomain>();
-        type.add(IDomain.STRING);
-        poly.add(type);
+        List type1 = new ArrayList<IDomain>();
+
+        IDomain json = new DomainString();
+        json.setContentAssistLabel("json");
+        json.setContentAssistProposal("${1:json}");
+        type1.add(json);
+        poly.add(type1);
         return poly;
     }
 

@@ -25,6 +25,7 @@ package com.squid.core.domain.extensions.date.operator;
 
 import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.util.ArrayList;
@@ -53,13 +54,32 @@ public class DateCurrentTimestampOperatorDefinition extends DateOperatorDefiniti
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Return current timestamp");
+            descriptions.add("Return current timestamp");
+
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.ANY);
+
+        IDomain any = new DomainAny();
+        any.setContentAssistLabel("ignored");
+        any.setContentAssistProposal("${1:ignored}");
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
+
+        type = new ArrayList<IDomain>();
+        type.add(any);
         poly.add(type);
+
         return poly;
     }
 
@@ -85,6 +105,10 @@ public class DateCurrentTimestampOperatorDefinition extends DateOperatorDefiniti
     public IDomain computeImageDomain(List<IDomain> imageDomains) {
         IDomain rawDomain = computeRawImageDomain(imageDomains);
         for (IDomain domain : imageDomains) {
+            //Cannot cast ANY to META
+            if(domain.isInstanceOf(IDomain.ANY)){
+                return IDomain.DATE;
+            }
             if (domain.isInstanceOf(DomainMetaDomain.META)) {
                 return ((IDomainMetaDomain)domain).createMetaDomain(rawDomain);
             }

@@ -77,7 +77,7 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
 
         IDomain json = new DomainString();
         json.setContentAssistLabel("json");
-        json.setContentAssistProposal("{1:json}");
+        json.setContentAssistProposal("${1:json}");
         type1.add(json);
         poly.add(type1);
 
@@ -85,7 +85,7 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
         type2.add(json);
         IDomain index = new DomainNumeric();
         index.setContentAssistLabel("index");
-        index.setContentAssistProposal("{2:index}");
+        index.setContentAssistProposal("${2:index}");
         type2.add(index);
         poly.add(type2);
 

@@ -23,10 +23,12 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.cast;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.IDomainMetaDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 import com.squid.core.domain.vector.VectorDomain;
 
@@ -61,6 +63,9 @@ public class CastToIntegerOperatorDefinition extends CastOperatorDefinition {
     public IDomain computeImageDomain(List<IDomain> imageDomains) {
         if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
         IDomain argumentToCast = imageDomains.get(0);
+        if(argumentToCast.isInstanceOf(IDomain.ANY)){
+            return IDomain.NUMERIC;
+        }
         boolean is_meta = argumentToCast.isInstanceOf(IDomain.META);
         IDomain computedDomain = IDomain.NUMERIC;
         if (is_meta) {
@@ -75,15 +80,33 @@ public class CastToIntegerOperatorDefinition extends CastOperatorDefinition {
         }
     }
 
+
+    @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Cast first argument to integer");
+
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
     @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.ANY);
+
+        IDomain any = new DomainAny();
+        any.setContentAssistLabel("any");
+        any.setContentAssistProposal("${1:any}");
+
+        type.add(any);
         poly.add(type);
+
         return poly;
     }
-
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
         if (imageDomains.size() > 0 && imageDomains.size() <= 3) {

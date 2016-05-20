@@ -23,11 +23,9 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.cast;
 
-import com.squid.core.domain.DomainNumericConstant;
-import com.squid.core.domain.DomainStringConstant;
-import com.squid.core.domain.IDomain;
-import com.squid.core.domain.IDomainMetaDomain;
+import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 import com.squid.core.domain.vector.VectorDomain;
 
@@ -63,6 +61,9 @@ public class CastToCharOperatorDefinition extends CastOperatorDefinition {
     public IDomain computeImageDomain(List<IDomain> imageDomains) {
         if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
         IDomain argumentToCast = imageDomains.get(0);
+        if(argumentToCast.isInstanceOf(IDomain.ANY)){
+            return IDomain.STRING;
+        }
         boolean is_meta = argumentToCast.isInstanceOf(IDomain.META);
         IDomain computedDomain = argumentToCast;
         computedDomain = IDomain.STRING;
@@ -79,14 +80,33 @@ public class CastToCharOperatorDefinition extends CastOperatorDefinition {
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Cast the first argument to char using the format");
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.ANY);
-        type.add(IDomain.STRING);
+
+        IDomain any1 = new DomainAny();
+        any1.setContentAssistLabel("any");
+        any1.setContentAssistProposal("${1:any}");
+        IDomain string2 = new DomainString();
+        string2.setContentAssistLabel("format");
+        string2.setContentAssistProposal("${2:format}");
+        type.add(any1);
+        type.add(string2);
         poly.add(type);
         return poly;
     }
+
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

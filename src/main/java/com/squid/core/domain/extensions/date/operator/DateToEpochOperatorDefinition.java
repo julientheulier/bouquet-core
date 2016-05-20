@@ -25,6 +25,7 @@ package com.squid.core.domain.extensions.date.operator;
 
 import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.util.ArrayList;
@@ -53,21 +54,48 @@ public class DateToEpochOperatorDefinition extends DateOperatorDefinition {
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Convert the given timestamp to unix timestamp");
+            descriptions.add("Convert the given temporal to unix timestamp using the given format");
+            descriptions.add("Convert the given temporal to unix timestamp using the given format");
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.TIMESTAMP);
+
+        IDomain temporal1 = new DomainTemporal();
+        temporal1.setContentAssistLabel("temporal");
+        temporal1.setContentAssistProposal("${1:temporal}");
+        IDomain temporal2 = new DomainTemporal();
+        temporal2.setContentAssistLabel("temporal");
+        temporal2.setContentAssistProposal("${2:format}");
+        IDomain timestamp = new DomainTimestamp();
+        timestamp.setContentAssistLabel("timestamp");
+        timestamp.setContentAssistProposal("${1:timestamp}");
+        IDomain num = new DomainNumeric();
+        num.setContentAssistLabel("num");
+        num.setContentAssistProposal("${2:n}");
+        type.add(timestamp);
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.TEMPORAL);
-        type.add(IDomain.NUMERIC);
+        type = new ArrayList<IDomain>();
+        type.add(temporal1);
+        type.add(num);
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.TEMPORAL);
-        type.add(IDomain.TEMPORAL);
+        type = new ArrayList<IDomain>();
+        type.add(temporal1);
+        type.add(temporal2);
         poly.add(type);
         return poly;
     }
+
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

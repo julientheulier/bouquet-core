@@ -23,10 +23,9 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.cast;
 
-import com.squid.core.domain.DomainNumericConstant;
-import com.squid.core.domain.IDomain;
-import com.squid.core.domain.IDomainMetaDomain;
+import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 import com.squid.core.domain.vector.VectorDomain;
 
@@ -76,17 +75,42 @@ public class CastToTimestampOperatorDefinition extends CastOperatorDefinition {
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Cast the date to timestamp");
+            descriptions.add("Cast the string to timestamp using the format");
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.DATE);
+
+        IDomain date1 = new DomainDate();
+        date1.setContentAssistLabel("date");
+        date1.setContentAssistProposal("${1:date}");
+        IDomain string1 = new DomainString();
+        string1.setContentAssistLabel("string");
+        string1.setContentAssistProposal("${1:string}");
+        IDomain string2 = new DomainString();
+        string2.setContentAssistLabel("format");
+        string2.setContentAssistProposal("${2:format}");
+        type.add(date1);
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
+
+        type = new ArrayList<IDomain>();
+        type.add(string1);
+        type.add(string2);
         poly.add(type);
+
         return poly;
     }
+
 
 
     @Override

@@ -23,8 +23,11 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.JSON;
 
+import com.squid.core.domain.DomainNumeric;
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.sql.Types;
@@ -33,6 +36,7 @@ import java.util.List;
 
 /**
  * Created by lrabiet on 03/05/16.
+ * http://docs.aws.amazon.com/redshift/latest/dg/JSON_EXTRACT_PATH_TEXT.html
  */
 public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinition {
     public static final String ID = JSONOperatorDefinition.JSON_BASE + "JSON_EXTRACT_PATH_TEXT";
@@ -53,25 +57,76 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
         super(name, ID, domain, categoryType);
     }
 
-    public List getParametersTypes() { //TODO handle this specific case differrntly.
+    @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Return the element corresponding to the key in the json element");
+            descriptions.add("Return the elements corresponding to the keys in the json element");
+            descriptions.add("Return the elements corresponding to the keys in the json element");
+            descriptions.add("Return the elements corresponding to the keys in the json element");
+            descriptions.add("Return the elements corresponding to the keys in the json element");
+            descriptions.add("Return the elements corresponding to the keys in the json element");
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+
+    public List getParametersTypes() { //Up to five level of path_elements.
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.STRING);
+
+        IDomain json = new DomainString();
+        json.setContentAssistLabel("json");
+        json.setContentAssistProposal("${1:json}");
+        type.add(json);
         poly.add(type);
         type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
+        IDomain key1 = new DomainString();
+        key1.setContentAssistLabel("key1");
+        key1.setContentAssistProposal("${2:key1}");
+        type.add(json);
+        type.add(key1);
         poly.add(type);
         type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
+        IDomain key2 = new DomainString();
+        key2.setContentAssistLabel("key2");
+        key2.setContentAssistProposal("${3:key2}");
+        type.add(json);
+        type.add(key1);
+        type.add(key2);
         poly.add(type);
         type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
+        IDomain key3 = new DomainString();
+        key3.setContentAssistLabel("key3");
+        key3.setContentAssistProposal("${4:key3}");
+        type.add(json);
+        type.add(key1);
+        type.add(key2);
+        type.add(key3);
+        poly.add(type);
+        type = new ArrayList<IDomain>(); ;
+        IDomain key4 = new DomainString();
+        key4.setContentAssistLabel("key4");
+        key4.setContentAssistProposal("${5:key4}");
+        type.add(json);
+        type.add(key1);
+        type.add(key2);
+        type.add(key3);
+        type.add(key4);
+        poly.add(type);
+        type = new ArrayList<IDomain>(); ;
+        IDomain key5 = new DomainString();
+        key5.setContentAssistLabel("key5");
+        key5.setContentAssistProposal("${6:key5}");
+        type.add(json);
+        type.add(key1);
+        type.add(key2);
+        type.add(key3);
+        type.add(key4);
+        type.add(key5);
         poly.add(type);
         return poly;
     }
