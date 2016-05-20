@@ -26,8 +26,10 @@ package com.squid.core.domain.maths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -35,6 +37,7 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
  * Ticket #1190 implements some ANSI functions
  * @author loivd 
  * Sign function definition
+ * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions145.htm
  */
 public class SignOperatorDefintion extends OperatorDefinition {
 
@@ -58,10 +61,28 @@ public class SignOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("SIGN returns the sign of n (-1 for negative numbers, 0 for 0 and 1 for strictly positive numbers)");
+
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
 	public List getParametersTypes() {
-		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-		type.add(IDomain.NUMERIC);
+		IDomain number = new DomainNumeric();
+		number.setContentAssistLabel("Numeric n");
+		number.setContentAssistProposal("${1:n}");
+		type.add(number);
+
+		List poly = new ArrayList<List>();
 		poly.add(type);
 		return poly;
 	}

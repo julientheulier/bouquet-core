@@ -26,9 +26,11 @@ package com.squid.core.domain.maths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -36,6 +38,7 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
  * Ticket #1190 implements some ANSI functions
  * @author loivd
  * Sinh, Cosh, Tanh functions definition
+ * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions147.htm
  */
 public class SinhCoshTanhOperatorDefintion extends OperatorDefinition {
 
@@ -55,16 +58,35 @@ public class SinhCoshTanhOperatorDefintion extends OperatorDefinition {
 		super(name,ID,PREFIX_POSITION,name,IDomain.CONTINUOUS, categoryType);
 	}
 
+
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
 	}
 
 	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("This function returns the hyperbolic sine, cosine or tangent of n");
+
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
 	public List getParametersTypes() {
-		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-		type.add(IDomain.NUMERIC);
+		IDomain number = new DomainNumeric();
+		number.setContentAssistLabel("Numeric n");
+		number.setContentAssistProposal("${1:n}");
+		type.add(number);
+
+		List poly = new ArrayList<List>();
 		poly.add(type);
 		return poly;
 	}

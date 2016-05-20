@@ -61,7 +61,10 @@ public class DegreesOperatorDefintion extends OperatorDefinition {
 	@Override
 	public List getParametersTypes() {
 		List type = new ArrayList<IDomain>();
-		type.add(IDomain.NUMERIC);
+		IDomain number = new DomainNumeric();
+		number.setContentAssistLabel("Numeric r");
+		number.setContentAssistProposal("${1:r}");
+		type.add(number);
 
 		List poly = new ArrayList<List>();
 		poly.add(type);

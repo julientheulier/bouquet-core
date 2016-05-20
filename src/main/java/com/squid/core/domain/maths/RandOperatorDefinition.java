@@ -26,8 +26,10 @@ package com.squid.core.domain.maths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -51,6 +53,7 @@ public class RandOperatorDefinition extends OperatorDefinition {
 	public RandOperatorDefinition(String name, String ID, int categoryType) {
 		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
 	}
+	//FLOOR(low_bound  + RANDOM() * (hight_bound - low_bound + 1))
 
 	@Override
 	public int getType() {
@@ -58,13 +61,33 @@ public class RandOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Generate a random number between 0 and 1");
+			descriptions.add("Takes two arguments (lower and upper bounds). To compute FLOOR(low_bound  + RANDOM() * (hight_bound - low_bound + 1))");
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, getParametersTypes());
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
 		poly.add(type);
-		type = new ArrayList<IDomain>(); ;
-		type.add(IDomain.NUMERIC);
-		type.add(IDomain.NUMERIC);
+		type = new ArrayList<IDomain>();
+		IDomain lowerbound = new DomainNumeric();
+		lowerbound.setContentAssistLabel("lowerbound");
+		lowerbound.setContentAssistProposal("${1:lo}");
+		type.add(lowerbound);
+		IDomain upperbound = new DomainNumeric();
+		upperbound.setContentAssistLabel("upperbound");
+		upperbound.setContentAssistProposal("${2:up}");
+		type.add(upperbound);
 		poly.add(type);
 		return poly;
 	}

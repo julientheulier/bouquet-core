@@ -57,7 +57,7 @@ public class CeilOperatorDefinition extends OperatorDefinition {
 		if(super.getListContentAssistEntry()==null){
 
 			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Description");
+			descriptions.add("Map a (real) number to its largest previous integer");
 
 			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
 			setListContentAssistEntry(entry);
@@ -69,8 +69,10 @@ public class CeilOperatorDefinition extends OperatorDefinition {
 	@Override
 	public List getParametersTypes() {
 		List type = new ArrayList<IDomain>();
-		IDomain num = new DomainNumeric();
-		type.add(num);
+		IDomain number = new DomainNumeric();
+		number.setContentAssistLabel("Numeric r");
+		number.setContentAssistProposal("${1:r}");
+		type.add(number);
 
 		List poly = new ArrayList<List>();
 		poly.add(type);
