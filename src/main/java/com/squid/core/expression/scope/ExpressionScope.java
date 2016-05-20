@@ -24,6 +24,7 @@
 package com.squid.core.expression.scope;
 
 import java.util.List;
+import java.util.Set;
 
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.expression.ConstantValue;
@@ -57,7 +58,7 @@ public interface ExpressionScope {
 	 * @return
 	 * @throws ScopeException
 	 */
-	public abstract OperatorDefinition looseLookup(String fun) throws ScopeException;
+	public abstract Set<OperatorDefinition> looseLookup(String fun) throws ScopeException;
 
 
 	/**

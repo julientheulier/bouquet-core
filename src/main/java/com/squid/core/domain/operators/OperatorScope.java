@@ -194,16 +194,21 @@ public class OperatorScope implements IntrinsicOperators {
     }
   }
 
-  public OperatorDefinition looseLookupByName(String name) throws ScopeException {
+  public Set<OperatorDefinition> looseLookupByName(String name) throws ScopeException {
     Set<String> set = m_lookupByName.keySet();
-    Set<String> proposal = new HashSet<String>();
+    name.replaceAll("'","");
+    Set<OperatorDefinition> proposal = new HashSet<OperatorDefinition>();
     for(String func : set){
       if(func.startsWith(name)){
-        proposal.add(func); //take the first one for now
-        return  m_lookupByName.get(func);
+        proposal.add(m_lookupByName.get(func)); //take the first one for now
+        //return  m_lookupByName.get(func);
       }
     }
-    throw new ScopeException("unknown function '" + name + "'");
+    if(proposal.size()==0){
+      throw new ScopeException("unknown function '" + name + "'");
+    }else{
+      return proposal;
+    }
   }
 
 

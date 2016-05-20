@@ -26,11 +26,7 @@ package com.squid.core.expression.scope;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 
 import com.squid.core.domain.IDomain;
@@ -99,7 +95,7 @@ implements ExpressionScope
         return getOperatorScope().lookupByName(fun.toUpperCase().trim());
     }
 
-    public OperatorDefinition looseLookup(String fun) throws ScopeException {
+    public Set<OperatorDefinition> looseLookup(String fun) throws ScopeException {
         return getOperatorScope().looseLookupByName(fun.toUpperCase().trim());
     }
 
