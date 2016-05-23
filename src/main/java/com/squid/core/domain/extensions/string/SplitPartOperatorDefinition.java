@@ -27,9 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainNumericConstant;
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -68,14 +70,41 @@ public class SplitPartOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Split the input string using the string delimiter and takes the pos-th element.");
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			setListContentAssistEntry(entry);
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-		type.add(IDomain.STRING);
-		type.add(DomainStringConstant.DOMAIN);
-		type.add(DomainNumericConstant.DOMAIN);
+
+		IDomain string1 = new DomainString();
+		string1.setContentAssistLabel("input_string");
+		string1.setContentAssistProposal("${1:input_string}");
+
+		IDomain string2 = new DomainStringConstant("");
+		string2.setContentAssistLabel("string_delim");
+		string2.setContentAssistProposal("${2:string_delim}");
+
+		IDomain num3 = new DomainNumericConstant();
+		num3.setContentAssistLabel("position");
+		num3.setContentAssistProposal("${3:position}");
+
+		type.add(string1);
+		type.add(string2);
+		type.add(num3);
+
 		poly.add(type);
+
 		return poly;
+
 	}
 
 	@Override

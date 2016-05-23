@@ -26,9 +26,13 @@ package com.squid.core.domain.extensions.string;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumericConstant;
+import com.squid.core.domain.DomainString;
+import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.extensions.registry.StringFunctionsRegistry;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -51,13 +55,33 @@ public class StringLengthOperatorsDefinition extends OperatorDefinition {
 		return ALGEBRAIC_TYPE;
 	}
 
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Return the length of the string.");
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			setListContentAssistEntry(entry);
+		}
+		return super.getListContentAssistEntry();
+	}
+
 	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-		type.add(IDomain.STRING);
+
+		IDomain string1 = new DomainString();
+		string1.setContentAssistLabel("input_string");
+		string1.setContentAssistProposal("${1:input_string}");
+
+		type.add(string1);
+
 		poly.add(type);
+
 		return poly;
+
 	}
 
 	@Override

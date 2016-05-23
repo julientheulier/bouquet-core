@@ -26,8 +26,10 @@ package com.squid.core.domain.extensions.string;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -52,13 +54,36 @@ public class PosStringOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Return the position of the string_to_find.");
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			setListContentAssistEntry(entry);
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-		type.add(IDomain.STRING);
-		type.add(IDomain.STRING);
+
+		IDomain string1 = new DomainString();
+		string1.setContentAssistLabel("input_string");
+		string1.setContentAssistProposal("${1:input_string}");
+
+		IDomain string2 = new DomainString();
+		string2.setContentAssistLabel("string_to_find");
+		string2.setContentAssistProposal("${2:string_to_find}");
+
+		type.add(string1);
+		type.add(string2);
+
 		poly.add(type);
+
 		return poly;
+
 	}
 
 	@Override

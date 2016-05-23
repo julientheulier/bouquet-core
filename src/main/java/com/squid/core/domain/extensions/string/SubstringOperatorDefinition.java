@@ -27,9 +27,12 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.DomainNumericConstant;
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -43,12 +46,12 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 	
 	public SubstringOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
-		hint = name+"(string,begin) or "+name+"(string,-being) or "+name+"(string begin,end)";
+		hint = name+"(string,begin) or "+name+"(string,-begin) or "+name+"(string begin,end)";
 	}
 	
 	public SubstringOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
 		super(name,ID,PREFIX_POSITION,name,domain, categoryType);
-		hint = name+"(string,begin) or "+name+"(string,-being) or "+name+"(string begin,end)";
+		hint = name+"(string,begin) or "+name+"(string,-begig) or "+name+"(string begin,end)";
 	}
 	
 	@Override
@@ -57,36 +60,85 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Take the substring between begin and end");
+			descriptions.add("Take the substring between begin and end");
+			descriptions.add("Take the substring between begin and end");
+			descriptions.add("Take the substring between begin and end");
+			descriptions.add("Take the substring between begin and end");
+			descriptions.add("Take the substring between begin and end");
+
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			setListContentAssistEntry(entry);
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-		type.add(IDomain.STRING);
-		type.add(DomainNumericConstant.DOMAIN);
+
+		IDomain string1 = new DomainString();
+		string1.setContentAssistLabel("input_string");
+		string1.setContentAssistProposal("${1:s}");
+		IDomain num2 = new DomainNumeric();
+		num2.setContentAssistLabel("begin_index");
+		num2.setContentAssistProposal("${2:begin_index}");
+		IDomain numCst2 = new DomainNumericConstant(0.0);
+		num2.setContentAssistLabel("begin_index");
+		num2.setContentAssistProposal("${2:begin_index}");
+		IDomain num3 = new DomainNumeric();
+		num3.setContentAssistLabel("end_index");
+		num3.setContentAssistProposal("${3:end_index}");
+		IDomain numCst3 = new DomainNumericConstant(0.0);
+		numCst3.setContentAssistLabel("end_index");
+		numCst3.setContentAssistProposal("${3:end_index}");
+
+
+		type.add(string1);
+		type.add(num2);
+
 		poly.add(type);
-		type = new ArrayList<IDomain>(); ;
-		type.add(IDomain.STRING);
-		type.add(IDomain.NUMERIC);
+		type = new ArrayList<IDomain>();
+
+		type.add(string1);
+		type.add(numCst2);
+
+
 		poly.add(type);
-		type = new ArrayList<IDomain>(); ;
-		type.add(IDomain.STRING);
-		type.add(DomainNumericConstant.DOMAIN);
-		type.add(IDomain.NUMERIC);
+		type = new ArrayList<IDomain>();
+
+		type.add(string1);
+		type.add(num2);
+		type.add(num3);
+
 		poly.add(type);
-		type = new ArrayList<IDomain>(); ;
-		type.add(IDomain.STRING);
-		type.add(IDomain.NUMERIC);
-		type.add(IDomain.NUMERIC);
+		type = new ArrayList<IDomain>();
+
+		type.add(string1);
+		type.add(numCst2);
+		type.add(num3);
+
 		poly.add(type);
-		type = new ArrayList<IDomain>(); ;
-		type.add(IDomain.STRING);
-		type.add(DomainNumericConstant.DOMAIN);
-		type.add(DomainNumericConstant.DOMAIN);
+		type = new ArrayList<IDomain>();
+
+
+		type.add(string1);
+		type.add(num2);
+		type.add(numCst3);
+
 		poly.add(type);
-		type = new ArrayList<IDomain>(); ;
-		type.add(IDomain.STRING);
-		type.add(IDomain.NUMERIC);
-		type.add(DomainNumericConstant.DOMAIN);
+		type = new ArrayList<IDomain>();
+
+		type.add(string1);
+		type.add(numCst2);
+		type.add(numCst3);
+
 		poly.add(type);
+
 		return poly;
 	}
 

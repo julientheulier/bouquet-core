@@ -23,10 +23,9 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.cast;
 
-import com.squid.core.domain.DomainNumericConstant;
-import com.squid.core.domain.IDomain;
-import com.squid.core.domain.IDomainMetaDomain;
+import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 import com.squid.core.domain.vector.VectorDomain;
 
@@ -77,35 +76,93 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Cast the number to number using the format");
+            descriptions.add("Cast the string to number using the format");
+            descriptions.add("Cast the number to number using the size and the precision");
+            descriptions.add("Cast the string to number using the size and the precision");
+            descriptions.add("Cast the number to number using the size, the precision and the format");
+            descriptions.add("Cast the string to number using the size, the precision and the format");
+
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.NUMERIC);
+
+        IDomain num1 = new DomainNumeric();
+        num1.setContentAssistLabel("Num");
+        num1.setContentAssistProposal("${1:n}");
+        IDomain string1 = new DomainString();
+        string1.setContentAssistLabel("String");
+        string1.setContentAssistProposal("${1:s}");
+        IDomain string2 = new DomainNumeric();
+        string2.setContentAssistLabel("format");
+        string2.setContentAssistProposal("${2:format}");
+        IDomain num2 = new DomainNumeric();
+        num2.setContentAssistLabel("size");
+        num2.setContentAssistProposal("${2:size}");
+        IDomain num3 = new DomainNumeric();
+        num3.setContentAssistLabel("precision");
+        num3.setContentAssistProposal("${3:precision}");
+        IDomain string4 = new DomainNumeric();
+        string4.setContentAssistLabel("format");
+        string4.setContentAssistProposal("${4:format}");
+
+
+        type.add(num1);
+        type.add(string2);
+
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.STRING);
+        type = new ArrayList<IDomain>();
+
+        type.add(string1);
+        type.add(string2);
+
+
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.NUMERIC);
-        type.add(IDomain.STRING);
+        type = new ArrayList<IDomain>();
+
+        type.add(num1);
+        type.add(num2);
+        type.add(num3);
+
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
+        type = new ArrayList<IDomain>();
+
+        type.add(string1);
+        type.add(num2);
+        type.add(num3);
+
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.ANY);
-        type.add(DomainNumericConstant.DOMAIN);
-        type.add(DomainNumericConstant.DOMAIN);
+        type = new ArrayList<IDomain>();
+
+
+        type.add(num1);
+        type.add(num2);
+        type.add(num3);
+        type.add(string4);
+
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.ANY);
-        type.add(IDomain.NUMERIC);
-        type.add(IDomain.NUMERIC);
-        type.add(IDomain.STRING);
+        type = new ArrayList<IDomain>();
+
+        type.add(string1);
+        type.add(num2);
+        type.add(num3);
+        type.add(string4);
+
         poly.add(type);
+
         return poly;
     }
+
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
         if (imageDomains.size() > 0 && imageDomains.size() <= 3) {
