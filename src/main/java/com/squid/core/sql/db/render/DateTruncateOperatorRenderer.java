@@ -43,11 +43,29 @@ public class DateTruncateOperatorRenderer extends BaseOperatorRenderer {
 		if (args.length == 2 && opDef.getExtendedID().equals(DateTruncateOperatorDefinition.DATE_TRUNCATE)) {
 			return prettyPrintTwoArgs(skin, piece, opDef, args);
 		} else if (args.length == 1 && opDef.getExtendedID().startsWith(DateTruncateShortcutsOperatorDefinition.SHORTCUT_BASE)) {
-			if (opDef.getExtendedID().equals(DateTruncateShortcutsOperatorDefinition.DAILY_ID) && piece!=null) {
-				// if DAILY, only applies if the data is a timestamp
+			if (piece!=null) {
 				ExtendedType type0 = piece.getParamTypes()[0];
-				if (!type0.getDomain().isInstanceOf(IDomain.TIMESTAMP)) {
-					return "("+args[0]+")";
+				if (type0.getDomain().isInstanceOf(IDomain.DATE)) {
+					if (opDef.getExtendedID().equals(DateTruncateShortcutsOperatorDefinition.DAILY_ID)) {
+						// already a DATE
+						return args[0];
+					}
+				}
+				if (type0.getDomain().isInstanceOf(IDomain.MONTHLY)) {
+					if (opDef.getExtendedID().equals(DateTruncateShortcutsOperatorDefinition.WEEKLY_ID)) {
+						// cannot get the week for month
+						return args[0];
+					}
+					if (opDef.getExtendedID().equals(DateTruncateShortcutsOperatorDefinition.MONTHLY_ID)) {
+						// already a month
+						return args[0];
+					}
+				}
+				if (type0.getDomain().isInstanceOf(IDomain.YEARLY)) {
+					if (opDef.getExtendedID().equals(DateTruncateShortcutsOperatorDefinition.YEARLY_ID)) {
+						// already a year
+						return args[0];
+					}
 				}
 			}
 			String arg1 = getArgument(opDef.getExtendedID());

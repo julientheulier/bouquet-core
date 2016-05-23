@@ -47,6 +47,8 @@ public interface IDomain
 	public static final IDomain NUMERIC = new DomainNumeric();
 	public static final IDomain TEMPORAL = new DomainTemporal();
 	public static final IDomain DATE = new DomainDate();
+	public static final IDomain MONTHLY = new DomainDateMonthly();
+	public static final IDomain YEARLY = new DomainDateYearly();
 	public static final IDomain TIME = new DomainTime();
 	public static final IDomain OBJECT = new DomainObject();
 	public static final IDomain NULL = new DomainNull();

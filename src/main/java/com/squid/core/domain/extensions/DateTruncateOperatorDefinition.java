@@ -102,17 +102,8 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 		if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
         IDomain argument0 = imageDomains.get(0);
 		boolean is_aggregate = argument0.isInstanceOf(AggregateDomain.DOMAIN);
-		IDomain domain = IDomain.UNKNOWN;
-		if (argument0.isInstanceOf(IDomain.TIMESTAMP)) {
-			DomainStringConstant mode = (DomainStringConstant)imageDomains.get(1);
-			if (isConvertToDate(mode.getValue())) {
-				domain = IDomain.DATE;
-			} else {
-				domain = IDomain.TIMESTAMP;
-			}
-		} else {
-			domain = IDomain.DATE;
-		}
+		DomainStringConstant mode = (DomainStringConstant)imageDomains.get(1);
+		IDomain domain = computeImageDomain(mode.getValue(), argument0);
         if (is_aggregate) {
         	// compose with Aggregate
         	domain = AggregateDomain.MANAGER.createMetaDomain(domain);
@@ -121,12 +112,26 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
         return domain;
 	}
 	
-	private boolean isConvertToDate(String mode) {
-		return 
-				mode.equalsIgnoreCase(YEAR) || 
-				mode.equalsIgnoreCase(MONTH) ||
-				mode.equalsIgnoreCase(WEEK) ||
-				mode.equalsIgnoreCase(DAY);
+	private IDomain computeImageDomain(String mode, IDomain argument) {
+		if (mode.equals(YEAR) || argument.isInstanceOf(IDomain.YEARLY)) {
+			if (argument.isInstanceOf(IDomain.YEARLY)) {
+				return argument;
+			} else {
+				return IDomain.YEARLY;
+			}
+		}
+		if (mode.equals(MONTH) || argument.isInstanceOf(IDomain.MONTHLY)) {
+			if (argument.isInstanceOf(IDomain.MONTHLY)) {
+				return argument;
+			} else {
+				return IDomain.MONTHLY;
+			}
+		}
+		if (mode.equals(WEEK) || mode.equals(DAY) || argument.isInstanceOf(IDomain.DATE)) {
+			return IDomain.DATE;
+		}
+		// else
+		return argument;
 	}
 
 }

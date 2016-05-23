@@ -24,30 +24,31 @@
 package com.squid.core.domain;
 
 /**
- * This is the domain for a Date value, that is a date without time information
- * (thus this date has no timezone)
+ * This is the domain for a value that represent a Month. 
+ * That is, it's a date where the day-of-month is always 1 (and meaningless).
+ * It is also a Date, but this sub-type allows to perform some static type check.
  * @author sergefantino
  *
  */
-public class DomainDate extends DomainBase {
+public class DomainDateMonthly extends DomainBase {
 
     /**
      * 
      */
-    public DomainDate() {
-        this(IDomain.TEMPORAL);
+    public DomainDateMonthly() {
+        this(IDomain.DATE);
     }
 
     /**
      * @param parent
      */
-    protected DomainDate(IDomain parent) {
+    protected DomainDateMonthly(IDomain parent) {
         super(parent);
-        setName("Date");
+        setName("Monthly");
     }
 
     public IDomain getSingleton() {
-        return IDomain.DATE;
+        return IDomain.MONTHLY;
     }
 
 }

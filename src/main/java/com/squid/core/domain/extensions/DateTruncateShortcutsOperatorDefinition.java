@@ -25,7 +25,6 @@ package com.squid.core.domain.extensions;
 
 import java.util.List;
 
-import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
@@ -97,16 +96,7 @@ public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition 
 		if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
         IDomain argument0 = imageDomains.get(0);
 		boolean is_aggregate = argument0.isInstanceOf(AggregateDomain.DOMAIN);
-		IDomain domain = IDomain.UNKNOWN;
-		if (argument0.isInstanceOf(IDomain.TIMESTAMP)) {
-			if (isConvertToDate(getExtendedID())) {
-				domain = IDomain.DATE;
-			} else {
-				domain = IDomain.TIMESTAMP;
-			}
-		} else {
-			domain = IDomain.DATE;
-		}
+		IDomain domain = computeImageDomain(getExtendedID(), argument0);
         if (is_aggregate) {
         	// compose with Aggregate
         	domain = AggregateDomain.MANAGER.createMetaDomain(domain);
@@ -115,12 +105,26 @@ public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition 
         return domain;
 	}
 	
-	private boolean isConvertToDate(String mode) {
-		return 
-				mode.equalsIgnoreCase(YEARLY_ID) || 
-				mode.equalsIgnoreCase(MONTHLY_ID) ||
-				mode.equalsIgnoreCase(WEEKLY_ID) ||
-				mode.equalsIgnoreCase(DAILY_ID);
+	private IDomain computeImageDomain(String mode, IDomain argument) {
+		if (mode.equals(YEARLY_ID) || argument.isInstanceOf(IDomain.YEARLY)) {
+			if (argument.isInstanceOf(IDomain.YEARLY)) {
+				return argument;
+			} else {
+				return IDomain.YEARLY;
+			}
+		}
+		if (mode.equals(MONTHLY_ID) || argument.isInstanceOf(IDomain.MONTHLY)) {
+			if (argument.isInstanceOf(IDomain.MONTHLY)) {
+				return argument;
+			} else {
+				return IDomain.MONTHLY;
+			}
+		}
+		if (mode.equals(WEEKLY_ID) || mode.equals(DAILY_ID) || argument.isInstanceOf(IDomain.DATE)) {
+			return IDomain.DATE;
+		}
+		// else
+		return argument;
 	}
 
 }
