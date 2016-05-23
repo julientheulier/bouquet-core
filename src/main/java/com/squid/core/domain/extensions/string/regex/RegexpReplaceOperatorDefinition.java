@@ -23,7 +23,9 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.string.regex;
 
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.util.ArrayList;
@@ -54,19 +56,44 @@ public class RegexpReplaceOperatorDefinition extends RegexpOperatorDefinition {
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Replace all the occurence regex_pattern by replace_string in the input_string");
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
+
+        IDomain string1 = new DomainString();
+        string1.setContentAssistLabel("input_string");
+        string1.setContentAssistProposal("${1:input_string}");
+
+
+        IDomain string2 = new DomainString();
+        string2.setContentAssistLabel("regex_pattern");
+        string2.setContentAssistProposal("${2:regex_pattern}");
+
+        IDomain string3 = new DomainString();
+        string2.setContentAssistLabel("replace_string");
+        string2.setContentAssistProposal("${3:replace_string}");
+
+        type.add(string1);
+        type.add(string2);
+        type.add(string3);
+
         poly.add(type);
-        type = new ArrayList<IDomain>(); ;
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
-        poly.add(type);
+
         return poly;
+
     }
+
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

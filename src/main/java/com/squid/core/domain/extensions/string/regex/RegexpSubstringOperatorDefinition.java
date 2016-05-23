@@ -23,7 +23,9 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.string.regex;
 
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.util.ArrayList;
@@ -54,14 +56,42 @@ public class RegexpSubstringOperatorDefinition extends RegexpOperatorDefinition 
     }
 
     @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Return the substring that match the regex in the input_string");
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
+
+    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
+
+        IDomain string1 = new DomainString();
+        string1.setContentAssistLabel("input_string");
+        string1.setContentAssistProposal("${1:input_string}");
+
+
+        IDomain string2 = new DomainString();
+        string2.setContentAssistLabel("regex_pattern");
+        string2.setContentAssistProposal("${2:regex_pattern}");
+
+
+        type.add(string1);
+        type.add(string2);
+
         poly.add(type);
+
         return poly;
+
     }
+
+
+
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

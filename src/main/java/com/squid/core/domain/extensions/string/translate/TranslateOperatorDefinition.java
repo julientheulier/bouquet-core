@@ -26,9 +26,11 @@ package com.squid.core.domain.extensions.string.translate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.extensions.registry.StringFunctionsRegistry;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -57,14 +59,41 @@ public class TranslateOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Return the input string with all the occurences of from_string replaced by the to_string");
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			setListContentAssistEntry(entry);
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-		type.add(IDomain.STRING);
-		type.add(IDomain.STRING);
-		type.add(IDomain.STRING);
+
+		IDomain string1 = new DomainString();
+		string1.setContentAssistLabel("input_string");
+		string1.setContentAssistProposal("${1:input_string}");
+
+		IDomain string2 = new DomainString();
+		string2.setContentAssistLabel("from_string");
+		string2.setContentAssistProposal("${2:from_string}");
+
+		IDomain string3 = new DomainString();
+		string2.setContentAssistLabel("to_string");
+		string2.setContentAssistProposal("${3:to_string}");
+
+		type.add(string1);
+		type.add(string2);
+		type.add(string3);
+
 		poly.add(type);
+
 		return poly;
+
 	}
 
 	@Override

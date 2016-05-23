@@ -26,8 +26,10 @@ package com.squid.core.domain.extensions.string.trim;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -54,22 +56,51 @@ public class TrimOperatorDefinition extends OperatorDefinition {
     hint = name + "(string[,trim_character])";
   }
 
+
+
   @Override
   public int getType() {
     return ALGEBRAIC_TYPE;
   }
 
   @Override
+  public ListContentAssistEntry getListContentAssistEntry(){
+    if(super.getListContentAssistEntry()==null){
+      List <String> descriptions = new ArrayList<String>();
+      descriptions.add("Remove from the right or the right (or both) all the occurences that are from the set. If the set is empty, then it takes single blank as the set.");
+      descriptions.add("Remove from the right or the right (or both) all the occurences that are from the set. If the set is empty, then it takes single blank as the set.");
+      ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+      setListContentAssistEntry(entry);
+    }
+    return super.getListContentAssistEntry();
+  }
+
+  @Override
   public List getParametersTypes() {
     List poly = new ArrayList<List>();
     List type = new ArrayList<IDomain>();
-    type.add(IDomain.STRING);
+
+    IDomain string1 = new DomainString();
+    string1.setContentAssistLabel("input_string");
+    string1.setContentAssistProposal("${1:input_string}");
+
+    IDomain string2 = new DomainString();
+    string2.setContentAssistLabel("set");
+    string2.setContentAssistProposal("${2:set}");
+
+
+    type.add(string1);
+
     poly.add(type);
-    type = new ArrayList<IDomain>(); ;
-    type.add(IDomain.STRING);
-    type.add(IDomain.STRING);
+    type = new ArrayList<IDomain>();
+
+    type.add(string1);
+    type.add(string2);
+
     poly.add(type);
+
     return poly;
+
   }
 
   @Override

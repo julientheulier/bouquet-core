@@ -27,10 +27,10 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.squid.core.domain.DomainNumericConstant;
-import com.squid.core.domain.IDomain;
+import com.squid.core.domain.*;
 import com.squid.core.domain.extensions.registry.StringFunctionsRegistry;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -60,19 +60,51 @@ public class PadOperatorDefinition extends OperatorDefinition {
   }
 
   @Override
+  public ListContentAssistEntry getListContentAssistEntry(){
+    if(super.getListContentAssistEntry()==null){
+      List <String> descriptions = new ArrayList<String>();
+      descriptions.add("Pad n characters to the left of the right of the first argument.");
+      descriptions.add("Pad n characters (using the final argument as the sequence of characters to use) to the left of the right of the first argument.");
+
+      ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+      setListContentAssistEntry(entry);
+    }
+    return super.getListContentAssistEntry();
+  }
+
+  @Override
   public List getParametersTypes() {
     List poly = new ArrayList<List>();
     List type = new ArrayList<IDomain>();
-    type.add(IDomain.STRING);
-    type.add(IDomain.NUMERIC);
+
+    IDomain string1 = new DomainString();
+    string1.setContentAssistLabel("string");
+    string1.setContentAssistProposal("${1:string}");
+
+    IDomain num2 = new DomainNumeric();
+    num2.setContentAssistLabel("n");
+    num2.setContentAssistProposal("${2:n}");
+
+    IDomain string3 = new DomainString();
+    string3.setContentAssistLabel("string_pad");
+    string3.setContentAssistProposal("${3:string_pad}");
+
+
+    type.add(string1);
+    type.add(num2);
+
     poly.add(type);
-    type = new ArrayList<IDomain>(); ;
-    type.add(IDomain.STRING);
-    type.add(IDomain.NUMERIC);
-    type.add(IDomain.STRING);
+    type = new ArrayList<IDomain>();
+
+    type.add(string1);
+    type.add(num2);
+    type.add(string3);
+
     poly.add(type);
     return poly;
+
   }
+
 
   @Override
   public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
