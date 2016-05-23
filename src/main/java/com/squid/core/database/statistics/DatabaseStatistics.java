@@ -65,8 +65,17 @@ public abstract class DatabaseStatistics implements IDatabaseStatistics {
 							if (c==null) {
 							    columns.put(column, new ColumnStatistics());// if not known, avoid to recompute
 							}
+						} catch (Exception e) {
+							if (connection!=null) {
+								if (!connection.getAutoCommit()) {
+									connection.rollback();
+								}
+							}
 						} finally {
-							if (connection!=null){
+							if (connection!=null) {
+								if (!connection.getAutoCommit()) {
+									connection.commit();
+								}
 								connection.close();
 								ds.releaseSemaphore();
 							}
@@ -95,16 +104,25 @@ public abstract class DatabaseStatistics implements IDatabaseStatistics {
 		try {
 			connection = this.ds.getConnectionBlocking();
 			return getStatistics(table, connection);
+		} catch (Exception e) {
+			if (connection!=null) {
+				if (!connection.getAutoCommit()) {
+					connection.rollback();
+				}
+			}
 		} finally {
 			try {
 				if (connection!=null) {
+					if (!connection.getAutoCommit()) {
+						connection.commit();
+					}
 					connection.close();
 					ds.releaseSemaphore();
 				}
 				} catch (SQLException e) {
-				return null;
 			}
 		}
+		return null;
 	}
 
 	@Override
@@ -123,9 +141,18 @@ public abstract class DatabaseStatistics implements IDatabaseStatistics {
 						connection = this.ds.getConnectionBlocking();
 						computeTablesStatistics(table.getSchema(),connection);
 						c = tables.get(table);
+					} catch (Exception e) {
+						if (connection!=null) {
+							if (!connection.getAutoCommit()) {
+								connection.rollback();
+							}
+						}
 					} finally {
 						try {
 							if (connection!=null) {
+								if (!connection.getAutoCommit()) {
+									connection.commit();
+								}
 								connection.close();
 								ds.releaseSemaphore();
 							}

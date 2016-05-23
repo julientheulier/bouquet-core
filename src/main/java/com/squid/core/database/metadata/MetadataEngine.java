@@ -139,10 +139,21 @@ public class MetadataEngine implements IMetadataEngine {
 			 this.vendorSpecific = VendorSupportRegistry.INSTANCE.getVendorSupport(database).getVendorMetadataSupport();
 			 if(logger.isDebugEnabled()){logger.debug("Vendor support for metadata "+this.vendorSpecific.getClass());};
 		 } catch (SQLException e) {
+        	 if (conn!=null) {
+        		 try {
+					if (!conn.getAutoCommit()) {
+						 conn.rollback();
+					 }
+				} catch (SQLException e1) {
+				}
+        	 }
 			 throw new ExecutionException("cannot populate database '"+database.getUrl()+"'", e);
 		 } finally {
 			 try {
 				 if (conn!=null) {
+					 if (!conn.getAutoCommit()) {
+						 conn.commit();
+					 }
 					 conn.close();
 					 ds.releaseSemaphore();
 				 }
@@ -169,11 +180,22 @@ public class MetadataEngine implements IMetadataEngine {
 					 schema.setDatabase(database);
 				 }
 			 }
-		 } catch (SQLException e) {
+		 } catch (Exception e) {
+        	 if (conn!=null) {
+        		 try {
+					if (!conn.getAutoCommit()) {
+						 conn.rollback();
+					 }
+				} catch (SQLException e1) {
+				}
+        	 }
 			 throw new ExecutionException("cannot populate schemas for database '"+database.getUrl()+"'", e);
 		 } finally {
 			 try {
 				 if (conn!=null) {
+					 if (!conn.getAutoCommit()) {
+						 conn.commit();
+					 }
 					 conn.close();
 					 ds.releaseSemaphore();
 				 }
@@ -223,11 +245,22 @@ public class MetadataEngine implements IMetadataEngine {
 		 try {
 			 conn = getBlockingConnection();
 			 populateTables(conn, schema, null);
-		 } catch (SQLException e) {
+		 } catch (Exception e) {
+        	 if (conn!=null) {
+        		 try {
+					if (!conn.getAutoCommit()) {
+						 conn.rollback();
+					 }
+				} catch (SQLException e1) {
+				}
+        	 }
 			 throw new ExecutionException("cannot populate schema '"+schema.getName()+"'", e);
 		 } finally {
 			 try {
 				 if (conn!=null) {
+					 if (!conn.getAutoCommit()) {
+						 conn.commit();
+					 }
 					 conn.close();
 					 ds.releaseSemaphore();
 				 }
@@ -238,23 +271,33 @@ public class MetadataEngine implements IMetadataEngine {
 	 }
 	
     protected void populateTables(Schema schema, String tableName) throws ExecutionException {
-    	try {
-	        Connection conn = getBlockingConnection();
-	        try {
-	            populateTables(conn, schema, tableName);
-	        } finally {
-				 try {
-					 if (conn!=null) {
-						 conn.close();
-						 ds.releaseSemaphore();
-					 }
-				 } catch (SQLException e) {
-					 logger.error(e.getLocalizedMessage());
-				 }
-	        }
-    	} catch (SQLException e) {
-    		throw new ExecutionException("failed to populate table '"+tableName+"'",e);
-    	}
+		Connection conn = null;
+		try {
+			conn = getBlockingConnection();
+			populateTables(conn, schema, tableName);
+		} catch (Exception e) {
+			if (conn != null) {
+				try {
+					if (!conn.getAutoCommit()) {
+						conn.rollback();
+					}
+				} catch (SQLException e1) {
+				}
+			}
+			throw new ExecutionException("failed to populate table '" + tableName + "'", e);
+		} finally {
+			try {
+				if (conn != null) {
+					if (!conn.getAutoCommit()) {
+						conn.commit();
+					}
+					conn.close();
+					ds.releaseSemaphore();
+				}
+			} catch (SQLException e) {
+				logger.error(e.getLocalizedMessage());
+			}
+		}
     }
 	 
 
@@ -283,11 +326,22 @@ public class MetadataEngine implements IMetadataEngine {
                  //schema.addTable(check);
              }
              return check;
-         } catch (SQLException e) {
+         } catch (Exception e) {
+        	 if (conn!=null) {
+        		 try {
+					if (!conn.getAutoCommit()) {
+						 conn.rollback();
+					 }
+				} catch (SQLException e1) {
+				}
+        	 }
         	 throw new ExecutionException("failed to refresh table '"+tableName+"' schema '"+schema.getName()+"'", e);
          } finally {
 			 try {
 				 if (conn!=null) {
+						if (!conn.getAutoCommit()) {
+							conn.commit();
+						}
 					 conn.close();
 					 ds.releaseSemaphore();
 				 }
@@ -318,30 +372,52 @@ public class MetadataEngine implements IMetadataEngine {
 	             }
              }
          } catch (SQLException e) {
+        	 if (conn!=null) {
+        		 try {
+					if (!conn.getAutoCommit()) {
+						 conn.rollback();
+					 }
+				} catch (SQLException e1) {
+				}
+        	 }
         	 throw new ExecutionException("failed to populate columns for schema '"+schema.getName()+"'", e);
          } finally {
-			 try {
-				 if (conn!=null) {
-					 conn.close();
-					 ds.releaseSemaphore();
-				 }
-			 } catch (SQLException e) {
-				 logger.error(e.getLocalizedMessage());
-			 }
-         }
-	 }
-	 
+			try {
+				if (conn != null) {
+					if (!conn.getAutoCommit()) {
+						conn.commit();
+					}
+					conn.close();
+					ds.releaseSemaphore();
+				}
+			} catch (SQLException e) {
+				logger.error(e.getLocalizedMessage());
+			}
+		}
+	}
 
-     public void populateColumns(List<? extends Table> tables) throws ExecutionException {
-         Connection conn = null;
+	public void populateColumns(List<? extends Table> tables) throws ExecutionException {
+		Connection conn = null;
          try {
              conn = getBlockingConnection();
              populateColumns(conn, tables);
-		 } catch (SQLException e) {
+		 } catch (Exception e) {
+			 if (conn!=null) {
+				 try {
+					 if (!conn.getAutoCommit()) {
+						 conn.rollback();
+					 }
+				 } catch (SQLException ee) {
+					 //
+				 }
+			 }
 			 throw new ExecutionException("cannot populate columns", e);
          } finally {
 			 try {
 				 if (conn!=null) {
+					 if (!conn.getAutoCommit()) {
+						 conn.commit();
+					 }
 					 conn.close();
 					 ds.releaseSemaphore();
 				 }
@@ -361,7 +437,7 @@ public class MetadataEngine implements IMetadataEngine {
 				 }
 			 }
 		 } catch (SQLException e) {
-			 throw new ExecutionException("Failed to populate columns", e);
+			 throw new ExecutionException("Failed to populate columns due to SQLException: "+e.getLocalizedMessage(), e);
 		 }
 	 }
 
@@ -420,11 +496,22 @@ public class MetadataEngine implements IMetadataEngine {
 					 populateImportedKeys(conn, table);
 				 }
 				 return true;
-			 } catch (SQLException e) {
+			 } catch (Exception e) {
+	        	 if (conn!=null) {
+	        		 try {
+						if (!conn.getAutoCommit()) {
+							 conn.rollback();
+						 }
+					} catch (SQLException e1) {
+					}
+	        	 }
 				 throw new ExecutionException("failed to populate imported keys", e);
 			 } finally {
 				 try {
 					 if (conn!=null) {
+						 if (!conn.getAutoCommit()) {
+							 conn.commit();
+						 }
 						 conn.close();
 						 ds.releaseSemaphore();
 					 }
@@ -436,61 +523,58 @@ public class MetadataEngine implements IMetadataEngine {
 	 }
 	 
 	 public void populateImportedKeys(Table table) throws ExecutionException {
-		 String product = table.getSchema().getDatabase().getProductName();
-		 if (product.equals(REDSHIFT_NAME)) {
-			 // do nothing
-		 } else {
-			 Connection conn = null;
-			 try {
-				 conn = getBlockingConnection();
-				 populateImportedKeys(conn, table);
-			 } catch (SQLException e) {
-				 throw new ExecutionException("failed to populate imported keys", e);
-			 } finally {
-				 try {
-					 if (conn!=null) {
-						 conn.close();
-						 ds.releaseSemaphore();
+		 Connection conn = null;
+		 try {
+			 conn = getBlockingConnection();
+			 populateImportedKeys(conn, table);
+		 } catch (Exception e) {
+        	 if (conn!=null) {
+        		 try {
+					if (!conn.getAutoCommit()) {
+						 conn.rollback();
 					 }
-				 } catch (SQLException e) {
-					 logger.error(e.getLocalizedMessage());
+				} catch (SQLException e1) {
+				}
+        	 }
+			 throw new ExecutionException("failed to populate imported keys", e);
+		 } finally {
+			 try {
+				 if (conn!=null) {
+					 if (!conn.getAutoCommit()) {
+						 conn.commit();
+					 }
+					 conn.close();
+					 ds.releaseSemaphore();
 				 }
+			 } catch (SQLException e) {
+				 logger.error(e.getLocalizedMessage());
 			 }
 		 }
 	 }
 
 	 protected void populateImportedKeys(Connection conn, Table table) throws ExecutionException {
-		 String product = table.getSchema().getDatabase().getProductName();
-		 if (product.equals(REDSHIFT_NAME)) {
-			 populateImportedKeys_Redshift(conn, table);
-		 } else {
+		 try {
+			 // standard procedure
+			 List<ForeignKeyData> ldata = new ArrayList<ForeignKeyData>();
+			 ResultSet res = vendorSpecific.getImportedKeys(conn,table.getCatalog(),table.getSchema().getName(),table.getName());
 			 try {
-				 // standard procedure
-				 List<ForeignKeyData> ldata = new ArrayList<ForeignKeyData>();
-				 ResultSet res = vendorSpecific.getImportedKeys(conn,table.getCatalog(),table.getSchema().getName(),table.getName());
-				 try {
-					 while (res.next()) {
-						 ForeignKeyData data = new ForeignKeyData();
-						 loadForeignKeyData(res,data);
-						 ldata.add(data);
-					 }
-				 } finally {
-					 res.close();
+				 while (res.next()) {
+					 ForeignKeyData data = new ForeignKeyData();
+					 loadForeignKeyData(res,data);
+					 ldata.add(data);
 				 }
-				 // update in batch
-				 // note: updating may invoke lazy population for columns/tables => batch avoid nested jdbc call
-				 for (ForeignKeyData data : ldata) {
-					 updateForeignKey(table.getSchema().getDatabase(), table, data);
-				 }
-			 } catch (SQLException e) {
-				 throw new ExecutionException("Failed to populate imported keys for table '"+table.getName()+"'", e);
+			 } finally {
+				 res.close();
 			 }
+			 // update in batch
+			 // note: updating may invoke lazy population for columns/tables => batch avoid nested jdbc call
+			 for (ForeignKeyData data : ldata) {
+				 updateForeignKey(table.getSchema().getDatabase(), table, data);
+			 }
+		 } catch (SQLException e) {
+			 throw new ExecutionException("Failed to populate imported keys for table '"+table.getName()+"'", e);
 		 }
 	 }
-
-	 private void populateImportedKeys_Redshift(Connection conn, Table table) {
-		logger.warn("populateImportedKeys_Redshift NYI");
-	}
 
 	private final String[] FK_CNAMES = new String[]{
 			 getColumnDef(MetadataConst.PKTABLE_CAT),
@@ -584,11 +668,22 @@ public class MetadataEngine implements IMetadataEngine {
 				 } finally {
 					 if (res!=null) res.close();
 				 }
-			 } catch (SQLException e) {
+			 } catch (Exception e) {
+	        	 if (conn!=null) {
+	        		 try {
+						if (!conn.getAutoCommit()) {
+							 conn.rollback();
+						 }
+					} catch (SQLException e1) {
+					}
+	        	 }
 				 throw new ExecutionException("failed to populate primary key for table '"+table.getName()+"'", e);
 			 } finally {
 				 try {
 					 if (conn!=null) {
+						 if (!conn.getAutoCommit()) {
+							 conn.commit();
+						 }
 						 conn.close();
 						 ds.releaseSemaphore();
 					 }
@@ -621,11 +716,22 @@ public class MetadataEngine implements IMetadataEngine {
 				 } finally {
 					 if (res!=null) res.close();
 				 }
-			 } catch (SQLException e) {
+			 } catch (Exception e) {
+	        	 if (conn!=null) {
+	        		 try {
+						if (!conn.getAutoCommit()) {
+							 conn.rollback();
+						 }
+					} catch (SQLException e1) {
+					}
+	        	 }
 				 throw new ExecutionException("failed to populate primary key for schema '"+schema.getName()+"'", e);
 			 } finally {
 				 try {
 					 if (conn!=null) {
+						 if (!conn.getAutoCommit()) {
+							 conn.commit();
+						 }
 						 conn.close();
 						 ds.releaseSemaphore();
 					 }
