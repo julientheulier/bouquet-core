@@ -29,8 +29,10 @@ import java.util.Calendar;
 import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.analytics.WindowingDomain;
-import com.squid.core.domain.extensions.CastOperatorDefinition;
-import com.squid.core.domain.extensions.DateOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastToTimestampOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateIntervalOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.sort.DomainSort;
@@ -98,7 +100,7 @@ extends BaseOperatorRenderer
 
 	public String getLocalEpoch(SQLSkin skin, IPiece piece, ExtendedType type,
 			String arg) throws RenderingException {
-		DateOperatorDefinition dateInterval = new DateOperatorDefinition("DATE_INTERVAL",DateOperatorDefinition.DATE_INTERVAL,IDomain.NUMERIC, OperatorDefinition.DATE_TIME_TYPE);
+		DateOperatorDefinition dateInterval = new DateOperatorDefinition("DATE_INTERVAL", DateIntervalOperatorDefinition.ID,IDomain.NUMERIC, OperatorDefinition.DATE_TIME_TYPE);
 		
 		String intervalType = "SECOND";
 		Calendar cal = Calendar.getInstance();
@@ -115,7 +117,7 @@ extends BaseOperatorRenderer
 	}
 	
 	public String getTimestamp(SQLSkin skin, IPiece piece, String date) throws RenderingException {
-		CastOperatorDefinition toTimestamp= new CastOperatorDefinition("TO_TIMESTAMP",CastOperatorDefinition.TO_TIMESTAMP,IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
+		CastOperatorDefinition toTimestamp= new CastOperatorDefinition("TO_TIMESTAMP", CastToTimestampOperatorDefinition.ID,IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
 		OperatorPiece castPiece = new OperatorPiece(toTimestamp, new IPiece[]{piece}, new ExtendedType[] {ExtendedType.STRING});
 		return skin.render(skin, castPiece, toTimestamp, new String[] {date});
 

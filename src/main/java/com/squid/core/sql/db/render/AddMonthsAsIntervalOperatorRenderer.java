@@ -28,7 +28,9 @@ import java.sql.Types;
 import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.extensions.DateOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateAddOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateSubOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.sql.render.IPiece;
@@ -76,10 +78,10 @@ public class AddMonthsAsIntervalOperatorRenderer extends BaseOperatorRenderer {
 		newArgs[0] = args[0];
 		DateOperatorDefinition dod = null;
 		if (addMonths<0) {
-			dod = new DateOperatorDefinition("DATE_SUB",DateOperatorDefinition.DATE_SUB,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+			dod = new DateOperatorDefinition("DATE_SUB", DateSubOperatorDefinition.ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
 			newArgs[1] = new Long(-addMonths).toString();
 		} else {
-			dod = new DateOperatorDefinition("DATE_ADD",DateOperatorDefinition.DATE_ADD,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+			dod = new DateOperatorDefinition("DATE_ADD", DateAddOperatorDefinition.ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
 			newArgs[1] = args[1];
 		}
 		DomainNumericConstant valueDomain = new DomainNumericConstant(new Double(newArgs[1]).doubleValue());

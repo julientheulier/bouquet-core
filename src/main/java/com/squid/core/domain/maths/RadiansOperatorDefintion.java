@@ -23,11 +23,14 @@
  *******************************************************************************/
 package com.squid.core.domain.maths;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -56,6 +59,32 @@ public class RadiansOperatorDefintion extends OperatorDefinition {
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
+	}
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Description");
+
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, getParametersTypes());
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		IDomain number = new DomainNumeric();
+		number.setContentAssistLabel("Numeric r");
+		number.setContentAssistProposal("${1:r}");
+		type.add(number);
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

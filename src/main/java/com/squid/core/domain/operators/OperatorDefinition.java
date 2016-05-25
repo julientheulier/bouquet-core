@@ -52,6 +52,7 @@ public abstract class OperatorDefinition {
   public static final int MISC_TYPE = 3;
   public static final int TRIGO_TYPE = 4;
 
+
   private String m_name;
   private int m_id = IntrinsicOperators.UNDEFINED_ID;
   /**
@@ -69,6 +70,10 @@ public abstract class OperatorDefinition {
   private int paramCount = -1;// undefined
 
   private IDomain m_domain = IDomain.UNKNOWN;
+
+  private List m_parameters;
+
+  private ListContentAssistEntry listContentAssistEntry;
 
   // category type
   private int categoryType = MISC_TYPE;// MISC is default category
@@ -207,6 +212,14 @@ public abstract class OperatorDefinition {
    */
   public boolean isExtendedID() {
     return m_id == IntrinsicOperators.EXTENDED_ID;
+  }
+
+  public List getParametersTypes(){
+    return m_parameters;
+  }
+
+  public void setParametersTypes(List parameters){
+     m_parameters=parameters;
   }
 
   public String getName() {
@@ -397,4 +410,11 @@ public abstract class OperatorDefinition {
     return getSymbol();
   }
 
+  public ListContentAssistEntry getListContentAssistEntry() {
+    return listContentAssistEntry;
+  }
+
+  public void setListContentAssistEntry(ListContentAssistEntry listContentAssistEntry) {
+    this.listContentAssistEntry = listContentAssistEntry;
+  }
 }

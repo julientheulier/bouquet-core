@@ -23,9 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
-import com.squid.core.domain.extensions.CastOperatorDefinition;
-import com.squid.core.domain.extensions.DateOperatorDefinition;
-import com.squid.core.domain.extensions.DateTruncateOperatorDefinition;
+import com.squid.core.domain.extensions.cast.*;
+import com.squid.core.domain.extensions.date.DateTruncateOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateAddOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateSubOperatorDefinition;
 import com.squid.core.domain.vector.VectorOperatorDefinition;
 
 /**
@@ -59,20 +60,20 @@ public class Operators {
 	public static final OperatorDefinition GREATER = OperatorScope.getDefault().lookupByID(IntrinsicOperators.GREATER);
 	public static final OperatorDefinition AND = OperatorScope.getDefault().lookupByID(IntrinsicOperators.AND);
 	public static final OperatorDefinition OR = OperatorScope.getDefault().lookupByID(IntrinsicOperators.OR);
-	public static final OperatorDefinition CAST_TO_TIMESTAMP = OperatorScope.getDefault().lookupByExtendedID(CastOperatorDefinition.TO_TIMESTAMP);
-	public static final OperatorDefinition CAST_TO_DATE = OperatorScope.getDefault().lookupByExtendedID(CastOperatorDefinition.TO_DATE);
-	public static final OperatorDefinition CAST_TO_INTEGER = OperatorScope.getDefault().lookupByExtendedID(CastOperatorDefinition.TO_INTEGER);
-	public static final OperatorDefinition CAST_TO_FLOAT = OperatorScope.getDefault().lookupByExtendedID(CastOperatorDefinition.TO_NUMBER);
-	public static final OperatorDefinition TO_DATE = OperatorScope.getDefault().lookupByExtendedID(CastOperatorDefinition.TO_DATE);
-	public static final OperatorDefinition TO_CHAR = OperatorScope.getDefault().lookupByExtendedID(CastOperatorDefinition.TO_CHAR);
+	public static final OperatorDefinition CAST_TO_TIMESTAMP = OperatorScope.getDefault().lookupByExtendedID(CastToTimestampOperatorDefinition.ID);
+	public static final OperatorDefinition CAST_TO_DATE = OperatorScope.getDefault().lookupByExtendedID(CastToDateOperatorDefinition.ID);
+	public static final OperatorDefinition CAST_TO_INTEGER = OperatorScope.getDefault().lookupByExtendedID(CastToIntegerOperatorDefinition.ID);
+	public static final OperatorDefinition CAST_TO_FLOAT = OperatorScope.getDefault().lookupByExtendedID(CastToNumberOperatorDefinition.ID);
+	public static final OperatorDefinition TO_DATE = OperatorScope.getDefault().lookupByExtendedID(CastToDateOperatorDefinition.ID);
+	public static final OperatorDefinition TO_CHAR = OperatorScope.getDefault().lookupByExtendedID(CastToCharOperatorDefinition.ID);
 	public static final OperatorDefinition DATE_TRUNCATE = OperatorScope.getDefault().lookupByExtendedID(DateTruncateOperatorDefinition.DATE_TRUNCATE);
 	public static final OperatorDefinition PERCENTILE = OperatorScope.getDefault().lookupByID(IntrinsicOperators.PERCENTILE);
 	public static final OperatorDefinition COALESCE = OperatorScope.getDefault().lookupByID(IntrinsicOperators.COALESCE);
 	
 	//
 	
-	public static final OperatorDefinition DATE_ADD = OperatorScope.getDefault().lookupByExtendedID(DateOperatorDefinition.DATE_ADD);
-	public static final OperatorDefinition DATE_SUB = OperatorScope.getDefault().lookupByExtendedID(DateOperatorDefinition.DATE_SUB);
+	public static final OperatorDefinition DATE_ADD = OperatorScope.getDefault().lookupByExtendedID(DateAddOperatorDefinition.ID);
+	public static final OperatorDefinition DATE_SUB = OperatorScope.getDefault().lookupByExtendedID(DateSubOperatorDefinition.ID);
 	
 	public static final OperatorDefinition CONCAT = OperatorScope.getDefault().lookupByID(IntrinsicOperators.CONCAT);
 

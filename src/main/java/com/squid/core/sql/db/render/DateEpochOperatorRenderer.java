@@ -26,9 +26,13 @@ package com.squid.core.sql.db.render;
 import java.util.Calendar;
 
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.extensions.CastOperatorDefinition;
-import com.squid.core.domain.extensions.DateOperatorDefinition;
-import com.squid.core.domain.extensions.IntervalOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
+import com.squid.core.domain.extensions.date.IntervalOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastToCharOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastToTimestampOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateAddOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateIntervalOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorScope;
@@ -61,10 +65,10 @@ public class DateEpochOperatorRenderer extends BaseOperatorRenderer {
 
 	public DateEpochOperatorRenderer(int type) {
 		this.type = type;
-		toTimestamp = (CastOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(CastOperatorDefinition.TO_TIMESTAMP);
-		toChar = (CastOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(CastOperatorDefinition.TO_CHAR);
-		diod = (DateOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(DateOperatorDefinition.DATE_INTERVAL);
-		dasod = (DateOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(DateOperatorDefinition.DATE_ADD);
+		toTimestamp = (CastOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(CastToTimestampOperatorDefinition.ID);
+		toChar = (CastOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(CastToCharOperatorDefinition.ID);
+		diod = (DateOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(DateIntervalOperatorDefinition.ID);
+		dasod = (DateOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(DateAddOperatorDefinition.ID);
 		iodh = (IntervalOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(IntervalOperatorDefinition.INTERVAL_HOUR);
 		iodm = (IntervalOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(IntervalOperatorDefinition.INTERVAL_MINUTE);
 		iods = (IntervalOperatorDefinition) OperatorScope.getDefault().lookupByExtendedID(IntervalOperatorDefinition.INTERVAL_SECOND);

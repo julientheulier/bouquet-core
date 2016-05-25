@@ -25,10 +25,10 @@ package com.squid.core.domain.operators;
 
 import com.squid.core.domain.aggregate.AggregateOperatorRegistry;
 import com.squid.core.domain.analytics.WindowingOperatorRegistry;
-import com.squid.core.domain.extensions.CastOperatorRegistry;
-import com.squid.core.domain.extensions.DateOperatorRegistry;
-import com.squid.core.domain.extensions.JSONOperatorRegistry;
-import com.squid.core.domain.extensions.StringFunctionsRegistry;
+import com.squid.core.domain.extensions.registry.CastOperatorRegistry;
+import com.squid.core.domain.extensions.registry.DateOperatorRegistry;
+import com.squid.core.domain.extensions.registry.JSONOperatorRegistry;
+import com.squid.core.domain.extensions.registry.StringFunctionsRegistry;
 import com.squid.core.domain.maths.MathsOperatorRegistry;
 import com.squid.core.domain.sort.SortOperatorRegistry;
 import com.squid.core.domain.stats.StatsOperatorRegistry;

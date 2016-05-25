@@ -23,13 +23,13 @@
  *******************************************************************************/
 package com.squid.core.domain.maths;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
-import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.domain.operators.OperatorDiagnostic;
+import com.squid.core.domain.operators.*;
 
 /**
  * Ticket #1190 implements some ANSI functions
@@ -42,6 +42,33 @@ public class DegreesOperatorDefintion extends OperatorDefinition {
 
 	public DegreesOperatorDefintion(String name, String ID, int categoryType) {
 		super(name,ID,PREFIX_POSITION,name,IDomain.CONTINUOUS, categoryType);
+	}
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Description");
+
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, getParametersTypes());
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List type = new ArrayList<IDomain>();
+		IDomain number = new DomainNumeric();
+		number.setContentAssistLabel("Numeric r");
+		number.setContentAssistProposal("${1:r}");
+		type.add(number);
+
+		List poly = new ArrayList<List>();
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

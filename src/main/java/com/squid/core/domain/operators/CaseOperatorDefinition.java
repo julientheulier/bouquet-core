@@ -51,7 +51,47 @@ extends ArithmeticOperatorDefintion {
 	public int getType() {
 		return ALGEBRAIC_TYPE;
 	}
-	
+
+	@Override
+	public List getParametersTypes() { // TODO handle infinite number of arguments.
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+		type = new ArrayList<IDomain>(); ;
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+		type = new ArrayList<IDomain>(); ;
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+		type = new ArrayList<IDomain>(); ;
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+		type = new ArrayList<IDomain>(); ;
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+		type = new ArrayList<IDomain>(); ;
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+		type = new ArrayList<IDomain>(); ;
+		return poly;
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.isEmpty()) {

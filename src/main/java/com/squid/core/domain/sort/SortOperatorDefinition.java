@@ -43,7 +43,8 @@ public class SortOperatorDefinition extends OperatorDefinition {
 		setParamCount(1);
 		this.direction=direction;
 	}
-	
+
+
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;

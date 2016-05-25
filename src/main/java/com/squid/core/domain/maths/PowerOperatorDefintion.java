@@ -23,10 +23,13 @@
  *******************************************************************************/
 package com.squid.core.domain.maths;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
@@ -56,6 +59,39 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
+	}
+
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+			List <String> descriptions = new ArrayList<String>();
+			descriptions.add("Function that take two arguments: a number and an exponent");
+
+
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		IDomain number = new DomainNumeric();
+		number.setContentAssistLabel("Numeric n");
+		number.setContentAssistProposal("${1:n}");
+		type.add(number);
+		IDomain exponent = new DomainNumeric();
+		exponent.setContentAssistLabel("Numeric exponent");
+		exponent.setContentAssistProposal("${2:p}");
+		type.add(exponent);
+
+		poly.add(type);
+		return poly;
 	}
 
 	@Override
