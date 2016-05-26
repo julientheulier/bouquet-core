@@ -25,6 +25,8 @@ package com.squid.core.domain.operators;
 
 import com.squid.core.domain.IDomain;
 
+import java.util.List;
+
 /**
  * @author serge fantino
  *
@@ -141,5 +143,8 @@ public class AlgebraicOperatorDefinition extends OperatorDefinition {
 		}
 		return copy;
 	}
-
+	@Override
+	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
+		return OperatorDiagnostic.IS_VALID;
+	}
 }

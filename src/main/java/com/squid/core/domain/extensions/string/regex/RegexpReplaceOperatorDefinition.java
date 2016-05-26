@@ -109,10 +109,7 @@ public class RegexpReplaceOperatorDefinition extends RegexpOperatorDefinition {
         }
         if (imageDomains.size() != 3 || !imageDomains.get(2).isInstanceOf(IDomain.STRING)) {
                 return new OperatorDiagnostic("3rd parameter must be a string", 2, hint);
-        } else if (imageDomains.size() > 2) {
-            return new OperatorDiagnostic("Invalid number of parameters", 2,
-                    "Invalid number of parameters for " + getName() + "(string, regexp)");
-        }
+        } 
         return OperatorDiagnostic.IS_VALID;
     }
 }

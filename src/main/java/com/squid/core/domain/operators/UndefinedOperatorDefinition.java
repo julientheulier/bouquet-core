@@ -25,6 +25,8 @@ package com.squid.core.domain.operators;
 
 import com.squid.core.domain.IDomain;
 
+import java.util.List;
+
 public class UndefinedOperatorDefinition 
 extends OperatorDefinition {
 	
@@ -41,6 +43,11 @@ extends OperatorDefinition {
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.UNDEFINED;
+	}
+
+	@Override
+	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
+		return OperatorDiagnostic.IS_VALID;
 	}
 
 }
