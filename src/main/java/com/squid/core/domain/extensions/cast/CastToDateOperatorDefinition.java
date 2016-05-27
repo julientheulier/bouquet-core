@@ -92,6 +92,9 @@ public class CastToDateOperatorDefinition extends CastOperatorDefinition {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
 
+        IDomain date1 = new DomainDate();
+        date1.setContentAssistLabel("date");
+        date1.setContentAssistProposal("${1:date}");
         IDomain timestamp1 = new DomainTimestamp();
         timestamp1.setContentAssistLabel("timestamp");
         timestamp1.setContentAssistProposal("${1:timestamp}");
@@ -101,13 +104,19 @@ public class CastToDateOperatorDefinition extends CastOperatorDefinition {
         IDomain string2 = new DomainString();
         string2.setContentAssistLabel("format");
         string2.setContentAssistProposal("${2:format}");
+
         type.add(timestamp1);
         poly.add(type);
-
         type = new ArrayList<IDomain>();
+
         type.add(string1);
         type.add(string2);
         poly.add(type);
+        type = new ArrayList<IDomain>();
+
+        type.add(date1);
+        poly.add(type);
+
 
         return poly;
     }

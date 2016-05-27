@@ -57,10 +57,11 @@ public class DateCurrentTimestampOperatorDefinition extends DateOperatorDefiniti
     public ListContentAssistEntry getListContentAssistEntry(){
         if(super.getListContentAssistEntry()==null){
             List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Return current timestamp");
-            descriptions.add("Return current timestamp");
-
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            List types = getParametersTypes();
+            for(int i = 0; i<types.size();i++){
+                descriptions.add("Return current timestamp");
+            }
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
             setListContentAssistEntry(entry);
         }
         return super.getListContentAssistEntry();

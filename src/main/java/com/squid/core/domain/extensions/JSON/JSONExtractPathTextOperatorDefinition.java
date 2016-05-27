@@ -61,13 +61,11 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
     public ListContentAssistEntry getListContentAssistEntry(){
         if(super.getListContentAssistEntry()==null){
             List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Return the element corresponding to the key in the json element");
-            descriptions.add("Return the elements corresponding to the keys in the json element");
-            descriptions.add("Return the elements corresponding to the keys in the json element");
-            descriptions.add("Return the elements corresponding to the keys in the json element");
-            descriptions.add("Return the elements corresponding to the keys in the json element");
-            descriptions.add("Return the elements corresponding to the keys in the json element");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            List types = getParametersTypes();
+            for(int i = 0; i<types.size();i++){
+                descriptions.add("Return the elements corresponding to the keys in the json element");
+            }
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
             setListContentAssistEntry(entry);
         }
         return super.getListContentAssistEntry();
@@ -81,8 +79,6 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
         IDomain json = new DomainString();
         json.setContentAssistLabel("json");
         json.setContentAssistProposal("${1:json}");
-        type.add(json);
-        poly.add(type);
         type = new ArrayList<IDomain>(); ;
         IDomain key1 = new DomainString();
         key1.setContentAssistLabel("key1");

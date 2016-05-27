@@ -29,6 +29,7 @@ import java.util.List;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.extensions.registry.StringFunctionsRegistry;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -52,6 +53,20 @@ public class OneArgStringOperatorDefinition extends OperatorDefinition {
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
+	}
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+			List <String> descriptions = new ArrayList<String>();
+			List types = getParametersTypes();
+			for(int i = 0; i<types.size();i++){
+				descriptions.add("Take one string as argument");
+			}
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+			setListContentAssistEntry(entry);
+		}
+		return super.getListContentAssistEntry();
 	}
 
 	@Override

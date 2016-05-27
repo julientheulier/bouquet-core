@@ -101,6 +101,11 @@ public class CastToCharOperatorDefinition extends CastOperatorDefinition {
         IDomain string2 = new DomainString();
         string2.setContentAssistLabel("format");
         string2.setContentAssistProposal("${2:format}");
+
+        type.add(any1);
+        poly.add(type);
+        type = new ArrayList<IDomain>();
+
         type.add(any1);
         type.add(string2);
         poly.add(type);

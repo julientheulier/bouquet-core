@@ -57,10 +57,11 @@ public class DateCurrentDateOperatorDefinition extends DateOperatorDefinition {
     public ListContentAssistEntry getListContentAssistEntry(){
         if(super.getListContentAssistEntry()==null){
             List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Return current date");
-            descriptions.add("Return current date");
-
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            List types = getParametersTypes();
+            for(int i = 0; i<types.size();i++){
+                descriptions.add("Return current date");
+            }
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
             setListContentAssistEntry(entry);
         }
         return super.getListContentAssistEntry();

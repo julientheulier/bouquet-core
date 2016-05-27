@@ -72,22 +72,18 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
     @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
-        List type1 = new ArrayList<IDomain>();
-        List type2 = new ArrayList<IDomain>();
+        List type = new ArrayList<IDomain>();
 
         IDomain json = new DomainString();
         json.setContentAssistLabel("json");
         json.setContentAssistProposal("${1:json}");
-        type1.add(json);
-        poly.add(type1);
-
-        type2 = new ArrayList<IDomain>();
-        type2.add(json);
         IDomain index = new DomainNumeric();
         index.setContentAssistLabel("index");
         index.setContentAssistProposal("${2:index}");
-        type2.add(index);
-        poly.add(type2);
+
+        type.add(json);
+        type.add(index);
+        poly.add(type);
 
         return poly;
     }

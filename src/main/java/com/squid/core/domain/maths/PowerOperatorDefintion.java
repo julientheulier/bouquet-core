@@ -67,12 +67,11 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 	public ListContentAssistEntry getListContentAssistEntry(){
 		if(super.getListContentAssistEntry()==null){
 			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Function that take two arguments: a number and an exponent");
-			descriptions.add("Function that take two arguments: a number and an exponent");
-			descriptions.add("Function that take two arguments: a number and an exponent");
-			descriptions.add("Function that take two arguments: a number and an exponent");
-
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			List types = getParametersTypes();
+			for(int i = 0; i<types.size();i++){
+				descriptions.add("Function that take two arguments: a number and an exponent");
+			}
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
 			setListContentAssistEntry(entry);
 
 		}

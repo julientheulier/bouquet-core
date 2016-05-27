@@ -63,14 +63,11 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 	public ListContentAssistEntry getListContentAssistEntry(){
 		if(super.getListContentAssistEntry()==null){
 			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Take the substring between begin and end");
-			descriptions.add("Take the substring between begin and end");
-			descriptions.add("Take the substring between begin and end");
-			descriptions.add("Take the substring between begin and end");
-			descriptions.add("Take the substring between begin and end");
-			descriptions.add("Take the substring between begin and end");
-
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+			List types = getParametersTypes();
+			for(int i = 0; i<types.size();i++){
+				descriptions.add("Take the substring between begin and end");
+			}
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
 			setListContentAssistEntry(entry);
 		}
 		return super.getListContentAssistEntry();

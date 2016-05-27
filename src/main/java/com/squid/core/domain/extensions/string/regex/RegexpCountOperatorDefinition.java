@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.extensions.string.regex;
 
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.sql.Types;
@@ -55,16 +57,41 @@ public class RegexpCountOperatorDefinition extends RegexpOperatorDefinition {
         super(name, ID, domain, categoryType);
     }
 
+    @Override
+    public ListContentAssistEntry getListContentAssistEntry(){
+        if(super.getListContentAssistEntry()==null){
+            List <String> descriptions = new ArrayList<String>();
+            descriptions.add("Return the number of occurences of regex_pattern in the input_string");
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            setListContentAssistEntry(entry);
+        }
+        return super.getListContentAssistEntry();
+    }
 
     @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-        type.add(IDomain.STRING);
-        type.add(IDomain.STRING);
+
+        IDomain string1 = new DomainString();
+        string1.setContentAssistLabel("string");
+        string1.setContentAssistProposal("${1:string}");
+
+
+        IDomain string2 = new DomainString();
+        string2.setContentAssistLabel("regex_pattern");
+        string2.setContentAssistProposal("${2:regex_pattern}");
+
+
+        type.add(string1);
+        type.add(string2);
+
         poly.add(type);
+
         return poly;
+
     }
+
 
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {

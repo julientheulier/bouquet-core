@@ -67,9 +67,11 @@ public class TrimOperatorDefinition extends OperatorDefinition {
   public ListContentAssistEntry getListContentAssistEntry(){
     if(super.getListContentAssistEntry()==null){
       List <String> descriptions = new ArrayList<String>();
-      descriptions.add("Remove from the right or the right (or both) all the occurences that are from the set. If the set is empty, then it takes single blank as the set.");
-      descriptions.add("Remove from the right or the right (or both) all the occurences that are from the set. If the set is empty, then it takes single blank as the set.");
-      ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+      List types = getParametersTypes();
+      for(int i = 0; i<types.size();i++){
+        descriptions.add("Remove from the right or the right (or both) all the occurences that are from the set. If the set is empty, then it takes single blank as the set.");
+      }
+      ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
       setListContentAssistEntry(entry);
     }
     return super.getListContentAssistEntry();
