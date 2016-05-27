@@ -84,18 +84,4 @@ public class ExtractSecondOperatorDefinition extends ExtractOperatorDefinition {
 
         return poly;
     }
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size()!=1) {
-            return new OperatorDiagnostic("Invalid number of parameters", getName() + "(temporal)");
-        }
-        if (!imageDomains.get(0).isInstanceOf(IDomain.TIME)
-                && !imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP)
-                ) {
-            return new OperatorDiagnostic("Parameter #1 must be a time or timestamp but it is a " + imageDomains.get(0).getName(), 1, getName() + "(time or timestamp)");
-        }
-        return OperatorDiagnostic.IS_VALID;
-    }
-
 }

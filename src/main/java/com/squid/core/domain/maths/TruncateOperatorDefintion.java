@@ -103,6 +103,7 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 		return poly;
 	}
 
+	// We need  to add integer idomain and interger constant idomain to have the notion needed for the validate.
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size() != 1 && imageDomains.size() != 2) {

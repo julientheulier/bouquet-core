@@ -96,25 +96,6 @@ public class RoundOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 1 && imageDomains.size() != 2) {
-			return new OperatorDiagnostic("Invalid number of parameters",
-					getName());
-		}
-		// check if parameter is valid?
-		if (!imageDomains.get(0).isInstanceOf(IDomain.NUMERIC)) {
-			return new OperatorDiagnostic(
-					"The first Parameter must be a number", getName());
-		}
-		if (imageDomains.size() == 2
-				&& !imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
-			return new OperatorDiagnostic(
-					"the second Parameter must be a number", getName());
-		}
-		return OperatorDiagnostic.IS_VALID;
-	}
-
-	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length==1 || types[0].isInteger()) {
 			return ExtendedType.INTEGER;

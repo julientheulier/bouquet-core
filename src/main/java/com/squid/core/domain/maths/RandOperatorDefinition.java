@@ -93,15 +93,6 @@ public class RandOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 0 && imageDomains.size() != 2) {
-			return new OperatorDiagnostic("RAND take 0 or 2 parameters only",
-					getName());
-		}
-		return OperatorDiagnostic.IS_VALID;
-	}
-
-	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.FLOAT;
 	}

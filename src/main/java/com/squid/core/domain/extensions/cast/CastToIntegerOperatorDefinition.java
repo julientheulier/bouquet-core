@@ -107,20 +107,6 @@ public class CastToIntegerOperatorDefinition extends CastOperatorDefinition {
 
         return poly;
     }
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size() > 0 && imageDomains.size() <= 3) {
-
-            if (imageDomains.size() >= 2) {
-                return new OperatorDiagnostic(
-                        "Invalid number of parameters", getName() + "(any)");
-            }
-            return OperatorDiagnostic.IS_VALID;
-        }else{
-            return new OperatorDiagnostic("Invalid number of parameters",
-                    getName());
-        }
-    }
 
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {

@@ -78,16 +78,6 @@ public class PiOperatorDefintion extends OperatorDefinition {
 		return poly;
 	}
 
-
-	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 0) {
-			return new OperatorDiagnostic("Function PI has no parameter(s)",
-					getName());
-		}
-		return OperatorDiagnostic.IS_VALID;
-	}
-
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.FLOAT;

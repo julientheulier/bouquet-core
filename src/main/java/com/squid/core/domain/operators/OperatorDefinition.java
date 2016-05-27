@@ -326,7 +326,7 @@ public abstract class OperatorDefinition {
   /**
    * fix the extendedType to enforce that the domain is consistent with computeImageDomain()
    * 
-   * @param result
+   * @param fixme
    * @param types
    */
   protected ExtendedType fixExtendedTypeDomain(ExtendedType fixme, ExtendedType[] types) {
@@ -345,8 +345,63 @@ public abstract class OperatorDefinition {
    * @return
    */
   public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-    return OperatorDiagnostic.IS_VALID;
+
+    String hint = "Not respecting any type for the operator";
+    String expected = "";
+    String found = "";
+    String matched_type = "";
+    int pos = 0;
+    //T1202
+    // Use get parameters type to validate the input parameters.
+    List poly = getParametersTypes();
+    if(poly !=null){
+      for(List<IDomain> type : (List<List<IDomain>>) poly){
+        if(type!=null){
+          /*for(IDomain arg : type){
+            int pos = type.indexOf(arg);
+            if(!imageDomains.get(pos).isInstanceOf(arg)){
+              return OperatorDiagnostic.invalidType(pos,imageDomains.get(pos), arg.toString());
+            }
+          }*/
+          if(type.size()==imageDomains.size()){
+            for(int i = 0;i<type.size();i++){
+              //ANY.isInstanceOf will always return true;
+              if(imageDomains.get(i).getClass().isInstance(IDomain.ANY.getClass())){
+                if(!type.get(i).getClass().isInstance(IDomain.ANY.getClass())){
+                  // not respecting this type.
+                  pos = i;
+                  expected = type.get(i).getName();
+                  found = imageDomains.get(i).getName();
+                  matched_type = type.toString();
+                  break;
+                }
+              }else {
+                if (!imageDomains.get(i).isInstanceOf(type.get(i))) {
+                  // not respecting this type.
+                  pos = i;
+                  expected = type.get(i).getName();
+                  found = imageDomains.get(i).getName();
+                  matched_type = type.toString();
+                  break;
+                } else {
+                  if (i == type.size() - 1) {
+                    return OperatorDiagnostic.IS_VALID;
+                  }
+                }
+              }
+            }
+          }
+        }else{
+          if(imageDomains == null){
+            return OperatorDiagnostic.IS_VALID;
+          }
+        }
+      }
+      return OperatorDiagnostic.unexpectedArgument(pos,"Found "+found+ " was expecting "+ expected);
+    }
+    return OperatorDiagnostic.unexpectedArgument(0,"No type defined in the operator");
   }
+
 
   public String prettyPrint(String[] args, boolean showBrackets) {
     return prettyPrint(getPrettyPrintSymbol(), m_position, args, showBrackets);

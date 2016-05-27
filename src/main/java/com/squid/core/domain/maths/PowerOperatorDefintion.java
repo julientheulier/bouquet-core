@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainNumeric;
+import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ListContentAssistEntry;
@@ -67,7 +68,9 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 		if(super.getListContentAssistEntry()==null){
 			List <String> descriptions = new ArrayList<String>();
 			descriptions.add("Function that take two arguments: a number and an exponent");
-
+			descriptions.add("Function that take two arguments: a number and an exponent");
+			descriptions.add("Function that take two arguments: a number and an exponent");
+			descriptions.add("Function that take two arguments: a number and an exponent");
 
 			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
 			setListContentAssistEntry(entry);
@@ -84,28 +87,42 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 		IDomain number = new DomainNumeric();
 		number.setContentAssistLabel("Numeric n");
 		number.setContentAssistProposal("${1:n}");
-		type.add(number);
 		IDomain exponent = new DomainNumeric();
 		exponent.setContentAssistLabel("Numeric exponent");
 		exponent.setContentAssistProposal("${2:p}");
+		IDomain cst1 = new DomainNumericConstant(0.0);
+		cst1.setContentAssistLabel("Numeric n");
+		cst1.setContentAssistProposal("${1:n}");
+		IDomain cst2 = new DomainNumericConstant(0.0);
+		cst2.setContentAssistLabel("Numeric exponent");
+		cst2.setContentAssistProposal("${2:p}");
+
+		type.add(number);
 		type.add(exponent);
 
 		poly.add(type);
-		return poly;
-	}
+		type = new ArrayList<IDomain>();
 
-	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 2)
-			return new OperatorDiagnostic("Invalid number of parameters",
-					getName());
-		// check if parameter is valid?
-		if (!imageDomains.get(0).isInstanceOf(IDomain.NUMERIC)
-				|| !imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
-			return new OperatorDiagnostic("Parameters must be numbers",
-					getName());
-		}
-		return OperatorDiagnostic.IS_VALID;
+		type.add(cst1);
+		type.add(exponent);
+
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+
+		type.add(number);
+		type.add(cst2);
+
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(cst1);
+		type.add(cst2);
+
+		poly.add(type);
+
+
+		return poly;
 	}
 
 	@Override

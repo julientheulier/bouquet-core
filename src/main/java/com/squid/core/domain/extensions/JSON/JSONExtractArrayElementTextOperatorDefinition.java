@@ -93,26 +93,6 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
     }
 
     @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size() >= 1) {
-            if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-                return new OperatorDiagnostic("1st parameter of function must be the json field as text", getName());
-            }
-                if (imageDomains.size() == 2) {
-                    if (!imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
-                        return new OperatorDiagnostic("Please specify the index number", getName() + "(json, index)");
-                    }
-                } else {
-                    return new OperatorDiagnostic("Invalid number of parameters, please check function definition", getName() + "(json, index)");
-                }
-            return OperatorDiagnostic.IS_VALID;
-        } else {
-            return new OperatorDiagnostic("Invalid number of parameters, please check function definition", getName());
-        }
-
-    }
-
-    @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
             return new ExtendedType(IDomain.STRING, Types.VARCHAR, 0, (types[0].getSize()));
     }

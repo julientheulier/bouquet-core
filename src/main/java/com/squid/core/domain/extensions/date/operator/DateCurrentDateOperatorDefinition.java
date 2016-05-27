@@ -83,18 +83,6 @@ public class DateCurrentDateOperatorDefinition extends DateOperatorDefinition {
         return poly;
     }
 
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size()<=1) {
-            return OperatorDiagnostic.IS_VALID;
-        } else {
-            return new OperatorDiagnostic("Invalid parameter",getName());
-        }
-    }
-
-
-
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
         return fixExtendedTypeDomain(computeRawExtendedType(types), types);

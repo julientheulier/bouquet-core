@@ -132,28 +132,6 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
     }
 
     @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size() >= 1) {
-            if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-                return new OperatorDiagnostic("1st parameter of function must be the json field as text", getName());
-            }
-            if (imageDomains.size() >= 2) {
-                for (int i = 1; i < imageDomains.size(); i++) {
-                    if (!imageDomains.get(i).isInstanceOf(IDomain.STRING)) {
-                        return new OperatorDiagnostic("A path is a list of keys", getName() + "(json, key1, ...)");
-                    }
-                }
-            } else {
-                return new OperatorDiagnostic("Invalid number of parameters, please check function definition", getName());
-            }
-            return OperatorDiagnostic.IS_VALID;
-        } else {
-            return new OperatorDiagnostic("Invalid number of parameters, please check function definition", getName());
-        }
-
-    }
-
-    @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
         return new ExtendedType(IDomain.STRING, Types.VARCHAR, 0, (types[0].getSize()));
     }

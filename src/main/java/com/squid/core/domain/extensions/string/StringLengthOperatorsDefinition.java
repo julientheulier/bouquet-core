@@ -83,13 +83,6 @@ public class StringLengthOperatorsDefinition extends OperatorDefinition {
 		return poly;
 
 	}
-
-	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()!=1) return new OperatorDiagnostic("Invalid number of parameters",getName()+"(string)");
-		if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) return new OperatorDiagnostic("Parameter must be a string",getName()+"(string)");
-		return OperatorDiagnostic.IS_VALID;
-	}
 	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {

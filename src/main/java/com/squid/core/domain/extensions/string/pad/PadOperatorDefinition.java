@@ -105,27 +105,6 @@ public class PadOperatorDefinition extends OperatorDefinition {
 
   }
 
-
-  @Override
-  public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-    if (imageDomains.size() < 2 || imageDomains.size() > 3) {
-      return new OperatorDiagnostic("Invalid number of parameters", hint);
-    }
-    if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-      return new OperatorDiagnostic("Parameter must be a string", 0, hint);
-    }
-    if (!imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
-      return new OperatorDiagnostic("Parameter must be a static integer", 1, hint);
-    }
-    // Null pointer exception.
-    if(imageDomains.size() == 3) {
-      if (!imageDomains.get(2).isInstanceOf(IDomain.STRING)) {
-        return new OperatorDiagnostic("Parameter must be a string", 2, hint);
-      }
-    }
-    return OperatorDiagnostic.IS_VALID;
-  }
-
   @Override
   public ExtendedType computeExtendedType(ExtendedType[] types) {
     if (types.length > 0) {

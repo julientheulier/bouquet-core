@@ -137,39 +137,6 @@ public class DateIntervalOperatorDefinition extends DateOperatorDefinition {
         return poly;
     }
 
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size()>0 && imageDomains.size()<=2) {
-            int cpt = 0;
-            for (IDomain domain : imageDomains) {
-                cpt++;
-                if (!domain.isInstanceOf(IDomain.TEMPORAL) && cpt==1 || cpt==2 && !domain.isInstanceOf(IDomain.TEMPORAL) && !domain.isInstanceOf(IDomain.NUMERIC)) {
-                    return new OperatorDiagnostic("Invalid type of parameters",getName()+"(temporal, temporal or integer)");
-                }
-            }
-        } else if (imageDomains.size()==3) {
-                if (!imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP) || !imageDomains.get(1).isInstanceOf(IDomain.TIMESTAMP) || !(imageDomains.get(2) instanceof DomainStringConstant)) {
-                    return new OperatorDiagnostic("Invalid type of parameters",getName()+"(timestamp, timestamp, string)");
-                } else {
-                    String unit = ((DomainStringConstant)imageDomains.get(2)).getValue();
-                    if (!"SECOND".equals(unit) && !"MINUTE".equals(unit) && !"HOUR".equals(unit) && !"DAY".equals(unit)) {
-                        if ("MONTH".equals(unit) || "YEAR".equals(unit)) {
-                            return new OperatorDiagnostic("Invalid unit","Please use function MONTH_BETWEEN instead");
-                        }
-                        return new OperatorDiagnostic("Invalid unit",getName()+"timestamp, timestamp, unit (SECOND,MINUTE,HOUR,DAY)");
-                    }
-                }
-        }
-        if (imageDomains.size()==2) {
-            return new OperatorDiagnostic("Invalid number of parameters",getName());
-        } else if (imageDomains.size()==3) {
-            return OperatorDiagnostic.IS_VALID;
-        } else {
-            return new OperatorDiagnostic("Invalid number of parameters",getName());
-        }
-    }
-
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
         return fixExtendedTypeDomain(computeRawExtendedType(types), types);
