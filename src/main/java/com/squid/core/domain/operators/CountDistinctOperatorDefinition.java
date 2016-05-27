@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.analytics.AnalyticDomain;
@@ -35,6 +37,36 @@ extends AggregateOperatorDefinition {
 	public CountDistinctOperatorDefinition(String name, int id) {
 		super(name, id);
 		setParamCount(1);
+	}
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry() {
+		if (super.getListContentAssistEntry() == null) {
+
+			List<String> descriptions = new ArrayList<String>();
+			List types = getParametersTypes();
+			for(int i = 0; i<types.size();i++){
+				descriptions.add("Returns the number of distinct rows");
+			}
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any1 = new DomainAny();
+		any1.setContentAssistLabel("any");
+		any1.setContentAssistProposal("${1:any}");
+
+		type.add(any1);
+		poly.add(type);
+
+		return poly;
 	}
 
 	@Override
@@ -54,14 +86,5 @@ extends AggregateOperatorDefinition {
 			return AnalyticDomain.MANAGER.createMetaDomain(IDomain.NUMERIC);
 		}
     }
-    
-	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()==1) {
-	    	return OperatorDiagnostic.IS_VALID;
-		} else {
-			return new OperatorDiagnostic("Require exactly one parameter","");
-		}
-	}
 
 }

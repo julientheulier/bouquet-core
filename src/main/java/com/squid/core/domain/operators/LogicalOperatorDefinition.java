@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -55,7 +56,7 @@ public class LogicalOperatorDefinition extends ConditionalOperatorDefinition {
 		super(name, id);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		int i=0;

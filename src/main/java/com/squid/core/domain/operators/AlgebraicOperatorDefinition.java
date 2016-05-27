@@ -25,6 +25,7 @@ package com.squid.core.domain.operators;
 
 import com.squid.core.domain.IDomain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -133,16 +134,39 @@ public class AlgebraicOperatorDefinition extends OperatorDefinition {
 	 */
 	protected ExtendedType mergeTypes(int[] typeOrder, ExtendedType master, ExtendedType slave) {
 		ExtendedType copy = master;
-		if (slave.getScale()>master.getScale()) {
+		if (slave.getScale() > master.getScale()) {
 			copy = copy.scale(slave.getScale());
 		}
-		if (getId()==IntrinsicOperators.PLUS && typeOrder[0]==ExtendedType.STRING_ORDER) {
-			copy = copy.size(master.getSize()+slave.getSize());
-		} else if (slave.getSize()>master.getSize()) {
+		if (getId() == IntrinsicOperators.PLUS && typeOrder[0] == ExtendedType.STRING_ORDER) {
+			copy = copy.size(master.getSize() + slave.getSize());
+		} else if (slave.getSize() > master.getSize()) {
 			copy = copy.size(slave.getSize());
 		}
 		return copy;
 	}
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry() {
+		if (super.getListContentAssistEntry() == null) {
+
+			List<String> descriptions = new ArrayList<String>();
+			List types = getParametersTypes();
+			if(types != null){
+				for (int i = 0; i < types.size(); i++) {
+					if (getHint() != "" && getHint() != null) {
+						descriptions.add(getHint());
+					} else {
+						descriptions.add(getName());
+					}
+				}
+				ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+				setListContentAssistEntry(entry);
+			}
+		}
+		return super.getListContentAssistEntry();
+	}
+
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		return OperatorDiagnostic.IS_VALID;

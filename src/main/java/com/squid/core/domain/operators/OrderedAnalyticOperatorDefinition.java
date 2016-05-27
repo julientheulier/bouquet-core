@@ -91,7 +91,8 @@ public class OrderedAnalyticOperatorDefinition extends
 			return AnalyticDomain.MANAGER.createMetaDomain(sourceDomain.get(0));
 		}
 	}
-	
+
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()<=1) {
@@ -101,7 +102,7 @@ public class OrderedAnalyticOperatorDefinition extends
 		}
 	}
 	
-	protected String getHint() {
+	public String getHint() {
 		return getName()+
 		"([ <partitionBy> [, <partitionBy>]] , [ ASC|DESC <orderBy>) [ , ASC|DESC <orderBy> ]] , [ <windowing > ]";
 	}
