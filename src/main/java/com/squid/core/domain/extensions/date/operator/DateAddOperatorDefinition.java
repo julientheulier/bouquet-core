@@ -144,7 +144,7 @@ public class DateAddOperatorDefinition extends DateOperatorDefinition {
             int cpt = 0;
             for (IDomain domain : imageDomains) {
                 cpt++;
-                if (!domain.isInstanceOf(IDomain.TEMPORAL) && cpt == 1 || cpt == 2 && !domain.isInstanceOf(IDomain.TEMPORAL) && !domain.isInstanceOf(IDomain.NUMERIC)) {
+                if (((!domain.isInstanceOf(IDomain.TEMPORAL) || domain.isInstanceOf(IDomain.ANY)) && cpt==1) || (cpt==2 && ((!domain.isInstanceOf(IDomain.TEMPORAL) && !domain.isInstanceOf(IDomain.NUMERIC)) || domain.isInstanceOf(IDomain.ANY)))) {
                     return new OperatorDiagnostic("Invalid type of parameters", getName() + "(temporal, temporal or integer)");
                 }
             }

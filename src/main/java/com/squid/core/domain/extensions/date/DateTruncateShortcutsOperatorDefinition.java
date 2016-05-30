@@ -117,6 +117,8 @@ public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition 
             return new OperatorDiagnostic("Invalid number of parameters", hint);
         } else if (!(imageDomains.get(0).isInstanceOf(IDomain.DATE) || imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP))) {
             return new OperatorDiagnostic("Invalid type for parameter #1, must be a date or a timestamp but it is a "+imageDomains.get(0).getName(),hint);
+        } else if (imageDomains.get(0).isInstanceOf(IDomain.ANY)) {
+            return new OperatorDiagnostic("Invalid type for parameter #1, must be a date or a timestamp but it is a " + imageDomains.get(0).getName(), hint);
         }
         return OperatorDiagnostic.IS_VALID;
     }

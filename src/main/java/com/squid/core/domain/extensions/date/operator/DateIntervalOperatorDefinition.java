@@ -59,14 +59,10 @@ public class DateIntervalOperatorDefinition extends DateOperatorDefinition {
     public ListContentAssistEntry getListContentAssistEntry(){
         if(super.getListContentAssistEntry()==null){
             List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
-            descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
-            descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
-            descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
-            descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
+            //descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
             //(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)"
-            descriptions.add("DATE_INTERVAL using (date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
-
+            //descriptions.add("DATE_INTERVAL using (date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
+            descriptions.add("Compute the interval between two timestamps with a unit");
             ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
             setListContentAssistEntry(entry);
         }
@@ -87,6 +83,9 @@ public class DateIntervalOperatorDefinition extends DateOperatorDefinition {
         IDomain timestamp1 = new DomainTimestamp();
         timestamp1.setContentAssistLabel("timestamp");
         timestamp1.setContentAssistProposal("${1:timestamp}");
+        IDomain timestamp2 = new DomainTimestamp();
+        timestamp2.setContentAssistLabel("timestamp");
+        timestamp2.setContentAssistProposal("${2:timestamp}");
         IDomain num2 = new DomainNumeric();
         num2.setContentAssistLabel("num");
         num2.setContentAssistProposal("${2:n}");
@@ -102,37 +101,20 @@ public class DateIntervalOperatorDefinition extends DateOperatorDefinition {
         IDomain stringConst3 = new DomainStringConstant("");
         stringConst3.setContentAssistLabel("unit");
         stringConst3.setContentAssistProposal("${3:unit}");
+        IDomain string3 = new DomainString();
+        string3.setContentAssistLabel("unit");
+        string3.setContentAssistProposal("${3:unit}");
 
 
-        type.add(temporal1);
-        type.add(num2);
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
-        type.add(temporal1);
-        type.add(temporal2);
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
         type.add(timestamp1);
-        type.add(num2);
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
-        type.add(timestamp1);
-        type.add(interval2);
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
-        type.add(date1);
-        type.add(num2);
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
-        type.add(date1);
-        type.add(numConst2);
+        type.add(timestamp2);
         type.add(stringConst3);
         poly.add(type);
+        type = new ArrayList<IDomain>();
+        /*type.add(timestamp1);
+        type.add(timestamp2);
+        type.add(string3);
+        poly.add(type);*/
 
         return poly;
     }

@@ -147,10 +147,19 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 		if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
 			return new OperatorDiagnostic("Parameter must be a string",0,hint);
 		}
+		if (imageDomains.get(0).isInstanceOf(IDomain.ANY)) {
+			return new OperatorDiagnostic("Parameter must be a string",0,hint);
+		}
 		if(!(imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) || ((imageDomains.get(1) instanceof DomainNumericConstant) && ((DomainNumericConstant)imageDomains.get(1)).getValue()!=Math.floor(((DomainNumericConstant)imageDomains.get(1)).getValue()))) {
 			return new OperatorDiagnostic("First parameter must be an integer",1,hint);
 		}
+		if (imageDomains.get(1).isInstanceOf(IDomain.ANY)) {
+			return new OperatorDiagnostic("First parameter must be an integer",1,hint);
+		}
 		if (imageDomains.size()==3 && (!(imageDomains.get(2).isInstanceOf(IDomain.NUMERIC)) || ((imageDomains.get(2) instanceof DomainNumericConstant) && ((DomainNumericConstant)imageDomains.get(2)).getValue()!=Math.floor(((DomainNumericConstant)imageDomains.get(2)).getValue())))) {
+			return new OperatorDiagnostic("Second parameter must be an integer",2,hint);
+		}
+		if (imageDomains.size()==3 && imageDomains.get(2).isInstanceOf(IDomain.ANY)) {
 			return new OperatorDiagnostic("Second parameter must be an integer",2,hint);
 		}
 		return OperatorDiagnostic.IS_VALID;

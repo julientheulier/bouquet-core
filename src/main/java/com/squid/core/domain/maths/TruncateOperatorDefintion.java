@@ -115,6 +115,10 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 			return new OperatorDiagnostic(
 					"The first Parameter must be a number", getName());
 		}
+		if (imageDomains.get(0).isInstanceOf(IDomain.ANY)) {
+			return new OperatorDiagnostic("Parameters must be numbers (Any given)",
+					getName());
+		}
 		if (imageDomains.size() == 2
 				&& !imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
 			return new OperatorDiagnostic(
@@ -124,11 +128,15 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 			return new OperatorDiagnostic(
 					"the second Parameter must be an constant", getName());
 		} else if (imageDomains.size() == 2) {
+			if (imageDomains.get(1).isInstanceOf(IDomain.ANY)) {
+				return new OperatorDiagnostic("Parameters must be numbers (Any given)",
+						getName());
+			}
 			Double d = ((DomainNumericConstant) imageDomains.get(1)).getValue();
 			if (Math.floor(d)!=d || Math.abs(d)!=d) {
 				return new OperatorDiagnostic(
 						"the second Parameter must be a positive integer", getName());
-				
+
 			}
 		}
 		return OperatorDiagnostic.IS_VALID;

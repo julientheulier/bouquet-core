@@ -65,23 +65,6 @@ extends OrderedAnalyticOperatorDefinition {
 	}
 
 	@Override
-	public List getParametersTypes() {
-		List poly = new ArrayList<List<IDomain>>();
-		List type = new ArrayList<IDomain>();
-		IDomain any1 = new DomainAny();
-		any1.setContentAssistLabel("any");
-		any1.setContentAssistProposal("${1:any}");
-
-		poly.add(type);
-		type = new ArrayList<IDomain>();
-
-		type.add(any1);
-		poly.add(type);
-
-		return poly;
-	}
-
-	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()==0) {
 			// count(*)

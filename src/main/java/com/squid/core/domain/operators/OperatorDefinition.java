@@ -370,6 +370,14 @@ public abstract class OperatorDefinition {
                             //ANY.isInstanceOf will always return true;
                             if (type.get(i).isInstanceOf(IDomain.ANY)) {
                                 // Do nothing == accept any input
+                            } else if (imageDomains.get(i).isInstanceOf(IDomain.ANY)){
+                                // ANY is given, accepted type is not ANY
+                                // not respecting this type.
+                                pos = i;
+                                expected = type.get(i).getName();
+                                found = imageDomains.get(i).getName();
+                                matched_type = type.toString();
+                                break;
                             } else if (!imageDomains.get(i).isInstanceOf(type.get(i))) {
                                 // not respecting this type.
                                 pos = i;

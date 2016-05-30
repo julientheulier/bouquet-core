@@ -69,6 +69,7 @@ extends AggregateOperatorDefinition {
 		return poly;
 	}
 
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length<=1) {
