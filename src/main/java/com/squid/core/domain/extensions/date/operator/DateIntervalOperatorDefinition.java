@@ -120,6 +120,23 @@ public class DateIntervalOperatorDefinition extends DateOperatorDefinition {
     }
 
     @Override
+    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
+        if(imageDomains.size()>2){
+            if(imageDomains.get(2).isInstanceOf(DomainStringConstant.DOMAIN) && !imageDomains.get(2).isInstanceOf(IDomain.ANY)) {
+                String unit = ((DomainStringConstant) imageDomains.get(2)).getValue();
+                if (!"SECOND".equals(unit) && !"MINUTE".equals(unit) && !"HOUR".equals(unit) && !"DAY".equals(unit)) {
+                    if ("MONTH".equals(unit) || "YEAR".equals(unit)) {
+                        return new OperatorDiagnostic("Invalid unit", "Please use function MONTH_BETWEEN instead");
+                    }
+                    return new OperatorDiagnostic("Invalid unit", getName() + "timestamp, timestamp, unit (SECOND,MINUTE,HOUR,DAY)");
+                }
+            }
+        }
+        return super.validateParameters(imageDomains);
+
+    }
+
+    @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
         return fixExtendedTypeDomain(computeRawExtendedType(types), types);
     }

@@ -138,6 +138,25 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
     }
 
     @Override
+    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
+        if(imageDomains.size()>2){
+            if(imageDomains.get(1).isInstanceOf(DomainNumericConstant.DOMAIN) && !imageDomains.get(1).isInstanceOf(IDomain.ANY) && !imageDomains.get(2).isInstanceOf(IDomain.ANY) && imageDomains.get(2).isInstanceOf(DomainStringConstant.DOMAIN)) {
+                double d = ((DomainNumericConstant)imageDomains.get(1)).getValue();
+                if (Math.floor(d)!=d || Math.abs(d)!=d) {
+                    return new OperatorDiagnostic("Invalid interval, it must be a positive integer",getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
+                }
+                String unit = ((DomainStringConstant)imageDomains.get(2)).getValue();
+                if (!"SECOND".equals(unit) && !"MINUTE".equals(unit) && !"HOUR".equals(unit) && !"DAY".equals(unit) && !"MONTH".equals(unit) && !"YEAR".equals(unit)) {
+                    return new OperatorDiagnostic("Invalid unit",getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
+                }
+            }
+        }
+        return super.validateParameters(imageDomains);
+
+    }
+
+
+    @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
         return fixExtendedTypeDomain(computeRawExtendedType(types), types);
     }
