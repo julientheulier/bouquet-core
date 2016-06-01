@@ -59,7 +59,7 @@ extends DomainNumeric {
     
     @Override
     public boolean isInstanceOf(IDomain domain) {
-    	if (domain.isInstanceOf(IDomain.CONDITIONAL)) {
+    	if (domain.isInstanceOf(IDomain.CONDITIONAL) && !domain.isInstanceOf(IDomain.ANY)) {
     		// a boolean value can be used as a condition
     		return true;
     	} else {

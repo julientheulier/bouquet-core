@@ -72,44 +72,20 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
     @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
-        List type1 = new ArrayList<IDomain>();
-        List type2 = new ArrayList<IDomain>();
+        List type = new ArrayList<IDomain>();
 
         IDomain json = new DomainString();
         json.setContentAssistLabel("json");
         json.setContentAssistProposal("${1:json}");
-        type1.add(json);
-        poly.add(type1);
-
-        type2 = new ArrayList<IDomain>();
-        type2.add(json);
         IDomain index = new DomainNumeric();
         index.setContentAssistLabel("index");
         index.setContentAssistProposal("${2:index}");
-        type2.add(index);
-        poly.add(type2);
+
+        type.add(json);
+        type.add(index);
+        poly.add(type);
 
         return poly;
-    }
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size() >= 1) {
-            if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-                return new OperatorDiagnostic("1st parameter of function must be the json field as text", getName());
-            }
-                if (imageDomains.size() == 2) {
-                    if (!imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
-                        return new OperatorDiagnostic("Please specify the index number", getName() + "(json, index)");
-                    }
-                } else {
-                    return new OperatorDiagnostic("Invalid number of parameters, please check function definition", getName() + "(json, index)");
-                }
-            return OperatorDiagnostic.IS_VALID;
-        } else {
-            return new OperatorDiagnostic("Invalid number of parameters, please check function definition", getName());
-        }
-
     }
 
     @Override

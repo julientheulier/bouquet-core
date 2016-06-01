@@ -93,26 +93,4 @@ public class RegexpReplaceOperatorDefinition extends RegexpOperatorDefinition {
         return poly;
 
     }
-
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        String hint = "Invalid number of parameters for " + getName() + "(string, regexp, ...)";
-        if (imageDomains.size() < 2) {
-            return new OperatorDiagnostic("Invalid number of parameters", hint);
-        }
-        if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-            return new OperatorDiagnostic("1st parameter must be a string", 0, hint);
-        }
-        if (!imageDomains.get(1).isInstanceOf(IDomain.STRING)) {
-            return new OperatorDiagnostic("2nd parameter must be a string", 1, hint);
-        }
-        if (imageDomains.size() != 3 || !imageDomains.get(2).isInstanceOf(IDomain.STRING)) {
-                return new OperatorDiagnostic("3rd parameter must be a string", 2, hint);
-        } else if (imageDomains.size() > 2) {
-            return new OperatorDiagnostic("Invalid number of parameters", 2,
-                    "Invalid number of parameters for " + getName() + "(string, regexp)");
-        }
-        return OperatorDiagnostic.IS_VALID;
-    }
 }

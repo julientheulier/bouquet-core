@@ -163,55 +163,104 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
         return poly;
     }
 
+    //Not accepting ANY
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
         if (imageDomains.size() > 0 && imageDomains.size() <= 3) {
-            if (imageDomains.get(0).isInstanceOf(IDomain.STRING) == false
-                    && imageDomains.get(0).isInstanceOf(IDomain.NUMERIC) == false) {
-                return new OperatorDiagnostic(
-                        "Invalid type of parameters",
-                        getName()
-                                + ": first parameter must be a numeric or a string");
-            }
-            if (imageDomains.size() == 2
-                    && imageDomains.get(1) != IDomain.STRING) {
-                return new OperatorDiagnostic(
-                        "Invalid number of parameters", getName()
-                        + "(any,format)");
-            } else if (imageDomains.size() == 3) {
-                if (!(imageDomains.get(1) instanceof DomainNumericConstant)
-                        || !(imageDomains.get(2) instanceof DomainNumericConstant)) {
+            if (TO_DATE.equals(getExtendedID())
+                    || TO_TIMESTAMP.equals(getExtendedID())) {
+                if (imageDomains.size() <= 2) {
+                    if (imageDomains.size() == 1) {
+                        if (imageDomains.get(0).isInstanceOf(IDomain.DATE) == false || imageDomains.get(0).isInstanceOf(IDomain.ANY)) {
+                            return new OperatorDiagnostic(
+                                    "Invalid type for parameter #1, is "+imageDomains.get(0).getName()+" expecting "+IDomain.DATE.getName(), getName()
+                                    + "(timestamp)");
+                        }
+                    } else if (imageDomains.size() == 2) {
+                        if (!imageDomains.get(0)
+                                .isInstanceOf(IDomain.STRING) || imageDomains.get(0).isInstanceOf(IDomain.ANY)) {
+                            return new OperatorDiagnostic(
+                                    "Invalid type for parameter #1, is "+imageDomains.get(0).getName()+" expecting "+IDomain.STRING.getName(), getName()
+                                    + "(string,format)");
+                        } else if (!imageDomains.get(1)
+                                .isInstanceOf(IDomain.STRING) || imageDomains.get(1).isInstanceOf(IDomain.ANY)) {
+                            return new OperatorDiagnostic(
+                                    "Invalid type for parameter #1, is "+imageDomains.get(0).getName()+" expecting "+IDomain.STRING.getName(), getName()
+                                    + "(string,format)");
+                        }
+                    }
+                } else {
                     return new OperatorDiagnostic(
                             "Invalid number of parameters", getName()
-                            + "(any,size,precision)");
-                } else {
-                    double d1 = ((DomainNumericConstant) imageDomains
-                            .get(1)).getValue();
-                    double d2 = ((DomainNumericConstant) imageDomains
-                            .get(2)).getValue();
-                    if (Math.floor(d1) != d1 || Math.floor(d2) != d2) {
-                        return new OperatorDiagnostic(
-                                "Invalid parameters size and/or precision, they must be integer",
-                                getName() + "(any,size,precision)");
-                    }
+                            + "(timestamp) or " + getName()
+                            + "(string,format)");
                 }
-            } else if (imageDomains.size() == 4
-                    && (imageDomains.get(1) != IDomain.NUMERIC
-                    || imageDomains.get(2) != IDomain.NUMERIC || imageDomains
-                    .get(3) != IDomain.STRING)) {
-                return new OperatorDiagnostic(
-                        "Invalid number of parameters", getName()
-                        + "(any,size,precision, format)");
-            } else if (imageDomains.size() > 4) {
-                return new OperatorDiagnostic(
-                        "Invalid number of parameters", getName()
-                        + "(any,size,precision, format)");
+            } else if (TO_CHAR.equals(getExtendedID())) {
+                if (imageDomains.size() <= 2) {
+                    if (imageDomains.size() == 2
+                            && (!imageDomains.get(1)
+                            .isInstanceOf(IDomain.STRING) || imageDomains.get(1).isInstanceOf(IDomain.ANY))) {
+                        return new OperatorDiagnostic(
+                                "Invalid type of parameters", getName()
+                                + "(any,format)");
+                    }
+                } else {
+                    return new OperatorDiagnostic("Invalid type of parameters",
+                            getName() + "(any,format)");
+                }
+            } else if (TO_NUMBER.equals(getExtendedID())) {
+                if ((imageDomains.get(0).isInstanceOf(IDomain.STRING) == false
+                        && imageDomains.get(0).isInstanceOf(IDomain.NUMERIC) == false) || imageDomains.get(0).isInstanceOf(IDomain.ANY)) {
+                    return new OperatorDiagnostic(
+                            "Invalid type of parameters",
+                            getName()
+                                    + ": first parameter must be a numeric or a string");
+                }
+                if (imageDomains.size() == 2
+                        && (imageDomains.get(1) != IDomain.STRING || imageDomains.get(1).isInstanceOf(IDomain.ANY))) {
+                    return new OperatorDiagnostic(
+                            "Invalid number of parameters", getName()
+                            + "(any,format)");
+                } else if (imageDomains.size() == 3) {
+                    if (!(imageDomains.get(1) instanceof DomainNumericConstant) || imageDomains.get(1).isInstanceOf(IDomain.ANY)
+                            || !(imageDomains.get(2) instanceof DomainNumericConstant) || imageDomains.get(2).isInstanceOf(IDomain.ANY)) {
+                        return new OperatorDiagnostic(
+                                "Invalid number of parameters", getName()
+                                + "(any,size,precision)");
+                    } else {
+                        double d1 = ((DomainNumericConstant) imageDomains
+                                .get(1)).getValue();
+                        double d2 = ((DomainNumericConstant) imageDomains
+                                .get(2)).getValue();
+                        if (Math.floor(d1) != d1 || Math.floor(d2) != d2) {
+                            return new OperatorDiagnostic(
+                                    "Invalid parameters size and/or precision, they must be integer",
+                                    getName() + "(any,size,precision)");
+                        }
+                    }
+                } else if (imageDomains.size() == 4
+                        && (imageDomains.get(1) != IDomain.NUMERIC || imageDomains.get(1).isInstanceOf(IDomain.ANY)
+                        || imageDomains.get(2) != IDomain.NUMERIC || imageDomains.get(2).isInstanceOf(IDomain.ANY) || imageDomains
+                        .get(3) != IDomain.STRING || imageDomains.get(3).isInstanceOf(IDomain.ANY))) {
+                    return new OperatorDiagnostic(
+                            "Invalid number of parameters", getName()
+                            + "(any,size,precision, format)");
+                } else if (imageDomains.size() > 4) {
+                    return new OperatorDiagnostic(
+                            "Invalid number of parameters", getName()
+                            + "(any,size,precision, format)");
+                }
+            } else if (TO_INTEGER.equals(getExtendedID())) {
+                if (imageDomains.size() >= 2) {
+                    return new OperatorDiagnostic(
+                            "Invalid number of parameters", getName() + "(any)");
+                }
             }
-            return OperatorDiagnostic.IS_VALID;
-        }else{
+        } else {
             return new OperatorDiagnostic("Invalid number of parameters",
                     getName());
         }
+        return OperatorDiagnostic.IS_VALID;
     }
 
     @Override

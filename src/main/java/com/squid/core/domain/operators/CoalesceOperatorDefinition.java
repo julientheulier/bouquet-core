@@ -23,8 +23,12 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
+import com.squid.core.domain.DomainNumeric;
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 
 public class CoalesceOperatorDefinition
@@ -77,6 +81,76 @@ extends ArithmeticOperatorDefintion {
 		} else {
 			return imageDomains.get(0);
 		}
+	}
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry() {
+		if (super.getListContentAssistEntry() == null) {
+
+			List<String> descriptions = new ArrayList<String>();
+			List types = getParametersTypes();
+			for(int i = 0; i<types.size();i++){
+				descriptions.add("Returns the first non null value");
+			}
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any1 = new DomainAny();
+		any1.setContentAssistLabel("any");
+		any1.setContentAssistProposal("${1:any}");
+		IDomain any2 = new DomainAny();
+		any2.setContentAssistLabel("any");
+		any2.setContentAssistProposal("${2:any}");
+		type.add(any1);
+		type.add(any2);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		IDomain any3 = new DomainAny();
+		any3.setContentAssistLabel("any");
+		any3.setContentAssistProposal("${3:any}");
+		type.add(any1);
+		type.add(any2);
+		type.add(any3);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		IDomain any4 = new DomainAny();
+		any4.setContentAssistLabel("any");
+		any4.setContentAssistProposal("${4:any}");
+		type.add(any1);
+		type.add(any2);
+		type.add(any3);
+		type.add(any4);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		IDomain any5 = new DomainAny();
+		any5.setContentAssistLabel("any");
+		any5.setContentAssistProposal("${5:any}");
+		type.add(any1);
+		type.add(any2);
+		type.add(any3);
+		type.add(any4);
+		type.add(any5);
+		poly.add(type);
+		type = new ArrayList<IDomain>(); ;
+		IDomain any6 = new DomainAny();
+		any6.setContentAssistLabel("any");
+		any6.setContentAssistProposal("${6:any}");
+		type.add(any1);
+		type.add(any2);
+		type.add(any3);
+		type.add(any4);
+		type.add(any5);
+		type.add(any6);
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

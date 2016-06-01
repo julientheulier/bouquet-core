@@ -126,6 +126,11 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
         		return new OperatorDiagnostic("Invalid format constant for parameter #2", 2, hint);
         	}
         }
+        if (imageDomains.get(0).isInstanceOf(IDomain.ANY)
+                || imageDomains.get(1).isInstanceOf(IDomain.ANY)) {
+            return new OperatorDiagnostic("Parameter #1 should be a date or timestamp Parameter #2 should be a format string",
+                    getName());
+        }
         return OperatorDiagnostic.IS_VALID;
     }
 

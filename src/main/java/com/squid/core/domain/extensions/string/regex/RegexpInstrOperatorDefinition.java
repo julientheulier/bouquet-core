@@ -93,25 +93,6 @@ public class RegexpInstrOperatorDefinition extends RegexpOperatorDefinition {
 
     }
 
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        String hint = "Invalid number of parameters for " + getName() + "(string, regexp, ...)";
-        if (imageDomains.size() < 2) {
-            return new OperatorDiagnostic("Invalid number of parameters", hint);
-        } else if (imageDomains.size() > 2) {
-            return new OperatorDiagnostic("Invalid number of parameters", 2,
-                    "Invalid number of parameters for " + getName() + "(string, regexp)");
-        }
-        if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-            return new OperatorDiagnostic("1st parameter must be a string", 0, hint);
-        }
-        if (!imageDomains.get(1).isInstanceOf(IDomain.STRING)) {
-            return new OperatorDiagnostic("2nd parameter must be a string", 1, hint);
-        }
-        return OperatorDiagnostic.IS_VALID;
-    }
-
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
             return new ExtendedType(IDomain.NUMERIC, Types.INTEGER, 0, 0);

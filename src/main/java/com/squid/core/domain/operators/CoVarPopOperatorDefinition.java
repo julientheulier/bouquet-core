@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -47,7 +48,24 @@ public class CoVarPopOperatorDefinition extends AggregateOperatorDefinition {
 		super(name, id);
 		setDomain(IDomain.NUMERIC);
 	}
-	
+
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry() {
+		if (super.getListContentAssistEntry() == null) {
+
+			List<String> descriptions = new ArrayList<String>();
+			List types = getParametersTypes();
+			for(int i = 0; i<types.size();i++){
+				descriptions.add("Returns the number of rows");
+			}
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.FLOAT;

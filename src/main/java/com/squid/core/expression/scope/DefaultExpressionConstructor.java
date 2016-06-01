@@ -179,7 +179,7 @@ implements ExpressionScope
         if (diag!=OperatorDiagnostic.IS_VALID) {
             String message = diag.getErrorMessage();
             for (int pos=0;pos<args.size();pos++) {
-            	message = message.replaceAll("#"+(pos+1), Matcher.quoteReplacement(args.get(pos).prettyPrint()));
+            	message = message.replaceAll("#"+(pos), Matcher.quoteReplacement(args.get(pos).prettyPrint()));
             }
             throw new ScopeException(def.getName()+": "+message+(diag.getHint()!=null?"\nUsage: "+diag.getHint():""));
         }

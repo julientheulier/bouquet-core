@@ -29,6 +29,7 @@ import java.util.List;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.extensions.registry.StringFunctionsRegistry;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -55,23 +56,26 @@ public class OneArgStringOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
+	public ListContentAssistEntry getListContentAssistEntry(){
+		if(super.getListContentAssistEntry()==null){
+			List <String> descriptions = new ArrayList<String>();
+			List types = getParametersTypes();
+			for(int i = 0; i<types.size();i++){
+				descriptions.add("Take one string as argument");
+			}
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+			setListContentAssistEntry(entry);
+		}
+		return super.getListContentAssistEntry();
+	}
+
+	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
 		type.add(IDomain.STRING);
 		poly.add(type);
 		return poly;
-	}
-
-	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 1) {
-			return new OperatorDiagnostic("Invalid number of parameters", getName() + "(string)");
-		}
-		if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-			return new OperatorDiagnostic("Parameter must be a string", getName() + "(string)");
-		}
-		return OperatorDiagnostic.IS_VALID;
 	}
 
 	@Override

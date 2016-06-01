@@ -108,23 +108,6 @@ public class SplitPartOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 3) {
-			return new OperatorDiagnostic("Invalid number of parameters", hint);
-		}
-		if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-			return new OperatorDiagnostic("1sr parameter must be a string", 0, hint);
-		}
-		if (!(imageDomains.get(1) instanceof DomainStringConstant)) {
-			return new OperatorDiagnostic("Second parameter must be a string delimiter", 1, hint);
-		}
-		if (imageDomains.size() == 3 && !(imageDomains.get(2) instanceof DomainNumericConstant)) {
-			return new OperatorDiagnostic("Third parameter must be an element position", 2, hint);
-		}
-		return OperatorDiagnostic.IS_VALID;
-	}
-
-	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length > 0) {
 			return types[0];

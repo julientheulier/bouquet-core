@@ -44,6 +44,9 @@ public class RowsOperatorDefinition extends WindowingOperatorDefinition {
 		if (imageDomains.size()>=1) {
 			// check preceding domain
 			IDomain d = imageDomains.get(0);
+			if(d.isInstanceOf(IDomain.ANY)){
+				return new OperatorDiagnostic("invalid use of "+getName()+"()",HINT);
+			}
 			if (d.isInstanceOf(WindowingDomain.DOMAIN)) {
 				WindowingDomain w = (WindowingDomain)d;
 				switch (w.getExpression().getType()) {

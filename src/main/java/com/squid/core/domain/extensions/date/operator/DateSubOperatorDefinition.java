@@ -139,40 +139,22 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
 
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size()>0 && imageDomains.size()<=2) {
-            int cpt = 0;
-            for (IDomain domain : imageDomains) {
-                cpt++;
-                if (!domain.isInstanceOf(IDomain.TEMPORAL) && cpt==1 || cpt==2 && !domain.isInstanceOf(IDomain.TEMPORAL) && !domain.isInstanceOf(IDomain.NUMERIC)) {
-                    return new OperatorDiagnostic("Invalid type of parameters",getName()+"(temporal, temporal or integer)");
+        if(imageDomains.size()>2){
+            if(imageDomains.get(1).isInstanceOf(DomainNumericConstant.DOMAIN) && !imageDomains.get(1).isInstanceOf(IDomain.ANY) && !imageDomains.get(2).isInstanceOf(IDomain.ANY) && imageDomains.get(2).isInstanceOf(DomainStringConstant.DOMAIN)) {
+                double d = ((DomainNumericConstant)imageDomains.get(1)).getValue();
+                if (Math.floor(d)!=d || Math.abs(d)!=d) {
+                    return new OperatorDiagnostic("Invalid interval, it must be a positive integer",getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
+                }
+                String unit = ((DomainStringConstant)imageDomains.get(2)).getValue();
+                if (!"SECOND".equals(unit) && !"MINUTE".equals(unit) && !"HOUR".equals(unit) && !"DAY".equals(unit) && !"MONTH".equals(unit) && !"YEAR".equals(unit)) {
+                    return new OperatorDiagnostic("Invalid unit",getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
                 }
             }
-        } else if (imageDomains.size()==3) {
-                    if (!imageDomains.get(0).isInstanceOf(IDomain.DATE)) {
-                        return new OperatorDiagnostic("Invalid type of parameter #1, expecting a DATE or TIMESTAMP but found "+ imageDomains.get(0).toString(),getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
-                    }else if (!(imageDomains.get(1) instanceof DomainNumericConstant)) {
-                        return new OperatorDiagnostic("Invalid type of parameter #2, expecting a NUMERIC CONSTANT but found "+ imageDomains.get(1).toString(),getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
-                    } else if (!(imageDomains.get(2) instanceof DomainStringConstant)) {
-                        return new OperatorDiagnostic("Invalid type of parameter #3, expecting a STRING CONSTANT {SECOND,MINUTE,HOUR,DAY,MONTH,YEAR} but found "+ imageDomains.get(0).toString(),getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
-                    } else {
-                        double d = ((DomainNumericConstant)imageDomains.get(1)).getValue();
-                        if (Math.floor(d)!=d || Math.abs(d)!=d) {
-                            return new OperatorDiagnostic("Invalid interval, it must be a positive integer",getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
-                        }
-                        String unit = ((DomainStringConstant)imageDomains.get(2)).getValue();
-                        if (!"SECOND".equals(unit) && !"MINUTE".equals(unit) && !"HOUR".equals(unit) && !"DAY".equals(unit) && !"MONTH".equals(unit) && !"YEAR".equals(unit)) {
-                            return new OperatorDiagnostic("Invalid unit",getName()+"(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
-                        }
-                    }
         }
-        if (imageDomains.size()==2) {
-                return OperatorDiagnostic.IS_VALID;
-        } else if (imageDomains.size()==3){
-            return OperatorDiagnostic.IS_VALID;
-        } else {
-            return new OperatorDiagnostic("Invalid number of parameters",getName());
-        }
+        return super.validateParameters(imageDomains);
+
     }
+
 
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {

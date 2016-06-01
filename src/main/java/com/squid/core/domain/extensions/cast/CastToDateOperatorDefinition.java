@@ -92,6 +92,9 @@ public class CastToDateOperatorDefinition extends CastOperatorDefinition {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
 
+        IDomain date1 = new DomainDate();
+        date1.setContentAssistLabel("date");
+        date1.setContentAssistProposal("${1:date}");
         IDomain timestamp1 = new DomainTimestamp();
         timestamp1.setContentAssistLabel("timestamp");
         timestamp1.setContentAssistProposal("${1:timestamp}");
@@ -101,52 +104,21 @@ public class CastToDateOperatorDefinition extends CastOperatorDefinition {
         IDomain string2 = new DomainString();
         string2.setContentAssistLabel("format");
         string2.setContentAssistProposal("${2:format}");
+
         type.add(timestamp1);
         poly.add(type);
-
         type = new ArrayList<IDomain>();
+
         type.add(string1);
         type.add(string2);
         poly.add(type);
+        type = new ArrayList<IDomain>();
+
+        type.add(date1);
+        poly.add(type);
+
 
         return poly;
-    }
-
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size() > 0 && imageDomains.size() <= 3) {
-            if (imageDomains.size() <= 2) {
-                if (imageDomains.size() == 1) {
-                    if (imageDomains.get(0).isInstanceOf(IDomain.DATE) == false) {
-                        return new OperatorDiagnostic(
-                                "Invalid type for parameter #1, is " + imageDomains.get(0).getName() + " expecting " + IDomain.DATE.getName(), getName()
-                                + "(timestamp)");
-                    }
-                } else if (imageDomains.size() == 2) {
-                    if (!imageDomains.get(0)
-                            .isInstanceOf(IDomain.STRING)) {
-                        return new OperatorDiagnostic(
-                                "Invalid type for parameter #1, is " + imageDomains.get(0).getName() + " expecting " + IDomain.STRING.getName(), getName()
-                                + "(string,format)");
-                    } else if (!imageDomains.get(1)
-                            .isInstanceOf(IDomain.STRING)) {
-                        return new OperatorDiagnostic(
-                                "Invalid type for parameter #1, is " + imageDomains.get(0).getName() + " expecting " + IDomain.STRING.getName(), getName()
-                                + "(string,format)");
-                    }
-                }
-            } else {
-                return new OperatorDiagnostic(
-                        "Invalid number of parameters", getName()
-                        + "(timestamp) or " + getName()
-                        + "(string,format)");
-            }
-            return OperatorDiagnostic.IS_VALID;
-        }else{
-            return new OperatorDiagnostic("Invalid number of parameters",
-                    getName());
-        }
     }
 
     @Override

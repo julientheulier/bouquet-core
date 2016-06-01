@@ -88,19 +88,6 @@ public class RadiansOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 1) {
-			return new OperatorDiagnostic(
-					"Function RADIANS take 1 parameter only)", getName());
-		}
-		if (!imageDomains.get(0).isInstanceOf(IDomain.NUMERIC)) {
-			return new OperatorDiagnostic("Parameter must be a number",
-					getName());
-		}
-		return OperatorDiagnostic.IS_VALID;
-	}
-
-	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.FLOAT;
 	}
