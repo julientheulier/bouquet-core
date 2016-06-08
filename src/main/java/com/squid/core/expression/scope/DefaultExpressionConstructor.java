@@ -165,6 +165,7 @@ implements ExpressionScope
 	 * @see com.squid.ldm.model.api.expression.managers.ExpressionConstructor#createOperator(java.lang.String, java.util.List)
 	 */
     public ExpressionAST createOperator(String name, List<ExpressionAST> args) throws ScopeException {
+    	// note: args may be null
     	OperatorDefinition def = lookup(name);
     	List<IDomain> domains = null;
     	if (args!=null) {
@@ -178,8 +179,10 @@ implements ExpressionScope
         OperatorDiagnostic diag = def.validateParameters(domains);
         if (diag!=OperatorDiagnostic.IS_VALID) {
             String message = diag.getErrorMessage();
-            for (int pos=0;pos<args.size();pos++) {
-            	message = message.replaceAll("#"+(pos), Matcher.quoteReplacement(args.get(pos).prettyPrint()));
+            if (args!=null) {
+	            for (int pos=0;pos<args.size();pos++) {
+	            	message = message.replaceAll("#"+(pos+1), Matcher.quoteReplacement(args.get(pos).prettyPrint()));
+	            }
             }
             throw new ScopeException(def.getName()+": "+message+(diag.getHint()!=null?"\nUsage: "+diag.getHint():""));
         }
