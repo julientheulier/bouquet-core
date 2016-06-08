@@ -44,6 +44,8 @@ public interface IDomain
 	public static final IDomain UNKNOWN = new DomainUnknown();
 	public static final IDomain INTRINSIC = new DomainIntrinsic();
 	public static final IDomain STRING = new DomainString();
+	public static final IDomain INT = new DomainInteger();
+	// NUMERIC is Double and INT is Integer
 	public static final IDomain NUMERIC = new DomainNumeric();
 	public static final IDomain TEMPORAL = new DomainTemporal();
 	public static final IDomain DATE = new DomainDate();

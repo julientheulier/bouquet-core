@@ -57,10 +57,11 @@ public class DateCurrentDateOperatorDefinition extends DateOperatorDefinition {
     public ListContentAssistEntry getListContentAssistEntry(){
         if(super.getListContentAssistEntry()==null){
             List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Return current date");
-            descriptions.add("Return current date");
-
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            List types = getParametersTypes();
+            for(int i = 0; i<types.size();i++){
+                descriptions.add("Return current date");
+            }
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
             setListContentAssistEntry(entry);
         }
         return super.getListContentAssistEntry();
@@ -82,18 +83,6 @@ public class DateCurrentDateOperatorDefinition extends DateOperatorDefinition {
 
         return poly;
     }
-
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size()<=1) {
-            return OperatorDiagnostic.IS_VALID;
-        } else {
-            return new OperatorDiagnostic("Invalid parameter",getName());
-        }
-    }
-
-
 
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {

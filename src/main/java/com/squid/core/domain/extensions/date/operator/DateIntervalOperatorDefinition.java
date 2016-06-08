@@ -59,14 +59,10 @@ public class DateIntervalOperatorDefinition extends DateOperatorDefinition {
     public ListContentAssistEntry getListContentAssistEntry(){
         if(super.getListContentAssistEntry()==null){
             List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
-            descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
-            descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
-            descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
-            descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
+            //descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
             //(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)"
-            descriptions.add("DATE_INTERVAL using (date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
-
+            //descriptions.add("DATE_INTERVAL using (date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
+            descriptions.add("Compute the interval between two timestamps with a unit");
             ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
             setListContentAssistEntry(entry);
         }
@@ -87,6 +83,9 @@ public class DateIntervalOperatorDefinition extends DateOperatorDefinition {
         IDomain timestamp1 = new DomainTimestamp();
         timestamp1.setContentAssistLabel("timestamp");
         timestamp1.setContentAssistProposal("${1:timestamp}");
+        IDomain timestamp2 = new DomainTimestamp();
+        timestamp2.setContentAssistLabel("timestamp");
+        timestamp2.setContentAssistProposal("${2:timestamp}");
         IDomain num2 = new DomainNumeric();
         num2.setContentAssistLabel("num");
         num2.setContentAssistProposal("${2:n}");
@@ -102,72 +101,39 @@ public class DateIntervalOperatorDefinition extends DateOperatorDefinition {
         IDomain stringConst3 = new DomainStringConstant("");
         stringConst3.setContentAssistLabel("unit");
         stringConst3.setContentAssistProposal("${3:unit}");
+        IDomain string3 = new DomainString();
+        string3.setContentAssistLabel("unit");
+        string3.setContentAssistProposal("${3:unit}");
 
 
-        type.add(temporal1);
-        type.add(num2);
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
-        type.add(temporal1);
-        type.add(temporal2);
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
         type.add(timestamp1);
-        type.add(num2);
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
-        type.add(timestamp1);
-        type.add(interval2);
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
-        type.add(date1);
-        type.add(num2);
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
-        type.add(date1);
-        type.add(numConst2);
+        type.add(timestamp2);
         type.add(stringConst3);
         poly.add(type);
+        type = new ArrayList<IDomain>();
+        /*type.add(timestamp1);
+        type.add(timestamp2);
+        type.add(string3);
+        poly.add(type);*/
 
         return poly;
     }
 
-
     @Override
     public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size()>0 && imageDomains.size()<=2) {
-            int cpt = 0;
-            for (IDomain domain : imageDomains) {
-                cpt++;
-                if (!domain.isInstanceOf(IDomain.TEMPORAL) && cpt==1 || cpt==2 && !domain.isInstanceOf(IDomain.TEMPORAL) && !domain.isInstanceOf(IDomain.NUMERIC)) {
-                    return new OperatorDiagnostic("Invalid type of parameters",getName()+"(temporal, temporal or integer)");
+        if(imageDomains.size()>2){
+            if(imageDomains.get(2).isInstanceOf(DomainStringConstant.DOMAIN) && !imageDomains.get(2).isInstanceOf(IDomain.ANY)) {
+                String unit = ((DomainStringConstant) imageDomains.get(2)).getValue();
+                if (!"SECOND".equals(unit) && !"MINUTE".equals(unit) && !"HOUR".equals(unit) && !"DAY".equals(unit)) {
+                    if ("MONTH".equals(unit) || "YEAR".equals(unit)) {
+                        return new OperatorDiagnostic("Invalid unit", "Please use function MONTH_BETWEEN instead");
+                    }
+                    return new OperatorDiagnostic("Invalid unit", getName() + "timestamp, timestamp, unit (SECOND,MINUTE,HOUR,DAY)");
                 }
             }
-        } else if (imageDomains.size()==3) {
-                if (!imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP) || !imageDomains.get(1).isInstanceOf(IDomain.TIMESTAMP) || !(imageDomains.get(2) instanceof DomainStringConstant)) {
-                    return new OperatorDiagnostic("Invalid type of parameters",getName()+"(timestamp, timestamp, string)");
-                } else {
-                    String unit = ((DomainStringConstant)imageDomains.get(2)).getValue();
-                    if (!"SECOND".equals(unit) && !"MINUTE".equals(unit) && !"HOUR".equals(unit) && !"DAY".equals(unit)) {
-                        if ("MONTH".equals(unit) || "YEAR".equals(unit)) {
-                            return new OperatorDiagnostic("Invalid unit","Please use function MONTH_BETWEEN instead");
-                        }
-                        return new OperatorDiagnostic("Invalid unit",getName()+"timestamp, timestamp, unit (SECOND,MINUTE,HOUR,DAY)");
-                    }
-                }
         }
-        if (imageDomains.size()==2) {
-            return new OperatorDiagnostic("Invalid number of parameters",getName());
-        } else if (imageDomains.size()==3) {
-            return OperatorDiagnostic.IS_VALID;
-        } else {
-            return new OperatorDiagnostic("Invalid number of parameters",getName());
-        }
+        return super.validateParameters(imageDomains);
+
     }
 
     @Override

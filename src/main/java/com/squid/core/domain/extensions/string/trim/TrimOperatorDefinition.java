@@ -67,9 +67,11 @@ public class TrimOperatorDefinition extends OperatorDefinition {
   public ListContentAssistEntry getListContentAssistEntry(){
     if(super.getListContentAssistEntry()==null){
       List <String> descriptions = new ArrayList<String>();
-      descriptions.add("Remove from the right or the right (or both) all the occurences that are from the set. If the set is empty, then it takes single blank as the set.");
-      descriptions.add("Remove from the right or the right (or both) all the occurences that are from the set. If the set is empty, then it takes single blank as the set.");
-      ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+      List types = getParametersTypes();
+      for(int i = 0; i<types.size();i++){
+        descriptions.add("Remove from the right or the right (or both) all the occurences that are from the set. If the set is empty, then it takes single blank as the set.");
+      }
+      ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
       setListContentAssistEntry(entry);
     }
     return super.getListContentAssistEntry();
@@ -101,20 +103,6 @@ public class TrimOperatorDefinition extends OperatorDefinition {
 
     return poly;
 
-  }
-
-  @Override
-  public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-    if (!(imageDomains.size() == 1 || imageDomains.size() == 2)) {
-      return new OperatorDiagnostic("Invalid number of parameters", hint);
-    }
-    if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-      return new OperatorDiagnostic("Parameter must be a string", 0, hint);
-    }
-    if (imageDomains.size() == 2 && !imageDomains.get(1).isInstanceOf(IDomain.STRING)) {
-      return new OperatorDiagnostic("Parameter must be a string", 1, hint);
-    }
-    return OperatorDiagnostic.IS_VALID;
   }
 
   @Override

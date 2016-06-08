@@ -77,17 +77,6 @@ public class IntervalOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()!=1) {
-			return new OperatorDiagnostic("Invalid number of parameters",getName()+"(integer)");
-		}
-		if (!imageDomains.get(0).isInstanceOf(IDomain.NUMERIC)) {
-			return new OperatorDiagnostic("Parameter #1 must be an integer but it is a "+imageDomains.get(0).getName(),1,getName()+"(integer)");
-		}
-		return OperatorDiagnostic.IS_VALID;
-	}
-
-	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (this.getExtendedID().equals(INTERVAL_YEAR)) {
 			return new ExtendedType(IDomain.INTERVAL,CustomTypes.INTERVAL,1,0);

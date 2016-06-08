@@ -51,7 +51,8 @@ extends ConditionalOperatorDefinition {
 		super(name, extendedID, position, symbol, domain);
 		// TODO Auto-generated constructor stub
 	}
-	
+
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()!=2) {

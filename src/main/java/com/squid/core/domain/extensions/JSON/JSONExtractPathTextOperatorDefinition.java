@@ -61,13 +61,11 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
     public ListContentAssistEntry getListContentAssistEntry(){
         if(super.getListContentAssistEntry()==null){
             List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Return the element corresponding to the key in the json element");
-            descriptions.add("Return the elements corresponding to the keys in the json element");
-            descriptions.add("Return the elements corresponding to the keys in the json element");
-            descriptions.add("Return the elements corresponding to the keys in the json element");
-            descriptions.add("Return the elements corresponding to the keys in the json element");
-            descriptions.add("Return the elements corresponding to the keys in the json element");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
+            List types = getParametersTypes();
+            for(int i = 0; i<types.size();i++){
+                descriptions.add("Return the elements corresponding to the keys in the json element");
+            }
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
             setListContentAssistEntry(entry);
         }
         return super.getListContentAssistEntry();
@@ -81,8 +79,6 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
         IDomain json = new DomainString();
         json.setContentAssistLabel("json");
         json.setContentAssistProposal("${1:json}");
-        type.add(json);
-        poly.add(type);
         type = new ArrayList<IDomain>(); ;
         IDomain key1 = new DomainString();
         key1.setContentAssistLabel("key1");
@@ -129,28 +125,6 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
         type.add(key5);
         poly.add(type);
         return poly;
-    }
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size() >= 1) {
-            if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-                return new OperatorDiagnostic("1st parameter of function must be the json field as text", getName());
-            }
-            if (imageDomains.size() >= 2) {
-                for (int i = 1; i < imageDomains.size(); i++) {
-                    if (!imageDomains.get(i).isInstanceOf(IDomain.STRING)) {
-                        return new OperatorDiagnostic("A path is a list of keys", getName() + "(json, key1, ...)");
-                    }
-                }
-            } else {
-                return new OperatorDiagnostic("Invalid number of parameters, please check function definition", getName());
-            }
-            return OperatorDiagnostic.IS_VALID;
-        } else {
-            return new OperatorDiagnostic("Invalid number of parameters, please check function definition", getName());
-        }
-
     }
 
     @Override

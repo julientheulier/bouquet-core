@@ -101,34 +101,15 @@ public class CastToCharOperatorDefinition extends CastOperatorDefinition {
         IDomain string2 = new DomainString();
         string2.setContentAssistLabel("format");
         string2.setContentAssistProposal("${2:format}");
+
+        type.add(any1);
+        poly.add(type);
+        type = new ArrayList<IDomain>();
+
         type.add(any1);
         type.add(string2);
         poly.add(type);
         return poly;
-    }
-
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size() > 0 && imageDomains.size() <= 3) {
-            if (imageDomains.size() <= 2) {
-                if (imageDomains.size() == 2
-                        && !imageDomains.get(1)
-                        .isInstanceOf(IDomain.STRING)) {
-                    return new OperatorDiagnostic(
-                            "Invalid type of parameters", getName()
-                            + "(any,format)");
-                }
-            } else {
-                return new OperatorDiagnostic("Invalid type of parameters",
-                        getName() + "(any,format)");
-            }
-
-            return OperatorDiagnostic.IS_VALID;
-        }else{
-                return new OperatorDiagnostic("Invalid number of parameters",
-                        getName());
-        }
     }
 
     @Override

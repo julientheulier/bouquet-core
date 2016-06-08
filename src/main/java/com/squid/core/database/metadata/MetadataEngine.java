@@ -141,9 +141,11 @@ public class MetadataEngine implements IMetadataEngine {
 		 } catch (SQLException e) {
         	 if (conn!=null) {
         		 try {
-					if (!conn.getAutoCommit()) {
-						 conn.rollback();
-					 }
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.rollback();
+                         }
+                     }
 				} catch (SQLException e1) {
 				}
         	 }
@@ -151,10 +153,12 @@ public class MetadataEngine implements IMetadataEngine {
 		 } finally {
 			 try {
 				 if (conn!=null) {
-					 if (!conn.getAutoCommit()) {
-						 conn.commit();
-					 }
-					 conn.close();
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.commit();
+                         }
+                         conn.close();
+                     }
 					 ds.releaseSemaphore();
 				 }
 			 } catch (SQLException e) {
@@ -183,9 +187,11 @@ public class MetadataEngine implements IMetadataEngine {
 		 } catch (Exception e) {
         	 if (conn!=null) {
         		 try {
-					if (!conn.getAutoCommit()) {
-						 conn.rollback();
-					 }
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.rollback();
+                         }
+                     }
 				} catch (SQLException e1) {
 				}
         	 }
@@ -193,10 +199,12 @@ public class MetadataEngine implements IMetadataEngine {
 		 } finally {
 			 try {
 				 if (conn!=null) {
-					 if (!conn.getAutoCommit()) {
-						 conn.commit();
-					 }
-					 conn.close();
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.commit();
+                         }
+                         conn.close();
+                     }
 					 ds.releaseSemaphore();
 				 }
 			 } catch (SQLException e) {
@@ -248,9 +256,11 @@ public class MetadataEngine implements IMetadataEngine {
 		 } catch (Exception e) {
         	 if (conn!=null) {
         		 try {
-					if (!conn.getAutoCommit()) {
-						 conn.rollback();
-					 }
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.rollback();
+                         }
+                     }
 				} catch (SQLException e1) {
 				}
         	 }
@@ -258,10 +268,12 @@ public class MetadataEngine implements IMetadataEngine {
 		 } finally {
 			 try {
 				 if (conn!=null) {
-					 if (!conn.getAutoCommit()) {
-						 conn.commit();
-					 }
-					 conn.close();
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.commit();
+                         }
+                         conn.close();
+                     }
 					 ds.releaseSemaphore();
 				 }
 			 } catch (SQLException e) {
@@ -278,9 +290,11 @@ public class MetadataEngine implements IMetadataEngine {
 		} catch (Exception e) {
 			if (conn != null) {
 				try {
-					if (!conn.getAutoCommit()) {
-						conn.rollback();
-					}
+                    if(!conn.isClosed() && conn.isValid(3000)) {
+                        if (!conn.getAutoCommit()) {
+                            conn.rollback();
+                        }
+                    }
 				} catch (SQLException e1) {
 				}
 			}
@@ -288,10 +302,12 @@ public class MetadataEngine implements IMetadataEngine {
 		} finally {
 			try {
 				if (conn != null) {
-					if (!conn.getAutoCommit()) {
-						conn.commit();
-					}
-					conn.close();
+                    if(!conn.isClosed() && conn.isValid(3000)) {
+                        if (!conn.getAutoCommit()) {
+                            conn.commit();
+                        }
+                        conn.close();
+                    }
 					ds.releaseSemaphore();
 				}
 			} catch (SQLException e) {
@@ -329,9 +345,11 @@ public class MetadataEngine implements IMetadataEngine {
          } catch (Exception e) {
         	 if (conn!=null) {
         		 try {
-					if (!conn.getAutoCommit()) {
-						 conn.rollback();
-					 }
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.rollback();
+                         }
+                     }
 				} catch (SQLException e1) {
 				}
         	 }
@@ -339,10 +357,12 @@ public class MetadataEngine implements IMetadataEngine {
          } finally {
 			 try {
 				 if (conn!=null) {
-						if (!conn.getAutoCommit()) {
-							conn.commit();
-						}
-					 conn.close();
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.commit();
+                         }
+                         conn.close();
+                     }
 					 ds.releaseSemaphore();
 				 }
 			 } catch (SQLException e) {
@@ -374,9 +394,11 @@ public class MetadataEngine implements IMetadataEngine {
          } catch (SQLException e) {
         	 if (conn!=null) {
         		 try {
-					if (!conn.getAutoCommit()) {
-						 conn.rollback();
-					 }
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.rollback();
+                         }
+                     }
 				} catch (SQLException e1) {
 				}
         	 }
@@ -384,10 +406,12 @@ public class MetadataEngine implements IMetadataEngine {
          } finally {
 			try {
 				if (conn != null) {
-					if (!conn.getAutoCommit()) {
-						conn.commit();
-					}
-					conn.close();
+                    if(!conn.isClosed() && conn.isValid(3000)) {
+                        if (!conn.getAutoCommit()) {
+                            conn.commit();
+                        }
+                        conn.close();
+                    }
 					ds.releaseSemaphore();
 				}
 			} catch (SQLException e) {
@@ -404,9 +428,11 @@ public class MetadataEngine implements IMetadataEngine {
 		 } catch (Exception e) {
 			 if (conn!=null) {
 				 try {
-					 if (!conn.getAutoCommit()) {
-						 conn.rollback();
-					 }
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.rollback();
+                         }
+                     }
 				 } catch (SQLException ee) {
 					 //
 				 }
@@ -415,10 +441,12 @@ public class MetadataEngine implements IMetadataEngine {
          } finally {
 			 try {
 				 if (conn!=null) {
-					 if (!conn.getAutoCommit()) {
-						 conn.commit();
-					 }
-					 conn.close();
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.commit();
+                         }
+                         conn.close();
+                     }
 					 ds.releaseSemaphore();
 				 }
 			 } catch (SQLException e) {
@@ -499,9 +527,11 @@ public class MetadataEngine implements IMetadataEngine {
 			 } catch (Exception e) {
 	        	 if (conn!=null) {
 	        		 try {
-						if (!conn.getAutoCommit()) {
-							 conn.rollback();
-						 }
+                         if(!conn.isClosed() && conn.isValid(3000)) {
+                             if (!conn.getAutoCommit()) {
+                                 conn.rollback();
+                             }
+                         }
 					} catch (SQLException e1) {
 					}
 	        	 }
@@ -509,10 +539,12 @@ public class MetadataEngine implements IMetadataEngine {
 			 } finally {
 				 try {
 					 if (conn!=null) {
-						 if (!conn.getAutoCommit()) {
-							 conn.commit();
-						 }
-						 conn.close();
+                         if(!conn.isClosed() && conn.isValid(3000)) {
+                             if (!conn.getAutoCommit()) {
+                                 conn.commit();
+                             }
+                             conn.close();
+                         }
 						 ds.releaseSemaphore();
 					 }
 				 } catch (SQLException e) {
@@ -530,8 +562,10 @@ public class MetadataEngine implements IMetadataEngine {
 		 } catch (Exception e) {
         	 if (conn!=null) {
         		 try {
-					if (!conn.getAutoCommit()) {
-						 conn.rollback();
+					 if(!conn.isClosed() && conn.isValid(3000)) {
+						 if (!conn.getAutoCommit()) {
+							 conn.rollback();
+						 }
 					 }
 				} catch (SQLException e1) {
 				}
@@ -540,11 +574,13 @@ public class MetadataEngine implements IMetadataEngine {
 		 } finally {
 			 try {
 				 if (conn!=null) {
-					 if (!conn.getAutoCommit()) {
-						 conn.commit();
-					 }
-					 conn.close();
-					 ds.releaseSemaphore();
+                     if(!conn.isClosed() && conn.isValid(3000)) {
+                         if (!conn.getAutoCommit()) {
+                             conn.commit();
+                         }
+                         conn.close();
+                     }
+                     ds.releaseSemaphore();
 				 }
 			 } catch (SQLException e) {
 				 logger.error(e.getLocalizedMessage());
@@ -671,9 +707,11 @@ public class MetadataEngine implements IMetadataEngine {
 			 } catch (Exception e) {
 	        	 if (conn!=null) {
 	        		 try {
-						if (!conn.getAutoCommit()) {
-							 conn.rollback();
-						 }
+                         if(!conn.isClosed() && conn.isValid(3000)) {
+                             if (!conn.getAutoCommit()) {
+                                 conn.rollback();
+                             }
+                         }
 					} catch (SQLException e1) {
 					}
 	        	 }
@@ -681,10 +719,12 @@ public class MetadataEngine implements IMetadataEngine {
 			 } finally {
 				 try {
 					 if (conn!=null) {
-						 if (!conn.getAutoCommit()) {
-							 conn.commit();
-						 }
-						 conn.close();
+                         if(!conn.isClosed() && conn.isValid(3000)) {
+                             if (!conn.getAutoCommit()) {
+                                 conn.commit();
+                             }
+                             conn.close();
+                         }
 						 ds.releaseSemaphore();
 					 }
 				 } catch (SQLException e) {
@@ -719,9 +759,11 @@ public class MetadataEngine implements IMetadataEngine {
 			 } catch (Exception e) {
 	        	 if (conn!=null) {
 	        		 try {
-						if (!conn.getAutoCommit()) {
-							 conn.rollback();
-						 }
+                         if(!conn.isClosed() && conn.isValid(3000)) {
+                             if (!conn.getAutoCommit()) {
+                                 conn.rollback();
+                             }
+                         }
 					} catch (SQLException e1) {
 					}
 	        	 }
@@ -729,10 +771,12 @@ public class MetadataEngine implements IMetadataEngine {
 			 } finally {
 				 try {
 					 if (conn!=null) {
-						 if (!conn.getAutoCommit()) {
-							 conn.commit();
-						 }
-						 conn.close();
+                         if(!conn.isClosed() && conn.isValid(3000)) {
+                             if (!conn.getAutoCommit()) {
+                                 conn.commit();
+                             }
+                             conn.close();
+                         }
 						 ds.releaseSemaphore();
 					 }
 				 } catch (SQLException e) {

@@ -79,20 +79,4 @@ public class JSONArrayLengthOperatorDefinition extends JSONOperatorDefinition {
         poly.add(type1);
         return poly;
     }
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        if (imageDomains.size() >= 1) {
-            if (!imageDomains.get(0).isInstanceOf(IDomain.STRING)) {
-                return new OperatorDiagnostic("1st parameter of function must be the json field as text", getName());
-            }
-            return OperatorDiagnostic.IS_VALID;
-        } else {
-            return new OperatorDiagnostic("Invalid number of parameters, please check function definition", getName());
-        }
-
-    }
-
-
-
 }

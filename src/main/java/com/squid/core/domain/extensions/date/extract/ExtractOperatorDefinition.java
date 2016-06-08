@@ -87,19 +87,6 @@ public class ExtractOperatorDefinition extends OperatorDefinition {
         return poly;
     }
 
-
-    @Override
-    public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-        //TODO Use the signature to check type
-        if (imageDomains.size() != 1) {
-            return new OperatorDiagnostic("Invalid number of parameters", getName() + "(temporal)");
-        }
-        if (!imageDomains.get(0).isInstanceOf(IDomain.DATE)) {
-            return new OperatorDiagnostic("Parameter #1 must be a date but it is a " + imageDomains.get(0).getName(), 1, getName() + "(date)");
-        }
-        return OperatorDiagnostic.IS_VALID;
-    }
-
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
         return new ExtendedType(IDomain.NUMERIC, Types.NUMERIC, 0, 2);

@@ -94,22 +94,6 @@ extends OperatorDefinition {
 		return poly;
 	}
 
-
-	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()!=2) {
-			return new OperatorDiagnostic("Invalid number of parameters",HINT);
-		}
-		if (!imageDomains.get(0).isInstanceOf(IDomain.DATE) && !imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP)) {
-		    return OperatorDiagnostic.invalidType(1, imageDomains.get(0), "Date or Timestamp");
-		};
-		if (!imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
-			return OperatorDiagnostic.invalidType(2, imageDomains.get(1), "Integer");
-		};
-		//
-		return OperatorDiagnostic.IS_VALID;
-	}
-
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length!=2) {

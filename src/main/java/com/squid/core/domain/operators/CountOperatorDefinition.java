@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.analytics.AnalyticDomain;
@@ -45,7 +47,23 @@ extends OrderedAnalyticOperatorDefinition {
 			return AnalyticDomain.MANAGER.createMetaDomain(IDomain.NUMERIC);
 		}
 	}
-	
+
+	@Override
+	public ListContentAssistEntry getListContentAssistEntry() {
+		if (super.getListContentAssistEntry() == null) {
+
+			List<String> descriptions = new ArrayList<String>();
+			List types = getParametersTypes();
+			for(int i = 0; i<types.size();i++){
+				descriptions.add("Returns the number of rows");
+			}
+			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+			setListContentAssistEntry(entry);
+
+		}
+		return super.getListContentAssistEntry();
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()==0) {
