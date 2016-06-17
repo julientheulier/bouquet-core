@@ -24,8 +24,7 @@
 package com.squid.core.jdbc.vendor;
 
 import java.sql.Connection;
-
-import javax.sql.DataSource;
+import java.util.Map;
 
 import com.squid.core.database.impl.DataSourceReliable;
 import com.squid.core.database.metadata.VendorMetadataSupport;
@@ -46,6 +45,19 @@ public interface IVendorSupport {
 	 * @return
 	 */
 	public String getVendorId();
+	
+	/**
+	 * return a template to build jdbc url suitable for this driver
+	 * @return
+	 */
+	public JdbcUrlTemplate getJdbcUrlTemplate();
+	
+	/**
+	 * build a valid JDBC url given a map of arguments
+	 * @param parameters. The arguments are expected to correspond to the parameters provides by the JdbcUrlTemplate.
+	 * @return
+	 */
+	public String buildJdbcUrl(Map<String, String> arguments) throws IllegalArgumentException;
 
 
 	/**

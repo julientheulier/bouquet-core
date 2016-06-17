@@ -24,8 +24,7 @@
 package com.squid.core.jdbc.vendor;
 
 import java.sql.Connection;
-
-import javax.sql.DataSource;
+import java.util.Map;
 
 import com.squid.core.database.impl.DataSourceReliable;
 import com.squid.core.database.metadata.GenericMetadataSupport;
@@ -51,6 +50,45 @@ public class DefaultVendorSupport implements IVendorSupport {
 	@Override
 	public String getVendorVersion() {
 		return "Unknown";
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.squid.core.jdbc.vendor.IVendorSupport#getJdbcUrlTemplate()
+	 */
+	@Override
+	public JdbcUrlTemplate getJdbcUrlTemplate() {
+		JdbcUrlTemplate template = new JdbcUrlTemplate(getVendorId(), "jdbc:"+getVendorId().toLowerCase()+"://[hostname]:{port}/{database}");
+		template.add(new JdbcUrlParameter("hostname", false));
+		template.add(new JdbcUrlParameter("port", true));
+		template.add(new JdbcUrlParameter("database", true));
+		return template;
+	}
+	
+	/**
+	 * this is the default implementation. Override to take into account driver peculiarities.
+	 */
+	@Override
+	public String buildJdbcUrl(Map<String, String> arguments) throws IllegalArgumentException {
+		String url = "jdbc:"+getVendorId().toLowerCase()+"://";
+		String hostname = arguments.get("hostname");
+		if (hostname==null) throw new IllegalArgumentException("cannot build JDBC url, missing mandatory argument 'hostname'");
+		url += hostname;
+		String port = arguments.get("port");
+		if (port!=null) {
+			// check it's an integer
+			try {
+				int p = Integer.valueOf(port);
+				url += ":"+Math.abs(p);// just in case
+			} catch (NumberFormatException e) {
+				throw new IllegalArgumentException("cannot build JDBC url, 'port' value must be a valid port number");
+			}
+		}
+		String database = arguments.get("database");
+		if (database!=null) {
+			url += "/" + database;
+		}
+		// validate ?
+		return url;
 	}
 
 	@Override
