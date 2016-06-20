@@ -30,9 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.squid.core.database.impl.DriverLoader;
-//import com.squid.core.database.impl.PluginSupportRegistry;
 import com.squid.core.database.model.DatabaseProduct;
-import com.squid.core.jdbc.formatter.IJDBCDataFormatter;
 
 
 public class VendorSupportRegistry {
@@ -48,6 +46,21 @@ public class VendorSupportRegistry {
 	protected VendorSupportRegistry() {
 		register();
 	//	PluginSupportRegistry plugin = new PluginSupportRegistry();
+	}
+	
+	/**
+	 * return the given VendorSupport
+	 * @param vendorId
+	 * @return
+	 */
+	public IVendorSupport getVendorSupportByID(String vendorId) {
+		for (IVendorSupport vendor : vendors) {
+			if (vendor.getVendorId().equalsIgnoreCase(vendorId)) {
+				return vendor;
+			}
+		}
+		// else if not found
+		return null;
 	}
 	
 	/**

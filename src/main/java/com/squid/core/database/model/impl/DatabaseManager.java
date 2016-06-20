@@ -73,6 +73,13 @@ public class DatabaseManager {
 			ds.close();
 		}
 	}
+	
+	/**
+	 * @return the vendor
+	 */
+	public IVendorSupport getVendor() {
+		return vendor;
+	}
 
 	public Database getDatabase() {
 		return db;
