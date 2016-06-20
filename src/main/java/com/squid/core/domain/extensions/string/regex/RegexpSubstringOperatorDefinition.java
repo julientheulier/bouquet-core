@@ -56,15 +56,12 @@ public class RegexpSubstringOperatorDefinition extends RegexpOperatorDefinition 
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Return the substring that match the regex in the input_string");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Return the substring that match the regex in the input_string");
+        return hint;
     }
+
 
     @Override
     public List getParametersTypes() {
@@ -73,12 +70,9 @@ public class RegexpSubstringOperatorDefinition extends RegexpOperatorDefinition 
 
         IDomain string1 = new DomainString();
         string1.setContentAssistLabel("input_string");
-        string1.setContentAssistProposal("${1:input_string}");
-
 
         IDomain string2 = new DomainString();
         string2.setContentAssistLabel("regex_pattern");
-        string2.setContentAssistProposal("${2:regex_pattern}");
 
 
         type.add(string1);

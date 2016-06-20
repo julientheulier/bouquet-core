@@ -58,17 +58,11 @@ public class RoundOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("ROUND returns n rounded to 0 places to the right of the decimal point");
-			descriptions.add("Takes two arguments to compute ROUND(column_name,decimals)");
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, getParametersTypes());
-			setListContentAssistEntry(entry);
-
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("ROUND returns n rounded to 0 places to the right of the decimal point");
+		hint.add("Takes two arguments to compute ROUND(column_name,decimals)");
+		return hint;
 	}
 
 	@Override
@@ -76,15 +70,12 @@ public class RoundOperatorDefintion extends OperatorDefinition {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
 		IDomain number = new DomainNumeric();
-		number.setContentAssistLabel("Numeric n");
-		number.setContentAssistProposal("${1:n}");
 		type.add(number);
 		poly.add(type);
 		type = new ArrayList<IDomain>();
 		type.add(number);
 		IDomain upperbound = new DomainNumeric();
-		upperbound.setContentAssistLabel("Numeric decimals");
-		upperbound.setContentAssistProposal("${2:decimals}");
+		upperbound.setContentAssistLabel("decimals");
 		type.add(upperbound);
 		poly.add(type);
 		return poly;

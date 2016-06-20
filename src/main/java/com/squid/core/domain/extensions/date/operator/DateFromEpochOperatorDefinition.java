@@ -55,16 +55,12 @@ public class DateFromEpochOperatorDefinition extends DateOperatorDefinition {
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Convert the given timestamp to unix timestamp");
-            descriptions.add("Convert the given temporal to unix timestamp using the given format");
-            descriptions.add("Convert the given temporal to unix timestamp using the given format");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Convert the given timestamp to unix timestamp");
+        hint.add("Convert the given temporal to unix timestamp using the given format");
+        hint.add("Convert the given temporal to unix timestamp using the given format");
+        return hint;
     }
 
     @Override
@@ -73,17 +69,9 @@ public class DateFromEpochOperatorDefinition extends DateOperatorDefinition {
         List type = new ArrayList<IDomain>();
 
         IDomain temporal1 = new DomainTemporal();
-        temporal1.setContentAssistLabel("temporal");
-        temporal1.setContentAssistProposal("${1:temporal}");
         IDomain temporal2 = new DomainTemporal();
-        temporal2.setContentAssistLabel("temporal");
-        temporal2.setContentAssistProposal("${2:format}");
         IDomain num2 = new DomainNumeric();
-        num2.setContentAssistLabel("num");
-        num2.setContentAssistProposal("${2:n}");
         IDomain num1 = new DomainNumeric();
-        num1.setContentAssistLabel("num");
-        num1.setContentAssistProposal("${1:n}");
 
         type.add(num1);
         poly.add(type);

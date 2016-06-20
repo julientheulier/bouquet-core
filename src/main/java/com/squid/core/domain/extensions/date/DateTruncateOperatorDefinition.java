@@ -75,16 +75,13 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Add n months to the date");
-            descriptions.add("Add n months to the timestamp");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Add n months to the date");
+        hint.add("Add n months to the timestamp");
+        return hint;
     }
+
 
     @Override
     public List getParametersTypes() {
@@ -93,10 +90,8 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 
         IDomain date = new DomainDate();
         date.setContentAssistLabel("date");
-        date.setContentAssistProposal("${1:date}");
         IDomain timestamp = new DomainTimestamp();
         timestamp.setContentAssistLabel("timestamp");
-        timestamp.setContentAssistProposal("${1:timestamp}");
         IDomain truncateType = new DomainStringConstant("");
         truncateType.setContentAssistLabel("truncateType");
         truncateType.setContentAssistProposal("${2:truncateType}");

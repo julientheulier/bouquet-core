@@ -53,18 +53,12 @@ public class DateCurrentDateOperatorDefinition extends DateOperatorDefinition {
         super(name,ID, domain, categoryType);
     }
 
+
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            List types = getParametersTypes();
-            for(int i = 0; i<types.size();i++){
-                descriptions.add("Return current date");
-            }
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Return current date");
+        return hint;
     }
 
     @Override
@@ -74,7 +68,6 @@ public class DateCurrentDateOperatorDefinition extends DateOperatorDefinition {
 
         IDomain any = new DomainAny();
         any.setContentAssistLabel("ignored");
-        any.setContentAssistProposal("${1:ignored}");
         poly.add(type);
 
         type = new ArrayList<IDomain>();

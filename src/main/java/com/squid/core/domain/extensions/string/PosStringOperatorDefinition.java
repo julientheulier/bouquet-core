@@ -54,14 +54,10 @@ public class PosStringOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Return the position of the string_to_find.");
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-			setListContentAssistEntry(entry);
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Return the position of the string_to_find.");
+		return hint;
 	}
 
 	@Override
@@ -71,11 +67,9 @@ public class PosStringOperatorDefinition extends OperatorDefinition {
 
 		IDomain string1 = new DomainString();
 		string1.setContentAssistLabel("input_string");
-		string1.setContentAssistProposal("${1:input_string}");
 
 		IDomain string2 = new DomainString();
 		string2.setContentAssistLabel("string_to_find");
-		string2.setContentAssistProposal("${2:string_to_find}");
 
 		type.add(string1);
 		type.add(string2);

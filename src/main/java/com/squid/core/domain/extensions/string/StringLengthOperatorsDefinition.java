@@ -55,17 +55,13 @@ public class StringLengthOperatorsDefinition extends OperatorDefinition {
 		return ALGEBRAIC_TYPE;
 	}
 
-
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Return the length of the string.");
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-			setListContentAssistEntry(entry);
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Return the length of the string.");
+		return hint;
 	}
+
 
 	@Override
 	public List getParametersTypes() {
@@ -74,7 +70,6 @@ public class StringLengthOperatorsDefinition extends OperatorDefinition {
 
 		IDomain string1 = new DomainString();
 		string1.setContentAssistLabel("input_string");
-		string1.setContentAssistProposal("${1:input_string}");
 
 		type.add(string1);
 

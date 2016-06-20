@@ -23,8 +23,11 @@
  *******************************************************************************/
 package com.squid.core.domain.aggregate;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
@@ -49,13 +52,47 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 	public int getType() {
 		return ALGEBRAIC_TYPE;
 	}
-	
+
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		// GROUPING_ID takes a list of column as parameter
-        return OperatorDiagnostic.IS_VALID;
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("takes a list of columns as input");
+		return hint;
 	}
-	
+
+	@Override
+	public List getParametersTypes() { //Up to five level of path_elements.
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		IDomain any = new DomainAny();
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		return poly;
+	}
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length==0) {

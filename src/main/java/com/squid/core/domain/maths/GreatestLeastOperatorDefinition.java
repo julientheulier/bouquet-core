@@ -23,8 +23,11 @@
  *******************************************************************************/
 package com.squid.core.domain.maths;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
+import com.squid.core.domain.DomainConditional;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
@@ -53,7 +56,48 @@ public class GreatestLeastOperatorDefinition extends OperatorDefinition {
 		// TODO Auto-generated method stub
 		return ALGEBRAIC_TYPE;
 	}
-	
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		any.setContentAssistLabel("any");
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		return poly;
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 

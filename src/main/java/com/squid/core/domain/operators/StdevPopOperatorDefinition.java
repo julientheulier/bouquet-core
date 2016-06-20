@@ -29,6 +29,7 @@ package com.squid.core.domain.operators;
  * @author xavier bebin
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -58,19 +59,19 @@ public class StdevPopOperatorDefinition extends AggregateOperatorDefinition {
 	public IDomain computeImageDomain(List<IDomain> sourceDomain) {
 		return IDomain.NUMERIC;
 	}
-	
-	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 1)
-			return new OperatorDiagnostic("Invalid number of parameters",
-					getName());
-		// check if parameter is valid?
-		if (!(imageDomains.get(0).isInstanceOf(IDomain.NUMERIC) || imageDomains.get(0).isInstanceOf(IDomain.TEMPORAL))) {
-			return OperatorDiagnostic.invalidType(1,imageDomains.get(0),"Numeric or Date or Timestamp",
-					getName());
-		}
 
-		return OperatorDiagnostic.IS_VALID;
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.NUMERIC);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(IDomain.TEMPORAL);
+		poly.add(type);
+
+		return poly;
 	}
 	
 	public String prettyPrint(String symbol, int position, String[] args, boolean showBrackets) {

@@ -60,17 +60,13 @@ public class PadOperatorDefinition extends OperatorDefinition {
   }
 
   @Override
-  public ListContentAssistEntry getListContentAssistEntry(){
-    if(super.getListContentAssistEntry()==null){
-      List <String> descriptions = new ArrayList<String>();
-      descriptions.add("Pad n characters to the left of the right of the first argument.");
-      descriptions.add("Pad n characters (using the final argument as the sequence of characters to use) to the left of the right of the first argument.");
-
-      ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-      setListContentAssistEntry(entry);
-    }
-    return super.getListContentAssistEntry();
+  public List<String> getHint() {
+    List<String> hint = new ArrayList<String>();
+    hint.add("Pad n characters to the left of the right of the first argument.");
+    hint.add("Pad n characters (using the final argument as the sequence of characters to use) to the left of the right of the first argument.");
+    return hint;
   }
+
 
   @Override
   public List getParametersTypes() {
@@ -78,12 +74,8 @@ public class PadOperatorDefinition extends OperatorDefinition {
     List type = new ArrayList<IDomain>();
 
     IDomain string1 = new DomainString();
-    string1.setContentAssistLabel("string");
-    string1.setContentAssistProposal("${1:string}");
 
     IDomain num2 = new DomainNumeric();
-    num2.setContentAssistLabel("n");
-    num2.setContentAssistProposal("${2:n}");
 
     IDomain string3 = new DomainString();
     string3.setContentAssistLabel("string_pad");

@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.analytics;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -35,7 +37,31 @@ public class RowsOperatorDefinition extends WindowingOperatorDefinition {
 	public RowsOperatorDefinition(String name, String ID) {
 		super(name,ID);
 	}
-	
+
+	@Override
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add(HINT);
+		return hint;
+	}
+
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		type.add(WindowingDomain.DOMAIN);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(WindowingDomain.DOMAIN);
+		type.add(WindowingDomain.DOMAIN);
+		poly.add(type);
+
+		return poly;
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()<1 || imageDomains.size()>2) {

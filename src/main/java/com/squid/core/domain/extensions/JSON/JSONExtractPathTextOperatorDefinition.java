@@ -58,17 +58,10 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            List types = getParametersTypes();
-            for(int i = 0; i<types.size();i++){
-                descriptions.add("Return the elements corresponding to the keys in the json element");
-            }
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Return the elements corresponding to the keys in the json element");
+        return hint;
     }
 
 
@@ -78,18 +71,15 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
 
         IDomain json = new DomainString();
         json.setContentAssistLabel("json");
-        json.setContentAssistProposal("${1:json}");
         type = new ArrayList<IDomain>(); ;
         IDomain key1 = new DomainString();
         key1.setContentAssistLabel("key1");
-        key1.setContentAssistProposal("${2:key1}");
         type.add(json);
         type.add(key1);
         poly.add(type);
         type = new ArrayList<IDomain>(); ;
         IDomain key2 = new DomainString();
         key2.setContentAssistLabel("key2");
-        key2.setContentAssistProposal("${3:key2}");
         type.add(json);
         type.add(key1);
         type.add(key2);
@@ -97,7 +87,6 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
         type = new ArrayList<IDomain>(); ;
         IDomain key3 = new DomainString();
         key3.setContentAssistLabel("key3");
-        key3.setContentAssistProposal("${4:key3}");
         type.add(json);
         type.add(key1);
         type.add(key2);
@@ -106,7 +95,6 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
         type = new ArrayList<IDomain>(); ;
         IDomain key4 = new DomainString();
         key4.setContentAssistLabel("key4");
-        key4.setContentAssistProposal("${5:key4}");
         type.add(json);
         type.add(key1);
         type.add(key2);
@@ -116,7 +104,6 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
         type = new ArrayList<IDomain>(); ;
         IDomain key5 = new DomainString();
         key5.setContentAssistLabel("key5");
-        key5.setContentAssistProposal("${6:key5}");
         type.add(json);
         type.add(key1);
         type.add(key2);

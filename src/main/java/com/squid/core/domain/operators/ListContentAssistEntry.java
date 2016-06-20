@@ -51,7 +51,7 @@ public class ListContentAssistEntry {
             }else {
                 for (IDomain domain : type) {
                     label += domain.getContentAssistLabel()+",";
-                    proposal+= domain.getContentAssistProposal()+",";
+                    proposal+= domain.getContentAssistProposal(type.indexOf(domain))+",";
                 }
                     if(label.length()>1){
                     label=label.substring(0, label.length()-1);
@@ -79,7 +79,7 @@ public class ListContentAssistEntry {
     @Override
     public String toString(){
         String res = "";
-        if(getContentAssistEntries()!=null){
+        if(getContentAssistEntries()!=null && getContentAssistEntries().size()!=0){
             for(ContentAssistEntry entry : getContentAssistEntries()) {
                 res += entry.getLabel();
                 res+="|";

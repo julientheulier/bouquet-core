@@ -80,15 +80,12 @@ public class CastToCharOperatorDefinition extends CastOperatorDefinition {
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Cast the first argument to char using the format");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint(){
+        List<String> hint = new ArrayList<String>();
+        hint.add("Cast the first argument to char using the format");
+        return hint;
     }
+
 
     @Override
     public List getParametersTypes() {
@@ -97,10 +94,8 @@ public class CastToCharOperatorDefinition extends CastOperatorDefinition {
 
         IDomain any1 = new DomainAny();
         any1.setContentAssistLabel("any");
-        any1.setContentAssistProposal("${1:any}");
         IDomain string2 = new DomainString();
         string2.setContentAssistLabel("format");
-        string2.setContentAssistProposal("${2:format}");
 
         type.add(any1);
         poly.add(type);

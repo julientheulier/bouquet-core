@@ -56,23 +56,15 @@ public class PiOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Return Pi, Takes no argument");
-
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-			setListContentAssistEntry(entry);
-
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Return Pi, Takes no argument");
+		return hint;
 	}
 
 	@Override
 	public List getParametersTypes() {
 		List type = new ArrayList<IDomain>();
-
 		List poly = new ArrayList<List>();
 		poly.add(type);
 		return poly;

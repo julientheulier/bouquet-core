@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.analytics;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -38,15 +40,22 @@ extends WindowingOperatorDefinition
 		super(name, ID);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()>0) {
-			return new OperatorDiagnostic("invalid use of "+getName()+"()",HINT);
-		} else {
-			return OperatorDiagnostic.IS_VALID;
-		}
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("takes no argument");
+		return hint;
 	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		poly.add(type);
+		return poly;
+	}
+
 	@Override
 	public IDomain computeImageDomain(List<IDomain> imageDomains) {
 		return WindowingDomainImp.createUnboundedDomain();

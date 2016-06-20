@@ -67,4 +67,8 @@ extends AbstractSingletonDomain
 	@Override
 	public void setContentAssistProposal(String proposal){
 	}
+
+	@Override
+	public void setContentAssistProposal(String proposal, int position){
+	}
 }

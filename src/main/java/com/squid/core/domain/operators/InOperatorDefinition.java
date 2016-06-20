@@ -62,7 +62,7 @@ public class InOperatorDefinition extends ComparisonOperatorDefinition {
 		// ticket:3022
 		if (sourceDomain.size()==2) {
 			IDomain first = sourceDomain.get(0);
-			if (first.isInstanceOf(IDomain.META)) {
+			if (!first.isInstanceOf(IDomain.ANY) && first.isInstanceOf(IDomain.META)) {
 				IDomainMetaDomain meta = (IDomainMetaDomain)first;
 				return meta.createMetaDomain(IDomain.CONDITIONAL);
 			} else {

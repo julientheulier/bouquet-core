@@ -63,27 +63,12 @@ public class ExtractOperatorDefinition extends OperatorDefinition {
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
-    }
-
-    @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-
         IDomain date1 = new DomainDate();
-        date1.setContentAssistLabel("date");
-        date1.setContentAssistProposal("${1:date}");
         type.add(date1);
         poly.add(type);
-
         return poly;
     }
 

@@ -76,20 +76,15 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Cast the number to number using the format");
-            descriptions.add("Cast the string to number using the format");
-            descriptions.add("Cast the number to number using the size and the precision");
-            descriptions.add("Cast the string to number using the size and the precision");
-            descriptions.add("Cast the number to number using the size, the precision and the format");
-            descriptions.add("Cast the string to number using the size, the precision and the format");
-
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Cast the number to number using the format");
+        hint.add("Cast the string to number using the format");
+        hint.add("Cast the number to number using the size and the precision");
+        hint.add("Cast the number to number using the size and the precision");
+        hint.add("Cast the number to number using the size, the precision and the format");
+        hint.add("Cast the number to number using the size, the precision and the format");
+        return hint;
     }
 
     @Override
@@ -99,22 +94,16 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 
         IDomain num1 = new DomainNumeric();
         num1.setContentAssistLabel("Num");
-        num1.setContentAssistProposal("${1:n}");
         IDomain string1 = new DomainString();
         string1.setContentAssistLabel("String");
-        string1.setContentAssistProposal("${1:s}");
         IDomain string2 = new DomainNumeric();
         string2.setContentAssistLabel("format");
-        string2.setContentAssistProposal("${2:format}");
         IDomain num2 = new DomainNumeric();
         num2.setContentAssistLabel("size");
-        num2.setContentAssistProposal("${2:size}");
         IDomain num3 = new DomainNumeric();
         num3.setContentAssistLabel("precision");
-        num3.setContentAssistProposal("${3:precision}");
         IDomain string4 = new DomainNumeric();
         string4.setContentAssistLabel("format");
-        string4.setContentAssistProposal("${4:format}");
 
 
         type.add(num1);

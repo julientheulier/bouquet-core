@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
 
@@ -52,6 +54,26 @@ extends ConditionalOperatorDefinition {
 		// TODO Auto-generated constructor stub
 	}
 
+    @Override
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("takes exactly two arguments");
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any1 = new DomainAny();
+		any1.setContentAssistLabel("any");
+		IDomain any2 = new DomainAny();
+		any2.setContentAssistLabel("any");
+		type.add(any1);
+		type.add(any2);
+		poly.add(type);
+		return poly;
+	}
 
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

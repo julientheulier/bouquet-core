@@ -80,28 +80,19 @@ public class CastToIntegerOperatorDefinition extends CastOperatorDefinition {
         }
     }
 
-
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Cast first argument to integer");
-
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Cast first argument to integer");
+        return hint;
     }
+
 
     @Override
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-
         IDomain any = new DomainAny();
-        any.setContentAssistLabel("any");
-        any.setContentAssistProposal("${1:any}");
-
         type.add(any);
         poly.add(type);
 

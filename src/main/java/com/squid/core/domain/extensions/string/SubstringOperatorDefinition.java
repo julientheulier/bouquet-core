@@ -60,17 +60,10 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-			List <String> descriptions = new ArrayList<String>();
-			List types = getParametersTypes();
-			for(int i = 0; i<types.size();i++){
-				descriptions.add("Take the substring between begin and end");
-			}
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
-			setListContentAssistEntry(entry);
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Take the substring between begin and end");
+		return hint;
 	}
 
 	@Override
@@ -80,19 +73,14 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 
 		IDomain string1 = new DomainString();
 		string1.setContentAssistLabel("input_string");
-		string1.setContentAssistProposal("${1:s}");
 		IDomain num2 = new DomainNumeric();
 		num2.setContentAssistLabel("begin_index");
-		num2.setContentAssistProposal("${2:begin_index}");
 		IDomain numCst2 = new DomainNumericConstant(0.0);
 		num2.setContentAssistLabel("begin_index");
-		num2.setContentAssistProposal("${2:begin_index}");
 		IDomain num3 = new DomainNumeric();
 		num3.setContentAssistLabel("end_index");
-		num3.setContentAssistProposal("${3:end_index}");
 		IDomain numCst3 = new DomainNumericConstant(0.0);
 		numCst3.setContentAssistLabel("end_index");
-		numCst3.setContentAssistProposal("${3:end_index}");
 
 
 		type.add(string1);

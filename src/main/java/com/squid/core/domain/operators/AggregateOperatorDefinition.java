@@ -119,25 +119,7 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
         }
     }
 
-	@Override
-	public ListContentAssistEntry getListContentAssistEntry() {
-		if (super.getListContentAssistEntry() == null) {
 
-			List<String> descriptions = new ArrayList<String>();
-			List types = getParametersTypes();
-			for(int i = 0; i<types.size();i++){
-				if(getHint()!="" && getHint()!=null){
-					descriptions.add(getHint());
-				}else{
-					descriptions.add(getName());
-				}
-			}
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
-			setListContentAssistEntry(entry);
-
-		}
-		return super.getListContentAssistEntry();
-	}
 
 	@Override
 	public List getParametersTypes() {
@@ -145,17 +127,9 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
 		List type = new ArrayList<IDomain>();
 		validDomains = new ArrayList<IDomain>();
 		IDomain num1 = new DomainNumeric();
-		num1.setContentAssistLabel("Numeric r");
-		num1.setContentAssistProposal("${1:r}");
 		IDomain string1 = new DomainString();
-		string1.setContentAssistLabel("String s");
-		string1.setContentAssistProposal("${1:s}");
 		IDomain temp1 = new DomainTemporal();
-		temp1.setContentAssistLabel("Temporal t");
-		temp1.setContentAssistProposal("${1:t}");
 		IDomain intrinsic1 = new DomainIntrinsic();
-		intrinsic1.setContentAssistLabel("Intrinsic i");
-		intrinsic1.setContentAssistProposal("${1:i}");
 
 		switch (getId()) {
 			case IntrinsicOperators.SUM:

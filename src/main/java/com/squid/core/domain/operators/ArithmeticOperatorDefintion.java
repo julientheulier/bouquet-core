@@ -111,8 +111,12 @@ public class ArithmeticOperatorDefintion extends AlgebraicOperatorDefinition {
 		}
         if (is_aggregate) {
         	if (lessGeneric.isInstanceOf(AggregateDomain.DOMAIN)) {
-        		IDomain subdomain = ((IDomainMetaDomain)lessGeneric).getSubdomain();
-        		lessGeneric = subdomain!=null?subdomain:lessGeneric;
+        		if(!lessGeneric.isInstanceOf(IDomain.ANY)) {
+					IDomain subdomain = ((IDomainMetaDomain) lessGeneric).getSubdomain();
+					lessGeneric = subdomain != null ? subdomain : lessGeneric;
+				}else{
+					lessGeneric = lessGeneric;
+				}
         	}
         	// compose with Aggregate 
         	if (!lessGeneric.isInstanceOf(AggregateDomain.DOMAIN) && !is_not_sum_associative && isAssociative()) {

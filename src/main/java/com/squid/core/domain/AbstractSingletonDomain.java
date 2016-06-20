@@ -104,7 +104,13 @@ implements ISingletonDomain
 
     @Override
     public String getContentAssistProposal(){
-        return String.valueOf(getName().toLowerCase().charAt(0));
+        return "${1:"+String.valueOf(getName().toLowerCase().charAt(0))+"}";
     }
+
+    @Override
+    public String getContentAssistProposal(int position){
+        return "${"+position+":"+String.valueOf(getName().toLowerCase().charAt(0))+"}";
+    }
+
 
 }

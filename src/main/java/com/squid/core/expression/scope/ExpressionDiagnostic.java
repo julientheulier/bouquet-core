@@ -34,7 +34,9 @@ public class ExpressionDiagnostic {
 	
 	private String errorMessage = null;
 	private boolean is_valid = true;
-	
+	private int row = 0;
+	private int column = 0;
+
 	public ExpressionDiagnostic() {
 		this.is_valid = true;
 	}
@@ -44,8 +46,23 @@ public class ExpressionDiagnostic {
 		this.is_valid = false;
 	}
 
+	public ExpressionDiagnostic(String errorMessage, int row, int column) {
+		this.errorMessage = errorMessage;
+		this.is_valid = false;
+		this.row = row;
+		this.column = column;
+	}
+
 	public String getErrorMessage() {
 		return errorMessage;
+	}
+
+	public int getRowError() {
+		return row;
+	}
+
+	public int getColumnError() {
+		return column;
 	}
 
 	public boolean isValid() {

@@ -62,20 +62,11 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 		return ALGEBRAIC_TYPE;
 	}
 
-
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-			List <String> descriptions = new ArrayList<String>();
-			List types = getParametersTypes();
-			for(int i = 0; i<types.size();i++){
-				descriptions.add("Function that take two arguments: a number and an exponent");
-			}
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
-			setListContentAssistEntry(entry);
-
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Function that take two arguments: a number and an exponent");
+		return hint;
 	}
 
 	@Override

@@ -59,14 +59,10 @@ public class TranslateOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Return the input string with all the occurences of from_string replaced by the to_string");
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-			setListContentAssistEntry(entry);
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Return the input string with all the occurences of from_string replaced by the to_string");
+		return hint;
 	}
 
 	@Override
@@ -76,15 +72,12 @@ public class TranslateOperatorDefinition extends OperatorDefinition {
 
 		IDomain string1 = new DomainString();
 		string1.setContentAssistLabel("input_string");
-		string1.setContentAssistProposal("${1:input_string}");
 
 		IDomain string2 = new DomainString();
 		string2.setContentAssistLabel("from_string");
-		string2.setContentAssistProposal("${2:from_string}");
 
 		IDomain string3 = new DomainString();
 		string2.setContentAssistLabel("to_string");
-		string2.setContentAssistProposal("${3:to_string}");
 
 		type.add(string1);
 		type.add(string2);

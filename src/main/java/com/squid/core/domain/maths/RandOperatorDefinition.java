@@ -61,17 +61,11 @@ public class RandOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Generate a random number between 0 and 1");
-			descriptions.add("Takes two arguments (lower and upper bounds). To compute FLOOR(low_bound  + RANDOM() * (hight_bound - low_bound + 1))");
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, getParametersTypes());
-			setListContentAssistEntry(entry);
-
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Generate a random number between 0 and 1");
+		hint.add("Takes two arguments (lower and upper bounds). To compute FLOOR(low_bound  + RANDOM() * (hight_bound - low_bound + 1))");
+		return hint;
 	}
 
 	@Override

@@ -62,17 +62,10 @@ public class RadiansOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Description");
-
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, getParametersTypes());
-			setListContentAssistEntry(entry);
-
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Compute the radian");
+		return hint;
 	}
 
 	@Override
@@ -80,8 +73,6 @@ public class RadiansOperatorDefintion extends OperatorDefinition {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
 		IDomain number = new DomainNumeric();
-		number.setContentAssistLabel("Numeric r");
-		number.setContentAssistProposal("${1:r}");
 		type.add(number);
 		poly.add(type);
 		return poly;

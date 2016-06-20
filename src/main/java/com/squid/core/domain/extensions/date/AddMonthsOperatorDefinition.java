@@ -59,31 +59,24 @@ extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Add n months to the date");
-			descriptions.add("Add n months to the timestamp");
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-			setListContentAssistEntry(entry);
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint(){
+		List<String> hint = new ArrayList<String>();
+		hint.add("Add n months to the date");
+		hint.add("Add n months to the timestamp");
+		return hint;
 	}
+
 
 	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-
 		IDomain date = new DomainDate();
 		date.setContentAssistLabel("date");
-		date.setContentAssistProposal("${1:date}");
 		IDomain timestamp = new DomainTimestamp();
 		timestamp.setContentAssistLabel("timestamp");
-		timestamp.setContentAssistProposal("${1:timestamp}");
 		IDomain num = new DomainNumeric();
 		num.setContentAssistLabel("n");
-		num.setContentAssistProposal("${2:n}");
 		type.add(date);
 		type.add(num);
 		poly.add(type);

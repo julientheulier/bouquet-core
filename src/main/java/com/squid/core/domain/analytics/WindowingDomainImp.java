@@ -73,11 +73,13 @@ implements WindowingDomain
 	
 	public WindowingDomainImp() {
 		super(WindowingDomain.DOMAIN);
+		setName("WindowingDomain");
 		this.expression = WindowingStaticExpression.UNDEFINED;
 	}
 	
 	protected WindowingDomainImp(WindowingStaticExpression expression) {
 		super(WindowingDomain.DOMAIN);
+		setName("WindowingDomain");
 		this.expression = expression;
 	}
 

@@ -64,17 +64,10 @@ public class TrimOperatorDefinition extends OperatorDefinition {
   }
 
   @Override
-  public ListContentAssistEntry getListContentAssistEntry(){
-    if(super.getListContentAssistEntry()==null){
-      List <String> descriptions = new ArrayList<String>();
-      List types = getParametersTypes();
-      for(int i = 0; i<types.size();i++){
-        descriptions.add("Remove from the right or the right (or both) all the occurences that are from the set. If the set is empty, then it takes single blank as the set.");
-      }
-      ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
-      setListContentAssistEntry(entry);
-    }
-    return super.getListContentAssistEntry();
+  public List<String> getHint() {
+    List<String> hint = new ArrayList<String>();
+    hint.add("Remove from the right or the right (or both) all the occurences that are from the set. If the set is empty, then it takes single blank as the set.");
+    return hint;
   }
 
   @Override
@@ -84,11 +77,9 @@ public class TrimOperatorDefinition extends OperatorDefinition {
 
     IDomain string1 = new DomainString();
     string1.setContentAssistLabel("input_string");
-    string1.setContentAssistProposal("${1:input_string}");
 
     IDomain string2 = new DomainString();
     string2.setContentAssistLabel("set");
-    string2.setContentAssistProposal("${2:set}");
 
 
     type.add(string1);

@@ -54,7 +54,7 @@ extends ArithmeticOperatorDefintion {
 		}
 		IDomain arg0 = imageDomains.get(0);
 		IDomain arg1 = imageDomains.get(1);
-		if (arg0.isInstanceOf(IDomain.NUMERIC) && arg1.isInstanceOf(IDomain.NUMERIC)) {
+		if (!arg0.isInstanceOf(IDomain.ANY) && !arg1.isInstanceOf(IDomain.ANY) && arg0.isInstanceOf(IDomain.NUMERIC) && arg1.isInstanceOf(IDomain.NUMERIC)) {
 			if (arg0.isInstanceOf(DomainMetaDomain.META)) {
 				return ((IDomainMetaDomain)arg0).createMetaDomain(IDomain.CONTINUOUS);
 			}

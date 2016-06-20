@@ -65,25 +65,16 @@ public class SinhCoshTanhOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("This function returns the hyperbolic sine, cosine or tangent of n");
-
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-			setListContentAssistEntry(entry);
-
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("This function returns the hyperbolic sine, cosine or tangent of n");
+		return hint;
 	}
 
 	@Override
 	public List getParametersTypes() {
 		List type = new ArrayList<IDomain>();
 		IDomain number = new DomainNumeric();
-		number.setContentAssistLabel("Numeric n");
-		number.setContentAssistProposal("${1:n}");
 		type.add(number);
 
 		List poly = new ArrayList<List>();

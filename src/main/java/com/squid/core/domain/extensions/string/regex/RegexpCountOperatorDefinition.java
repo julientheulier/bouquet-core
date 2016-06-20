@@ -58,14 +58,10 @@ public class RegexpCountOperatorDefinition extends RegexpOperatorDefinition {
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Return the number of occurences of regex_pattern in the input_string");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Return the number of occurences of regex_pattern in the input_string");
+        return hint;
     }
 
     @Override
@@ -75,13 +71,9 @@ public class RegexpCountOperatorDefinition extends RegexpOperatorDefinition {
 
         IDomain string1 = new DomainString();
         string1.setContentAssistLabel("string");
-        string1.setContentAssistProposal("${1:string}");
-
 
         IDomain string2 = new DomainString();
         string2.setContentAssistLabel("regex_pattern");
-        string2.setContentAssistProposal("${2:regex_pattern}");
-
 
         type.add(string1);
         type.add(string2);

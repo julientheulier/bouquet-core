@@ -53,14 +53,10 @@ public class IntervalOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Interval (not usable)");
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-			setListContentAssistEntry(entry);
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Interval (not usable)");
+		return hint;
 	}
 
 	@Override
@@ -70,7 +66,6 @@ public class IntervalOperatorDefinition extends OperatorDefinition {
 
 		IDomain num = new DomainNumeric();
 		num.setContentAssistLabel("integer");
-		num.setContentAssistProposal("${1:n}");
 		type.add(num);
 		poly.add(type);
 		return poly;

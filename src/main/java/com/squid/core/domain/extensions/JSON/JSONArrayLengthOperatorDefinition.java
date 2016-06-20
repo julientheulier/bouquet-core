@@ -57,15 +57,12 @@ public class JSONArrayLengthOperatorDefinition extends JSONOperatorDefinition {
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Return the length of the json array");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Return the length of the json array");
+        return hint;
     }
+
 
     @Override
     public List getParametersTypes() {
@@ -74,7 +71,6 @@ public class JSONArrayLengthOperatorDefinition extends JSONOperatorDefinition {
 
         IDomain json = new DomainString();
         json.setContentAssistLabel("json");
-        json.setContentAssistProposal("${1:json}");
         type1.add(json);
         poly.add(type1);
         return poly;

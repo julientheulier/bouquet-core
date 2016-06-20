@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -102,9 +103,10 @@ public class OrderedAnalyticOperatorDefinition extends
 		}
 	}
 	
-	public String getHint() {
-		return getName()+
-		"([ <partitionBy> [, <partitionBy>]] , [ ASC|DESC <orderBy>) [ , ASC|DESC <orderBy> ]] , [ <windowing > ]";
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add(getName()+"([ <partitionBy> [, <partitionBy>]] , [ ASC|DESC <orderBy>) [ , ASC|DESC <orderBy> ]] , [ <windowing > ]");
+		return hint;
 	}
 	
 	/**
@@ -155,16 +157,16 @@ public class OrderedAnalyticOperatorDefinition extends
 							continue;
 						} else {
 							// invalid window specs
-				            return OperatorDiagnostic.invalidType(i, domain, "Windowing ROWS",getHint());
+				            return OperatorDiagnostic.invalidType(i, domain, "Windowing ROWS",getHint().get(0));
 						}
 					} else {
 						// no more choices
-                        return OperatorDiagnostic.invalidType(i, domain, "Windowing",getHint());
+                        return OperatorDiagnostic.invalidType(i, domain, "Windowing",getHint().get(0));
 					}
 				}
 				if (state==4) {
 					// not possible
-                    return OperatorDiagnostic.unexpectedArgument(i,getHint());
+                    return OperatorDiagnostic.unexpectedArgument(i,getHint().get(0));
 				}
 			}
 		}

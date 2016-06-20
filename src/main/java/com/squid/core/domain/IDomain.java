@@ -134,7 +134,19 @@ public interface IDomain
 	 */
 	public String getContentAssistProposal();
 
-	public void setContentAssistProposal(String proposal);
+	/**
+	 * Returns the proposal seen by the user for completion.
+	 * Correspond to the actual text replacing the code
+	 * Most of the time, one letter character,
+	 * for example "i" for integer type
+	 * @parameter position correspond to the position inside the template (1 for ${1:something})
+	 * @return
+	 */
+	public String getContentAssistProposal(int position);
+
+	public void setContentAssistProposal(String name);
+
+	public void setContentAssistProposal(String name, int position);
 
 
 }

@@ -75,15 +75,11 @@ public class CastToTimestampOperatorDefinition extends CastOperatorDefinition {
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Cast the date to timestamp");
-            descriptions.add("Cast the string to timestamp using the format");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Cast the date to timestamp");
+        hint.add("Cast the string to timestamp using the format");
+        return hint;
     }
 
     @Override
@@ -93,13 +89,10 @@ public class CastToTimestampOperatorDefinition extends CastOperatorDefinition {
 
         IDomain date1 = new DomainDate();
         date1.setContentAssistLabel("date");
-        date1.setContentAssistProposal("${1:date}");
         IDomain string1 = new DomainString();
         string1.setContentAssistLabel("string");
-        string1.setContentAssistProposal("${1:string}");
         IDomain string2 = new DomainString();
         string2.setContentAssistLabel("format");
-        string2.setContentAssistProposal("${2:format}");
         type.add(date1);
         poly.add(type);
 

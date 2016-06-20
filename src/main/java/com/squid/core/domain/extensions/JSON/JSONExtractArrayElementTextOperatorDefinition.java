@@ -56,17 +56,12 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
         super(name, ID, domain, categoryType);
     }
 
-
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("");
-            descriptions.add("Return the pos_th element in the json element");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("");
+        hint.add("Return the pos_th element in the json element");
+        return hint;
     }
 
     @Override
@@ -76,10 +71,8 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
 
         IDomain json = new DomainString();
         json.setContentAssistLabel("json");
-        json.setContentAssistProposal("${1:json}");
         IDomain index = new DomainNumeric();
         index.setContentAssistLabel("index");
-        index.setContentAssistProposal("${2:index}");
 
         type.add(json);
         type.add(index);

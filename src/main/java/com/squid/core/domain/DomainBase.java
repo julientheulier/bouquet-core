@@ -72,8 +72,10 @@ extends AbstractSingletonDomain
 
 	@Override
 	public String getContentAssistLabel(){
-		if(label==""){
+		if(label=="" && name!=""){
 			setContentAssistLabel(getName()+" "+getName().toLowerCase().charAt(0));
+		}else if(label=="" && name==""){
+			setContentAssistLabel("Unknown");
 		}
 		return label;
 	}
@@ -86,7 +88,23 @@ extends AbstractSingletonDomain
 	@Override
 	public String getContentAssistProposal(){
 		if(proposal == ""){
-			setContentAssistProposal(String.valueOf(getName().toLowerCase().charAt(0)));
+			if(label == "") {
+				setContentAssistProposal("${1:" + String.valueOf(getName().toLowerCase().charAt(0)) + "}");
+			}else{
+				setContentAssistProposal("${1:" + this.label + "}");
+			}
+		}
+		return proposal;
+	}
+
+	@Override
+	public String getContentAssistProposal(int position){
+		if(proposal == ""){
+			if(label == "") {
+				setContentAssistProposal("${"+position+":"+String.valueOf(getName().toLowerCase().charAt(0))+"}");
+			}else{
+				setContentAssistProposal("${"+position+":"+this.label +"}");
+			}
 		}
 		return proposal;
 	}
@@ -94,5 +112,10 @@ extends AbstractSingletonDomain
 	@Override
 	public void setContentAssistProposal(String proposal){
 		this.proposal=proposal;
+	}
+
+	@Override
+	public void setContentAssistProposal(String name, int position){
+		this.proposal="${"+position+":"+name+"}";
 	}
 }

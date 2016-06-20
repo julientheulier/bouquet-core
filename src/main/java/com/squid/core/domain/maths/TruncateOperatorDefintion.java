@@ -62,19 +62,12 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("TRUNCATE returns n rounded to 0 places to the right of the decimal point");
-			descriptions.add("Takes two arguments to compute TRUNCATE(column_name,decimals)");
-			descriptions.add("Takes two arguments to compute TRUNCATE(column_name,decimals)");
-
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-			setListContentAssistEntry(entry);
-
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("TRUNCATE returns n rounded to 0 places to the right of the decimal point");
+		hint.add("Takes two arguments to compute TRUNCATE(column_name,decimals)");
+		hint.add("Takes two arguments to compute TRUNCATE(column_name,decimals)");
+		return hint;
 	}
 
 	@Override
@@ -82,22 +75,18 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
 		IDomain number = new DomainNumeric();
-		number.setContentAssistLabel("Numeric n");
-		number.setContentAssistProposal("${1:n}");
 		type.add(number);
 		poly.add(type);
 		type = new ArrayList<IDomain>();
 		type.add(number);
 		IDomain decimals = new DomainNumeric();
-		decimals.setContentAssistLabel("Numeric decimals");
-		decimals.setContentAssistProposal("${2:decimals}");
+		decimals.setContentAssistLabel("decimals");
 		type.add(decimals);
 		poly.add(type);
 		type = new ArrayList<IDomain>();
 		type.add(number);
 		IDomain num = new DomainNumericConstant();
-		num.setContentAssistLabel("Numeric domain constant");
-		num.setContentAssistProposal("${2:domain}");
+		num.setContentAssistLabel("constant");
 		type.add(num);
 		poly.add(type);
 		return poly;

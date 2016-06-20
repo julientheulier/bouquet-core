@@ -59,14 +59,10 @@ public class RegexpInstrOperatorDefinition extends RegexpOperatorDefinition {
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Returns the first occurence that match the pattern in the input string");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Returns the first occurence that match the pattern in the input string");
+        return hint;
     }
 
     @Override
@@ -76,13 +72,9 @@ public class RegexpInstrOperatorDefinition extends RegexpOperatorDefinition {
 
         IDomain string1 = new DomainString();
         string1.setContentAssistLabel("string");
-        string1.setContentAssistProposal("${1:string}");
-
 
         IDomain string2 = new DomainString();
         string2.setContentAssistLabel("regex_pattern");
-        string2.setContentAssistProposal("${2:regex_pattern}");
-
 
         type.add(string1);
         type.add(string2);

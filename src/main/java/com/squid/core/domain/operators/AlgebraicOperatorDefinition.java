@@ -23,6 +23,8 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import com.squid.core.domain.DomainAny;
+import com.squid.core.domain.DomainConditional;
 import com.squid.core.domain.IDomain;
 
 import java.util.ArrayList;
@@ -146,26 +148,45 @@ public class AlgebraicOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry() {
-		if (super.getListContentAssistEntry() == null) {
-
-			List<String> descriptions = new ArrayList<String>();
-			List types = getParametersTypes();
-			if(types != null){
-				for (int i = 0; i < types.size(); i++) {
-					if (getHint() != "" && getHint() != null) {
-						descriptions.add(getHint());
-					} else {
-						descriptions.add(getName());
-					}
-				}
-				ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
-				setListContentAssistEntry(entry);
-			}
-		}
-		return super.getListContentAssistEntry();
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		any.setContentAssistLabel("any");
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		return poly;
 	}
-
 
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

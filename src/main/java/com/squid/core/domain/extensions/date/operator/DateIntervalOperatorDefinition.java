@@ -56,17 +56,10 @@ public class DateIntervalOperatorDefinition extends DateOperatorDefinition {
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            //descriptions.add("Compute the interval between an integer or timestamp (second argument) to the given timestamp, date or temporal (first argument)");
-            //(date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)"
-            //descriptions.add("DATE_INTERVAL using (date or timestamp, interval (integer), unit (SECOND,MINUTE,HOUR,DAY,MONTH,YEAR)");
-            descriptions.add("Compute the interval between two timestamps with a unit");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Compute the interval between two timestamps with a unit");
+        return hint;
     }
 
     @Override
@@ -75,35 +68,17 @@ public class DateIntervalOperatorDefinition extends DateOperatorDefinition {
         List type = new ArrayList<IDomain>();
 
         IDomain temporal1 = new DomainTemporal();
-        temporal1.setContentAssistLabel("temporal");
-        temporal1.setContentAssistProposal("${1:temporal}");
         IDomain temporal2 = new DomainTemporal();
-        temporal2.setContentAssistLabel("temporal");
-        temporal2.setContentAssistProposal("${2:format}");
         IDomain timestamp1 = new DomainTimestamp();
-        timestamp1.setContentAssistLabel("timestamp");
-        timestamp1.setContentAssistProposal("${1:timestamp}");
         IDomain timestamp2 = new DomainTimestamp();
-        timestamp2.setContentAssistLabel("timestamp");
-        timestamp2.setContentAssistProposal("${2:timestamp}");
         IDomain num2 = new DomainNumeric();
-        num2.setContentAssistLabel("num");
-        num2.setContentAssistProposal("${2:n}");
         IDomain date1 = new DomainDate();
-        date1.setContentAssistLabel("date");
-        date1.setContentAssistProposal("${1:date}");
         IDomain interval2 = new DomainInterval();
-        interval2.setContentAssistLabel("interval");
-        interval2.setContentAssistProposal("${2:interval}");
         IDomain numConst2 = new DomainNumericConstant();
-        numConst2.setContentAssistLabel("numConst");
-        numConst2.setContentAssistProposal("${2:numConst}");
         IDomain stringConst3 = new DomainStringConstant("");
         stringConst3.setContentAssistLabel("unit");
-        stringConst3.setContentAssistProposal("${3:unit}");
         IDomain string3 = new DomainString();
         string3.setContentAssistLabel("unit");
-        string3.setContentAssistProposal("${3:unit}");
 
 
         type.add(timestamp1);

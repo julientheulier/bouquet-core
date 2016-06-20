@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.vector;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
@@ -108,7 +110,28 @@ public class VectorOperatorDefinition extends OperatorDefinition {
     	}
     	return result;
     }
-	
+
+	@Override
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("return a set with the smallest cumulative distribution value greater than the given argument.");
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		IDomain num = new DomainNumeric();
+
+		type.add(num);
+		poly.add(type);
+
+		return poly;
+
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()>=1) {

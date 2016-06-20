@@ -80,15 +80,11 @@ public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition 
     }
 
     @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Shortcuts (hourly, daily, weekly, monthly, yearly) to truncate a date");
-            descriptions.add("Shortcuts (hourly, daily, weekly, monthly, yearly) to truncate a timestamp");
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Shortcuts (hourly, daily, weekly, monthly, yearly) to truncate a date");
+        hint.add("Shortcuts (hourly, daily, weekly, monthly, yearly) to truncate a timestamp");
+        return hint;
     }
 
     @Override
@@ -97,11 +93,7 @@ public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition 
         List type = new ArrayList<IDomain>();
 
         IDomain date = new DomainDate();
-        date.setContentAssistLabel("date");
-        date.setContentAssistProposal("${1:date}");
         IDomain timestamp = new DomainTimestamp();
-        timestamp.setContentAssistLabel("timestamp");
-        timestamp.setContentAssistProposal("${1:timestamp}");
         type.add(date);
         poly.add(type);
         type = new ArrayList<IDomain>();

@@ -54,18 +54,15 @@ public class DateMonthsBetweenOperatorDefinition extends DateOperatorDefinition{
         super(name,ID, domain, categoryType);
     }
 
-    @Override
-    public ListContentAssistEntry getListContentAssistEntry(){
-        if(super.getListContentAssistEntry()==null){
-            List <String> descriptions = new ArrayList<String>();
-            descriptions.add("Compute the number of months between the two temporals");
-            descriptions.add("");
 
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-            setListContentAssistEntry(entry);
-        }
-        return super.getListContentAssistEntry();
+    @Override
+    public List<String> getHint() {
+        List<String> hint = new ArrayList<String>();
+        hint.add("Compute the number of months between the two temporals");
+        hint.add("");
+        return hint;
     }
+
 
     @Override
     public List getParametersTypes() {
@@ -74,13 +71,10 @@ public class DateMonthsBetweenOperatorDefinition extends DateOperatorDefinition{
 
         IDomain temporal1 = new DomainTemporal();
         temporal1.setContentAssistLabel("temporal");
-        temporal1.setContentAssistProposal("${1:temporal}");
         IDomain temporal2 = new DomainTemporal();
         temporal2.setContentAssistLabel("temporal");
-        temporal2.setContentAssistProposal("${2:format}");
         IDomain num2 = new DomainNumeric();
         num2.setContentAssistLabel("num");
-        num2.setContentAssistProposal("${2:n}");
 
 
 

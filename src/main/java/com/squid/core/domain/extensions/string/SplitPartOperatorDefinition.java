@@ -69,15 +69,12 @@ public class SplitPartOperatorDefinition extends OperatorDefinition {
 		return ALGEBRAIC_TYPE;
 	}
 
+
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry(){
-		if(super.getListContentAssistEntry()==null){
-			List <String> descriptions = new ArrayList<String>();
-			descriptions.add("Split the input string using the string delimiter and takes the pos-th element.");
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions,getParametersTypes());
-			setListContentAssistEntry(entry);
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Split the input string using the string delimiter and takes the pos-th element.");
+		return hint;
 	}
 
 	@Override
@@ -87,15 +84,10 @@ public class SplitPartOperatorDefinition extends OperatorDefinition {
 
 		IDomain string1 = new DomainString();
 		string1.setContentAssistLabel("input_string");
-		string1.setContentAssistProposal("${1:input_string}");
-
 		IDomain string2 = new DomainStringConstant("");
 		string2.setContentAssistLabel("string_delim");
-		string2.setContentAssistProposal("${2:string_delim}");
-
 		IDomain num3 = new DomainNumericConstant();
 		num3.setContentAssistLabel("position");
-		num3.setContentAssistProposal("${3:position}");
 
 		type.add(string1);
 		type.add(string2);

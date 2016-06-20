@@ -40,19 +40,10 @@ extends AggregateOperatorDefinition {
 	}
 
 	@Override
-	public ListContentAssistEntry getListContentAssistEntry() {
-		if (super.getListContentAssistEntry() == null) {
-
-			List<String> descriptions = new ArrayList<String>();
-			List types = getParametersTypes();
-			for(int i = 0; i<types.size();i++){
-				descriptions.add("Returns the number of distinct rows");
-			}
-			ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
-			setListContentAssistEntry(entry);
-
-		}
-		return super.getListContentAssistEntry();
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Returns the number of distinct rows");
+		return hint;
 	}
 
 	@Override
@@ -60,8 +51,6 @@ extends AggregateOperatorDefinition {
 		List poly = new ArrayList<List<IDomain>>();
 		List type = new ArrayList<IDomain>();
 		IDomain any1 = new DomainAny();
-		any1.setContentAssistLabel("any");
-		any1.setContentAssistProposal("${1:any}");
 
 		type.add(any1);
 		poly.add(type);

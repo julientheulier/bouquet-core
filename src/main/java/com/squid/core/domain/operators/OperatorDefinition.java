@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.OperatorUndefinedType;
 
 /**
  * Definition of an operator: name, ID, position, ...
@@ -75,7 +76,7 @@ public abstract class OperatorDefinition {
 
     private ListContentAssistEntry listContentAssistEntry;
 
-    private String hint;
+    private List<String> hint;
 
     // category type
     private int categoryType = MISC_TYPE;// MISC is default category
@@ -214,14 +215,6 @@ public abstract class OperatorDefinition {
      */
     public boolean isExtendedID() {
         return m_id == IntrinsicOperators.EXTENDED_ID;
-    }
-
-    public List getParametersTypes() {
-        return m_parameters;
-    }
-
-    public void setParametersTypes(List parameters) {
-        m_parameters = parameters;
     }
 
     public String getName() {
@@ -467,19 +460,52 @@ public abstract class OperatorDefinition {
         return getSymbol();
     }
 
+
+    public List getParametersTypes() {
+        List type = new ArrayList<IDomain>();
+        List poly = new ArrayList<List>();
+        poly.add(type);
+        m_parameters = poly;
+        return m_parameters;
+    }
+
     public ListContentAssistEntry getListContentAssistEntry() {
-        return listContentAssistEntry;
+        if (this.listContentAssistEntry == null) {
+
+            List<String> descriptions = new ArrayList<String>();
+            List types = getParametersTypes();
+            if(getHint()!=null && getHint().size()==types.size()) {
+                descriptions = getHint();
+            }else if(getHint()!=null && getHint().size() == 1){
+                for(int i = 0; i<types.size();i++){
+                    descriptions.add(getHint().get(0));
+                }
+            }else{
+               if(types == null || types.size()==0){
+
+               } else {
+                   for (int i = 0; i < types.size(); i++) {
+                       descriptions.add(getName());
+                   }
+               }
+
+            }
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+            setListContentAssistEntry(entry);
+
+        }
+        return this.listContentAssistEntry;
     }
 
     public void setListContentAssistEntry(ListContentAssistEntry listContentAssistEntry) {
         this.listContentAssistEntry = listContentAssistEntry;
     }
 
-    public String getHint() {
+    public List<String> getHint() {
         return hint;
     }
 
-    public void setHint(String hint) {
+    public void setHint(List<String> hint) {
         this.hint = hint;
     }
 }
