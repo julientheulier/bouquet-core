@@ -24,7 +24,9 @@
 package com.squid.core.domain;
 
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.sql.db.templates.DefaultJDBCSkin;
 import com.squid.core.sql.render.SQLSkin;
+import com.squid.core.sql.template.DefaultSQLSkin;
 
 /**
  * The base implementation
@@ -101,9 +103,21 @@ extends AbstractSingletonDomain
 	public String getContentAssistProposal(int position){
 		if(proposal == ""){
 			if(label == "") {
-				setContentAssistProposal("${"+position+":"+String.valueOf(getName().toLowerCase().charAt(0))+"}");
+				setContentAssistProposal("${"+position+":"+computeType(DefaultJDBCSkin.DEFAULT).getName()+":"+String.valueOf(getName().toLowerCase().charAt(0))+"}");
 			}else{
-				setContentAssistProposal("${"+position+":"+this.label +"}");
+				setContentAssistProposal("${"+position+":"+computeType(DefaultJDBCSkin.DEFAULT).getName()+":"+this.label +"}");
+			}
+		}
+		return proposal;
+	}
+
+	@Override
+	public String getContentAssistProposal(int position, SQLSkin skin){
+		if(proposal == ""){
+			if(label == "") {
+				setContentAssistProposal("${"+position+":"+computeType(skin).getName()+":"+String.valueOf(getName().toLowerCase().charAt(0))+"}");
+			}else{
+				setContentAssistProposal("${"+position+":"+computeType(skin).getName()+":"+this.label +"}");
 			}
 		}
 		return proposal;

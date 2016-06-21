@@ -23,6 +23,9 @@
  *******************************************************************************/
 package com.squid.core.domain;
 
+import com.squid.core.sql.db.templates.DefaultJDBCSkin;
+import com.squid.core.sql.render.SQLSkin;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -109,7 +112,12 @@ implements ISingletonDomain
 
     @Override
     public String getContentAssistProposal(int position){
-        return "${"+position+":"+String.valueOf(getName().toLowerCase().charAt(0))+"}";
+        return "${"+position+":"+computeType(DefaultJDBCSkin.DEFAULT)+"§"+String.valueOf(getName().toLowerCase().charAt(0))+"}";
+    }
+
+    @Override
+    public String getContentAssistProposal(int position, SQLSkin skin){
+        return "${"+position+":"+computeType(skin)+"§"+String.valueOf(getName().toLowerCase().charAt(0))+"}";
     }
 
 

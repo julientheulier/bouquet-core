@@ -27,6 +27,7 @@ import com.squid.core.domain.IDomain;
 import org.eclipse.xtext.ide.editor.contentassist.ContentAssistEntry;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -49,11 +50,12 @@ public class ListContentAssistEntry {
                 label += "No argument";
                 proposal += "";
             }else {
-                for (IDomain domain : type) {
+                for(int i = 0; i<type.size(); i++ ) {
+                    IDomain domain = type.get(i);
                     label += domain.getContentAssistLabel()+",";
-                    proposal+= domain.getContentAssistProposal(type.indexOf(domain))+",";
+                    proposal+= domain.getContentAssistProposal(i+1)+",";
                 }
-                    if(label.length()>1){
+                if(label.length()>1){
                     label=label.substring(0, label.length()-1);
                 }
                 if(proposal.length()>1){
