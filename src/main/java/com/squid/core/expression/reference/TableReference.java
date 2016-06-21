@@ -89,6 +89,10 @@ public class TableReference extends ExpressionRef {
 		return getTable();
 	}
 
+	public String getDescription() {
+		return this.reference.getDescription();
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
