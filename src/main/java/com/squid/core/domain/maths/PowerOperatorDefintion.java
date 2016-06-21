@@ -75,17 +75,11 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 		List type = new ArrayList<IDomain>();
 
 		IDomain number = new DomainNumeric();
-		number.setContentAssistLabel("Numeric n");
-		number.setContentAssistProposal("${1:n}");
 		IDomain exponent = new DomainNumeric();
-		exponent.setContentAssistLabel("Numeric exponent");
-		exponent.setContentAssistProposal("${2:p}");
+		exponent.setContentAssistLabel("exponent");
 		IDomain cst1 = new DomainNumericConstant(0.0);
-		cst1.setContentAssistLabel("Numeric n");
-		cst1.setContentAssistProposal("${1:n}");
 		IDomain cst2 = new DomainNumericConstant(0.0);
-		cst2.setContentAssistLabel("Numeric exponent");
-		cst2.setContentAssistProposal("${2:p}");
+		cst2.setContentAssistLabel("exponent");
 
 		type.add(number);
 		type.add(exponent);
