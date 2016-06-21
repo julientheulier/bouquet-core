@@ -76,11 +76,11 @@ public class RandOperatorDefinition extends OperatorDefinition {
 		type = new ArrayList<IDomain>();
 		IDomain lowerbound = new DomainNumeric();
 		lowerbound.setContentAssistLabel("lowerbound");
-		lowerbound.setContentAssistProposal("${1:lo}");
+		lowerbound.setContentAssistProposal("${1:NUMERIC:lo}");
 		type.add(lowerbound);
 		IDomain upperbound = new DomainNumeric();
 		upperbound.setContentAssistLabel("upperbound");
-		upperbound.setContentAssistProposal("${2:up}");
+		upperbound.setContentAssistProposal("${2:NUMERIC:up}");
 		type.add(upperbound);
 		poly.add(type);
 		return poly;

@@ -83,7 +83,7 @@ public class DateAddOperatorDefinition extends DateOperatorDefinition {
         IDomain numConst2 = new DomainNumericConstant();
         IDomain stringConst3 = new DomainStringConstant("");
         stringConst3.setContentAssistLabel("unit");
-        stringConst3.setContentAssistProposal("${3:unit}");
+        stringConst3.setContentAssistProposal("${3:STRING:unit}");
 
 
 

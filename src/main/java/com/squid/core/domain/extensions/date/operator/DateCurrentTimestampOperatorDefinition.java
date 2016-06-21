@@ -68,7 +68,7 @@ public class DateCurrentTimestampOperatorDefinition extends DateOperatorDefiniti
 
         IDomain any = new DomainAny();
         any.setContentAssistLabel("ignored");
-        any.setContentAssistProposal("${1:ignored}");
+        any.setContentAssistProposal("${1:ANY:ignored}");
         poly.add(type);
 
         type = new ArrayList<IDomain>();

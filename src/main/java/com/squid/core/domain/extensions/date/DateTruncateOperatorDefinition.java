@@ -94,7 +94,7 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
         timestamp.setContentAssistLabel("timestamp");
         IDomain truncateType = new DomainStringConstant("");
         truncateType.setContentAssistLabel("truncateType");
-        truncateType.setContentAssistProposal("${2:truncateType}");
+        truncateType.setContentAssistProposal("${2:STRING:truncateType}");
         type.add(date);
         type.add(truncateType);
         poly.add(type);

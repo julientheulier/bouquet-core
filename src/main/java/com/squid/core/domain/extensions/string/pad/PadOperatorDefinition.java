@@ -79,7 +79,6 @@ public class PadOperatorDefinition extends OperatorDefinition {
 
     IDomain string3 = new DomainString();
     string3.setContentAssistLabel("string_pad");
-    string3.setContentAssistProposal("${3:string_pad}");
 
 
     type.add(string1);
