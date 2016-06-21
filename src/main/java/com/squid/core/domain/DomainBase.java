@@ -75,9 +75,9 @@ extends AbstractSingletonDomain
 	@Override
 	public String getContentAssistLabel(){
 		if(label=="" && name!=""){
-			setContentAssistLabel(getName()+" "+getName().toLowerCase().charAt(0));
+			return (getName()+" "+getName().toLowerCase().charAt(0));
 		}else if(label=="" && name==""){
-			setContentAssistLabel("Unknown");
+			return ("Unknown");
 		}
 		return label;
 	}
@@ -91,9 +91,9 @@ extends AbstractSingletonDomain
 	public String getContentAssistProposal(){
 		if(proposal == ""){
 			if(label == "") {
-				setContentAssistProposal("${1:" + String.valueOf(getName().toLowerCase().charAt(0)) + "}");
+				return ("${1:" + String.valueOf(getName().toLowerCase().charAt(0)) + "}");
 			}else{
-				setContentAssistProposal("${1:" + this.label + "}");
+				return ("${1:" + this.label + "}");
 			}
 		}
 		return proposal;
@@ -103,9 +103,9 @@ extends AbstractSingletonDomain
 	public String getContentAssistProposal(int position){
 		if(proposal == ""){
 			if(label == "") {
-				setContentAssistProposal("${"+position+":"+computeType(DefaultJDBCSkin.DEFAULT).getName()+":"+String.valueOf(getName().toLowerCase().charAt(0))+"}");
+				return ("${"+position+":"+computeType(DefaultJDBCSkin.DEFAULT).getName()+":"+String.valueOf(getName().toLowerCase().charAt(0))+ position +"}");
 			}else{
-				setContentAssistProposal("${"+position+":"+computeType(DefaultJDBCSkin.DEFAULT).getName()+":"+this.label +"}");
+				return ("${"+position+":"+computeType(DefaultJDBCSkin.DEFAULT).getName()+":"+this.label + position +"}");
 			}
 		}
 		return proposal;
@@ -115,9 +115,9 @@ extends AbstractSingletonDomain
 	public String getContentAssistProposal(int position, SQLSkin skin){
 		if(proposal == ""){
 			if(label == "") {
-				setContentAssistProposal("${"+position+":"+computeType(skin).getName()+":"+String.valueOf(getName().toLowerCase().charAt(0))+"}");
+				return ("${"+position+":"+computeType(skin).getName()+":"+String.valueOf(getName().toLowerCase().charAt(0))+ position +"}");
 			}else{
-				setContentAssistProposal("${"+position+":"+computeType(skin).getName()+":"+this.label +"}");
+				return ("${"+position+":"+computeType(skin).getName()+":"+this.label + position +"}");
 			}
 		}
 		return proposal;
@@ -130,6 +130,6 @@ extends AbstractSingletonDomain
 
 	@Override
 	public void setContentAssistProposal(String name, int position){
-		this.proposal="${"+position+":"+name+"}";
+		this.proposal="${"+position+":"+name+position+"}";
 	}
 }

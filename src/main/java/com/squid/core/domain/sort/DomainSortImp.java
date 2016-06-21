@@ -37,6 +37,7 @@ implements DomainSort
 	
 	protected DomainSortImp() {
 		super(IDomain.META);
+		setName("Sort");
 	}
 
 	@Override
