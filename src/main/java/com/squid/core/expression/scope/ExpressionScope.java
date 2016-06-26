@@ -30,6 +30,7 @@ import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.expression.ConstantValue;
 import com.squid.core.expression.ExpressionAST;
 import com.squid.core.expression.Operator;
+import com.squid.core.expression.parser.ParseException;
 
 public interface ExpressionScope {
 	
@@ -112,8 +113,9 @@ public interface ExpressionScope {
 	 * create a date constant
 	 * @param date
 	 * @return
+	 * @throws ParseException 
 	 */
-	public abstract ExpressionAST createDateConstantValue(String date);
+	public abstract ExpressionAST createDateConstantValue(String date) throws ParseException;
 	
 	/**
 	 * create a null value

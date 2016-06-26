@@ -220,13 +220,14 @@ implements ExpressionScope
         return expr;
     }
     
-    public ExpressionAST createDateConstantValue(String value) {
+    public ExpressionAST createDateConstantValue(String value) throws com.squid.core.expression.parser.ParseException {
     	try {
-        	DateConstant expr = new DateConstant(parseDate(value));
+        DateConstant expr = new DateConstant(parseDate(value));
 	    	return expr;
 		} catch (ParseException e) {
-			UndefinedExpression undef = new UndefinedExpression(value);
-			return undef;
+			//UndefinedExpression undef = new UndefinedExpression(value);
+			//return undef;
+			throw new com.squid.core.expression.parser.ParseException("invalid date format for constant \""+value+"\", expecting 'd/M/Y''");
 		}
     }
     
