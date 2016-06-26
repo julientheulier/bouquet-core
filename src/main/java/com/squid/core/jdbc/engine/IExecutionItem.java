@@ -24,10 +24,8 @@
 package com.squid.core.jdbc.engine;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
 
-import com.squid.core.database.impl.DataSourceReliable;
 import com.squid.core.database.model.Database;
 import com.squid.core.jdbc.formatter.IJDBCDataFormatter;
 
@@ -55,10 +53,8 @@ public interface IExecutionItem {
     
     /**
      * Close this object
-     * @throws SQLException 
-     * @throws Exception
      */
-    void close() throws SQLException;
+    void close();
 
     /**
      * get the data formatter associated with the connection
