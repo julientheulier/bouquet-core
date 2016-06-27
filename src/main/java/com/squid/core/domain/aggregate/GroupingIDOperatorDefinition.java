@@ -65,7 +65,7 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
 		poly.add(type);
-		/*
+		
 		IDomain any = new DomainAny();
 		type.add(any);
 		poly.add(type);
@@ -91,7 +91,7 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 		type.add(any);
 		type.add(any);
 		poly.add(type);
-		*/
+		
 		return poly;
 	}
 
