@@ -30,8 +30,8 @@ import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.IntrinsicOperators;
 import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.domain.operators.OperatorDiagnostic;
 
 /**
  * This operator is equivalent to GROUPING_ID() function available on some databases
@@ -42,7 +42,7 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
  */
 public class GroupingIDOperatorDefinition extends OperatorDefinition {
 	
-	public static final String ID = AggregateOperatorRegistry.REGISTRY_BASE+".GroupingID";
+	public static final int ID = IntrinsicOperators.GROUPING_ID;
 
 	public GroupingIDOperatorDefinition() {
 		super("GROUPING_ID",ID,PREFIX_POSITION,"GROUPING_ID",IDomain.NUMERIC);
@@ -64,7 +64,8 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 	public List getParametersTypes() { //Up to five level of path_elements.
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-
+		poly.add(type);
+		/*
 		IDomain any = new DomainAny();
 		type.add(any);
 		poly.add(type);
@@ -90,6 +91,7 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 		type.add(any);
 		type.add(any);
 		poly.add(type);
+		*/
 		return poly;
 	}
 
