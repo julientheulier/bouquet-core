@@ -27,11 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainAny;
-import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.domain.operators.OperatorDiagnostic;
 
 /**
  * This operator is equivalent to GROUPING() function available on some databases
