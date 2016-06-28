@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.OperatorUndefinedType;
 
 /**
  * Definition of an operator: name, ID, position, ...
@@ -352,13 +351,11 @@ public abstract class OperatorDefinition {
         if (poly != null) {
             for (List<IDomain> type : (List<List<IDomain>>) poly) {
                 if (type != null) {
-          /*for(IDomain arg : type){
-            int pos = type.indexOf(arg);
-            if(!imageDomains.get(pos).isInstanceOf(arg)){
-              return OperatorDiagnostic.invalidType(pos,imageDomains.get(pos), arg.toString());
-            }
-          }*/
                     if (type.size() == imageDomains.size()) {
+                        if (type.size() == 0) {
+                        	// f() is OK
+                            return OperatorDiagnostic.IS_VALID;
+                        }
                         for (int i = 0; i < type.size(); i++) {
                             //ANY.isInstanceOf will always return true;
                             if (type.get(i).isInstanceOf(IDomain.ANY)) {
@@ -382,8 +379,6 @@ public abstract class OperatorDefinition {
                             if (i == type.size() - 1) {
                                 return OperatorDiagnostic.IS_VALID;
                             }
-
-
                         }
                     }
                 } else {

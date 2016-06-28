@@ -89,4 +89,7 @@ public interface IntrinsicOperators {
 
 	public static final int START_PUBLIC_ID    = FIRST_ID+1000;
 
+	// moving this one as an intrinsic operator to enforce availability for any database
+	public static final int GROUPING_ID    = START_PUBLIC_ID+1;
+
 }
