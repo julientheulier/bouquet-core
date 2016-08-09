@@ -29,7 +29,7 @@ import com.squid.core.domain.IDomain;
 import com.squid.core.domain.set.SetDomain;
 
 public class ExistsOperatorDefinition 
-extends LogicalOperatorDefinition {
+extends UnaryLogicalOperatorDefinition {
 
 	public ExistsOperatorDefinition(String name, int id) {
 		super(name, id);

@@ -25,9 +25,10 @@ package com.squid.core.domain.operators.special;
 
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ArithmeticOperatorDefintion;
+import com.squid.core.domain.operators.BinaryArithmeticOperatorDefintion;
 import com.squid.core.domain.operators.OperatorDefinition;
 
-public class MinusOperatorDefinition extends ArithmeticOperatorDefintion {
+public class MinusOperatorDefinition extends BinaryArithmeticOperatorDefintion {
 
 	public MinusOperatorDefinition(String name, int id, IDomain domain) {
 		super(name, id, domain);

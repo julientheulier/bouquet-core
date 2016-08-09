@@ -38,6 +38,9 @@ public class ListContentAssistEntry {
     private List<ContentAssistEntry> contentAssistEntries;
 
     public ListContentAssistEntry(List<String> description, List<List<IDomain>> poly){
+        if(poly==null /*|| description == null*/){
+            return;
+        }
         if(description.size()!=poly.size()){
             return;
         }

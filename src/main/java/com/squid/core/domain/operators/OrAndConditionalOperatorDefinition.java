@@ -29,7 +29,7 @@ package com.squid.core.domain.operators;
  *
  */
 public class OrAndConditionalOperatorDefinition extends
-		LogicalOperatorDefinition {
+		BinaryLogicalOperatorDefinition {
 
 	public OrAndConditionalOperatorDefinition(String name, int id, int position) {
 		super(name, id, position);

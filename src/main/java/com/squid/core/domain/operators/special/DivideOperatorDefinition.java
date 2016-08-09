@@ -29,6 +29,7 @@ import com.squid.core.domain.DomainMetaDomain;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.IDomainMetaDomain;
 import com.squid.core.domain.operators.ArithmeticOperatorDefintion;
+import com.squid.core.domain.operators.BinaryArithmeticOperatorDefintion;
 import com.squid.core.domain.operators.ExtendedType;
 
 /**
@@ -40,7 +41,7 @@ import com.squid.core.domain.operators.ExtendedType;
  *
  */
 public class DivideOperatorDefinition 
-extends ArithmeticOperatorDefintion {
+extends BinaryArithmeticOperatorDefintion {
 
 	public DivideOperatorDefinition(String name, int id, String symbol,
 			IDomain domain) {

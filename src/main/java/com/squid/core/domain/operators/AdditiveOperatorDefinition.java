@@ -31,7 +31,7 @@ import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 
 public class AdditiveOperatorDefinition 
-extends ArithmeticOperatorDefintion
+extends BinaryArithmeticOperatorDefintion
 {
 
 	public AdditiveOperatorDefinition(String name, int id, IDomain domain,
