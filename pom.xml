@@ -35,11 +35,6 @@
 			<artifactId>velocity</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity-tools</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
@@ -50,17 +45,10 @@
 			<version>14.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.mongodb.morphia</groupId>
-			<artifactId>morphia-logging-slf4j</artifactId>
-			<version>1.0.1</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.avro</groupId>
 			<artifactId>avro</artifactId>
 			<version>1.7.7</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -242,12 +230,6 @@
 				<artifactId>velocity</artifactId>
 				<version>1.7</version>
 			</dependency>
-			<dependency>
-				<groupId>org.apache.velocity</groupId>
-				<artifactId>velocity-tools</artifactId>
-				<version>2.0</version>
-			</dependency>
-
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>

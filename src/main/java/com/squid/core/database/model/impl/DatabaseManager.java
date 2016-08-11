@@ -26,7 +26,6 @@ package com.squid.core.database.model.impl;
 import java.sql.Connection;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.mongodb.morphia.Datastore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,8 +54,6 @@ public class DatabaseManager {
     protected IVendorSupport vendor = null;	
     protected IDatabaseStatistics stats = null;
 	protected SQLSkin skin = null;
-	protected Datastore perfdb = null;
-	
 
 	public static final AtomicInteger queryCnt = new AtomicInteger();
 
