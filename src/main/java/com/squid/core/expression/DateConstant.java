@@ -71,7 +71,7 @@ public class DateConstant extends NamedExpression implements ConstantValue
 	}
 	
 	@Override
-	public String prettyPrint() {
+	public String prettyPrint(PrettyPrintOptions options) {
 	    DateFormat FormatDateFormat = new SimpleDateFormat("d/M/yyyy");// remember, it's not thread safe
 		return "DATE(\""+FormatDateFormat.format(value)+"\")";
 	}

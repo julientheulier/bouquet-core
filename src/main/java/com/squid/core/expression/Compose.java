@@ -158,10 +158,10 @@ public class Compose extends NamedExpression {
 	}
 
 	@Override
-	public String prettyPrint() {
+	public String prettyPrint(PrettyPrintOptions options) {
 		StringBuilder res = new StringBuilder();
 		for (ExpressionAST item : body) {
-			res.append(item.prettyPrint());
+			res.append(item.prettyPrint(options));
 			if (item!=this.head) {
 				res.append(PrettyPrintConstant.COMPOSE_TAG);
 			}

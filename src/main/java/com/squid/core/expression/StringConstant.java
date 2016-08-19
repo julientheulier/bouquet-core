@@ -69,7 +69,7 @@ public class StringConstant extends NamedExpression implements ConstantValue
 	}
 	
 	@Override
-	public String prettyPrint() {
+	public String prettyPrint(PrettyPrintOptions options) {
 		return PrettyPrintConstant.OPEN_STRING+value+PrettyPrintConstant.CLOSE_STRING;
 	}
 
