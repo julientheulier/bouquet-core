@@ -170,27 +170,26 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
 		return poly;
 	}
 
-    /*@Override
+    @Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		// kept just to get specific message, not necessary for type checking.
-    	if (imageDomains.size()!=1) {
-    		return new OperatorDiagnostic("Operator accept only one argument",prettyPrint(new String[]{"arg1"}, false));
+    	if (imageDomains.size()==1) {
+	    	IDomain domain = imageDomains.get(0);
+	    	//
+			if(!domain.isInstanceOf(IDomain.ANY)) {
+				// domain cannot be already aggregated
+				if (domain.isInstanceOf(AggregateDomain.DOMAIN)) {
+					return new OperatorDiagnostic("argument #1: Invalid type: cannot nest aggregate operator", 1);
+				}
+				//
+				// domain cannot be already analytic
+				if (domain.isInstanceOf(AnalyticDomain.DOMAIN)) {
+					return new OperatorDiagnostic("argument #1: Invalid type: cannot nest analytic operator", 1);
+				}
+			}
     	}
-    	IDomain domain = imageDomains.get(0);
-    	//
-		if(!domain.isInstanceOf(IDomain.ANY)) {
-			// domain cannot be already aggregated
-			if (domain.isInstanceOf(AggregateDomain.DOMAIN)) {
-				return new OperatorDiagnostic("argument #1: Invalid type: cannot nest aggregate operator", 1);
-			}
-			//
-			// domain cannot be already analytic
-			if (domain.isInstanceOf(AnalyticDomain.DOMAIN)) {
-				return new OperatorDiagnostic("argument #1: Invalid type: cannot nest analytic operator", 1);
-			}
-		}
     	return super.validateParameters(imageDomains);
-    }*/
+    }
     
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {
