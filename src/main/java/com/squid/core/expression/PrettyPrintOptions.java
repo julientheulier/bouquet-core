@@ -33,7 +33,7 @@ import com.squid.core.domain.IDomain;
  */
 public class PrettyPrintOptions {
 	
-	enum ReferenceStyle {
+	public enum ReferenceStyle {
 		LEGACY,// compatible with prettyPrint() prior to 4.2.24 - this is the default
 		NAME,// just use the name
 		IDENTIFIER// use canonical ID
