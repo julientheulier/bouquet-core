@@ -30,6 +30,7 @@ import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.expression.ConstantValue;
 import com.squid.core.expression.ExpressionAST;
 import com.squid.core.expression.Operator;
+import com.squid.core.expression.PrettyPrintOptions;
 import com.squid.core.expression.parser.ParseException;
 
 public interface ExpressionScope {
@@ -194,6 +195,13 @@ public interface ExpressionScope {
 	 * @return
 	 */
 	public String prettyPrint(ExpressionAST expression);
+
+	/**
+	 * pretty-print an expression in that scope
+	 * @param expression
+	 * @return
+	 */
+	public String prettyPrint(ExpressionAST expression, PrettyPrintOptions options);
 	
 	/**
 	 * validate the expression in this scope
