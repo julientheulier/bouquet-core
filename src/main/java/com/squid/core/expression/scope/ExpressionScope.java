@@ -31,6 +31,7 @@ import com.squid.core.expression.ConstantValue;
 import com.squid.core.expression.ExpressionAST;
 import com.squid.core.expression.Operator;
 import com.squid.core.expression.parser.ParseException;
+import com.squid.core.expression.parser.Token;
 
 public interface ExpressionScope {
 	

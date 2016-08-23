@@ -61,37 +61,39 @@ public interface ExpressionParserImpConstants {
   /** RegularExpression Id. */
   int FALSE = 34;
   /** RegularExpression Id. */
-  int DIGIT = 35;
+  int DATE = 35;
   /** RegularExpression Id. */
-  int LETTER = 36;
+  int DIGIT = 36;
   /** RegularExpression Id. */
-  int INTEGER = 37;
+  int LETTER = 37;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 38;
+  int INTEGER = 38;
   /** RegularExpression Id. */
-  int STRING_IDENTIFIER = 39;
+  int STRING_LITERAL = 39;
   /** RegularExpression Id. */
-  int IDENTIFIER = 40;
+  int STRING_IDENTIFIER = 40;
   /** RegularExpression Id. */
-  int SPECIAL_IDENTIFIER = 41;
+  int IDENTIFIER = 41;
   /** RegularExpression Id. */
-  int LPAREN = 42;
+  int SPECIAL_IDENTIFIER = 42;
   /** RegularExpression Id. */
-  int RPAREN = 43;
+  int LPAREN = 43;
   /** RegularExpression Id. */
-  int LBRACE = 44;
+  int RPAREN = 44;
   /** RegularExpression Id. */
-  int RBRACE = 45;
+  int LBRACE = 45;
   /** RegularExpression Id. */
-  int LBRACKET = 46;
+  int RBRACE = 46;
   /** RegularExpression Id. */
-  int RBRACKET = 47;
+  int LBRACKET = 47;
   /** RegularExpression Id. */
-  int SEMICOLON = 48;
+  int RBRACKET = 48;
   /** RegularExpression Id. */
-  int COMMA = 49;
+  int SEMICOLON = 49;
   /** RegularExpression Id. */
-  int DOT = 50;
+  int COMMA = 50;
+  /** RegularExpression Id. */
+  int DOT = 51;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -137,6 +139,7 @@ public interface ExpressionParserImpConstants {
     "\"NULL\"",
     "\"TRUE\"",
     "\"FALSE\"",
+    "\"DATE\"",
     "<DIGIT>",
     "<LETTER>",
     "<INTEGER>",
@@ -153,7 +156,6 @@ public interface ExpressionParserImpConstants {
     "\";\"",
     "\",\"",
     "\".\"",
-    "\"DATE(\"",
     "\":\"",
   };
 

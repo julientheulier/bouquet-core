@@ -378,6 +378,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case NULL:
     case TRUE:
     case FALSE:
+    case DATE:
     case INTEGER:
     case STRING_LITERAL:
     case STRING_IDENTIFIER:
@@ -385,7 +386,6 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case LPAREN:
     case LBRACE:
     case LBRACKET:
-    case 51:
       simple = simple_expression(scope);
                 {if (true) return simple;}
       break;
@@ -407,7 +407,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case FALSE:
       expression = boolean_constant(scope);
       break;
-    case 51:
+    case DATE:
       expression = date_constant(scope);
       break;
     case INTEGER:
@@ -532,7 +532,8 @@ extends ExpressionParser implements ExpressionParserImpConstants {
   final public ExpressionAST date_constant(ExpressionScope scope) throws ParseException {
         Token date;
         Token decimal = null;
-    jj_consume_token(51);
+    jj_consume_token(DATE);
+    jj_consume_token(LPAREN);
     date = jj_consume_token(STRING_LITERAL);
     jj_consume_token(RPAREN);
                 String image = date.image;
@@ -705,6 +706,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case NULL:
     case TRUE:
     case FALSE:
+    case DATE:
     case INTEGER:
     case STRING_LITERAL:
     case STRING_IDENTIFIER:
@@ -712,7 +714,6 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case LPAREN:
     case LBRACE:
     case LBRACKET:
-    case 51:
       args = expression_list(scope);
       break;
     default:
@@ -759,11 +760,6 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     try { return !jj_3_1(); }
     catch(LookaheadSuccess ls) { return true; }
     finally { jj_save(0, xla); }
-  }
-
-  private boolean jj_3R_5() {
-    if (jj_3R_9()) return true;
-    return false;
   }
 
   private boolean jj_3R_8() {
@@ -834,6 +830,11 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     return false;
   }
 
+  private boolean jj_3R_5() {
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
   /** Generated Token Manager. */
   public ExpressionParserImpTokenManager token_source;
   SimpleCharStream jj_input_stream;
@@ -856,7 +857,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       jj_la1_0 = new int[] {0xe0000000,0xe0000000,0xe0000000,0x10000000,0x47ffc00,0x47ffc00,0x47ffc00,0xa800800,0x8800000,0xa800000,0x0,0x0,0x0,0x0,0x8800000,0xa800800,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x100,0x100,0x0,0x855e7,0x4080,0x855e7,0x20000,0x6,0x60,0x40000,0x4080,0x855e7,0x20000,};
+      jj_la1_1 = new int[] {0x0,0x0,0x0,0x0,0x200,0x200,0x0,0xabcf,0x8100,0xabcf,0x40000,0x6,0xc0,0x80000,0x8100,0xabcf,0x40000,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[1];
   private boolean jj_rescan = false;
