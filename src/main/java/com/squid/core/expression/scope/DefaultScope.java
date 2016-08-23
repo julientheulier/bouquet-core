@@ -33,6 +33,7 @@ import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.expression.Compose;
 import com.squid.core.expression.ExpressionAST;
+import com.squid.core.expression.PrettyPrintOptions;
 import com.squid.core.expression.parser.ExpressionParser;
 import com.squid.core.expression.parser.ExpressionParserImp;
 import com.squid.core.expression.parser.ParseException;
@@ -182,7 +183,12 @@ implements ExpressionScope
     
 	@Override
 	public String prettyPrint(ExpressionAST expression) {
-		return expression.prettyPrint();
+		return prettyPrint(expression, null);
+	}
+    
+	@Override
+	public String prettyPrint(ExpressionAST expression, PrettyPrintOptions options) {
+		return expression.prettyPrint(options);
 	}
     
     @Override

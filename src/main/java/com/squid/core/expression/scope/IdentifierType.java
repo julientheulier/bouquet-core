@@ -23,6 +23,8 @@
  *******************************************************************************/
 package com.squid.core.expression.scope;
 
+import com.squid.core.expression.PrettyPrintConstant;
+
 public class IdentifierType {
 
 	public static final IdentifierType DEFAULT = new IdentifierType();
@@ -37,7 +39,7 @@ public class IdentifierType {
 	public static final IdentifierType IDENTIFIER = new IdentifierType("id");
 
 	// a parameter-reference is prefixed with $
-	public static final IdentifierType PARAMETER = new IdentifierType("param");
+	public static final IdentifierType PARAMETER = new IdentifierType(PrettyPrintConstant.PARAMETER_TAG);
 	
 	private String token = null;
 	
@@ -80,7 +82,7 @@ public class IdentifierType {
 	
 	@Override
 	public String toString() {
-		return getToken();
+		return token!=null?token:"";
 	}
 
 }

@@ -51,7 +51,7 @@ implements ConstantValue {
 	}
 	
 	@Override
-	public String prettyPrint() {
+	public String prettyPrint(PrettyPrintOptions options) {
 		return "NULL";
 	}
 	

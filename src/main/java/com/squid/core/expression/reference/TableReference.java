@@ -76,7 +76,11 @@ public class TableReference extends ExpressionRef {
 	
 	@Override
 	public String getReferenceIdentifier() {
-		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IdentifierType getReferenceType() {
 		return null;
 	}
 	
