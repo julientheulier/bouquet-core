@@ -23,7 +23,12 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import com.squid.core.domain.DomainAny;
+import com.squid.core.domain.DomainConditional;
 import com.squid.core.domain.IDomain;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author serge fantino
@@ -131,15 +136,60 @@ public class AlgebraicOperatorDefinition extends OperatorDefinition {
 	 */
 	protected ExtendedType mergeTypes(int[] typeOrder, ExtendedType master, ExtendedType slave) {
 		ExtendedType copy = master;
-		if (slave.getScale()>master.getScale()) {
+		if (slave.getScale() > master.getScale()) {
 			copy = copy.scale(slave.getScale());
 		}
-		if (getId()==IntrinsicOperators.PLUS && typeOrder[0]==ExtendedType.STRING_ORDER) {
-			copy = copy.size(master.getSize()+slave.getSize());
-		} else if (slave.getSize()>master.getSize()) {
+		if (getId() == IntrinsicOperators.PLUS && typeOrder[0] == ExtendedType.STRING_ORDER) {
+			copy = copy.size(master.getSize() + slave.getSize());
+		} else if (slave.getSize() > master.getSize()) {
 			copy = copy.size(slave.getSize());
 		}
 		return copy;
 	}
 
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		any.setContentAssistLabel("any");
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		return poly;
+	}
+
+	@Override
+	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
+		return OperatorDiagnostic.IS_VALID;
+	}
 }

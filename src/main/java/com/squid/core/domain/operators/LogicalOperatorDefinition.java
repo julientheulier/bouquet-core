@@ -23,8 +23,11 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
+import com.squid.core.domain.DomainConditional;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.IDomainMetaDomain;
 
@@ -55,18 +58,47 @@ public class LogicalOperatorDefinition extends ConditionalOperatorDefinition {
 		super(name, id);
 		// TODO Auto-generated constructor stub
 	}
-	
+
+
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		int i=0;
-		for (IDomain domain:imageDomains) {
-			i++;
-			if (!domain.isInstanceOf(IDomain.CONDITIONAL)) {
-				return new OperatorDiagnostic("Argument #"+i+" Invalid type: "+domain.getName()+" but expecting a Condition",i);
-			}
-		}
-		//
-		return OperatorDiagnostic.IS_VALID;
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain cond = new DomainConditional();
+		cond.setContentAssistLabel("condition");
+		type.add(cond);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(cond);
+		type.add(cond);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(cond);
+		type.add(cond);
+		type.add(cond);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(cond);
+		type.add(cond);
+		type.add(cond);
+		type.add(cond);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(cond);
+		type.add(cond);
+		type.add(cond);
+		type.add(cond);
+		type.add(cond);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(cond);
+		type.add(cond);
+		type.add(cond);
+		type.add(cond);
+		type.add(cond);
+		type.add(cond);
+		poly.add(type);
+		return poly;
 	}
 	
 	@Override

@@ -44,9 +44,13 @@ public interface IDomain
 	public static final IDomain UNKNOWN = new DomainUnknown();
 	public static final IDomain INTRINSIC = new DomainIntrinsic();
 	public static final IDomain STRING = new DomainString();
+	public static final IDomain INT = new DomainInteger();
+	// NUMERIC is Double and INT is Integer
 	public static final IDomain NUMERIC = new DomainNumeric();
 	public static final IDomain TEMPORAL = new DomainTemporal();
 	public static final IDomain DATE = new DomainDate();
+	public static final IDomain MONTHLY = new DomainDateMonthly();
+	public static final IDomain YEARLY = new DomainDateYearly();
 	public static final IDomain TIME = new DomainTime();
 	public static final IDomain OBJECT = new DomainObject();
 	public static final IDomain NULL = new DomainNull();
@@ -109,5 +113,52 @@ public interface IDomain
 	 *    have an adapter for the given class
 	 */
 	public Object getAdapter(Class<?> adapter);
+
+
+	/**
+	 * Returns the label seen by the user for completion.
+	 * Correspond to the list seen in eclipse when using autocompletion
+	 * this is the text "function(String s, Int i)"
+	 * @return
+     */
+	public String getContentAssistLabel();
+
+	public void setContentAssistLabel(String label);
+
+	/**
+	 * Returns the proposal seen by the user for completion.
+	 * Correspond to the actual text replacing the code
+	 * Most of the time, one letter character,
+	 * for example "i" for integer type
+	 * @return
+	 */
+	public String getContentAssistProposal();
+
+	/**
+	 * Returns the proposal seen by the user for completion.
+	 * Correspond to the actual text replacing the code
+	 * Most of the time, one letter character,
+	 * for example "i" for integer type
+	 * @parameter position correspond to the position inside the template (1 for ${1:something})
+	 * @return
+	 */
+	public String getContentAssistProposal(int position);
+
+
+	/**
+	 * Returns the proposal seen by the user for completion.
+	 * Correspond to the actual text replacing the code
+	 * Most of the time, one letter character,
+	 * for example "i" for integer type
+	 * @parameter position correspond to the position inside the template 1 for ${1:name}
+	 * @parameter skin will be used to compute the type of the parameter example {$1:Numerical:name}
+	 * @return
+	 */
+	public String getContentAssistProposal(int position, SQLSkin skin);
+
+	public void setContentAssistProposal(String name);
+
+	public void setContentAssistProposal(String name, int position);
+
 
 }

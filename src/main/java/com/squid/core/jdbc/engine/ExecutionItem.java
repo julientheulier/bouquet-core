@@ -35,8 +35,13 @@ import com.squid.core.jdbc.formatter.IJDBCDataFormatter;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class ExecutionItem implements IExecutionItem {
+
+	static final Logger logger = LoggerFactory.getLogger(ExecutionItem.class);
 
 	private Database database;
 	private DataSource datasource;
@@ -89,32 +94,40 @@ public class ExecutionItem implements IExecutionItem {
     }
 	
 	@Override
-	public void close() throws SQLException {
+	public void close() {
 		try {
+			boolean closeResultset = false,closeStatement = false,commit = false,closeConnection = false;
 			if (resultset!=null) {
 				Statement stat = resultset.getStatement();
 				try {
 					resultset.close();
+					closeResultset = true;
 					stat.close();
+					closeStatement = true;
 				} catch (SQLException e) {
 					stat.close();
+					closeStatement = true;
 				}
 			}
 			if (connection!=null && !connection.isClosed()) {
 				if (!connection.getAutoCommit()) {// ticket:2922
 					connection.commit();
+					commit = true;
                 }
 				// return the connection to the pool
 				//
 				connection.close();
+				closeConnection = true;
 				((DataSourceReliable) datasource).releaseSemaphore();
 			}
+			//
+			logger.info("closing SQLQuery#"+id+"; resultset="+closeResultset+";statement="+closeStatement+";commit="+commit+";connection="+closeConnection);
+		} catch (Exception e) {
+			logger.error("an error occured while closing the SQLQuery#"+id+"; query="+id+"; error="+e.getMessage());
 		} finally {
 			resultset = null;
 			connection = null;
 		}
 	}
-	
-	
 
 }

@@ -23,12 +23,13 @@
  *******************************************************************************/
 package com.squid.core.domain.aggregate;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.domain.operators.OperatorDiagnostic;
 
 /**
  * This operator is equivalent to GROUPING() function available on some databases
@@ -49,16 +50,25 @@ public class GroupingOperatorDefinition extends OperatorDefinition {
 	public int getType() {
 		return ALGEBRAIC_TYPE;
 	}
-	
+
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		// GROUPING takes a single expression as parameter
-		if (imageDomains.size()==1) {
-			return OperatorDiagnostic.IS_VALID;
-		} else {
-			return new OperatorDiagnostic("invalid number of parameter", "GROUPING(expresion)");
-		}
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Returns 1 if the row is a subtotal, 0 if not");
+		return hint;
 	}
+
+	@Override
+	public List getParametersTypes() {
+		// GROUPING takes a single expression as parameter
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		type.add(any);
+		poly.add(type);
+		return poly;
+	}
+
 	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {

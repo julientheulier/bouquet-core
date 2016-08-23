@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.analytics.AnalyticDomain;
@@ -45,7 +47,14 @@ extends OrderedAnalyticOperatorDefinition {
 			return AnalyticDomain.MANAGER.createMetaDomain(IDomain.NUMERIC);
 		}
 	}
-	
+
+	@Override
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Returns the number of rows");
+		return hint;
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()==0) {

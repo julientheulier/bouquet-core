@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -42,7 +43,7 @@ extends OrderedAnalyticOperatorDefinition {
 
 	/**
 	 * @param name
-	 * @param id
+	 * @param extendedId
 	 */
 	public RankOperatorDefinition(String name, String extendedId) {
 		super(name, extendedId, PREFIX_POSITION, name, IDomain.NUMERIC);
@@ -69,6 +70,66 @@ extends OrderedAnalyticOperatorDefinition {
 	public IDomain computeImageDomain(List<IDomain> sourceDomain) {
 		return AnalyticDomain.DOMAIN.createMetaDomain(IDomain.NUMERIC);
 		//return super.computeImageDomain(sourceDomain);
+	}
+
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add(getName()+" Sort expression, ([partitionBy,[partitionBy,]ASC|DESC(orderBy)[,ASC|DESC(orderBy)]");
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		type.add(IDomain.NUMERIC);
+		type.add(DomainSort.DOMAIN);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(IDomain.STRING);
+		type.add(DomainSort.DOMAIN);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(IDomain.DATE);
+		type.add(DomainSort.DOMAIN);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+
+		type.add(IDomain.TIMESTAMP);
+		type.add(DomainSort.DOMAIN);
+		type.add(DomainSort.DOMAIN);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(IDomain.NUMERIC);
+		type.add(DomainSort.DOMAIN);
+		type.add(DomainSort.DOMAIN);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(IDomain.STRING);
+		type.add(DomainSort.DOMAIN);
+		type.add(DomainSort.DOMAIN);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(IDomain.DATE);
+		type.add(DomainSort.DOMAIN);
+		type.add(DomainSort.DOMAIN);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+
+		type.add(IDomain.TIMESTAMP);
+		type.add(DomainSort.DOMAIN);
+		type.add(DomainSort.DOMAIN);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		return poly;
 	}
 
 	@Override

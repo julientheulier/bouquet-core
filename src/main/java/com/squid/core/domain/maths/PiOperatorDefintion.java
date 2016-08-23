@@ -23,12 +23,11 @@
  *******************************************************************************/
 package com.squid.core.domain.maths;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.domain.operators.OperatorDiagnostic;
+import com.squid.core.domain.operators.*;
 
 /**
  * Ticket #1190 implements some ANSI functions
@@ -57,12 +56,18 @@ public class PiOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 0) {
-			return new OperatorDiagnostic("Function PI has no parameter(s)",
-					getName());
-		}
-		return OperatorDiagnostic.IS_VALID;
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Return Pi, Takes no argument");
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List type = new ArrayList<IDomain>();
+		List poly = new ArrayList<List>();
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

@@ -89,6 +89,9 @@ public class Queries {
                 // it is our responsibility to dispose connection and statement
                 if (statement!=null) statement.close();
                 if (connection!=null) {
+                	if (!connection.getAutoCommit()) {
+                		connection.rollback();
+                	}
                     connection.close();
                     service.getDatasource().releaseSemaphore();
                 }

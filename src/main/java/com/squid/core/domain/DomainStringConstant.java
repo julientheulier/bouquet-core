@@ -46,6 +46,11 @@ public class DomainStringConstant extends DomainString implements IConstantValue
 		super(parent);
 	}
 
+	@Override
+	public IDomain getSingleton() {
+		return this;
+	}
+
 	public String getValue() {
 		return value;
 	}

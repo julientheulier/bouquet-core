@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.analytics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainNumericConstant;
@@ -38,19 +39,23 @@ extends WindowingOperatorDefinition
 	public PrecedingOperatorDefinition(String name, String ID) {
 		super(name, ID);
 	}
-	
+
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()!=1) {
-			return new OperatorDiagnostic("invalid use of "+getName()+"()",HINT);
-		} else {
-			IDomain d = imageDomains.get(0);
-			if (d.isInstanceOf(DomainNumericConstant.DOMAIN)) {
-				return OperatorDiagnostic.IS_VALID;
-			} else {
-				return new OperatorDiagnostic("invalid use of "+getName()+"()",HINT);
-			}
-		}
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add(HINT);
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain double1 = new DomainNumericConstant(0.0);
+		double1.setContentAssistLabel("double");
+		type.add(double1);
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

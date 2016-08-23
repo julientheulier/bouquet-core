@@ -26,11 +26,8 @@ package com.squid.core.expression.scope;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
 
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.IntrinsicOperators;
@@ -96,6 +93,10 @@ implements ExpressionScope
 	 */
     public OperatorDefinition lookup(String fun) throws ScopeException {
         return getOperatorScope().lookupByName(fun.toUpperCase().trim());
+    }
+
+    public Set<OperatorDefinition> looseLookup(String fun) throws ScopeException {
+        return getOperatorScope().looseLookupByName(fun.toUpperCase().trim());
     }
 
     /* (non-Javadoc)
@@ -164,6 +165,7 @@ implements ExpressionScope
 	 * @see com.squid.ldm.model.api.expression.managers.ExpressionConstructor#createOperator(java.lang.String, java.util.List)
 	 */
     public ExpressionAST createOperator(String name, List<ExpressionAST> args) throws ScopeException {
+    	// note: args may be null
     	OperatorDefinition def = lookup(name);
     	List<IDomain> domains = null;
     	if (args!=null) {
@@ -177,8 +179,10 @@ implements ExpressionScope
         OperatorDiagnostic diag = def.validateParameters(domains);
         if (diag!=OperatorDiagnostic.IS_VALID) {
             String message = diag.getErrorMessage();
-            for (int pos=0;pos<args.size();pos++) {
-            	message = message.replaceAll("#"+(pos+1), args.get(pos).prettyPrint());
+            if (args!=null) {
+	            for (int pos=0;pos<args.size();pos++) {
+	            	message = message.replaceAll("#"+(pos+1), Matcher.quoteReplacement(args.get(pos).prettyPrint()));
+	            }
             }
             throw new ScopeException(def.getName()+": "+message+(diag.getHint()!=null?"\nUsage: "+diag.getHint():""));
         }
@@ -216,13 +220,14 @@ implements ExpressionScope
         return expr;
     }
     
-    public ExpressionAST createDateConstantValue(String value) {
+    public ExpressionAST createDateConstantValue(String value) throws com.squid.core.expression.parser.ParseException {
     	try {
-        	DateConstant expr = new DateConstant(parseDate(value));
+        DateConstant expr = new DateConstant(parseDate(value));
 	    	return expr;
 		} catch (ParseException e) {
-			UndefinedExpression undef = new UndefinedExpression(value);
-			return undef;
+			//UndefinedExpression undef = new UndefinedExpression(value);
+			//return undef;
+			throw new com.squid.core.expression.parser.ParseException("invalid date format for constant \""+value+"\", expecting 'd/M/Y''");
 		}
     }
     

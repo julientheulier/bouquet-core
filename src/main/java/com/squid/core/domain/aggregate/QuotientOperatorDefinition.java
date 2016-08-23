@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.aggregate;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
@@ -55,22 +57,29 @@ public class QuotientOperatorDefinition extends OperatorDefinition {
 	public int getType() {
 		return AGGREGATE_TYPE;
 	}
-	
+
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()==2) {
-			if (imageDomains.get(0).isInstanceOf(AggregateDomain.DOMAIN) && imageDomains.get(0).isInstanceOf(AggregateDomain.NUMERIC)) {
-				if (imageDomains.get(1).isInstanceOf(IDomain.CONDITIONAL)) {
-					return OperatorDiagnostic.IS_VALID;
-				} else {
-					return new OperatorDiagnostic(ERROR_MESSAGE_ARG_2,ERROR_MESSAGE_HINT);
-				}
-			} else {
-				return new OperatorDiagnostic(ERROR_MESSAGE_ARG_1,ERROR_MESSAGE_HINT);
-			}
-		} else {
-			return new OperatorDiagnostic("Invalid number of arguments",ERROR_MESSAGE_HINT);
-		}
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("sum (arg1) with the condition arg2");
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		// GROUPING takes a single expression as parameter
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		type.add(AggregateDomain.DOMAIN); // && 		type.add(AggregateDomain.NUMERIC);
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(AggregateDomain.NUMERIC);
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+
+		return poly;
 	}
 	
 	@Override

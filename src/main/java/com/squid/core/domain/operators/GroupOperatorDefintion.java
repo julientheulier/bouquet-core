@@ -67,4 +67,8 @@ public class GroupOperatorDefintion extends AlgebraicOperatorDefinition {
     	}
     }
 
+    @Override
+    public List getParametersTypes() {
+        return null;
+    }
 }

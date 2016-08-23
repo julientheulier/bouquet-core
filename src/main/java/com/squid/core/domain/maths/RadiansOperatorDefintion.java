@@ -23,11 +23,14 @@
  *******************************************************************************/
 package com.squid.core.domain.maths;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -59,16 +62,20 @@ public class RadiansOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 1) {
-			return new OperatorDiagnostic(
-					"Function RADIANS take 1 parameter only)", getName());
-		}
-		if (!imageDomains.get(0).isInstanceOf(IDomain.NUMERIC)) {
-			return new OperatorDiagnostic("Parameter must be a number",
-					getName());
-		}
-		return OperatorDiagnostic.IS_VALID;
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Compute the radian");
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		IDomain number = new DomainNumeric();
+		type.add(number);
+		poly.add(type);
+		return poly;
 	}
 
 	@Override

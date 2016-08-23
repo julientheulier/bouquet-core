@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.sort;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
@@ -43,12 +45,24 @@ public class SortOperatorDefinition extends OperatorDefinition {
 		setParamCount(1);
 		this.direction=direction;
 	}
-	
+
+
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
 	}
-	
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		any.setContentAssistLabel("any");
+		type.add(any);
+		poly.add(type);
+		return poly;
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()!=1) {

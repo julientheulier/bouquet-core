@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.analytics;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -35,7 +37,31 @@ public class RowsOperatorDefinition extends WindowingOperatorDefinition {
 	public RowsOperatorDefinition(String name, String ID) {
 		super(name,ID);
 	}
-	
+
+	@Override
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add(HINT);
+		return hint;
+	}
+
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		type.add(WindowingDomain.DOMAIN);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(WindowingDomain.DOMAIN);
+		type.add(WindowingDomain.DOMAIN);
+		poly.add(type);
+
+		return poly;
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()<1 || imageDomains.size()>2) {
@@ -44,6 +70,9 @@ public class RowsOperatorDefinition extends WindowingOperatorDefinition {
 		if (imageDomains.size()>=1) {
 			// check preceding domain
 			IDomain d = imageDomains.get(0);
+			if(d.isInstanceOf(IDomain.ANY)){
+				return new OperatorDiagnostic("invalid use of "+getName()+"()",HINT);
+			}
 			if (d.isInstanceOf(WindowingDomain.DOMAIN)) {
 				WindowingDomain w = (WindowingDomain)d;
 				switch (w.getExpression().getType()) {

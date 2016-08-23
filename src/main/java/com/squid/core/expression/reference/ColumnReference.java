@@ -106,7 +106,11 @@ public class ColumnReference extends ExpressionRef {
 	public Object getReference() {
 		return getColumn();
 	}
-	
+
+	public String getDescription() {
+		return this.reference.getDescription();
+	}
+
 	@Override
 	public String prettyPrint() {
 		return PrettyPrintConstant.COLUMN_TAG+PrettyPrintConstant.OPEN_IDENT+getReferenceName()+PrettyPrintConstant.CLOSE_IDENT;

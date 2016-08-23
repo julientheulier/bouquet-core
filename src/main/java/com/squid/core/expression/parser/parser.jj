@@ -191,6 +191,7 @@ TOKEN [IGNORE_CASE]:
 	< NULL: "NULL" >
 | 	< TRUE: "TRUE" >
 |	< FALSE: "FALSE" >
+|   < DATE : "DATE" >
 }
 
 TOKEN :
@@ -510,7 +511,7 @@ ExpressionAST date_constant(ExpressionScope scope) :
 	Token decimal = null;
 }
 {
-	"DATE(" date = <STRING_LITERAL> ")"
+	<DATE> <LPAREN> date = <STRING_LITERAL> <RPAREN>
 	{
 		String image = date.image;
 		if (image.length()>1) {

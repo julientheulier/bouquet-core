@@ -26,8 +26,9 @@ package com.squid.core.sql.db.render;
 import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.extensions.CastOperatorDefinition;
-import com.squid.core.domain.extensions.DateOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastToTimestampOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.sql.render.IPiece;
@@ -137,7 +138,7 @@ extends BaseOperatorRenderer
 	protected String castDateAsTimestamp(SQLSkin skin, IPiece piece, String arg) throws RenderingException {
 		String[] subArgs = new String[1];
 		subArgs[0] = arg;
-		CastOperatorDefinition toTimestamp = new CastOperatorDefinition("TO_TIMESTAMP",CastOperatorDefinition.TO_TIMESTAMP,IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
+		CastOperatorDefinition toTimestamp = new CastOperatorDefinition("TO_TIMESTAMP", CastToTimestampOperatorDefinition.ID,IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
 		OperatorPiece operatorPiece = new OperatorPiece(toTimestamp,new IPiece[]{piece});
 		return skin.render(skin, operatorPiece, toTimestamp, subArgs);
 	}

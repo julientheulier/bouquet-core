@@ -23,6 +23,12 @@
  *******************************************************************************/
 package com.squid.core.domain;
 
+/**
+ * This is the domain for a Date value, that is a date without time information
+ * (thus this date has no timezone)
+ * @author sergefantino
+ *
+ */
 public class DomainDate extends DomainBase {
 
     /**

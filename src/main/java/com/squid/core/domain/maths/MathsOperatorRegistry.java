@@ -55,7 +55,7 @@ implements OperatorRegistry
 	
 	@Override
 	public void apply(OperatorScope scope) throws OperatorScopeException {
-		scope.registerExtension(new CeilOperatorDefintion("CEIL",CeilOperatorDefintion.CEIL,OperatorDefinition.MATHS_TYPE));
+		scope.registerExtension(new CeilOperatorDefinition("CEIL", CeilOperatorDefinition.CEIL,OperatorDefinition.MATHS_TYPE));
 		scope.registerExtension(new FloorOperatorDefintion("FLOOR",FloorOperatorDefintion.FLOOR,OperatorDefinition.MATHS_TYPE));
 		scope.registerExtension(new SignOperatorDefintion("SIGN",SignOperatorDefintion.SIGN,OperatorDefinition.MATHS_TYPE));		
 		scope.registerExtension(new TruncateOperatorDefintion("TRUNCATE",TruncateOperatorDefintion.TRUNCATE,OperatorDefinition.MATHS_TYPE));

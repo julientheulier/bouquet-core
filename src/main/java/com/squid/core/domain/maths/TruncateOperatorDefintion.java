@@ -24,11 +24,14 @@
 package com.squid.core.domain.maths;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -59,6 +62,38 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("TRUNCATE returns n rounded to 0 places to the right of the decimal point");
+		hint.add("Takes two arguments to compute TRUNCATE(column_name,decimals)");
+		hint.add("Takes two arguments to compute TRUNCATE(column_name,decimals)");
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		IDomain number = new DomainNumeric();
+		type.add(number);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(number);
+		IDomain decimals = new DomainNumeric();
+		decimals.setContentAssistLabel("decimals");
+		type.add(decimals);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(number);
+		IDomain num = new DomainNumericConstant();
+		num.setContentAssistLabel("constant");
+		type.add(num);
+		poly.add(type);
+		return poly;
+	}
+
+	// We need  to add integer idomain and interger constant idomain to have the notion needed for the validate.
+	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size() != 1 && imageDomains.size() != 2) {
 			return new OperatorDiagnostic("Invalid number of parameters",
@@ -69,6 +104,10 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 			return new OperatorDiagnostic(
 					"The first Parameter must be a number", getName());
 		}
+		if (imageDomains.get(0).isInstanceOf(IDomain.ANY)) {
+			return new OperatorDiagnostic("Parameters must be numbers (Any given)",
+					getName());
+		}
 		if (imageDomains.size() == 2
 				&& !imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
 			return new OperatorDiagnostic(
@@ -78,11 +117,15 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 			return new OperatorDiagnostic(
 					"the second Parameter must be an constant", getName());
 		} else if (imageDomains.size() == 2) {
+			if (imageDomains.get(1).isInstanceOf(IDomain.ANY)) {
+				return new OperatorDiagnostic("Parameters must be numbers (Any given)",
+						getName());
+			}
 			Double d = ((DomainNumericConstant) imageDomains.get(1)).getValue();
 			if (Math.floor(d)!=d || Math.abs(d)!=d) {
 				return new OperatorDiagnostic(
 						"the second Parameter must be a positive integer", getName());
-				
+
 			}
 		}
 		return OperatorDiagnostic.IS_VALID;

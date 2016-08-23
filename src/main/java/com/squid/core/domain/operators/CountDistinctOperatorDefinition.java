@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.analytics.AnalyticDomain;
@@ -36,6 +38,26 @@ extends AggregateOperatorDefinition {
 		super(name, id);
 		setParamCount(1);
 	}
+
+	@Override
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Returns the number of distinct rows");
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any1 = new DomainAny();
+
+		type.add(any1);
+		poly.add(type);
+
+		return poly;
+	}
+
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
@@ -54,14 +76,5 @@ extends AggregateOperatorDefinition {
 			return AnalyticDomain.MANAGER.createMetaDomain(IDomain.NUMERIC);
 		}
     }
-    
-	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()==1) {
-	    	return OperatorDiagnostic.IS_VALID;
-		} else {
-			return new OperatorDiagnostic("Require exactly one parameter","");
-		}
-	}
 
 }

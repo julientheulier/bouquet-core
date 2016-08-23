@@ -25,6 +25,9 @@ package com.squid.core.domain.operators;
 
 import com.squid.core.domain.IDomain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UndefinedOperatorDefinition 
 extends OperatorDefinition {
 	
@@ -37,10 +40,27 @@ extends OperatorDefinition {
 	public int getType() {
 		return ALGEBRAIC_TYPE;
 	}
-	
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		type.add(IDomain.ANY);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		return poly;
+	}
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.UNDEFINED;
+	}
+
+	@Override
+	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
+		return OperatorDiagnostic.IS_VALID;
 	}
 
 }

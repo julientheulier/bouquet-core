@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.IDomain;
 
 /**
@@ -36,7 +38,7 @@ public class CoVarPopOperatorDefinition extends AggregateOperatorDefinition {
 	
 	/**
 	 * @param name
-	 * @param id
+	 * @param extendedId
 	 */
 	public CoVarPopOperatorDefinition(String name, String extendedId) {
 		super(name, extendedId, PREFIX_POSITION, name, IDomain.NUMERIC);
@@ -47,7 +49,15 @@ public class CoVarPopOperatorDefinition extends AggregateOperatorDefinition {
 		super(name, id);
 		setDomain(IDomain.NUMERIC);
 	}
-	
+
+	@Override
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Taking two numeric domains and compute the covariance (usually sum (dom1*dom2) - sum(dom1)*sum(dom2) / size^2)");
+		return hint;
+	}
+
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.FLOAT;
@@ -57,21 +67,19 @@ public class CoVarPopOperatorDefinition extends AggregateOperatorDefinition {
 	public IDomain computeImageDomain(List<IDomain> sourceDomain) {
 		return IDomain.NUMERIC;
 	}
-	
-	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 2)
-			return new OperatorDiagnostic("Invalid number of parameters",
-					getName());
-		// check if parameter is valid?
-		if (!imageDomains.get(0).isInstanceOf(IDomain.NUMERIC)) {
-	        return OperatorDiagnostic.invalidType(1, imageDomains.get(0), "Numeric");
-		}
-		if (!imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
-            return OperatorDiagnostic.invalidType(2, imageDomains.get(1), "Numeric");
-		}
 
-		return OperatorDiagnostic.IS_VALID;
+	@Override
+	public List getParametersTypes() {
+		List<List<IDomain>> poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any1 = new DomainAny();
+
+		type.add(IDomain.NUMERIC);
+		type.add(IDomain.NUMERIC);
+
+		poly.add(type);
+
+		return poly;
 	}
 	
 	public String prettyPrint(String symbol, int position, String[] args, boolean showBrackets) {

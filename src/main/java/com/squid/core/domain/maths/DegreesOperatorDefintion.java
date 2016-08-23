@@ -23,13 +23,13 @@
  *******************************************************************************/
 package com.squid.core.domain.maths;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
-import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.domain.operators.OperatorDiagnostic;
+import com.squid.core.domain.operators.*;
 
 /**
  * Ticket #1190 implements some ANSI functions
@@ -45,19 +45,26 @@ public class DegreesOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public int getType() {
-		return ALGEBRAIC_TYPE;
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Description");
+		return hint;
 	}
 
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size()!=1) {
-			return new OperatorDiagnostic("Function DEGREES take 1 parameter only)",getName());
-		}
-		if (!imageDomains.get(0).isInstanceOf(IDomain.NUMERIC)) {
-			return new OperatorDiagnostic("Parameter must be a number",getName());
-		}
-		return OperatorDiagnostic.IS_VALID;
+	public List getParametersTypes() {
+		List type = new ArrayList<IDomain>();
+		IDomain number = new DomainNumeric();
+		type.add(number);
+
+		List poly = new ArrayList<List>();
+		poly.add(type);
+		return poly;
+	}
+
+	@Override
+	public int getType() {
+		return ALGEBRAIC_TYPE;
 	}
 
 	@Override

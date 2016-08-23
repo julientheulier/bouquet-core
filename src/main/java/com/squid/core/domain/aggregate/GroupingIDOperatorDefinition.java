@@ -23,12 +23,15 @@
  *******************************************************************************/
 package com.squid.core.domain.aggregate;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.IntrinsicOperators;
 import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.domain.operators.OperatorDiagnostic;
 
 /**
  * This operator is equivalent to GROUPING_ID() function available on some databases
@@ -39,7 +42,7 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
  */
 public class GroupingIDOperatorDefinition extends OperatorDefinition {
 	
-	public static final String ID = AggregateOperatorRegistry.REGISTRY_BASE+".GroupingID";
+	public static final int ID = IntrinsicOperators.GROUPING_ID;
 
 	public GroupingIDOperatorDefinition() {
 		super("GROUPING_ID",ID,PREFIX_POSITION,"GROUPING_ID",IDomain.NUMERIC);
@@ -49,13 +52,49 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 	public int getType() {
 		return ALGEBRAIC_TYPE;
 	}
-	
+
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		// GROUPING_ID takes a list of column as parameter
-        return OperatorDiagnostic.IS_VALID;
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("takes a list of columns as input");
+		return hint;
 	}
-	
+
+	@Override
+	public List getParametersTypes() { //Up to five level of path_elements.
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		
+		return poly;
+	}
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length==0) {

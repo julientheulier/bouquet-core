@@ -24,7 +24,9 @@
 package com.squid.core.domain;
 
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.sql.db.templates.DefaultJDBCSkin;
 import com.squid.core.sql.render.SQLSkin;
+import com.squid.core.sql.template.DefaultSQLSkin;
 
 /**
  * The base implementation
@@ -37,7 +39,10 @@ extends AbstractSingletonDomain
 	
 	private String name = "";
 	private IDomain parent = null;
-    
+
+	private String label = "";
+	private String proposal = "";
+
     public DomainBase() {
         // on purpose
     }
@@ -66,5 +71,65 @@ extends AbstractSingletonDomain
 	public void setParentDomain(IDomain parent) {
 		this.parent = parent;
 	}
-    
+
+	@Override
+	public String getContentAssistLabel(){
+		if(label=="" && name!=""){
+			return (getName()+" "+getName().toLowerCase().charAt(0));
+		}else if(label=="" && name==""){
+			return ("Unknown");
+		}
+		return label;
+	}
+
+	@Override
+	public void setContentAssistLabel(String label){
+		this.label=label;
+	}
+
+	@Override
+	public String getContentAssistProposal(){
+		if(proposal == ""){
+			if(label == "") {
+				return ("${1:" + String.valueOf(getName().toLowerCase().charAt(0)) + "}");
+			}else{
+				return ("${1:" + this.label + "}");
+			}
+		}
+		return proposal;
+	}
+
+	@Override
+	public String getContentAssistProposal(int position){
+		if(proposal == ""){
+			if(label == "") {
+				return ("${"+position+":"+computeType(DefaultJDBCSkin.DEFAULT).getName()+":"+String.valueOf(getName().toLowerCase().charAt(0))+ position +"}");
+			}else{
+				return ("${"+position+":"+computeType(DefaultJDBCSkin.DEFAULT).getName()+":"+this.label + position +"}");
+			}
+		}
+		return proposal;
+	}
+
+	@Override
+	public String getContentAssistProposal(int position, SQLSkin skin){
+		if(proposal == ""){
+			if(label == "") {
+				return ("${"+position+":"+computeType(skin).getName()+":"+String.valueOf(getName().toLowerCase().charAt(0))+ position +"}");
+			}else{
+				return ("${"+position+":"+computeType(skin).getName()+":"+this.label + position +"}");
+			}
+		}
+		return proposal;
+	}
+
+	@Override
+	public void setContentAssistProposal(String proposal){
+		this.proposal=proposal;
+	}
+
+	@Override
+	public void setContentAssistProposal(String name, int position){
+		this.proposal="${"+position+":"+name+position+"}";
+	}
 }

@@ -23,12 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.special.DivideOperatorDefinition;
@@ -74,27 +69,27 @@ public class OperatorScope implements IntrinsicOperators {
   private void initIntrinsicOperators() {
     registerSafe(undefinedOperatorDef);
     // -----------------------------------------------------------------------------
-    registerSafe(new ArithmeticOperatorDefintion("CONCAT", CONCAT, IDomain.STRING, OperatorDefinition.STRING_TYPE));
+    registerSafe(new BinaryArithmeticOperatorDefintion("CONCAT", CONCAT, IDomain.STRING, OperatorDefinition.STRING_TYPE));
     // -----------------------------------------------------------------------------
     registerSafe(new AdditiveOperatorDefinition("PLUS", PLUS, "+", IDomain.NUMERIC));
     registerSafe(new AdditiveOperatorDefinition("SUBTRACTION", SUBTRACTION, "-", IDomain.NUMERIC));
     registerSafe(new MinusOperatorDefinition("MINUS", MINUS, OperatorDefinition.PREFIX_POSITION, "-", IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE));
     registerSafe(new DivideOperatorDefinition("DIVIDE", DIVIDE, "/", IDomain.NUMERIC));
     // registerSafe(new ArithmeticOperatorDefintion("DIVIDE",DIVIDE,"/",IDomain.NUMERIC));
-    registerSafe(new ArithmeticOperatorDefintion("MULTIPLY", MULTIPLY, "*", IDomain.NUMERIC));
-    registerSafe(new ArithmeticOperatorDefintion("EXPONENTIATE", EXPONENTIATE, "**", IDomain.NUMERIC));
-    registerSafe(new ArithmeticOperatorDefintion("MODULO", MODULO, "%", IDomain.NUMERIC));
-    registerSafe(new ArithmeticOperatorDefintion("ABS", ABS, IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE));
+    registerSafe(new BinaryArithmeticOperatorDefintion("MULTIPLY", MULTIPLY, "*", IDomain.NUMERIC));
+    registerSafe(new UnaryArithmeticOperatorDefintion("EXPONENTIATE", EXPONENTIATE, "**", IDomain.NUMERIC));
+    registerSafe(new BinaryArithmeticOperatorDefintion("MODULO", MODULO, "%", IDomain.NUMERIC));
+    registerSafe(new UnaryArithmeticOperatorDefintion("ABS", ABS, IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE));
     // -----------------------------------------------------------------------------
     final String[] ops = { "EXP", "LN", "LOG", "SQRT" };
     for (String op : ops) {
-      registerSafe(new ArithmeticOperatorDefintion(op, "com.squid.domain.opertor.extension." + op, OperatorDefinition.PREFIX_POSITION, op, IDomain.CONTINUOUS, OperatorDefinition.MATHS_TYPE,
+      registerSafe(new UnaryArithmeticOperatorDefintion(op, "com.squid.domain.opertor.extension." + op, OperatorDefinition.PREFIX_POSITION, op, IDomain.CONTINUOUS, OperatorDefinition.MATHS_TYPE,
           ExtendedType.FLOAT));
     }
     // -----------------------------------------------------------------------------
     final String[] opstrigo = { "COS", "SIN", "TAN", "ACOS", "ASIN", "ATAN" };
     for (String op : opstrigo) {
-      registerSafe(new ArithmeticOperatorDefintion(op, "com.squid.domain.opertor.extension." + op, OperatorDefinition.PREFIX_POSITION, op, IDomain.CONTINUOUS, OperatorDefinition.TRIGO_TYPE,
+      registerSafe(new UnaryArithmeticOperatorDefintion(op, "com.squid.domain.opertor.extension." + op, OperatorDefinition.PREFIX_POSITION, op, IDomain.CONTINUOUS, OperatorDefinition.TRIGO_TYPE,
           ExtendedType.FLOAT));
     }
     // -----------------------------------------------------------------------------
@@ -138,7 +133,7 @@ public class OperatorScope implements IntrinsicOperators {
       }
     });
     // -----------------------------------------------------------------------------
-    registerSafe(new LogicalOperatorDefinition("NOT", NOT));
+    registerSafe(new UnaryLogicalOperatorDefinition("NOT", NOT));
     registerSafe(new OrAndConditionalOperatorDefinition("OR", OR, "||"));
     registerSafe(new OrAndConditionalOperatorDefinition("AND", AND, "&&"));
     // -----------------------------------------------------------------------------
@@ -186,18 +181,36 @@ public class OperatorScope implements IntrinsicOperators {
   }
 
   /**
-   * @param fun
+   * @param name
    * @throws ScopeException
    */
   public OperatorDefinition lookupByName(String name) throws ScopeException {
     OperatorDefinition def = m_lookupByName.get(name);
     if (def == null) {
       // T471: no more handling undefined function - it's a nightmare for the user, and it's not really used
-      throw new ScopeException("unkwon function '" + name + "'");
+      throw new ScopeException("unknown function '" + name + "'");
     } else {
       return def;
     }
   }
+
+  public Set<OperatorDefinition> looseLookupByName(String name) throws ScopeException {
+    Set<String> set = m_lookupByName.keySet();
+    name.replaceAll("'","");
+    Set<OperatorDefinition> proposal = new HashSet<OperatorDefinition>();
+    for(String func : set){
+      if(func.startsWith(name)){
+        proposal.add(m_lookupByName.get(func)); //take the first one for now
+        //return  m_lookupByName.get(func);
+      }
+    }
+    if(proposal.size()==0){
+      throw new ScopeException("unknown function '" + name + "'");
+    }else{
+      return proposal;
+    }
+  }
+
 
   /**
    * @param fun

@@ -23,11 +23,14 @@
  *******************************************************************************/
 package com.squid.core.domain.maths;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
@@ -55,27 +58,32 @@ public class RoundOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public int getType() {
-		return ALGEBRAIC_TYPE;
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("ROUND returns n rounded to 0 places to the right of the decimal point");
+		hint.add("Takes two arguments to compute ROUND(column_name,decimals)");
+		return hint;
 	}
 
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 1 && imageDomains.size() != 2) {
-			return new OperatorDiagnostic("Invalid number of parameters",
-					getName());
-		}
-		// check if parameter is valid?
-		if (!imageDomains.get(0).isInstanceOf(IDomain.NUMERIC)) {
-			return new OperatorDiagnostic(
-					"The first Parameter must be a number", getName());
-		}
-		if (imageDomains.size() == 2
-				&& !imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)) {
-			return new OperatorDiagnostic(
-					"the second Parameter must be a number", getName());
-		}
-		return OperatorDiagnostic.IS_VALID;
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		IDomain number = new DomainNumeric();
+		type.add(number);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(number);
+		IDomain upperbound = new DomainNumeric();
+		upperbound.setContentAssistLabel("decimals");
+		type.add(upperbound);
+		poly.add(type);
+		return poly;
+	}
+
+	@Override
+	public int getType() {
+		return ALGEBRAIC_TYPE;
 	}
 
 	@Override

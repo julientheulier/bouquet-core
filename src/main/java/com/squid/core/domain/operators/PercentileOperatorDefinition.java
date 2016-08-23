@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.IDomain;
@@ -53,7 +54,30 @@ public class PercentileOperatorDefinition extends AggregateOperatorDefinition {
 	public IDomain computeImageDomain(List<IDomain> sourceDomain) {
 		return AnalyticDomain.MANAGER.createMetaDomain(IDomain.NUMERIC);
 	}
-	
+
+	@Override
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Compute the percentile using the first argument (double between 0 and 1) and the second argument if any as expression");
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		type.add(IDomain.ANY);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(IDomain.ANY);
+		type.add(IDomain.ANY);
+		poly.add(type);
+
+		return poly;
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size() == 1 || imageDomains.size() == 2) {

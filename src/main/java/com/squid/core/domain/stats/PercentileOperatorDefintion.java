@@ -23,8 +23,11 @@
  *******************************************************************************/
 package com.squid.core.domain.stats;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
+import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.analytics.AnalyticDomain;
@@ -51,18 +54,24 @@ public class PercentileOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-		if (imageDomains.size() != 1) {
-			return new OperatorDiagnostic("Invalid number of parameters",
-					getName());
-		}
-		// check if parameter is valid?
-		if (!imageDomains.get(0).isInstanceOf(IDomain.NUMERIC)) {
-			return new OperatorDiagnostic("Parameter must be a number",
-					getName());
-		}
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("return a set with the smallest cumulative distribution value greater than the given argument.");
+		return hint;
+	}
 
-		return OperatorDiagnostic.IS_VALID;
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		IDomain num = new DomainNumeric();
+
+		type.add(num);
+		poly.add(type);
+
+		return poly;
+
 	}
 
 	@Override

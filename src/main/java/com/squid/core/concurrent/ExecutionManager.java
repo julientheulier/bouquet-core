@@ -45,8 +45,8 @@ public class ExecutionManager {
 	
 	public static final ExecutionManager INSTANCE = new ExecutionManager();
 
-	private static final int CORE_POOL_SIZE = 10;
-	private static final int MAXIMUM_POOL_SIZE = 10;
+	private static final int CORE_POOL_SIZE = 20;
+	private static final int MAXIMUM_POOL_SIZE = 20;
 	
 	private boolean shutdown = false;// turn to true when requested to shutdown
 	private ConcurrentHashMap<String, ExecutorService> dispatcher = new ConcurrentHashMap<String, ExecutorService>();

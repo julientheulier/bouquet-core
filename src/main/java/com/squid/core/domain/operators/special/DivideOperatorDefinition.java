@@ -29,6 +29,7 @@ import com.squid.core.domain.DomainMetaDomain;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.IDomainMetaDomain;
 import com.squid.core.domain.operators.ArithmeticOperatorDefintion;
+import com.squid.core.domain.operators.BinaryArithmeticOperatorDefintion;
 import com.squid.core.domain.operators.ExtendedType;
 
 /**
@@ -40,7 +41,7 @@ import com.squid.core.domain.operators.ExtendedType;
  *
  */
 public class DivideOperatorDefinition 
-extends ArithmeticOperatorDefintion {
+extends BinaryArithmeticOperatorDefintion {
 
 	public DivideOperatorDefinition(String name, int id, String symbol,
 			IDomain domain) {
@@ -54,7 +55,7 @@ extends ArithmeticOperatorDefintion {
 		}
 		IDomain arg0 = imageDomains.get(0);
 		IDomain arg1 = imageDomains.get(1);
-		if (arg0.isInstanceOf(IDomain.NUMERIC) && arg1.isInstanceOf(IDomain.NUMERIC)) {
+		if (!arg0.isInstanceOf(IDomain.ANY) && !arg1.isInstanceOf(IDomain.ANY) && arg0.isInstanceOf(IDomain.NUMERIC) && arg1.isInstanceOf(IDomain.NUMERIC)) {
 			if (arg0.isInstanceOf(DomainMetaDomain.META)) {
 				return ((IDomainMetaDomain)arg0).createMetaDomain(IDomain.CONTINUOUS);
 			}

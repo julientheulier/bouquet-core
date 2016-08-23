@@ -23,8 +23,10 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.IDomainMetaDomain;
 
@@ -66,7 +68,9 @@ public class ConditionalOperatorDefinition extends AlgebraicOperatorDefinition {
 		if (sourceDomain.size()==2) {
 			IDomain first = sourceDomain.get(0);
 			IDomain second = sourceDomain.get(1);
-			if (first.isInstanceOf(IDomain.META)) {
+			if (first.isInstanceOf(IDomain.ANY)){
+				return IDomain.UNKNOWN;
+			}else if (first.isInstanceOf(IDomain.META)) {
 				IDomainMetaDomain meta = (IDomainMetaDomain)first;
 				return meta.createMetaDomain(IDomain.CONDITIONAL);
 			} else if (second.isInstanceOf(IDomain.META)) {
@@ -77,7 +81,9 @@ public class ConditionalOperatorDefinition extends AlgebraicOperatorDefinition {
 			}
 		} else if (sourceDomain.size()==1) {
 			IDomain first = sourceDomain.get(0);
-			if (first.isInstanceOf(IDomain.META)) {
+			if(first.isInstanceOf(IDomain.ANY)){
+				return IDomain.UNKNOWN;
+			} else if (first.isInstanceOf(IDomain.META)) {
 				IDomainMetaDomain meta = (IDomainMetaDomain)first;
 				return meta.createMetaDomain(IDomain.CONDITIONAL);
 			} else {
@@ -86,6 +92,21 @@ public class ConditionalOperatorDefinition extends AlgebraicOperatorDefinition {
 		} else {
 			return IDomain.UNKNOWN;
 		}
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		any.setContentAssistLabel("any");
+		type.add(any);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		return poly;
 	}
 
 }

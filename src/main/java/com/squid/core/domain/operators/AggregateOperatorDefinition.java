@@ -26,6 +26,10 @@ package com.squid.core.domain.operators;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainIntrinsic;
+import com.squid.core.domain.DomainNumeric;
+import com.squid.core.domain.DomainString;
+import com.squid.core.domain.DomainTemporal;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.analytics.AnalyticDomain;
@@ -115,33 +119,76 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
         }
     }
 
-    
+
+
+	@Override
+	public List getParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		validDomains = new ArrayList<IDomain>();
+		IDomain num1 = new DomainNumeric();
+		IDomain string1 = new DomainString();
+		IDomain temp1 = new DomainTemporal();
+		IDomain intrinsic1 = new DomainIntrinsic();
+
+		switch (getId()) {
+			case IntrinsicOperators.SUM:
+				type.add(num1);
+				poly.add(type);
+				type=new ArrayList<IDomain>();
+				break;
+			case IntrinsicOperators.MEDIAN:
+			case IntrinsicOperators.VARIANCE:
+			case IntrinsicOperators.STDDEV:
+			case IntrinsicOperators.AVG:
+				type.add(num1);
+				poly.add(type);
+				type=new ArrayList<IDomain>();
+				type.add(temp1);
+				poly.add(type);
+				type=new ArrayList<IDomain>();
+				break;
+			case IntrinsicOperators.MAX:
+			case IntrinsicOperators.MIN:
+				type.add(num1);
+				poly.add(type);
+				type=new ArrayList<IDomain>();
+				type.add(temp1);
+				poly.add(type);
+				type=new ArrayList<IDomain>();
+				type.add(string1);
+				poly.add(type);
+				break;
+			case IntrinsicOperators.COUNT:
+			case IntrinsicOperators.COUNT_DISTINCT:
+				// count support any domain
+				type.add(intrinsic1);
+				poly.add(type);
+				type=new ArrayList<IDomain>();
+				break;
+		}
+		return poly;
+	}
+
     @Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
-    	if (imageDomains.size()!=1) {
-    		return new OperatorDiagnostic("Operator accept only one argument",prettyPrint(new String[]{"arg1"}, false));
+		// kept just to get specific message, not necessary for type checking.
+    	if (imageDomains.size()==1) {
+	    	IDomain domain = imageDomains.get(0);
+	    	//
+			if(!domain.isInstanceOf(IDomain.ANY)) {
+				// domain cannot be already aggregated
+				if (domain.isInstanceOf(AggregateDomain.DOMAIN)) {
+					return new OperatorDiagnostic("argument #1: Invalid type: cannot nest aggregate operator", 1);
+				}
+				//
+				// domain cannot be already analytic
+				if (domain.isInstanceOf(AnalyticDomain.DOMAIN)) {
+					return new OperatorDiagnostic("argument #1: Invalid type: cannot nest analytic operator", 1);
+				}
+			}
     	}
-    	IDomain domain = imageDomains.get(0);
-    	//
-    	// domain cannot be already aggregated
-    	if (domain.isInstanceOf(AggregateDomain.DOMAIN)) {
-    		return new OperatorDiagnostic("argument #1: Invalid type: cannot nest aggregate operator",1);
-    	}
-    	//
-    	// domain cannot be already analytic
-    	if (domain.isInstanceOf(AnalyticDomain.DOMAIN)) {
-    		return new OperatorDiagnostic("argument #1: Invalid type: cannot nest analytic operator",1);
-    	}
-    	String validTypes = "";
-    	int i=0;
-    	for (IDomain check : getValidDomains()) {
-    		if (domain.isInstanceOf(check)) {
-    	    	return OperatorDiagnostic.IS_VALID;
-    		}
-    		validTypes += (i++>0?",":"")+check.getName();
-    	}
-    	// else
-        return OperatorDiagnostic.invalidType(1, domain, validTypes);
+    	return super.validateParameters(imageDomains);
     }
     
     @Override
