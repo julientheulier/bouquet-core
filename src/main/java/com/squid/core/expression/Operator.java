@@ -210,7 +210,7 @@ public class Operator extends NamedExpression {
 	}
 	
 	@Override
-	public String prettyPrint() {
+	public String prettyPrint(PrettyPrintOptions options) {
 		int size = arguments.size();
         String[] args = new String[size];
         boolean show_bracket = size>1;
@@ -219,7 +219,7 @@ public class Operator extends NamedExpression {
         	if (!show_bracket&&arg instanceof Operator) {
         		show_bracket = true;
         	}
-            args[i] = arg.prettyPrint();
+            args[i] = arg.prettyPrint(options);
         }
         if (operatorDefinition==null) {
         	return "?";

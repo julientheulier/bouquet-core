@@ -27,6 +27,7 @@ import com.squid.core.database.model.ForeignKey;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.expression.ExpressionRef;
+import com.squid.core.expression.scope.IdentifierType;
 import com.squid.core.sql.render.SQLSkin;
 
 /**
@@ -69,7 +70,13 @@ public class ForeignKeyReference extends ExpressionRef {
 	
 	@Override
 	public String getReferenceIdentifier() {
-		// TODO Auto-generated method stub
+		// natural name only
+		return null;
+	}
+	
+	@Override
+	public IdentifierType getReferenceType() {
+		// no type defined yet...
 		return null;
 	}
 	

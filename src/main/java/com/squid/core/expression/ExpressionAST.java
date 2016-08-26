@@ -35,7 +35,19 @@ public interface ExpressionAST {
 	
 	public IDomain getSourceDomain();
 
+	/**
+	 * pretty print this expression using default options (LEGACY references, GLOBAL scope)
+	 * @return
+	 */
 	public String prettyPrint();
+	
+	/**
+	 * pretty print this expression using the provided options
+	 * @since 4.2.24
+	 * @param options
+	 * @return
+	 */
+	public String prettyPrint(PrettyPrintOptions options);
 	
 	/**
 	 * return the expression name if defined or NULL for unnamed expression

@@ -68,7 +68,7 @@ public class ConditionalConstant extends NamedExpression implements ConstantValu
 	}
 	
 	@Override
-	public String prettyPrint() {
+	public String prettyPrint(PrettyPrintOptions options) {
 		return value.toString();
 	}
 

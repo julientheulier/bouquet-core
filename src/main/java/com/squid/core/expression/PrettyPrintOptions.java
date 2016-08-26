@@ -23,27 +23,52 @@
  *******************************************************************************/
 package com.squid.core.expression;
 
+import com.squid.core.domain.IDomain;
+
 /**
- * this is an abstract ExpressionAST that serves as a base class and provide the new Name property
- * 
+ * This class allows to customize the ExpressionAST.prettyPrint() output.
+ * @version 4.2.24
  * @author sergefantino
  *
  */
-public abstract class NamedExpression implements ExpressionAST {
+public class PrettyPrintOptions {
+	
+	public enum ReferenceStyle {
+		LEGACY,// compatible with prettyPrint() prior to 4.2.24 - this is the default
+		NAME,// just use the name
+		IDENTIFIER// use canonical ID
+	}
+	
+	private ReferenceStyle style = ReferenceStyle.LEGACY;
+	
+	private boolean explicitType = false;
+	
+	private IDomain scope = null; // default is global scope == null
+	
+	public PrettyPrintOptions() {
+	}
 
-	private String name = null;
-	
-	@Override
-	public String getName() {
-		return this.name;
+	public PrettyPrintOptions(ReferenceStyle style, IDomain scope) {
+		super();
+		this.style = style;
+		this.scope = scope;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
+
+	public ReferenceStyle getStyle() {
+		return style;
 	}
-	
-	@Override
-	public String prettyPrint() {
-		return prettyPrint(null);//call with default settings
+
+	public IDomain getScope() {
+		return scope;
 	}
+
+	public boolean isExplicitType() {
+		return explicitType;
+	}
+
+	public PrettyPrintOptions setExplicitType(boolean explicitType) {
+		this.explicitType = explicitType;
+		return this;
+	}
+
 }

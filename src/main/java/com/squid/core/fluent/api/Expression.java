@@ -30,6 +30,7 @@ import com.squid.core.expression.ConstantValue;
 import com.squid.core.expression.ExpressionAST;
 import com.squid.core.expression.NamedExpression;
 import com.squid.core.expression.Operator;
+import com.squid.core.expression.PrettyPrintOptions;
 import com.squid.core.expression.reference.ColumnReference;
 import com.squid.core.expression.scope.ExpressionMaker;
 import com.squid.core.expression.scope.ScopeException;
@@ -75,6 +76,11 @@ public class Expression extends NamedExpression implements ExpressionAST {
 	
 	@Override
 	public String prettyPrint() {
+		return proxy.prettyPrint();
+	}
+	
+	@Override
+	public String prettyPrint(PrettyPrintOptions options) {
 		return proxy.prettyPrint();
 	}
 

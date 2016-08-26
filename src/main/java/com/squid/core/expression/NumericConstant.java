@@ -80,7 +80,7 @@ public class NumericConstant extends NamedExpression implements ConstantValue
 	}
 	
 	@Override
-	public String prettyPrint() {
+	public String prettyPrint(PrettyPrintOptions options) {
 		return Double.toString(value);
 	}
 
