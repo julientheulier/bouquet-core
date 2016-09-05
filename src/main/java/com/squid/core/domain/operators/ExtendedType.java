@@ -43,7 +43,7 @@ public class ExtendedType {
     public static final ExtendedType INTEGER = new ExtendedType(IDomain.NUMERIC,"INTEGER",Types.INTEGER,0,11);
     public static final ExtendedType BIGINT = new ExtendedType(IDomain.NUMERIC,"BIGINT",Types.BIGINT,0,19);
     public static final ExtendedType BOOLEAN = new ExtendedType(IDomain.CONDITIONAL,"BOOLEAN",Types.BOOLEAN,0,1);
-    public static final ExtendedType FLOAT = new ExtendedType(IDomain.NUMERIC,"FLOAT",Types.FLOAT,0,15);
+    public static final ExtendedType FLOAT = new ExtendedType(IDomain.NUMERIC,"FLOAT",Types.DOUBLE,2,15);
     public static final ExtendedType REAL = new ExtendedType(IDomain.NUMERIC,"REAL",Types.REAL,0,7);
     public static final ExtendedType NUMERIC = new ExtendedType(IDomain.NUMERIC,"NUMERIC",Types.NUMERIC,2,10);
     public static final ExtendedType CONDITIONAL = BOOLEAN;
