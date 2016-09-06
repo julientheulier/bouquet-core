@@ -74,6 +74,7 @@ import com.squid.core.sql.db.render.FloorOperatorRenderer;
 import com.squid.core.sql.db.render.GreatestLeastOperatorRenderer;
 import com.squid.core.sql.db.render.InOperatorRenderer;
 import com.squid.core.sql.db.render.MinMaxOperatorRenderer;
+import com.squid.core.sql.db.render.NullIfOperatorRenderer;
 import com.squid.core.sql.db.render.OperatorRenderer;
 import com.squid.core.sql.db.render.PadOperatorRenderer;
 import com.squid.core.sql.db.render.PiOperatorRenderer;
@@ -154,6 +155,7 @@ public class DefaultSkinProvider implements ISkinProvider {
 		// new IntervalOperatorRenderer("SECOND"));
 		//
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.CASE), new CaseOperatorRender());
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.NULLIF), new NullIfOperatorRenderer());
 		//
 		registerOperatorRender(StringLengthOperatorsDefinition.STRING_LENGTH, new StringLengthRenderer());
 		registerOperatorRender(TranslateOperatorDefinition.STRING_REPLACE, new ThreeArgsFunctionRenderer("REPLACE"));
