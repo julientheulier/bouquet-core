@@ -32,7 +32,7 @@ implements ConstantValue {
 
 	@Override
 	public ExtendedType computeType(SQLSkin skin) {
-		return ExtendedType.UNDEFINED;
+		return ExtendedType.NULL;
 	}
 	
 	@Override
@@ -70,6 +70,14 @@ implements ConstantValue {
 	@Override
 	public int hashCode() {
 		return this.getClass().hashCode();
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return prettyPrint();
 	}
 
 }
