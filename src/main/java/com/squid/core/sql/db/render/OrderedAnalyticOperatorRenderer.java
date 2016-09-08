@@ -105,10 +105,10 @@ extends BaseOperatorRenderer
 		String intervalType = "SECOND";
 		Calendar cal = Calendar.getInstance();
 		cal.set(1970, 1, 1, 0, 0, 0);
-		SimpleConstantValuePiece refDatePiece = new SimpleConstantValuePiece("1970-01-01" ,IDomain.STRING);
+		SimpleConstantValuePiece refDatePiece = new SimpleConstantValuePiece("1970-01-01" ,ExtendedType.STRING);
 		String dateRef = getTimestamp(skin,refDatePiece,"'1970-01-01'");
 
-		SimpleConstantValuePiece intervalTypePiece = new SimpleConstantValuePiece(intervalType,IDomain.STRING);
+		SimpleConstantValuePiece intervalTypePiece = new SimpleConstantValuePiece(intervalType, ExtendedType.STRING);
 		DomainStringConstant dsc = new DomainStringConstant(intervalType);
 		ExtendedType intevalTypeDomain = new ExtendedType(dsc,Types.VARCHAR,0,intervalType.length());
 		OperatorPiece intervalPiece = new OperatorPiece(dateInterval, new IPiece[] {piece,refDatePiece,intervalTypePiece},  new ExtendedType[] {type, ExtendedType.TIMESTAMP, intevalTypeDomain});

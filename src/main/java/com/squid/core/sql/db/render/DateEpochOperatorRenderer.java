@@ -86,15 +86,15 @@ public class DateEpochOperatorRenderer extends BaseOperatorRenderer {
 		String txt = "";
 		Calendar c = Calendar.getInstance();
 		c.set(1970, 0, 1, 0, 0, 0);
-		SimpleConstantValuePiece epochDate = new SimpleConstantValuePiece(c.getTime(), IDomain.DATE);
+		SimpleConstantValuePiece epochDate = new SimpleConstantValuePiece(c.getTime(), ExtendedType.DATE);
 		
 		switch (type) {
 		case FROM:
-			SimpleConstantValuePiece daysPiece = new SimpleConstantValuePiece("	", IDomain.NUMERIC);
+			SimpleConstantValuePiece daysPiece = new SimpleConstantValuePiece("	", ExtendedType.NUMERIC);
 			OperatorPiece daysAdd = new OperatorPiece(dasod, new IPiece[] {epochDate, daysPiece} );
-			SimpleConstantValuePiece formatTimePiece = new SimpleConstantValuePiece("'99'", IDomain.STRING);
-			SimpleConstantValuePiece formatDatePiece = new SimpleConstantValuePiece("'YYYY-MM-DD'", IDomain.STRING);
-			SimpleConstantValuePiece formatTimestampPiece = new SimpleConstantValuePiece("'YYYY-MM-DD HH:MI:SS'", IDomain.STRING);
+			SimpleConstantValuePiece formatTimePiece = new SimpleConstantValuePiece("'99'", ExtendedType.STRING);
+			SimpleConstantValuePiece formatDatePiece = new SimpleConstantValuePiece("'YYYY-MM-DD'", ExtendedType.STRING);
+			SimpleConstantValuePiece formatTimestampPiece = new SimpleConstantValuePiece("'YYYY-MM-DD HH:MI:SS'", ExtendedType.STRING);
 			String[] daysAddArgs = new String[2];
 			//TODO: finish implementation so it can generate SQL code below
 			daysAddArgs[0] = epochDate.render(skin);
@@ -102,7 +102,7 @@ public class DateEpochOperatorRenderer extends BaseOperatorRenderer {
 			
 			String addDaysTxt = skin.render(skin, daysAdd, dasod, daysAddArgs);
 			
-			SimpleConstantValuePiece minutesPiece = new SimpleConstantValuePiece("(CAST(" + args[0] + " AS INTEGER) MOD 86400) / 3600", IDomain.NUMERIC);
+			SimpleConstantValuePiece minutesPiece = new SimpleConstantValuePiece("(CAST(" + args[0] + " AS INTEGER) MOD 86400) / 3600", ExtendedType.NUMERIC);
 			String[] minutesAddArgs = new String[2];
 			minutesAddArgs[0] =  minutesPiece.render(skin);
 			minutesAddArgs[1] =  formatTimePiece.render(skin);
@@ -128,8 +128,8 @@ public class DateEpochOperatorRenderer extends BaseOperatorRenderer {
 			String[] epochArgs = new String[2];
 			epochArgs[0] = "'1970-01-01 00:00:00'";
 			epochArgs[1] = "'YYYY-MM-DD HH:MI:SS'";
-			SimpleConstantValuePiece epochReference = new SimpleConstantValuePiece(epochArgs[0],IDomain.STRING);
-			SimpleConstantValuePiece epochReferenceFormat = new SimpleConstantValuePiece(epochArgs[1],IDomain.STRING);
+			SimpleConstantValuePiece epochReference = new SimpleConstantValuePiece(epochArgs[0],ExtendedType.STRING);
+			SimpleConstantValuePiece epochReferenceFormat = new SimpleConstantValuePiece(epochArgs[1],ExtendedType.STRING);
 			OperatorPiece castPiece = new OperatorPiece(toTimestamp, new IPiece[]{epochReference, epochReferenceFormat});
 			String[] extractArgs = new String[3];
 			extractArgs[0] = args[0];
@@ -137,8 +137,8 @@ public class DateEpochOperatorRenderer extends BaseOperatorRenderer {
 			extractArgs[2] = "SECOND";
 			
 			IPiece timestamp = piece.getParams()[0];
-			SimpleConstantValuePiece epochTimestamp = new SimpleConstantValuePiece(extractArgs[1],IDomain.TIMESTAMP);
-			SimpleConstantValuePiece extractUnit = new SimpleConstantValuePiece(extractArgs[2],IDomain.STRING);
+			SimpleConstantValuePiece epochTimestamp = new SimpleConstantValuePiece(extractArgs[1],ExtendedType.TIMESTAMP);
+			SimpleConstantValuePiece extractUnit = new SimpleConstantValuePiece(extractArgs[2],ExtendedType.STRING);
 			OperatorPiece extractPiece = new OperatorPiece(toTimestamp, new IPiece[]{timestamp, epochTimestamp, extractUnit}, new ExtendedType[] {ExtendedType.TIMESTAMP, ExtendedType.TIMESTAMP, ExtendedType.STRING});
 			txt = skin.render(skin, extractPiece, diod, extractArgs);
 			
