@@ -52,6 +52,9 @@ public class ExtendedType {
     public static final ExtendedType TIME = new ExtendedType(IDomain.TIME,"TIME",Types.TIME,0,0);
     public static final ExtendedType INTERVAL = new ExtendedType(IDomain.INTERVAL,"INTERVAL",CustomTypes.INTERVAL,0,0);
     public static final ExtendedType STRING = new ExtendedType(IDomain.STRING,"VARCHAR",Types.VARCHAR,0,250);
+    
+    // T1883 - use the type ANY instead of UNKNOWN: we know it's null, and null is compatible with any type
+    public static final ExtendedType NULL = new ExtendedType(IDomain.NULL,"NULL",Types.NULL,0,0);
 
     @JsonIgnore
     private IDomain domain = IDomain.NULL;
