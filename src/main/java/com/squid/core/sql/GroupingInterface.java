@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import com.squid.core.domain.DomainConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
@@ -325,7 +326,11 @@ public class GroupingInterface {
 				ITypedPiece typed = (ITypedPiece)piece;
 				ExtendedType type = typed.getType();
 				if (!type.getDomain().isInstanceOf(AggregateDomain.DOMAIN)
-				 && !type.getDomain().equals(IDomain.UNKNOWN)) {// this is the case if the piece is a constant or the null value - if so don't need to group-by
+				 // next test is the case if the piece is a constant or the null value - if so don't need to group-by
+				 // T1883: we actually use IDomain.NULL now. For constant need to check
+				 && !type.getDomain().equals(IDomain.NULL)
+				 // T1883: now constant domain is correctly computed
+				 && !type.getDomain().isInstanceOf(DomainConstant.DOMAIN)) {
 					groupBy.add(new GroupingElement(piece.getSelect()));
 				}
 			} else
