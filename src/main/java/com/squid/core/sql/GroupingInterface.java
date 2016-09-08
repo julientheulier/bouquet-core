@@ -327,7 +327,7 @@ public class GroupingInterface {
 				ExtendedType type = typed.getType();
 				if (!type.getDomain().isInstanceOf(AggregateDomain.DOMAIN)
 				 // next test is the case if the piece is a constant or the null value - if so don't need to group-by
-				 // T1883: we actually use IDomain.NULL now. For constant need to check
+				 // T1883: we actually use IDomain.NULL now
 				 && !type.getDomain().equals(IDomain.NULL)
 				 // T1883: now constant domain is correctly computed
 				 && !type.getDomain().isInstanceOf(DomainConstant.DOMAIN)) {
