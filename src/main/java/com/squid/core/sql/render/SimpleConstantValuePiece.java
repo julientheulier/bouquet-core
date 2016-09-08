@@ -24,28 +24,37 @@
 package com.squid.core.sql.render;
 
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.sql.db.templates.SkinFactory;
 
 public class SimpleConstantValuePiece 
-implements IPiece
+implements IPiece, ITypedPiece
 {
 	
 	private Object value;
-	private IDomain domain;
+	private ExtendedType type;
 
+	public SimpleConstantValuePiece(Object value, IDomain domain) {
+		
+	}
 	/**
 	 * @param value
 	 * @param domain
 	 */
-	public SimpleConstantValuePiece(Object value, IDomain domain) {
+	public SimpleConstantValuePiece(Object value, ExtendedType type) {
 		super();
 		this.value = value;
-		this.domain = domain;
+		this.type = type;
 	}
 
 	@Override
 	public String render(SQLSkin skin) throws RenderingException {
-		return skin.quoteConstant(value,domain);
+		return skin.quoteConstant(value, type.getDomain());
+	}
+	
+	@Override
+	public ExtendedType getType() {
+		return type;
 	}
 	
 	@Override
