@@ -25,7 +25,6 @@ package com.squid.core.sql.db.render;
 
 import java.util.Calendar;
 
-import com.squid.core.domain.IDomain;
 import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
 import com.squid.core.domain.extensions.date.IntervalOperatorDefinition;
@@ -107,7 +106,7 @@ public class DateEpochOperatorRenderer extends BaseOperatorRenderer {
 			minutesAddArgs[0] =  minutesPiece.render(skin);
 			minutesAddArgs[1] =  formatTimePiece.render(skin);
 			
-			txt += skin.render(skin,new OperatorPiece(dasod, new IPiece[] {new SimpleConstantValuePiece(dasor.prettyPrint(skin, daysAdd, dasod, daysAddArgs), IDomain.DATE), formatTimestampPiece} ), toChar, new String[] {dasor.prettyPrint(skin, daysAdd, dasod, daysAddArgs), formatTimestampPiece.render(skin)});
+			txt += skin.render(skin,new OperatorPiece(dasod, new IPiece[] {new SimpleConstantValuePiece(dasor.prettyPrint(skin, daysAdd, dasod, daysAddArgs), ExtendedType.DATE), formatTimestampPiece} ), toChar, new String[] {dasor.prettyPrint(skin, daysAdd, dasod, daysAddArgs), formatTimestampPiece.render(skin)});
 			txt += " || ' ' || " + skin.render(skin, new OperatorPiece(toChar,new IPiece[] {minutesPiece, formatTimePiece}), toChar, minutesAddArgs);
 
 /*			

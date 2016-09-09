@@ -23,7 +23,6 @@
  *******************************************************************************/
 package com.squid.core.sql.render;
 
-import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.sql.db.templates.SkinFactory;
 
@@ -33,10 +32,7 @@ implements IPiece, ITypedPiece
 	
 	private Object value;
 	private ExtendedType type;
-
-	public SimpleConstantValuePiece(Object value, IDomain domain) {
-		
-	}
+	
 	/**
 	 * @param value
 	 * @param domain
