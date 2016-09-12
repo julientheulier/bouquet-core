@@ -49,43 +49,47 @@ public interface ExpressionParserImpConstants {
   /** RegularExpression Id. */
   int AS = 28;
   /** RegularExpression Id. */
-  int NULL = 29;
+  int COLON = 29;
   /** RegularExpression Id. */
-  int TRUE = 30;
+  int NULL = 30;
   /** RegularExpression Id. */
-  int FALSE = 31;
+  int TRUE = 31;
   /** RegularExpression Id. */
-  int DIGIT = 32;
+  int FALSE = 32;
   /** RegularExpression Id. */
-  int LETTER = 33;
+  int DATE = 33;
   /** RegularExpression Id. */
-  int INTEGER = 34;
+  int DIGIT = 34;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 35;
+  int LETTER = 35;
   /** RegularExpression Id. */
-  int STRING_IDENTIFIER = 36;
+  int INTEGER = 36;
   /** RegularExpression Id. */
-  int IDENTIFIER = 37;
+  int STRING_LITERAL = 37;
   /** RegularExpression Id. */
-  int SPECIAL_IDENTIFIER = 38;
+  int STRING_IDENTIFIER = 38;
   /** RegularExpression Id. */
-  int LPAREN = 39;
+  int IDENTIFIER = 39;
   /** RegularExpression Id. */
-  int RPAREN = 40;
+  int SPECIAL_IDENTIFIER = 40;
   /** RegularExpression Id. */
-  int LBRACE = 41;
+  int LPAREN = 41;
   /** RegularExpression Id. */
-  int RBRACE = 42;
+  int RPAREN = 42;
   /** RegularExpression Id. */
-  int LBRACKET = 43;
+  int LBRACE = 43;
   /** RegularExpression Id. */
-  int RBRACKET = 44;
+  int RBRACE = 44;
   /** RegularExpression Id. */
-  int SEMICOLON = 45;
+  int LBRACKET = 45;
   /** RegularExpression Id. */
-  int COMMA = 46;
+  int RBRACKET = 46;
   /** RegularExpression Id. */
-  int DOT = 47;
+  int SEMICOLON = 47;
+  /** RegularExpression Id. */
+  int COMMA = 48;
+  /** RegularExpression Id. */
+  int DOT = 49;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -125,9 +129,11 @@ public interface ExpressionParserImpConstants {
     "\"%\"",
     "\"$\"",
     "<AS>",
+    "\":\"",
     "\"NULL\"",
     "\"TRUE\"",
     "\"FALSE\"",
+    "\"DATE\"",
     "<DIGIT>",
     "<LETTER>",
     "<INTEGER>",
@@ -144,8 +150,6 @@ public interface ExpressionParserImpConstants {
     "\";\"",
     "\",\"",
     "\".\"",
-    "\"DATE(\"",
-    "\":\"",
   };
 
 }

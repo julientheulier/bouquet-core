@@ -296,6 +296,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case NULL:
     case TRUE:
     case FALSE:
+    case DATE:
     case INTEGER:
     case STRING_LITERAL:
     case STRING_IDENTIFIER:
@@ -303,7 +304,6 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case LPAREN:
     case LBRACE:
     case LBRACKET:
-    case 48:
       simple = simple_expression(scope);
                 {if (true) return simple;}
       break;
@@ -325,7 +325,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case FALSE:
       expression = boolean_constant(scope);
       break;
-    case 48:
+    case DATE:
       expression = date_constant(scope);
       break;
     case INTEGER:
@@ -348,7 +348,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case DOLLAR:
     case STRING_IDENTIFIER:
     case LBRACKET:
-      if (jj_2_1(2147483647)) {
+      if (jj_2_2(2147483647)) {
         expression = compose_path(scope);
       } else {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -356,7 +356,19 @@ extends ExpressionParser implements ExpressionParserImpConstants {
           expression = attribute_reference(scope);
           break;
         case AROBASE:
-          expression = id_reference(scope);
+          if (jj_2_1(2147483647)) {
+            expression = short_typed_reference(scope);
+          } else {
+            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+            case AROBASE:
+              expression = id_reference(scope);
+              break;
+            default:
+              jj_la1[5] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
+            }
+          }
           break;
         case LBRACKET:
           expression = typed_reference(scope);
@@ -365,14 +377,14 @@ extends ExpressionParser implements ExpressionParserImpConstants {
           expression = parameter_reference(scope);
           break;
         default:
-          jj_la1[5] = jj_gen;
+          jj_la1[6] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
         }
       }
       break;
     default:
-      jj_la1[6] = jj_gen;
+      jj_la1[7] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -391,7 +403,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       tail = expression_list(scope);
       break;
     default:
-      jj_la1[7] = jj_gen;
+      jj_la1[8] = jj_gen;
       ;
     }
     jj_consume_token(RBRACE);
@@ -427,7 +439,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       constant = false_constant(scope);
       break;
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[9] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -451,7 +463,8 @@ extends ExpressionParser implements ExpressionParserImpConstants {
         Token year,month,day;
         Token date;
         Token decimal = null;
-    jj_consume_token(48);
+    jj_consume_token(DATE);
+    jj_consume_token(LPAREN);
     date = jj_consume_token(STRING_LITERAL);
     jj_consume_token(RPAREN);
                 //String y = year.image;
@@ -477,7 +490,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       constant = string_constant(scope);
       break;
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[10] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -495,7 +508,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       decimal = jj_consume_token(INTEGER);
       break;
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[11] = jj_gen;
       ;
     }
                 String image = identifier.image;
@@ -535,7 +548,19 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       expr = composable_attribute_reference(scope);
       break;
     case AROBASE:
-      expr = id_reference(scope);
+      if (jj_2_3(2147483647)) {
+        expr = short_typed_reference(scope);
+      } else {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case AROBASE:
+          expr = id_reference(scope);
+          break;
+        default:
+          jj_la1[12] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
       break;
     case LBRACKET:
       expr = typed_reference(scope);
@@ -544,7 +569,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       expr = parameter_reference(scope);
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[13] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -600,12 +625,25 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     throw new Error("Missing return statement in function");
   }
 
+  final public ExpressionAST short_typed_reference(ExpressionScope scope) throws ParseException {
+    Token type;
+    Token identifier;
+    jj_consume_token(AROBASE);
+    type = jj_consume_token(IDENTIFIER);
+    jj_consume_token(COLON);
+    identifier = extended_identifier();
+        IdentifierType identifierType = scope.lookupIdentifierType(type.image);
+        Object instance = scope.lookupObject(identifierType,identifier.image);
+        {if (true) return bindTypedIdentifier(scope.createReferringExpression(instance),identifier,identifierType);}
+    throw new Error("Missing return statement in function");
+  }
+
   final public ExpressionAST typed_reference(ExpressionScope scope) throws ParseException {
         Token type;
         Token identifier;
     jj_consume_token(LBRACKET);
     type = jj_consume_token(IDENTIFIER);
-    jj_consume_token(49);
+    jj_consume_token(COLON);
     identifier = extended_identifier();
     jj_consume_token(RBRACKET);
                 IdentifierType identifierType = scope.lookupIdentifierType(type.image);
@@ -627,6 +665,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case NULL:
     case TRUE:
     case FALSE:
+    case DATE:
     case INTEGER:
     case STRING_LITERAL:
     case STRING_IDENTIFIER:
@@ -634,11 +673,10 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case LPAREN:
     case LBRACE:
     case LBRACKET:
-    case 48:
       args = expression_list(scope);
       break;
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[14] = jj_gen;
       ;
     }
     jj_consume_token(RPAREN);
@@ -657,7 +695,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       tail = expression_list(scope);
       break;
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[15] = jj_gen;
       ;
     }
                 if (tail==null) tail = new ArrayList();
@@ -683,49 +721,101 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     finally { jj_save(0, xla); }
   }
 
-  private boolean jj_3R_5() {
-    if (jj_3R_9()) return true;
+  private boolean jj_2_2(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_2(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(1, xla); }
+  }
+
+  private boolean jj_2_3(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_3(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(2, xla); }
+  }
+
+  private boolean jj_3_3() {
+    if (jj_scan_token(AROBASE)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(COLON)) return true;
     return false;
   }
 
-  private boolean jj_3_1() {
+  private boolean jj_3R_12() {
+    if (jj_scan_token(AROBASE)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(COLON)) return true;
+    if (jj_3R_11()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_10() {
+    if (jj_scan_token(DOLLAR)) return true;
+    if (jj_3R_11()) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
     if (jj_3R_1()) return true;
     if (jj_scan_token(DOT)) return true;
     return false;
   }
 
-  private boolean jj_3R_8() {
-    if (jj_scan_token(LBRACKET)) return true;
+  private boolean jj_3_1() {
+    if (jj_scan_token(AROBASE)) return true;
     if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(49)) return true;
-    if (jj_3R_10()) return true;
-    if (jj_scan_token(RBRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_6() {
-    if (jj_3R_10()) return true;
+    if (jj_scan_token(COLON)) return true;
     return false;
   }
 
   private boolean jj_3R_9() {
-    if (jj_scan_token(DOLLAR)) return true;
+    if (jj_scan_token(LBRACKET)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(COLON)) return true;
+    if (jj_3R_11()) return true;
+    if (jj_scan_token(RBRACKET)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_5() {
     if (jj_3R_10()) return true;
     return false;
   }
 
   private boolean jj_3R_4() {
-    if (jj_3R_8()) return true;
+    if (jj_3R_9()) return true;
     return false;
   }
 
-  private boolean jj_3R_10() {
-    if (jj_scan_token(STRING_IDENTIFIER)) return true;
+  private boolean jj_3R_8() {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_7() {
+    if (jj_3R_12()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_13() {
+    if (jj_scan_token(AROBASE)) return true;
+    if (jj_3R_11()) return true;
     return false;
   }
 
   private boolean jj_3R_3() {
-    if (jj_3R_7()) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_7()) {
+    jj_scanpos = xsp;
+    if (jj_3R_8()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_11() {
+    if (jj_scan_token(STRING_IDENTIFIER)) return true;
     return false;
   }
 
@@ -750,9 +840,8 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     return false;
   }
 
-  private boolean jj_3R_7() {
-    if (jj_scan_token(AROBASE)) return true;
-    if (jj_3R_10()) return true;
+  private boolean jj_3R_6() {
+    if (jj_3R_11()) return true;
     return false;
   }
 
@@ -767,7 +856,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[14];
+  final private int[] jj_la1 = new int[16];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -775,12 +864,12 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       jj_la1_init_1();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x10000000,0x47ffc00,0x47ffc00,0x47ffc00,0xea800800,0x8800000,0xea800000,0x0,0xc0000000,0x0,0x0,0x8800000,0xea800800,0x0,};
+      jj_la1_0 = new int[] {0x10000000,0x47ffc00,0x47ffc00,0x47ffc00,0xca800800,0x800000,0x8800000,0xca800000,0x0,0x80000000,0x0,0x0,0x800000,0x8800000,0xca800800,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x20,0x20,0x0,0x10abc,0x810,0x10abc,0x4000,0x0,0xc,0x8000,0x810,0x10abc,0x4000,};
+      jj_la1_1 = new int[] {0x0,0x80,0x80,0x0,0x2af3,0x0,0x2040,0x2af3,0x10000,0x1,0x30,0x20000,0x0,0x2040,0x2af3,0x10000,};
    }
-  final private JJCalls[] jj_2_rtns = new JJCalls[1];
+  final private JJCalls[] jj_2_rtns = new JJCalls[3];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
@@ -795,7 +884,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -810,7 +899,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -821,7 +910,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -832,7 +921,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -842,7 +931,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -852,7 +941,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 16; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -969,7 +1058,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 14; i++) {
+    for (int i = 0; i < 16; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -1008,7 +1097,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
 
   private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 3; i++) {
     try {
       JJCalls p = jj_2_rtns[i];
       do {
@@ -1016,6 +1105,8 @@ extends ExpressionParser implements ExpressionParserImpConstants {
           jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
           switch (i) {
             case 0: jj_3_1(); break;
+            case 1: jj_3_2(); break;
+            case 2: jj_3_3(); break;
           }
         }
         p = p.next;
