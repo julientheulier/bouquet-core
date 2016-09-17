@@ -659,7 +659,10 @@ public class MetadataEngine implements IMetadataEngine {
 
 	 protected ForeignKey updateForeignKey(Database database, Table table, ForeignKeyData data) throws ExecutionException {
 		 //
-		 Table fktable = database.findTable(data.fktable_schem,data.fktable_name);
+		 // T1950: checking catalog / mysql
+		 String fktable_schem = data.fktable_schem;
+		 if (fktable_schem==null && data.fktable_cat!=null) fktable_schem = data.fktable_cat;
+		 Table fktable = database.findTable(fktable_schem,data.fktable_name);
 		 if (fktable==null || !fktable.equals(table)) {
 			 return null;
 		 }
@@ -667,7 +670,10 @@ public class MetadataEngine implements IMetadataEngine {
 		 if (fkcolumn==null) {
 			 return null;
 		 }
-		 Table pktable = database.findTable(data.pktable_schem,data.pktable_name);
+		 // T1950: checking catalog / mysql
+		 String pktable_schem = data.pktable_schem;
+		 if (pktable_schem==null && data.pktable_cat!=null) pktable_schem = data.pktable_cat;
+		 Table pktable = database.findTable(pktable_schem,data.pktable_name);
 		 if (pktable==null) {
 			 return null;
 		 }
