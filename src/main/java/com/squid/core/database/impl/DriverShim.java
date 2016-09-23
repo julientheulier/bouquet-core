@@ -40,7 +40,7 @@ public class DriverShim implements Driver {
 		return this.driver.acceptsURL(u);
 	}
 	public Connection connect(String u, Properties p) throws SQLException {
-		return this.driver.connect(u, p);
+		return new ConnectionShim(this.driver.connect(u, p));
 	}
 	public int getMajorVersion() {
 		return this.driver.getMajorVersion();
