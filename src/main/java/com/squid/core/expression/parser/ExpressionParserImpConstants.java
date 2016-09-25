@@ -71,25 +71,27 @@ public interface ExpressionParserImpConstants {
   /** RegularExpression Id. */
   int IDENTIFIER = 39;
   /** RegularExpression Id. */
-  int SPECIAL_IDENTIFIER = 40;
+  int SHORTCUT_IDENTIFIER = 40;
   /** RegularExpression Id. */
-  int LPAREN = 41;
+  int SPECIAL_IDENTIFIER = 41;
   /** RegularExpression Id. */
-  int RPAREN = 42;
+  int LPAREN = 42;
   /** RegularExpression Id. */
-  int LBRACE = 43;
+  int RPAREN = 43;
   /** RegularExpression Id. */
-  int RBRACE = 44;
+  int LBRACE = 44;
   /** RegularExpression Id. */
-  int LBRACKET = 45;
+  int RBRACE = 45;
   /** RegularExpression Id. */
-  int RBRACKET = 46;
+  int LBRACKET = 46;
   /** RegularExpression Id. */
-  int SEMICOLON = 47;
+  int RBRACKET = 47;
   /** RegularExpression Id. */
-  int COMMA = 48;
+  int SEMICOLON = 48;
   /** RegularExpression Id. */
-  int DOT = 49;
+  int COMMA = 49;
+  /** RegularExpression Id. */
+  int DOT = 50;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -140,6 +142,7 @@ public interface ExpressionParserImpConstants {
     "<STRING_LITERAL>",
     "<STRING_IDENTIFIER>",
     "<IDENTIFIER>",
+    "<SHORTCUT_IDENTIFIER>",
     "<SPECIAL_IDENTIFIER>",
     "\"(\"",
     "\")\"",

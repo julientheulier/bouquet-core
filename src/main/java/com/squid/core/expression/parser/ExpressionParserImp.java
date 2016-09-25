@@ -301,6 +301,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case STRING_LITERAL:
     case STRING_IDENTIFIER:
     case IDENTIFIER:
+    case SHORTCUT_IDENTIFIER:
     case LPAREN:
     case LBRACE:
     case LBRACKET:
@@ -347,6 +348,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case AROBASE:
     case DOLLAR:
     case STRING_IDENTIFIER:
+    case SHORTCUT_IDENTIFIER:
     case LBRACKET:
       if (jj_2_2(2147483647)) {
         expression = compose_path(scope);
@@ -375,6 +377,9 @@ extends ExpressionParser implements ExpressionParserImpConstants {
           break;
         case DOLLAR:
           expression = parameter_reference(scope);
+          break;
+        case SHORTCUT_IDENTIFIER:
+          expression = shortcut_reference(scope);
           break;
         default:
           jj_la1[6] = jj_gen;
@@ -568,6 +573,9 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case DOLLAR:
       expr = parameter_reference(scope);
       break;
+    case SHORTCUT_IDENTIFIER:
+      expr = shortcut_reference(scope);
+      break;
     default:
       jj_la1[13] = jj_gen;
       jj_consume_token(-1);
@@ -612,6 +620,15 @@ extends ExpressionParser implements ExpressionParserImpConstants {
                 String image = identifier.image;
                 Object column = scope.lookupObject(IdentifierType.PARAMETER,image);
                 {if (true) return bindPrefixedIdentifier(scope.createReferringExpression(column),identifier,IdentifierType.PARAMETER);}
+    throw new Error("Missing return statement in function");
+  }
+
+  final public ExpressionAST shortcut_reference(ExpressionScope scope) throws ParseException {
+    Token identifier;
+    identifier = jj_consume_token(SHORTCUT_IDENTIFIER);
+        String image = identifier.image;
+        Object column = scope.lookupObject(IdentifierType.PARAMETER,image);
+        {if (true) return bindPrefixedIdentifier(scope.createReferringExpression(column),identifier,IdentifierType.PARAMETER);}
     throw new Error("Missing return statement in function");
   }
 
@@ -670,6 +687,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     case STRING_LITERAL:
     case STRING_IDENTIFIER:
     case IDENTIFIER:
+    case SHORTCUT_IDENTIFIER:
     case LPAREN:
     case LBRACE:
     case LBRACKET:
@@ -735,6 +753,20 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     finally { jj_save(2, xla); }
   }
 
+  private boolean jj_3R_10() {
+    if (jj_scan_token(LBRACKET)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(COLON)) return true;
+    if (jj_3R_13()) return true;
+    if (jj_scan_token(RBRACKET)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_7() {
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
   private boolean jj_3_3() {
     if (jj_scan_token(AROBASE)) return true;
     if (jj_scan_token(IDENTIFIER)) return true;
@@ -742,17 +774,87 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     return false;
   }
 
-  private boolean jj_3R_12() {
-    if (jj_scan_token(AROBASE)) return true;
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(COLON)) return true;
+  private boolean jj_3R_11() {
+    if (jj_scan_token(DOLLAR)) return true;
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_6() {
+    if (jj_3R_12()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_5() {
     if (jj_3R_11()) return true;
     return false;
   }
 
-  private boolean jj_3R_10() {
-    if (jj_scan_token(DOLLAR)) return true;
-    if (jj_3R_11()) return true;
+  private boolean jj_3R_4() {
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_13() {
+    if (jj_scan_token(STRING_IDENTIFIER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_8() {
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_9() {
+    if (jj_3R_15()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_3() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_8()) {
+    jj_scanpos = xsp;
+    if (jj_3R_9()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_14() {
+    if (jj_scan_token(AROBASE)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(COLON)) return true;
+    if (jj_3R_13()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_2() {
+    if (jj_3R_7()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_1() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_2()) {
+    jj_scanpos = xsp;
+    if (jj_3R_3()) {
+    jj_scanpos = xsp;
+    if (jj_3R_4()) {
+    jj_scanpos = xsp;
+    if (jj_3R_5()) {
+    jj_scanpos = xsp;
+    if (jj_3R_6()) return true;
+    }
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_15() {
+    if (jj_scan_token(AROBASE)) return true;
+    if (jj_3R_13()) return true;
     return false;
   }
 
@@ -769,79 +871,8 @@ extends ExpressionParser implements ExpressionParserImpConstants {
     return false;
   }
 
-  private boolean jj_3R_9() {
-    if (jj_scan_token(LBRACKET)) return true;
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(COLON)) return true;
-    if (jj_3R_11()) return true;
-    if (jj_scan_token(RBRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_5() {
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_4() {
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_8() {
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_7() {
-    if (jj_3R_12()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_13() {
-    if (jj_scan_token(AROBASE)) return true;
-    if (jj_3R_11()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_3() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_7()) {
-    jj_scanpos = xsp;
-    if (jj_3R_8()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_11() {
-    if (jj_scan_token(STRING_IDENTIFIER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_2() {
-    if (jj_3R_6()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_1() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_2()) {
-    jj_scanpos = xsp;
-    if (jj_3R_3()) {
-    jj_scanpos = xsp;
-    if (jj_3R_4()) {
-    jj_scanpos = xsp;
-    if (jj_3R_5()) return true;
-    }
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_6() {
-    if (jj_3R_11()) return true;
+  private boolean jj_3R_12() {
+    if (jj_scan_token(SHORTCUT_IDENTIFIER)) return true;
     return false;
   }
 
@@ -867,7 +898,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
       jj_la1_0 = new int[] {0x10000000,0x47ffc00,0x47ffc00,0x47ffc00,0xca800800,0x800000,0x8800000,0xca800000,0x0,0x80000000,0x0,0x0,0x800000,0x8800000,0xca800800,0x0,};
    }
    private static void jj_la1_init_1() {
-      jj_la1_1 = new int[] {0x0,0x80,0x80,0x0,0x2af3,0x0,0x2040,0x2af3,0x10000,0x1,0x30,0x20000,0x0,0x2040,0x2af3,0x10000,};
+      jj_la1_1 = new int[] {0x0,0x80,0x80,0x0,0x55f3,0x0,0x4140,0x55f3,0x20000,0x1,0x30,0x40000,0x0,0x4140,0x55f3,0x20000,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[3];
   private boolean jj_rescan = false;
@@ -1053,7 +1084,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[50];
+    boolean[] la1tokens = new boolean[51];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
@@ -1070,7 +1101,7 @@ extends ExpressionParser implements ExpressionParserImpConstants {
         }
       }
     }
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 51; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
