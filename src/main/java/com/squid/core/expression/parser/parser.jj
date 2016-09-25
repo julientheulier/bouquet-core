@@ -222,6 +222,11 @@ TOKEN: /* Operator */
     < IDENTIFIER: ( <LETTER> )+ ( "_" | <DIGIT> | <LETTER> )* >
 }
 
+TOKEN: /* Shortcut */
+{
+    < SHORTCUT_IDENTIFIER: "__" ( <LETTER> )+ >
+}
+
 TOKEN:
 {
 	< SPECIAL_IDENTIFIER: ( "_" | "$" | "#" | <DIGIT>)+ >
@@ -366,7 +371,8 @@ ExpressionAST simple_expression(ExpressionScope scope) :
 	| expression = id_reference(scope)
     )
     | expression = typed_reference(scope)
-	| expression = parameter_reference(scope))
+	| expression = parameter_reference(scope)
+	| expression = shortcut_reference(scope))
 	)
 	{
 		return expression;
@@ -529,7 +535,8 @@ ExpressionAST composable_expression(ExpressionScope scope) :
     | expr = id_reference(scope)
     )
     | expr = typed_reference(scope)
-    | expr = parameter_reference(scope))
+    | expr = parameter_reference(scope)
+    | expr = shortcut_reference(scope))
     {        return expr;
     }
 }
@@ -584,6 +591,19 @@ ExpressionAST parameter_reference(ExpressionScope scope) :
 		Object column = scope.lookupObject(IdentifierType.PARAMETER,image);
 		return bindPrefixedIdentifier(scope.createReferringExpression(column),identifier,IdentifierType.PARAMETER);
 	}
+}
+
+ExpressionAST shortcut_reference(ExpressionScope scope) : 
+{
+    Token identifier;
+}
+{
+    identifier = <SHORTCUT_IDENTIFIER >
+    {
+        String image = identifier.image;
+        Object column = scope.lookupObject(IdentifierType.PARAMETER,image);
+        return bindPrefixedIdentifier(scope.createReferringExpression(column),identifier,IdentifierType.PARAMETER);
+    }
 }
 
 ExpressionAST id_reference(ExpressionScope scope) :
