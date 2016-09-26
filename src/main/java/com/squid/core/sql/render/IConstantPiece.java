@@ -23,26 +23,11 @@
  *******************************************************************************/
 package com.squid.core.sql.render;
 
-import com.squid.core.domain.operators.ExtendedType;
-
-public class NullPiece
-implements IConstantPiece, ITypedPiece {
-	
-	public NullPiece() {
-		//
-	}
-
-	@Override
-	public String render(SQLSkin skin) throws RenderingException {
-		return skin.getToken(SQLTokenConstant.NULL);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.squid.core.sql.render.ITypedPiece#getType()
-	 */
-	@Override
-	public ExtendedType getType() {
-		return ExtendedType.NULL;
-	}
+/**
+ * A simple interface to mark constant piece
+ * @author sergefantino
+ *
+ */
+public interface IConstantPiece extends IPiece {
 
 }
