@@ -27,7 +27,7 @@ import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.sql.db.templates.SkinFactory;
 
 public class SimpleConstantValuePiece 
-implements IPiece, ITypedPiece
+implements IConstantPiece, ITypedPiece
 {
 	
 	private Object value;
