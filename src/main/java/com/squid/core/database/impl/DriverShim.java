@@ -40,7 +40,14 @@ public class DriverShim implements Driver {
 		return this.driver.acceptsURL(u);
 	}
 	public Connection connect(String u, Properties p) throws SQLException {
-		return this.driver.connect(u, p);
+		// make sure to use the driverLoader ctx
+		ClassLoader rollback = Thread.currentThread().getContextClassLoader();
+		Thread.currentThread().setContextClassLoader(DriverLoader.DRIVER_LOADER);
+		try {
+			return this.driver.connect(u, p);
+		} finally {
+			Thread.currentThread().setContextClassLoader(rollback);
+		}
 	}
 	public int getMajorVersion() {
 		return this.driver.getMajorVersion();
