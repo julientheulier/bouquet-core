@@ -44,7 +44,7 @@ public class DriverShim implements Driver {
 		ClassLoader rollback = Thread.currentThread().getContextClassLoader();
 		Thread.currentThread().setContextClassLoader(DriverLoader.DRIVER_LOADER);
 		try {
-			return this.driver.connect(u, p);
+			return new ConnectionShim(this.driver.connect(u, p));
 		} finally {
 			Thread.currentThread().setContextClassLoader(rollback);
 		}
