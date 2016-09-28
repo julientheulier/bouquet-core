@@ -111,26 +111,7 @@ public class SkinRegistry
 	}
 
 	private void loadRegistry() {
-		/*ArrayList<URL> urls = new ArrayList<URL>();
-		File propFolder = new File("./");
-		for (File f : propFolder.listFiles()) {
-			System.out.println("Testing "+f.getName());
-			if (f.getName().endsWith("jar")) {
-				try {
-					urls.add(f.toURI().toURL());
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-
-		URL[] urlsArray = new URL[urls.size()];
-		URLClassLoader child = new URLClassLoader(urls.toArray(urlsArray), this.getClass().getClassLoader());*/
-		if(System.getProperty("kraken.plugin.dir") != null){
-			Thread.currentThread().setContextClassLoader(new DriverLoader());
-		}
-		ServiceLoader<ISkinProvider> loader = ServiceLoader.load(ISkinProvider.class);
+		ServiceLoader<ISkinProvider> loader = ServiceLoader.load(ISkinProvider.class, DriverLoader.DRIVER_LOADER);
 	    Iterator<ISkinProvider> skinProviders = loader.iterator();
 	    while(skinProviders.hasNext()){
 	    	ISkinProvider skinProvider = skinProviders.next();
