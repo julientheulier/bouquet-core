@@ -90,10 +90,7 @@ public class VendorSupportRegistry {
 	}
     
 	private void register() {
-		if(System.getProperty("kraken.plugin.dir") != null){
-			Thread.currentThread().setContextClassLoader(new DriverLoader());
-		}
-		ServiceLoader<IVendorSupport> loader = ServiceLoader.load(IVendorSupport.class);
+		ServiceLoader<IVendorSupport> loader = ServiceLoader.load(IVendorSupport.class, DriverLoader.DRIVER_LOADER);
 	    Iterator<IVendorSupport> vendorSupports = loader.iterator();
 	    //LoggerFactory.getLogger(this.getClass()).debug("List of vendorSupport Providers");
 	    while(vendorSupports.hasNext()){
