@@ -24,6 +24,7 @@
 package com.squid.core.database.impl;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -43,6 +44,8 @@ public class DriverLoader extends URLClassLoader {
 	public static final String PLUGIN_DIR = new String(System.getProperty("kraken.plugin.dir", ""));
 
 	private Map<String, Class<?>> _classes = new HashMap<String, Class<?>>();
+	
+	public static final DriverLoader DRIVER_LOADER = new DriverLoader();
 
 	public static URL[] findPlugins(String path) {
 		logger.info("Looking for plugins in : "+path);
@@ -100,6 +103,30 @@ public class DriverLoader extends URLClassLoader {
 			_classes.put(className, cls);
 		}
 		return cls;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.net.URLClassLoader#findResource(java.lang.String)
+	 */
+	@Override
+	public URL findResource(String name) {
+		// TODO Auto-generated method stub
+		URL debug = super.findResource(name);
+		if (debug!=null) {
+			logger.info("found resource '"+name+"'="+debug.toString());
+		} else {
+			logger.error("cannot found resource '"+name+"'");
+		}
+		return debug;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.net.URLClassLoader#getResourceAsStream(java.lang.String)
+	 */
+	@Override
+	public InputStream getResourceAsStream(String name) {
+		// TODO Auto-generated method stub
+		return super.getResourceAsStream(name);
 	}
 
 }
