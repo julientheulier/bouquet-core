@@ -47,6 +47,13 @@ public class PrettyPrintOptions {
 	
 	public PrettyPrintOptions() {
 	}
+	
+	public PrettyPrintOptions(PrettyPrintOptions copy) {
+		super();
+		this.style = copy.style;
+		this.explicitType = copy.explicitType;
+		this.scope = copy.scope;
+	}
 
 	public PrettyPrintOptions(ReferenceStyle style, IDomain scope) {
 		super();
@@ -62,6 +69,10 @@ public class PrettyPrintOptions {
 		return scope;
 	}
 
+	/**
+	 * if true the prettyPrinter must explicitly type the identifier (e.g; @explicitType:'identifier')
+	 * @return
+	 */
 	public boolean isExplicitType() {
 		return explicitType;
 	}
