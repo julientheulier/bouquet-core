@@ -74,7 +74,7 @@ public class DefaultVendorSupport implements IVendorSupport {
 		if (hostname==null) throw new IllegalArgumentException("cannot build JDBC url, missing mandatory argument 'hostname'");
 		url += hostname;
 		String port = arguments.get("port");
-		if (port!=null) {
+		if (port!=null && !port.equals("")) {
 			// check it's an integer
 			try {
 				int p = Integer.valueOf(port);
