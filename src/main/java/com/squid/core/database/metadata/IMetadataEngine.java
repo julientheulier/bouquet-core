@@ -35,5 +35,6 @@ public interface IMetadataEngine {
 	public static final String SQLSERVER_NAME = "Microsoft SQL Server";
 	public static final String SPARK_NAME = "Spark SQL";
 	public static final String HIVE_NAME = "Apache Hive";
+	public static final String TERADATA_NAME = "Teradata";
 
 }
