@@ -117,7 +117,7 @@ public class ConnectionShim implements Connection {
 		try {
 			proxy.setReadOnly(readOnly);
 		} catch (SQLException e) {
-			// ignore
+			
 		}
 	}
 
@@ -238,7 +238,14 @@ public class ConnectionShim implements Connection {
 	}
 
 	public boolean isValid(int timeout) throws SQLException {
-		return proxy.isValid(timeout);
+		try {
+			return proxy.isValid(timeout);
+		} catch (SQLException e) {
+			if (e.getCause() instanceof UnsupportedOperationException) {
+				return true;
+			}
+			throw e;
+		}
 	}
 
 	public void setClientInfo(String name, String value) throws SQLClientInfoException {
