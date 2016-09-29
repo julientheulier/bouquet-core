@@ -57,6 +57,10 @@ public class ConnectionShim implements Connection {
 		this.proxy = proxy;
 	}
 	
+	public Connection __getProxy() {
+		return proxy;
+	}
+	
 	public <T> T unwrap(Class<T> iface) throws SQLException {
 		return proxy.unwrap(iface);
 	}
