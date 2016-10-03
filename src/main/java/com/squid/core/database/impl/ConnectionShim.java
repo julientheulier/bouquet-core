@@ -245,7 +245,7 @@ public class ConnectionShim implements Connection {
 		try {
 			return proxy.isValid(timeout);
 		} catch (SQLException e) {
-			if (e.getCause() instanceof UnsupportedOperationException) {
+			if (e.getCause() instanceof UnsupportedOperationException || e.getMessage().equals("Method not supported")) {
 				return true;
 			}
 			throw e;
