@@ -32,7 +32,9 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 public class DriverShim implements Driver {
+	
 	private Driver driver;
+	
 	public DriverShim(Driver d) {
 		this.driver = d;
 	}
@@ -41,8 +43,9 @@ public class DriverShim implements Driver {
 	}
 	public Connection connect(String u, Properties p) throws SQLException {
 		// make sure to use the driverLoader ctx
+		ClassLoader loader = this.driver.getClass().getClassLoader();
 		ClassLoader rollback = Thread.currentThread().getContextClassLoader();
-		Thread.currentThread().setContextClassLoader(DriverLoader.DRIVER_LOADER);
+		Thread.currentThread().setContextClassLoader(loader);
 		try {
 			return new ConnectionShim(this.driver.connect(u, p));
 		} finally {
