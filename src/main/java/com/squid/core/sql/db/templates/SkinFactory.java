@@ -23,6 +23,9 @@
  *******************************************************************************/
 package com.squid.core.sql.db.templates;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.squid.core.database.model.DatabaseProduct;
 import com.squid.core.database.model.impl.DatabaseProductImpl;
 import com.squid.core.sql.render.SQLSkin;
@@ -33,6 +36,8 @@ import com.squid.core.sql.render.SQLSkin;
  *
  */
 public class SkinFactory {
+	
+    static final Logger logger = LoggerFactory.getLogger(SkinFactory.class);
 	
 	public static SkinFactory INSTANCE = new SkinFactory();
 	
@@ -54,18 +59,17 @@ public class SkinFactory {
 	}
 	
 	/**
-	 * Create a skin for the given DatabaseProduct; return null if there is no skin associated with the product
+	 * Create a skin for the given DatabaseProduct; return DefaultSkin if there is no provider associated with the product (or the plugin is not available)
 	 * @param handler
 	 * @return
 	 */
 	public SQLSkin createSkin(DatabaseProduct product) {
 		ISkinProvider provider = SkinRegistry.INSTANCE.findSkinProvider(product);
-		if (provider==null) {
-			return null;
-		} else {
-			SQLSkin skin = provider.createSkin(product);
-			return skin;
+		if (provider.getClass().equals(DefaultSkinProvider.class)) {
+			logger.warn("using the default skin provider for product "+product.toString());
 		}
+		SQLSkin skin = provider.createSkin(product);
+		return skin;
 	}
 	
 }

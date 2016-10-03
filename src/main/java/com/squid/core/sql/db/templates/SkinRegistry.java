@@ -69,6 +69,11 @@ public class SkinRegistry
 		return defaultProvider;
 	}
 	
+	/**
+	 * return the provider associated to the product, or the default provider if cannot find a custom one
+	 * @param product
+	 * @return
+	 */
 	public ISkinProvider findSkinProvider(DatabaseProduct product) {
 		return findSkinProvider(product,true);
 	}
@@ -82,7 +87,6 @@ public class SkinRegistry
 	public ISkinProvider findSkinProvider(DatabaseProduct product, boolean useDefault) {
 		if (product==null) return defaultProvider;
 		//
-
 		double score = ISkinProvider.NOT_APPLICABLE;
 		ISkinProvider winner = null;
 		for (Iterator<ISkinProvider> iter = registry.iterator();iter.hasNext();) {
@@ -111,7 +115,8 @@ public class SkinRegistry
 	}
 
 	private void loadRegistry() {
-		ServiceLoader<ISkinProvider> loader = ServiceLoader.load(ISkinProvider.class, DriverLoader.DRIVER_LOADER);
+		DriverLoader dd = DriverLoader.getDriverLoader();
+		ServiceLoader<ISkinProvider> loader = ServiceLoader.load(ISkinProvider.class, dd);
 	    Iterator<ISkinProvider> skinProviders = loader.iterator();
 	    while(skinProviders.hasNext()){
 	    	ISkinProvider skinProvider = skinProviders.next();
