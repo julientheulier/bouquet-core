@@ -35,17 +35,35 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+/**
+ * DriverLoader class is responsible for loading driver plugins from the plugin directory.
+ * The plugin directory is defined by the system property kraken.plugin.dir
+ * @author sergefantino
+ *
+ */
 public class DriverLoader extends URLClassLoader {
 
 	static final Logger logger = LoggerFactory.getLogger(DriverLoader.class);
 
 	private static final String patternPlugin = ".jar";
-	public static final String PLUGIN_DIR = new String(System.getProperty("kraken.plugin.dir", ""));
 
 	private Map<String, Class<?>> _classes = new HashMap<String, Class<?>>();
+
+	private static DriverLoader DRIVER_LOADER;//new DriverLoader(PLUGIN_DIR);
 	
-	public static final DriverLoader DRIVER_LOADER = new DriverLoader();
+	public static final DriverLoader getDriverLoader() {
+		if (DRIVER_LOADER!=null) {
+			return DRIVER_LOADER;
+		} else {
+			synchronized (DriverLoader.class) {
+				if (DRIVER_LOADER==null) {
+					String plugin = new String(System.getProperty("kraken.plugin.dir", ""));
+					DRIVER_LOADER = new DriverLoader(plugin);
+				}
+			}
+			return DRIVER_LOADER;
+		}
+	}
 
 	public static URL[] findPlugins(String path) {
 		logger.info("Looking for plugins in : "+path);
@@ -80,11 +98,6 @@ public class DriverLoader extends URLClassLoader {
 
 	public DriverLoader(String path) {
 		this(findPlugins(path));
-	}
-
-	public DriverLoader() {
-		this(findPlugins(PLUGIN_DIR));
-
 	}
 
 	public DriverLoader(URL url) {
