@@ -90,7 +90,8 @@ public class VendorSupportRegistry {
 	}
     
 	private void register() {
-		ServiceLoader<IVendorSupport> loader = ServiceLoader.load(IVendorSupport.class, DriverLoader.DRIVER_LOADER);
+		DriverLoader dd = DriverLoader.getDriverLoader();
+		ServiceLoader<IVendorSupport> loader = ServiceLoader.load(IVendorSupport.class, dd);
 	    Iterator<IVendorSupport> vendorSupports = loader.iterator();
 	    //LoggerFactory.getLogger(this.getClass()).debug("List of vendorSupport Providers");
 	    while(vendorSupports.hasNext()){
