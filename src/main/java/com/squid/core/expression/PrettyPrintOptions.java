@@ -39,6 +39,9 @@ public class PrettyPrintOptions {
 		IDENTIFIER// use canonical ID
 	}
 	
+	// constant option for HUMAN display
+	public static final PrettyPrintOptions HUMAN_GLOBAL = new PrettyPrintOptions(ReferenceStyle.NAME, null);
+	
 	private ReferenceStyle style = ReferenceStyle.LEGACY;
 	
 	private boolean explicitType = false;
