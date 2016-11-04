@@ -54,14 +54,14 @@ public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition 
 	public static final String DAILY_ID = SHORTCUT_BASE + DateTruncateOperatorDefinition.DAY;
 	public static final String WEEKLY_ID = SHORTCUT_BASE + DateTruncateOperatorDefinition.WEEK;
 	public static final String MONTHLY_ID = SHORTCUT_BASE + DateTruncateOperatorDefinition.MONTH;
-	public static final String QUATERLY_ID = SHORTCUT_BASE + DateTruncateOperatorDefinition.QUARTER;
+	public static final String QUARTERLY_ID = SHORTCUT_BASE + DateTruncateOperatorDefinition.QUARTER;
 	public static final String YEARLY_ID = SHORTCUT_BASE + DateTruncateOperatorDefinition.YEAR;
 
 	public static final String HOURLY = "HOURLY";
 	public static final String DAILY = "DAILY";
 	public static final String WEEKLY = "WEEKLY";
 	public static final String MONTHLY = "MONTHLY";
-	public static final String QUARTERLY = "QUATERLY";
+	public static final String QUARTERLY = "QUARTERLY";
 	public static final String YEARLY = "YEARLY";
 
 	private String hint = "";
@@ -149,11 +149,11 @@ public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition 
 				return IDomain.YEARLY;
 			}
 		}
-		if (mode.equals(QUATERLY_ID) || argument.isInstanceOf(IDomain.QUATERLY)) {
-			if (argument.isInstanceOf(IDomain.QUATERLY)) {
+		if (mode.equals(QUARTERLY_ID) || argument.isInstanceOf(IDomain.QUARTERLY)) {
+			if (argument.isInstanceOf(IDomain.QUARTERLY)) {
 				return argument;
 			} else {
-				return IDomain.QUATERLY;
+				return IDomain.QUARTERLY;
 			}
 		}
 		if (mode.equals(MONTHLY_ID) || argument.isInstanceOf(IDomain.MONTHLY)) {

@@ -164,11 +164,11 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 				return IDomain.YEARLY;
 			}
 		}
-		if (mode.equals(QUARTER) || argument.isInstanceOf(IDomain.QUATERLY)) {
-			if (argument.isInstanceOf(IDomain.QUATERLY)) {
+		if (mode.equals(QUARTER) || argument.isInstanceOf(IDomain.QUARTERLY)) {
+			if (argument.isInstanceOf(IDomain.QUARTERLY)) {
 				return argument;
 			} else {
-				return IDomain.QUATERLY;
+				return IDomain.QUARTERLY;
 			}
 		}
 		if (mode.equals(MONTH) || argument.isInstanceOf(IDomain.MONTHLY)) {

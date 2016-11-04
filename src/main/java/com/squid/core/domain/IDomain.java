@@ -50,7 +50,7 @@ public interface IDomain {
 	public static final IDomain DATE = new DomainDate();
 	public static final IDomain WEEKLY = new DomainDateWeekly();
 	public static final IDomain MONTHLY = new DomainDateMonthly();
-	public static final IDomain QUATERLY = new DomainDateQuaterly();
+	public static final IDomain QUARTERLY = new DomainDateQuarterly();
 	public static final IDomain YEARLY = new DomainDateYearly();
 	public static final IDomain TIME = new DomainTime();
 	public static final IDomain OBJECT = new DomainObject();

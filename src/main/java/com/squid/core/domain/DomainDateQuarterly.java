@@ -31,26 +31,26 @@ package com.squid.core.domain;
  * @author sergefantino
  *
  */
-public class DomainDateQuaterly extends DomainBase {
+public class DomainDateQuarterly extends DomainBase {
 
 	/**
 	 * 
 	 */
-	public DomainDateQuaterly() {
+	public DomainDateQuarterly() {
 		this(IDomain.DATE);
 	}
 
 	/**
 	 * @param parent
 	 */
-	protected DomainDateQuaterly(IDomain parent) {
+	protected DomainDateQuarterly(IDomain parent) {
 		super(parent);
 		setName("Quaterly");
 	}
 
 	@Override
 	public IDomain getSingleton() {
-		return IDomain.QUATERLY;
+		return IDomain.QUARTERLY;
 	}
 
 }

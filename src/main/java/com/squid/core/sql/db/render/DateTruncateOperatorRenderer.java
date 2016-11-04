@@ -63,8 +63,8 @@ public class DateTruncateOperatorRenderer extends BaseOperatorRenderer {
 						return args[0];
 					}
 				}
-				if (type0.getDomain().isInstanceOf(IDomain.QUATERLY)) {
-					if (opDef.getExtendedID().equals(DateTruncateShortcutsOperatorDefinition.QUATERLY_ID)) {
+				if (type0.getDomain().isInstanceOf(IDomain.QUARTERLY)) {
+					if (opDef.getExtendedID().equals(DateTruncateShortcutsOperatorDefinition.QUARTERLY_ID)) {
 						// already a year
 						return args[0];
 					}
@@ -122,7 +122,7 @@ public class DateTruncateOperatorRenderer extends BaseOperatorRenderer {
 		if (extendedID.equalsIgnoreCase(DateTruncateShortcutsOperatorDefinition.MONTHLY_ID)) {
 			return DateTruncateOperatorDefinition.MONTH;
 		}
-		if (extendedID.equalsIgnoreCase(DateTruncateShortcutsOperatorDefinition.QUATERLY_ID)) {
+		if (extendedID.equalsIgnoreCase(DateTruncateShortcutsOperatorDefinition.QUARTERLY_ID)) {
 			return DateTruncateOperatorDefinition.QUARTER;
 		}
 		if (extendedID.equalsIgnoreCase(DateTruncateShortcutsOperatorDefinition.YEARLY_ID)) {

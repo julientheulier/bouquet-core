@@ -92,6 +92,7 @@ implements OperatorRegistry
 		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("WEEKLY",DateTruncateShortcutsOperatorDefinition.WEEKLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
 		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("MONTHLY",DateTruncateShortcutsOperatorDefinition.MONTHLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
 		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("YEARLY",DateTruncateShortcutsOperatorDefinition.YEARLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("QUARTERLY",DateTruncateShortcutsOperatorDefinition.QUARTERLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
 		//
 //See Ticket #1620
 //		scope.registerExtension(new IntervalOperatorDefinition("INTERVAL_DAY",IntervalOperatorDefinition.INTERVAL_DAY, OperatorDefinition.DATE_TIME_TYPE));

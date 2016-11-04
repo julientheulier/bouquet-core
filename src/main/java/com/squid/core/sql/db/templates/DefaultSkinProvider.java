@@ -125,7 +125,7 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.HOURLY_ID, new DateTruncateOperatorRenderer());
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.DAILY_ID, new DateTruncateOperatorRenderer());
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.WEEKLY_ID, new DateTruncateOperatorRenderer());
-		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.QUATERLY_ID, new DateTruncateOperatorRenderer());
+		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.QUARTERLY_ID, new DateTruncateOperatorRenderer());
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.MONTHLY_ID, new DateTruncateOperatorRenderer());
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.YEARLY_ID, new DateTruncateOperatorRenderer());
 		//
