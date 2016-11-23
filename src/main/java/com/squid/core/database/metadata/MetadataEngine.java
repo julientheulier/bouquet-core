@@ -458,7 +458,7 @@ public class MetadataEngine implements IMetadataEngine {
 	 public void populateColumns(Connection conn, List<? extends Table> tables) throws ExecutionException {
 		 try {
 			 for (Table table : tables) {
-				  List<ColumnData> ldata = vendorSpecific.getColumns(conn, table.getCatalog(),table.getSchema().getName(),table.getName(),null);
+				 List<ColumnData> ldata = getColumns(conn, table);
 				 // update in batch
 				 for (ColumnData data : ldata) {
 					 addColumn(table,data);
@@ -466,6 +466,14 @@ public class MetadataEngine implements IMetadataEngine {
 			 }
 		 } catch (SQLException e) {
 			 throw new ExecutionException("Failed to populate columns due to SQLException: "+e.getLocalizedMessage(), e);
+		 }
+	 }
+	 
+	 private List<ColumnData> getColumns(Connection conn, Table table) throws SQLException {
+		 if (vendorSpecific instanceof VendorMetadataSupportExt) {
+			 return ((VendorMetadataSupportExt)vendorSpecific).getColumns(conn, table);
+		 } else {
+			 return vendorSpecific.getColumns(conn, table.getCatalog(), table.getSchema().getName(), table.getName(), null);
 		 }
 	 }
 
@@ -479,7 +487,7 @@ public class MetadataEngine implements IMetadataEngine {
 		 table.addColumn(column);
 		 ExtendedType type = createType(data);
 		 column.setType(type);
-		 if (data.is_nullable.compareToIgnoreCase("NO")==0) {
+		 if (data.is_nullable!=null && data.is_nullable.compareToIgnoreCase("NO")==0) {
 			 column.setNotNullFlag(true);
 		 }
 		 return column;
