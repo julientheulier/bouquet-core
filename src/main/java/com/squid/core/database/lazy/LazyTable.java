@@ -50,6 +50,7 @@ public class LazyTable implements Table {
 	private String description = "";
 	
 	private TableType type;
+	private Object vendorType;
 	
 	private Schema schema = null;
 	
@@ -126,6 +127,16 @@ public class LazyTable implements Table {
     public void setType(TableType type) {
         this.type = type;
     }
+
+	@Override
+	public Object getVendorType() {
+		return vendorType;
+	}
+
+	@Override
+	public void setVendorType(Object vendorType) {
+		this.vendorType = vendorType;
+	}
 
     @Override
 	public Schema getSchema() {
