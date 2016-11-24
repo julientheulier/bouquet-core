@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.sql.db.templates;
 
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ServiceLoader;
@@ -52,7 +53,7 @@ public class SkinRegistry
     static final Logger logger = LoggerFactory.getLogger(SkinRegistry.class);
 
 	protected SkinRegistry() {
-		loadRegistry();
+//		loadRegistry();
 		defaultProvider = new DefaultSkinProvider();
 		defaultSkin = defaultProvider.createSkin(null);
 	}
@@ -113,7 +114,7 @@ public class SkinRegistry
 	public SQLSkin getDefaultSkin() {
 		return defaultSkin;
 	}
-
+/*
 	private void loadRegistry() {
 		DriverLoader dd = DriverLoader.getDriverLoader();
 		ServiceLoader<ISkinProvider> loader = ServiceLoader.load(ISkinProvider.class, dd);
@@ -124,7 +125,18 @@ public class SkinRegistry
 	    	register(skinProvider);
 	    }
 	}
-
+*/
+	public void loadRegistry(URLClassLoader cl ){
+		
+		ServiceLoader<ISkinProvider> loader = ServiceLoader.load(ISkinProvider.class, cl);
+	    Iterator<ISkinProvider> skinProviders = loader.iterator();
+	    while(skinProviders.hasNext()){
+	    	ISkinProvider skinProvider = skinProviders.next();
+	    	LoggerFactory.getLogger(this.getClass()).debug("SkinProviderAvailable "+skinProvider.getClass());
+	    	register(skinProvider);
+	    }
+	}
+	
 	private void register(ISkinProvider provider) {
 		registry.add(provider);
 	}

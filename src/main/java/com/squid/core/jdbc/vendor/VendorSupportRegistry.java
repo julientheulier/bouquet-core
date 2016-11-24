@@ -23,6 +23,7 @@
  *******************************************************************************/
 package com.squid.core.jdbc.vendor;
 
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ServiceLoader;
@@ -44,7 +45,7 @@ public class VendorSupportRegistry {
 	private ArrayList<IVendorSupport> vendors = new ArrayList<IVendorSupport>();
 	
 	protected VendorSupportRegistry() {
-		register();
+//		register();
 	//	PluginSupportRegistry plugin = new PluginSupportRegistry();
 	}
 	
@@ -89,7 +90,7 @@ public class VendorSupportRegistry {
 		return defaultVendorSupport;
 	}
     
-	private void register() {
+/*	private void register() {
 		DriverLoader dd = DriverLoader.getDriverLoader();
 		ServiceLoader<IVendorSupport> loader = ServiceLoader.load(IVendorSupport.class, dd);
 	    Iterator<IVendorSupport> vendorSupports = loader.iterator();
@@ -100,8 +101,23 @@ public class VendorSupportRegistry {
 	    	register(vendorSupport);
 	    }
 	    LoggerFactory.getLogger(this.getClass()).debug("End of vendorSupport Providers");
-	}
+	} */
 
+	
+	public void register(URLClassLoader cl){
+		ServiceLoader<IVendorSupport> loader = ServiceLoader.load(IVendorSupport.class, cl);
+	    Iterator<IVendorSupport> vendorSupports = loader.iterator();
+	    //LoggerFactory.getLogger(this.getClass()).debug("List of vendorSupport Providers");
+	    while(vendorSupports.hasNext()){
+	    	IVendorSupport vendorSupport = vendorSupports.next();
+	    	LoggerFactory.getLogger(this.getClass()).debug("vendorSupport available "+vendorSupport.getClass());
+	    	register(vendorSupport);
+	    }
+	    LoggerFactory.getLogger(this.getClass()).debug("End of vendorSupport Providers");
+		
+	}
+	
+	
 	// Use for plugin versions.
 	public ArrayList<IVendorSupport>  listVendors() {
 		return this.vendors;
