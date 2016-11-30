@@ -31,112 +31,110 @@ import java.util.ServiceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.squid.core.database.impl.DriverLoader;
-//import com.squid.core.database.impl.PluginSupportRegistry;
 import com.squid.core.database.model.DatabaseProduct;
 import com.squid.core.sql.render.SQLSkin;
 
 /**
  * Register skins provided by plugins
+ * 
  * @author serge fantino
  *
  */
-public class SkinRegistry 
-{
-	
+public class SkinRegistry {
+
 	public static SkinRegistry INSTANCE = new SkinRegistry();
-	
+
 	private ArrayList<ISkinProvider> registry = new ArrayList<ISkinProvider>();
 	private DefaultSkinProvider defaultProvider = null;
 	private SQLSkin defaultSkin = null;
-	
-    static final Logger logger = LoggerFactory.getLogger(SkinRegistry.class);
+
+	static final Logger logger = LoggerFactory.getLogger(SkinRegistry.class);
 
 	protected SkinRegistry() {
-//		loadRegistry();
+		// loadRegistry();
 		defaultProvider = new DefaultSkinProvider();
 		defaultSkin = defaultProvider.createSkin(null);
 	}
 
 	public ISkinProvider findSkinProvider(Class<? extends ISkinProvider> type) {
-		//update list of registry first
+		// update list of registry first
 
-		for (Iterator<ISkinProvider> iter = registry.iterator();iter.hasNext();) {
+		for (Iterator<ISkinProvider> iter = registry.iterator(); iter.hasNext();) {
 			ISkinProvider provider = iter.next();
-			// Compare only the class name without the package //T436 about moving packages.
-			if (provider.getClass().getSimpleName().equals(type.getSimpleName())) return provider;
+			// Compare only the class name without the package //T436 about
+			// moving packages.
+			if (provider.getClass().getSimpleName().equals(type.getSimpleName()))
+				return provider;
 		}
 		// else
 		return defaultProvider;
 	}
-	
+
 	/**
-	 * return the provider associated to the product, or the default provider if cannot find a custom one
+	 * return the provider associated to the product, or the default provider if
+	 * cannot find a custom one
+	 * 
 	 * @param product
 	 * @return
 	 */
 	public ISkinProvider findSkinProvider(DatabaseProduct product) {
-		return findSkinProvider(product,true);
+		return findSkinProvider(product, true);
 	}
-	
+
 	/**
-	 * return the provider associated to the product. Return the default provider if useDefault is true.
+	 * return the provider associated to the product. Return the default
+	 * provider if useDefault is true.
+	 * 
 	 * @param product
 	 * @param useDefault
 	 * @return
 	 */
 	public ISkinProvider findSkinProvider(DatabaseProduct product, boolean useDefault) {
-		if (product==null) return defaultProvider;
+		if (product == null)
+			return defaultProvider;
 		//
 		double score = ISkinProvider.NOT_APPLICABLE;
 		ISkinProvider winner = null;
-		for (Iterator<ISkinProvider> iter = registry.iterator();iter.hasNext();) {
+		for (Iterator<ISkinProvider> iter = registry.iterator(); iter.hasNext();) {
 			ISkinProvider provider = iter.next();
 			double compute = provider.computeAccuracy(product);
-			if (compute>score) {
+			if (compute > score) {
 				score = compute;
 				winner = provider;
 			}
 		}
-		if (winner!=null) {
-			if(logger.isDebugEnabled()){logger.debug(("Best provider is "+winner));}
+		if (winner != null) {
+			if (logger.isDebugEnabled()) {
+				logger.debug(("Best provider is " + winner));
+			}
 			return winner;
 		} else {
-			if(logger.isDebugEnabled()){logger.debug(("Best provider is "+defaultProvider));}
-			return useDefault?defaultProvider:null;
+			if (logger.isDebugEnabled()) {
+				logger.debug(("Best provider is " + defaultProvider));
+			}
+			return useDefault ? defaultProvider : null;
 		}
 	}
-	
+
 	public ISkinProvider getDefaultSkinProvider() {
 		return defaultProvider;
 	}
-	
+
 	public SQLSkin getDefaultSkin() {
 		return defaultSkin;
 	}
-/*
-	private void loadRegistry() {
-		DriverLoader dd = DriverLoader.getDriverLoader();
-		ServiceLoader<ISkinProvider> loader = ServiceLoader.load(ISkinProvider.class, dd);
-	    Iterator<ISkinProvider> skinProviders = loader.iterator();
-	    while(skinProviders.hasNext()){
-	    	ISkinProvider skinProvider = skinProviders.next();
-	    	LoggerFactory.getLogger(this.getClass()).debug("SkinProviderAvailable "+skinProvider.getClass());
-	    	register(skinProvider);
-	    }
-	}
-*/
-	public void loadRegistry(URLClassLoader cl ){
-		
+
+	public void loadRegistry(URLClassLoader cl) {
+
 		ServiceLoader<ISkinProvider> loader = ServiceLoader.load(ISkinProvider.class, cl);
-	    Iterator<ISkinProvider> skinProviders = loader.iterator();
-	    while(skinProviders.hasNext()){
-	    	ISkinProvider skinProvider = skinProviders.next();
-	    	LoggerFactory.getLogger(this.getClass()).debug("SkinProviderAvailable "+skinProvider.getClass());
-	    	register(skinProvider);
-	    }
+		Iterator<ISkinProvider> skinProviders = loader.iterator();
+		while (skinProviders.hasNext()) {
+			ISkinProvider skinProvider = skinProviders.next();
+			LoggerFactory.getLogger(this.getClass()).debug("SkinProviderAvailable " + skinProvider.getClass());
+			register(skinProvider);
+		}
 	}
-	
+
 	private void register(ISkinProvider provider) {
 		registry.add(provider);
 	}
