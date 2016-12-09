@@ -23,33 +23,32 @@
  *******************************************************************************/
 package com.squid.core.jdbc.vendor;
 
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.squid.core.database.impl.DriverLoader;
 import com.squid.core.database.model.DatabaseProduct;
 
-
 public class VendorSupportRegistry {
-	
-	public final static VendorSupportRegistry INSTANCE = new VendorSupportRegistry();
-	
 
-    static final Logger logger = LoggerFactory.getLogger(VendorSupportRegistry.class);
-    		
+	public final static VendorSupportRegistry INSTANCE = new VendorSupportRegistry();
+
+	static final Logger logger = LoggerFactory.getLogger(VendorSupportRegistry.class);
+
 	private IVendorSupport defaultVendorSupport = new DefaultVendorSupport();
 	private ArrayList<IVendorSupport> vendors = new ArrayList<IVendorSupport>();
-	
+
 	protected VendorSupportRegistry() {
-		register();
-	//	PluginSupportRegistry plugin = new PluginSupportRegistry();
+		// register();
+		// PluginSupportRegistry plugin = new PluginSupportRegistry();
 	}
-	
+
 	/**
 	 * return the given VendorSupport
+	 * 
 	 * @param vendorId
 	 * @return
 	 */
@@ -62,48 +61,58 @@ public class VendorSupportRegistry {
 		// else if not found
 		return null;
 	}
-	
+
 	/**
-	 * return the specific vendor support library, or default support if don't know better
+	 * return the specific vendor support library, or default support if don't
+	 * know better
+	 * 
 	 * @param product
 	 * @return
 	 */
 	public IVendorSupport getVendorSupport(DatabaseProduct product) {
-		if(product != null){
-			if(logger.isDebugEnabled()){logger.debug(("product is "+product.getProductName()));}
+		if (product != null) {
+			if (logger.isDebugEnabled()) {
+				logger.debug(("product is " + product.getProductName()));
+			}
 		}
-		if (product == null){
+		if (product == null) {
 			return defaultVendorSupport;
 		}
-		
+
 		for (IVendorSupport vendor : vendors) {
 			if (vendor.isSupported(product)) {
-				if(product !=null){
-					if(logger.isDebugEnabled()){logger.debug(("Chosen vendor is "+vendor.getVendorId() +", version: "+vendor.getVendorVersion() ));}
+				if (product != null) {
+					if (logger.isDebugEnabled()) {
+						logger.debug(("Chosen vendor is " + vendor.getVendorId() + ", version: "
+								+ vendor.getVendorVersion()));
+					}
 				}
 				return vendor;
 			}
 		}
 		// else
-		if(logger.isDebugEnabled()){logger.debug(("Chosen vendor is "+defaultVendorSupport.getVendorId()));}
+		if (logger.isDebugEnabled()) {
+			logger.debug(("Chosen vendor is " + defaultVendorSupport.getVendorId()));
+		}
 		return defaultVendorSupport;
 	}
-    
-	private void register() {
-		DriverLoader dd = DriverLoader.getDriverLoader();
-		ServiceLoader<IVendorSupport> loader = ServiceLoader.load(IVendorSupport.class, dd);
-	    Iterator<IVendorSupport> vendorSupports = loader.iterator();
-	    //LoggerFactory.getLogger(this.getClass()).debug("List of vendorSupport Providers");
-	    while(vendorSupports.hasNext()){
-	    	IVendorSupport vendorSupport = vendorSupports.next();
-	    	LoggerFactory.getLogger(this.getClass()).debug("vendorSupport available "+vendorSupport.getClass());
-	    	register(vendorSupport);
-	    }
-	    LoggerFactory.getLogger(this.getClass()).debug("End of vendorSupport Providers");
+
+	public void register(URLClassLoader cl) {
+		ServiceLoader<IVendorSupport> loader = ServiceLoader.load(IVendorSupport.class, cl);
+		Iterator<IVendorSupport> vendorSupports = loader.iterator();
+		// LoggerFactory.getLogger(this.getClass()).debug("List of vendorSupport
+		// Providers");
+		while (vendorSupports.hasNext()) {
+			IVendorSupport vendorSupport = vendorSupports.next();
+			LoggerFactory.getLogger(this.getClass()).debug("vendorSupport available " + vendorSupport.getClass());
+			register(vendorSupport);
+		}
+		LoggerFactory.getLogger(this.getClass()).debug("End of vendorSupport Providers");
+
 	}
 
 	// Use for plugin versions.
-	public ArrayList<IVendorSupport>  listVendors() {
+	public ArrayList<IVendorSupport> listVendors() {
 		return this.vendors;
 	}
 
