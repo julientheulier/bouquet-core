@@ -42,10 +42,24 @@ public class PluginsLoader {
 				.load(com.squid.core.database.plugins.IBouquetPlugin.class, cl);
 		Iterator<IBouquetPlugin> pluginsIt = loader.iterator();
 
+		IBouquetPlugin redshiftPlugin = null ; 
 		while (pluginsIt.hasNext()) {
 			IBouquetPlugin plugin = pluginsIt.next();
 			plugin.loadDriver();
-			this.plugins.add(plugin);
+			if( plugin.getClass().toString().contains("redshift")){
+				redshiftPlugin = plugin; 		//T1828
+
+			}else{
+				this.plugins.add(plugin);
+			}
+		}
+		if (redshiftPlugin !=null){
+			this.plugins.add(redshiftPlugin);  //T1828 force creation of the DriverShim last
+		}
+			
+		
+		
+		for(IBouquetPlugin plugin : this.plugins){
 			for (Driver d : plugin.getDrivers()) {
 
 				Enumeration<Driver> availableDrivers = DriverManager.getDrivers();
