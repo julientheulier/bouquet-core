@@ -1,3 +1,27 @@
+/*******************************************************************************
+ * Copyright © Squid Solutions, 2016
+ *
+ * This file is part of Open Bouquet software.
+ *  
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation (version 3 of the License).
+ *
+ * There is a special FOSS exception to the terms and conditions of the 
+ * licenses as they are applied to this program. See LICENSE.txt in
+ * the directory of this program distribution.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * Squid Solutions also offers commercial licenses with additional warranties,
+ * professional functionalities or services. If you purchase a commercial
+ * license, then it supersedes and replaces any other agreement between
+ * you and Squid Solutions (above licenses and LICENSE.txt included).
+ * See http://www.squidsolutions.com/EnterpriseBouquet/
+ *******************************************************************************/
+
 package com.squid.core.database.plugins;
 
 import java.io.File;
@@ -42,32 +66,28 @@ public class PluginsLoader {
 				.load(com.squid.core.database.plugins.IBouquetPlugin.class, cl);
 		Iterator<IBouquetPlugin> pluginsIt = loader.iterator();
 
-		IBouquetPlugin redshiftPlugin = null ; 
 		while (pluginsIt.hasNext()) {
 			IBouquetPlugin plugin = pluginsIt.next();
 			plugin.loadDriver();
 			if( plugin.getClass().toString().contains("redshift")){
-				redshiftPlugin = plugin; 		//T1828
-
+				this.plugins.add(0,plugin);			
 			}else{
 				this.plugins.add(plugin);
 			}
 		}
-		if (redshiftPlugin !=null){
-			this.plugins.add(redshiftPlugin);  //T1828 force creation of the DriverShim last
-		}
+	
 			
 		
 		
 		for(IBouquetPlugin plugin : this.plugins){
-			for (Driver d : plugin.getDrivers()) {
+			for (DriverShim d : plugin.getDrivers()) {
 
 				Enumeration<Driver> availableDrivers = DriverManager.getDrivers();
 				Boolean duplicate = false;
 				while (availableDrivers.hasMoreElements()) {
 					Driver already = availableDrivers.nextElement();
 					if (already instanceof DriverShim) {
-						if (((DriverShim) already).getName() == d.getClass().getName()) {
+						if (((DriverShim) already).getName().equals(d.getName())) {
 							duplicate = true;
 						}
 					}
@@ -78,9 +98,8 @@ public class PluginsLoader {
 				;
 				if (!duplicate) {
 					try {
-						DriverShim shim = new DriverShim(d);
-						DriverManager.registerDriver(shim);
-						logger.info("Registering driver " + d.getClass().toString() + " for plug in "
+						DriverManager.registerDriver(d);
+						logger.info("Registering driver " + d.getName() + " for plug in "
 								+ plugin.getClass().toString());
 					} catch (SQLException e) {
 						logger.info("Failed to register driver " + d.getClass().toString() + " for plug in "
