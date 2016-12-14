@@ -69,11 +69,7 @@ public class PluginsLoader {
 		while (pluginsIt.hasNext()) {
 			IBouquetPlugin plugin = pluginsIt.next();
 			plugin.loadDriver();
-			if( plugin.getClass().toString().contains("redshift")){
-				this.plugins.add(0,plugin);			
-			}else{
-				this.plugins.add(plugin);
-			}
+			this.plugins.add(plugin);
 		}
 	
 			
