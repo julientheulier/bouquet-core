@@ -28,14 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainDate;
-import com.squid.core.domain.DomainString;
-import com.squid.core.domain.DomainTimestamp;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.domain.operators.OperatorDiagnostic;
 
 public class ExtractOperatorDefinition extends OperatorDefinition {
 
