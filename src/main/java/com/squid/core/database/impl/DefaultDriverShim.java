@@ -21,17 +21,14 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
+package com.squid.core.database.impl;
 
-package com.squid.core.database.plugins;
-
-import java.net.URLClassLoader;
 import java.sql.Driver;
-import java.util.ArrayList;
 
-public abstract class BaseBouquetPlugin implements IBouquetPlugin {
+public class DefaultDriverShim extends DriverShim {
 
-	protected ArrayList<Driver> drivers;
-
-	protected URLClassLoader driverCL;
+	public DefaultDriverShim(Driver d) {
+		super(d);
+	}
 
 }
