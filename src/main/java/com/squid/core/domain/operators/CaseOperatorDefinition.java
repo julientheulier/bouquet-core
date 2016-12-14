@@ -102,12 +102,14 @@ extends ArithmeticOperatorDefintion {
 		int i=0;
 		while (iter.hasNext()) {
 			IDomain first = iter.next();
+			i++;
 			if (iter.hasNext()) {
 				if (!first.isInstanceOf(IDomain.CONDITIONAL)) {
-					return new OperatorDiagnostic("invalid CASE expression, not a condition",i,HINT);
+					return new OperatorDiagnostic("invalid CASE expression #"+i+", not a condition",i,HINT);
 				}
 				// get second
 				IDomain second = iter.next();
+				i++;
 				if (second!=IDomain.NULL) {
 					if (main==null) {
 						main = second;
@@ -116,7 +118,7 @@ extends ArithmeticOperatorDefintion {
 						main = second;
 					}
 					else if (!second.isInstanceOf(main)) {
-						return new OperatorDiagnostic("invalid CASE expression, ELSE clause type mismatch",i+1,HINT);
+						return new OperatorDiagnostic("invalid CASE expression, ELSE clause type mismatch",i,HINT);
 					}
 				}
 			} else {
