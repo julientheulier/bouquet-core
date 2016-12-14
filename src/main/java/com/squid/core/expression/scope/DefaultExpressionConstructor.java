@@ -41,6 +41,7 @@ import com.squid.core.expression.ExpressionAST;
 import com.squid.core.expression.NullExpression;
 import com.squid.core.expression.NumericConstant;
 import com.squid.core.expression.Operator;
+import com.squid.core.expression.PrettyPrintOptions;
 import com.squid.core.expression.StringConstant;
 import com.squid.core.expression.UndefinedExpression;
 
@@ -181,7 +182,7 @@ implements ExpressionScope
             String message = diag.getErrorMessage();
             if (args!=null) {
 	            for (int pos=0;pos<args.size();pos++) {
-	            	message = message.replaceAll("#"+(pos+1), Matcher.quoteReplacement(args.get(pos).prettyPrint()));
+	            	message = message.replaceAll("#"+(pos+1), Matcher.quoteReplacement(args.get(pos).prettyPrint(PrettyPrintOptions.HUMAN_GLOBAL)));
 	            }
             }
             throw new ScopeException(def.getName()+": "+message+(diag.getHint()!=null?"\nUsage: "+diag.getHint():""));

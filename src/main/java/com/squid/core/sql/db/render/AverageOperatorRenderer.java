@@ -47,7 +47,7 @@ extends OrderedAnalyticOperatorRenderer
 			IPiece param = piece.getParams()[0];
 			if (param instanceof OperatorPiece) {
 				OperatorPiece op = (OperatorPiece)param;
-				if (op.getOpDef().getExtendedID()==VectorOperatorDefinition.ID) {
+				if (op.getOpDef().getExtendedID().equals(VectorOperatorDefinition.ID)) {
 					// ok, we found a vector parameter
 					IPiece[] params = op.getParams();// iter through the vector
 					String pp = "";
