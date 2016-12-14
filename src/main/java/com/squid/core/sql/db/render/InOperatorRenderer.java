@@ -54,7 +54,7 @@ public class InOperatorRenderer extends BaseOperatorRenderer {
 			IPiece param = piece.getParams()[1];
 			if (param instanceof OperatorPiece) {
 				OperatorPiece op = (OperatorPiece)param;
-				if (op.getOpDef().getExtendedID()==VectorOperatorDefinition.ID) {
+				if (op.getOpDef().getExtendedID().equals(VectorOperatorDefinition.ID)) {
 					// ok, we found a vector parameter
 					IPiece[] params = op.getParams();
 					if (params.length >= 1) {
