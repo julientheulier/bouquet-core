@@ -27,6 +27,10 @@ import java.sql.Driver;
 
 public class DefaultDriverShim extends DriverShim {
 
+	public DefaultDriverShim(){
+		super();
+	}
+	
 	public DefaultDriverShim(Driver d) {
 		super(d);
 	}

@@ -35,6 +35,10 @@ public class DriverShim implements Driver{
 
 	protected Driver driver;
 
+	public DriverShim(){
+		
+	}
+	
 	public DriverShim(Driver d) {
 		this.driver = d;
 	}
