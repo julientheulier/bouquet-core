@@ -39,6 +39,7 @@ import java.util.ServiceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.squid.core.database.impl.DefaultDriverShim;
 import com.squid.core.database.impl.DriverShim;
 import com.squid.core.jdbc.vendor.VendorSupportRegistry;
 import com.squid.core.sql.db.templates.SkinRegistry;
@@ -94,7 +95,11 @@ public class PluginsLoader {
 				;
 				if (!duplicate) {
 					try {
-						DriverManager.registerDriver(d);
+						if (d instanceof DefaultDriverShim){
+							DriverManager.registerDriver(d);							
+						}else{
+							DriverManager.registerDriver(new DriverShim(d));
+						}
 						logger.info("Registering driver " + d.getName() + " for plug in "
 								+ plugin.getClass().toString());
 					} catch (SQLException e) {
