@@ -74,9 +74,9 @@ public class PluginsLoader {
 		}
 		
 		
-		for(IBouquetPlugin plugin : this.plugins){
+		for(IBouquetPlugin plugin : this.plugins) {
+			try {
 			for (DriverShim d : plugin.getDrivers()) {
-
 				Enumeration<Driver> availableDrivers = DriverManager.getDrivers();
 				Boolean duplicate = false;
 				while (availableDrivers.hasMoreElements()) {
@@ -109,6 +109,9 @@ public class PluginsLoader {
 					logger.info("Duplicate driver " + d.getClass().toString() + " for plug in "
 							+ plugin.getClass().toString());
 				}
+			}
+			} catch (Exception e) {
+				logger.error("failed to load plugin: "+plugin.getClass().getName());
 			}
 		}
 
