@@ -63,22 +63,20 @@ public class PluginsLoader {
 
 		URLClassLoader cl = new URLClassLoader(pluginsList, rollback);
 
-		ServiceLoader<com.squid.core.database.plugins.IBouquetPlugin> loader = ServiceLoader
+		ServiceLoader<com.squid.core.database.plugins.IBouquetPlugin> pluginsLoader = ServiceLoader
 				.load(com.squid.core.database.plugins.IBouquetPlugin.class, cl);
-		Iterator<IBouquetPlugin> pluginsIt = loader.iterator();
+		Iterator<IBouquetPlugin> pluginsIt = pluginsLoader.iterator();
 
 		while (pluginsIt.hasNext()) {
 			IBouquetPlugin plugin = pluginsIt.next();
 			plugin.loadDriver();
 			this.plugins.add(plugin);
 		}
-	
-			
 		
 		
-		for(IBouquetPlugin plugin : this.plugins){
+		for(IBouquetPlugin plugin : this.plugins) {
+			try {
 			for (DriverShim d : plugin.getDrivers()) {
-
 				Enumeration<Driver> availableDrivers = DriverManager.getDrivers();
 				Boolean duplicate = false;
 				while (availableDrivers.hasMoreElements()) {
@@ -111,6 +109,9 @@ public class PluginsLoader {
 					logger.info("Duplicate driver " + d.getClass().toString() + " for plug in "
 							+ plugin.getClass().toString());
 				}
+			}
+			} catch (Exception e) {
+				logger.error("failed to load plugin: "+plugin.getClass().getName());
 			}
 		}
 

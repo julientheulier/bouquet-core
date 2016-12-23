@@ -51,7 +51,11 @@ public abstract class OperatorDefinition {
     public static final int DATE_TIME_TYPE = 2;
     public static final int MISC_TYPE = 3;
     public static final int TRIGO_TYPE = 4;
-
+    public static final int REGEXP_TYPE = 5;
+    public static final int JSON_TYPE = 6;
+    public static final int AGGR_TYPE = 7;
+    public static final int NUMERIC_TYPE = 8;
+    public static final int LOGICAL_TYPE = 9;
 
     private String m_name;
     private int m_id = IntrinsicOperators.UNDEFINED_ID;
@@ -246,6 +250,22 @@ public abstract class OperatorDefinition {
 
     public int getCategoryType() {
         return categoryType;
+    }
+    
+    public String getCategoryTypeName() {
+    	switch (categoryType) {
+    	case TRIGO_TYPE:
+    	case MATHS_TYPE: return "Math";
+    	case STRING_TYPE: return "Text";
+    	case DATE_TIME_TYPE: return "Date";
+    	case REGEXP_TYPE: return "Regex";
+    	case JSON_TYPE: return "JSON";
+    	case AGGR_TYPE: return "Aggregate";
+    	case NUMERIC_TYPE: return "Numeric";
+    	case LOGICAL_TYPE: return "Logical";
+    	case MISC_TYPE:
+    	default: return "Miscellaneous";
+    	}
     }
 
     public OperatorDefinition setParamCount(int paramCount) {
