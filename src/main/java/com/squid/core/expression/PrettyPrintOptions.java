@@ -41,6 +41,8 @@ public class PrettyPrintOptions {
 	
 	// constant option for HUMAN display
 	public static final PrettyPrintOptions HUMAN_GLOBAL = new PrettyPrintOptions(ReferenceStyle.NAME, null);
+	// constant option for ROBOT reference
+	public static final PrettyPrintOptions ROBOT_GLOBAL = new PrettyPrintOptions(ReferenceStyle.IDENTIFIER, null);
 	
 	private ReferenceStyle style = ReferenceStyle.LEGACY;
 	
