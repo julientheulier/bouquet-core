@@ -34,6 +34,7 @@ import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.expression.Compose;
 import com.squid.core.expression.ExpressionAST;
 import com.squid.core.expression.PrettyPrintOptions;
+import com.squid.core.expression.UndefinedExpression;
 import com.squid.core.expression.parser.ExpressionParser;
 import com.squid.core.expression.parser.ExpressionParserImp;
 import com.squid.core.expression.parser.ParseException;
@@ -152,6 +153,14 @@ implements ExpressionScope
 	    		throw new ScopeException("failed to parse expression:\n" + genCode(expression) + "\n", e);
 	    	}
 	    }
+    }
+    
+    public ExpressionAST parseExpressionSafe(String expression) {
+    	try {
+    		return parseExpression(expression);
+    	} catch (Exception e) {
+    		return new UndefinedExpression(expression, e.getMessage());
+    	}
     }
     
     private String genCode(String expression) {
