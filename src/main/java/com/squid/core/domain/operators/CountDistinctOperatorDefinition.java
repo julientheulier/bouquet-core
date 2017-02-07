@@ -38,7 +38,11 @@ extends AggregateOperatorDefinition {
 		super(name, id);
 		setParamCount(1);
 	}
-
+	public CountDistinctOperatorDefinition(String name, int id, int categoricalType) {
+		super(name, id, categoricalType);
+		setParamCount(1);
+	}
+	
 	@Override
 	public List<String> getHint() {
 		List<String> hint = new ArrayList<String>();

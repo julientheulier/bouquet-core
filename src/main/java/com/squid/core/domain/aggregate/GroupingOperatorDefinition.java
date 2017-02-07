@@ -42,8 +42,8 @@ public class GroupingOperatorDefinition extends OperatorDefinition {
 	
 	public static final String ID = AggregateOperatorRegistry.REGISTRY_BASE+".Grouping";
 
-	public GroupingOperatorDefinition() {
-		super("GROUPING",ID,PREFIX_POSITION,"GROUPING",IDomain.NUMERIC);
+	public GroupingOperatorDefinition(int categoryType) {
+		super("GROUPING",ID,PREFIX_POSITION,"GROUPING",IDomain.NUMERIC, categoryType);
 	}
 
 	@Override

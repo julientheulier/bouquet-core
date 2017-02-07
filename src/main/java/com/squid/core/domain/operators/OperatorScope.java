@@ -80,16 +80,16 @@ public class OperatorScope implements IntrinsicOperators {
 		registerSafe(new BinaryArithmeticOperatorDefintion("CONCAT", CONCAT, IDomain.STRING,
 				OperatorDefinition.STRING_TYPE));
 		// -----------------------------------------------------------------------------
-		registerSafe(new AdditiveOperatorDefinition("PLUS", PLUS, "+", IDomain.NUMERIC));
-		registerSafe(new AdditiveOperatorDefinition("SUBTRACTION", SUBTRACTION, "-", IDomain.NUMERIC));
+		registerSafe(new AdditiveOperatorDefinition("PLUS", PLUS, "+", IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE));
+		registerSafe(new AdditiveOperatorDefinition("SUBTRACTION", SUBTRACTION, "-", IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE));
 		registerSafe(new MinusOperatorDefinition("MINUS", MINUS, OperatorDefinition.PREFIX_POSITION, "-",
 				IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE));
-		registerSafe(new DivideOperatorDefinition("DIVIDE", DIVIDE, "/", IDomain.NUMERIC));
+		registerSafe(new DivideOperatorDefinition("DIVIDE", DIVIDE, "/", IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE));
 		// registerSafe(new
 		// ArithmeticOperatorDefintion("DIVIDE",DIVIDE,"/",IDomain.NUMERIC));
-		registerSafe(new BinaryArithmeticOperatorDefintion("MULTIPLY", MULTIPLY, "*", IDomain.NUMERIC));
-		registerSafe(new UnaryArithmeticOperatorDefintion("EXPONENTIATE", EXPONENTIATE, "**", IDomain.NUMERIC));
-		registerSafe(new BinaryArithmeticOperatorDefintion("MODULO", MODULO, "%", IDomain.NUMERIC));
+		registerSafe(new BinaryArithmeticOperatorDefintion("MULTIPLY", MULTIPLY, "*", IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE));
+		registerSafe(new UnaryArithmeticOperatorDefintion("EXPONENTIATE", EXPONENTIATE, "**", IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE));
+		registerSafe(new BinaryArithmeticOperatorDefintion("MODULO", MODULO, "%", IDomain.NUMERIC,OperatorDefinition.MATHS_TYPE ));
 		registerSafe(new UnaryArithmeticOperatorDefintion("ABS", ABS, IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE));
 		// -----------------------------------------------------------------------------
 		final String[] ops = { "EXP", "LN", "LOG", "SQRT" };
@@ -106,58 +106,58 @@ public class OperatorScope implements IntrinsicOperators {
 					ExtendedType.FLOAT));
 		}
 		// -----------------------------------------------------------------------------
-		registerSafe(new VectorFriendlyOperatorDefinition("MAX", MAX));
-		registerSafe(new VectorFriendlyOperatorDefinition("MIN", MIN));
-		registerSafe(new VectorFriendlyOperatorDefinition("AVG", AVG));
-		registerSafe(new VectorFriendlyOperatorDefinition("STDDEV", STDDEV));
-		registerSafe(new OrderedAnalyticOperatorDefinition("SUM", SUM));
-		registerSafe(new VarianceOperatorDefinition("VARIANCE", VARIANCE));
-		registerSafe(new CoVarPopOperatorDefinition("COVAR_POP", COVAR_POP));
-		registerSafe(new VarSampOperatorDefinition("VAR_SAMP", VAR_SAMP));
-		registerSafe(new StdevPopOperatorDefinition("STDDEV_POP", STDDEV_POP));
-		registerSafe(new StdevSampOperatorDefinition("STDDEV_SAMP", STDDEV_SAMP));
-		registerSafe(new PercentileOperatorDefinition("PERCENTILE", PERCENTILE));
-		registerSafe(new AggregateOperatorDefinition("MEDIAN", MEDIAN));
-		registerSafe(new RankOperatorDefinition("RANK", RankOperatorDefinition.RANK_ID));
-		registerSafe(new RankOperatorDefinition("ROW_NUMBER", RankOperatorDefinition.ROWNUMBER_ID));
-		registerSafe(new CountOperatorDefinition("COUNT", COUNT));
-		registerSafe(new CountDistinctOperatorDefinition("COUNT_DISTINCT", COUNT_DISTINCT));
-		registerSafe(new CountDistinctOperatorDefinition("DISTINCT", COUNT_DISTINCT));// short-hand
+		registerSafe(new VectorFriendlyOperatorDefinition("MAX", MAX, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new VectorFriendlyOperatorDefinition("MIN", MIN, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new VectorFriendlyOperatorDefinition("AVG", AVG, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new VectorFriendlyOperatorDefinition("STDDEV", STDDEV, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new OrderedAnalyticOperatorDefinition("SUM", SUM, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new VarianceOperatorDefinition("VARIANCE", VARIANCE, OperatorDefinition.AGGR_TYPE ));
+		registerSafe(new CoVarPopOperatorDefinition("COVAR_POP", COVAR_POP, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new VarSampOperatorDefinition("VAR_SAMP", VAR_SAMP, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new StdevPopOperatorDefinition("STDDEV_POP", STDDEV_POP, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new StdevSampOperatorDefinition("STDDEV_SAMP", STDDEV_SAMP, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new PercentileOperatorDefinition("PERCENTILE", PERCENTILE, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new AggregateOperatorDefinition("MEDIAN", MEDIAN, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new RankOperatorDefinition("RANK", RankOperatorDefinition.RANK_ID, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new RankOperatorDefinition("ROW_NUMBER", RankOperatorDefinition.ROWNUMBER_ID, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new CountOperatorDefinition("COUNT", COUNT, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new CountDistinctOperatorDefinition("COUNT_DISTINCT", COUNT_DISTINCT, OperatorDefinition.AGGR_TYPE));
+		registerSafe(new CountDistinctOperatorDefinition("DISTINCT", COUNT_DISTINCT, OperatorDefinition.AGGR_TYPE));// short-hand
 		// -----------------------------------------------------------------------------
-		registerSafe(new ComparisonOperatorDefinition("LESS", LESS, "<"));
-		registerSafe(new ComparisonOperatorDefinition("LESS_OR_EQUAL", LESS_OR_EQUAL, "<="));
-		registerSafe(new ComparisonOperatorDefinition("GREATER", GREATER, ">"));
-		registerSafe(new ComparisonOperatorDefinition("GREATER_OR_EQUAL", GREATER_OR_EQUAL, ">="));
-		registerSafe(new ComparisonOperatorDefinition("EQUAL", EQUAL, "="));
-		registerSafe(new ComparisonOperatorDefinition("NOT_EQUAL", NOT_EQUAL, "!="));
-		registerSafe(new InOperatorDefinition("IN", IN, "IN"));
-		registerSafe(new ConditionalOperatorDefinition("ISNULL", ISNULL));
-		registerSafe(new ConditionalOperatorDefinition("ISNOTNULL", IS_NOTNULL));
-		registerSafe(new ComparisonOperatorDefinition("LIKE", LIKE, "LIKE") {
+		registerSafe(new ComparisonOperatorDefinition("LESS", LESS, "<", OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new ComparisonOperatorDefinition("LESS_OR_EQUAL", LESS_OR_EQUAL, "<=",OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new ComparisonOperatorDefinition("GREATER", GREATER, ">", OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new ComparisonOperatorDefinition("GREATER_OR_EQUAL", GREATER_OR_EQUAL, ">=",OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new ComparisonOperatorDefinition("EQUAL", EQUAL, "=",OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new ComparisonOperatorDefinition("NOT_EQUAL", NOT_EQUAL, "!=",OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new InOperatorDefinition("IN", IN, "IN",OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new ConditionalOperatorDefinition("ISNULL", ISNULL, OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new ConditionalOperatorDefinition("ISNOTNULL", IS_NOTNULL, OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new ComparisonOperatorDefinition("LIKE", LIKE, "LIKE",OperatorDefinition.LOGICAL_TYPE) {
 			@Override
 			protected String getPrettyPrintSymbol() {
 				return " " + getSymbol() + " ";
 			}
 		});
-		registerSafe(new ComparisonOperatorDefinition("RLIKE", RLIKE, "RLIKE") {
+		registerSafe(new ComparisonOperatorDefinition("RLIKE", RLIKE, "RLIKE",OperatorDefinition.LOGICAL_TYPE) {
 			@Override
 			protected String getPrettyPrintSymbol() {
 				return " " + getSymbol() + " ";
 			}
 		});
 		// -----------------------------------------------------------------------------
-		registerSafe(new UnaryLogicalOperatorDefinition("NOT", NOT));
-		registerSafe(new OrAndConditionalOperatorDefinition("OR", OR, "||"));
-		registerSafe(new OrAndConditionalOperatorDefinition("AND", AND, "&&"));
+		registerSafe(new UnaryLogicalOperatorDefinition("NOT", NOT, OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new OrAndConditionalOperatorDefinition("OR", OR, "||", OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new OrAndConditionalOperatorDefinition("AND", AND, "&&", OperatorDefinition.LOGICAL_TYPE));
 		// -----------------------------------------------------------------------------
-		registerSafe(new ExistsOperatorDefinition("EXISTS", EXISTS));
+		registerSafe(new ExistsOperatorDefinition("EXISTS", EXISTS,OperatorDefinition.LOGICAL_TYPE));
 		// -----------------------------------------------------------------------------
-		registerSafe(new CaseOperatorDefinition("CASE", CASE));
-		registerSafe(new NullIfOperatorDefinition("NULLIF", NULLIF));
+		registerSafe(new CaseOperatorDefinition("CASE", CASE, OperatorDefinition.LOGICAL_TYPE));
+		registerSafe(new NullIfOperatorDefinition("NULLIF", NULLIF, OperatorDefinition.LOGICAL_TYPE));
 		// -----------------------------------------------------------------------------
 		registerSafe(new GroupOperatorDefintion());
 		// -----------------------------------------------------------------------------
-		registerSafe(new CoalesceOperatorDefinition("COALESCE", COALESCE));
+		registerSafe(new CoalesceOperatorDefinition("COALESCE", COALESCE, OperatorDefinition.LOGICAL_TYPE));
 		// -----------------------------------------------------------------------------
 		registerSafe(new VectorOperatorDefinition());
 		// support for compareTo() and growth() - T2511

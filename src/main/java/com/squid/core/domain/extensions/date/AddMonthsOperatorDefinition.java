@@ -38,6 +38,8 @@ extends OperatorDefinition {
 	public static final String ADD_MONTHS_BASE = "com.squid.domain.operator.date.";
 	public static final String ADD_MONTHS = ADD_MONTHS_BASE+"ADD_MONTHS";
 
+	
+	
 	private static final String HINT = "ADD_MONTHS(date or timestamp,integer)";
 
 	public AddMonthsOperatorDefinition(String name, int id, IDomain domain, int categoryType) {

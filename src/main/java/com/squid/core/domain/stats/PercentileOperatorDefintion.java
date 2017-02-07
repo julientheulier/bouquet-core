@@ -44,8 +44,8 @@ public class PercentileOperatorDefintion extends OperatorDefinition {
 
 	public static final String PERCENTILE = StatsOperatorRegistry.STATS_BASE + "PERCENTILE";
 
-	public PercentileOperatorDefintion(String name, String ID) {
-		super(name, ID, PREFIX_POSITION, name, AnalyticDomain.DOMAIN);
+	public PercentileOperatorDefintion(String name, String ID, int categoryType) {
+		super(name, ID, PREFIX_POSITION, name, AnalyticDomain.DOMAIN, categoryType);
 	}
 
 	@Override

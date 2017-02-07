@@ -88,6 +88,10 @@ extends BinaryArithmeticOperatorDefintion
 		// TODO Auto-generated constructor stub
 	}
 
+	public AdditiveOperatorDefinition(String name, int id, String symbol, IDomain domain, int categoryType) {
+		super(name, id, symbol, domain, categoryType)	;
+	}
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.size()==2) {

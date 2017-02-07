@@ -39,7 +39,11 @@ public class InOperatorDefinition extends ComparisonOperatorDefinition {
 		super(name, id, symbol);
 		// TODO Auto-generated constructor stub
 	}
-
+	public InOperatorDefinition(String name, int id, String symbol, int categoricalType) {
+		super(name, id, symbol, categoricalType);
+		// TODO Auto-generated constructor stub
+	}
+	
 	public InOperatorDefinition(String name, int id) {
 		super(name, id);
 		// TODO Auto-generated constructor stub

@@ -62,11 +62,21 @@ public class AlgebraicOperatorDefinition extends OperatorDefinition {
 		super(name, id, position, domain);
 		// TODO Auto-generated constructor stub
 	}
+	public AlgebraicOperatorDefinition(String name, int id, int position, IDomain domain, int categoricalType) {
+		super(name, id, position, domain, categoricalType);
+		// TODO Auto-generated constructor stub
+	}
 
 	public AlgebraicOperatorDefinition(String name, int id, String symbol, IDomain domain) {
 		super(name, id, symbol, domain);
 		// TODO Auto-generated constructor stub
+	} 
+	
+	public AlgebraicOperatorDefinition(String name, int id, String symbol, IDomain domain, int categoryType) {
+		super(name, id, symbol, domain, categoryType);
+		// TODO Auto-generated constructor stub
 	}
+
 
 	public AlgebraicOperatorDefinition(String name, int id, int position, String symbol, IDomain domain) {
 		super(name, id, position, symbol, domain);

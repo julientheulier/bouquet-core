@@ -48,6 +48,10 @@ public class StdevSampOperatorDefinition extends AggregateOperatorDefinition {
 		super(name, id);
 		setDomain(IDomain.NUMERIC);
 	}
+	public StdevSampOperatorDefinition(String name, int id, int categoricalType) {
+		super(name, id, categoricalType);
+		setDomain(IDomain.NUMERIC);
+	}
 	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {

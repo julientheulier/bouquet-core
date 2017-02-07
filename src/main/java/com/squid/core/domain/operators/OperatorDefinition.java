@@ -115,7 +115,17 @@ public abstract class OperatorDefinition {
     public OperatorDefinition(String name, int id, int position, IDomain domain) {
         this(name, id, position, name, domain);
     }
+    /**
+     * @param name
+     * @param id
+     * @param position
+     * @parem type
+     */
+    public OperatorDefinition(String name, int id, int position, IDomain domain, int categoricalType) {
+        this(name, id, position, name, domain, categoricalType);
+    }
 
+    
     /**
      * Create infix operator
      *
@@ -125,6 +135,18 @@ public abstract class OperatorDefinition {
      */
     public OperatorDefinition(String name, int id, String symbol, IDomain domain) {
         this(name, id, INFIX_POSITION, symbol, domain);
+    }
+    
+    /**
+     * Create infix operator
+     *
+     * @param name
+     * @param id
+     * @param symbol
+     * @param category
+     */
+    public OperatorDefinition(String name, int id, String symbol, IDomain domain, int categoryType) {
+        this(name, id, INFIX_POSITION, symbol, domain, categoryType);
     }
 
     /**
@@ -198,7 +220,9 @@ public abstract class OperatorDefinition {
         this.categoryType = categoryType;
     }
 
-    public int getId() {
+ 
+
+	public int getId() {
         return m_id;
     }
 

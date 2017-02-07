@@ -37,16 +37,20 @@ import com.squid.core.domain.aggregate.AggregateDomain;
  *
  */
 public class CaseOperatorDefinition 
-extends ArithmeticOperatorDefintion {
+extends ArithmeticOperatorDefinition {
 
 	private static final String HINT = "CASE(condition1,then1,...,[else])";
 
 	public CaseOperatorDefinition(String name, int id) {
 		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN);
-		//
-		
+		//		
+	}
+	public CaseOperatorDefinition(String name, int id, int categoricalType) {
+		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN, categoricalType);
+		//		
 	}
 
+	
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;

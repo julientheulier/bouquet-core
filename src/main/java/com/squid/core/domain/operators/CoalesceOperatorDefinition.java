@@ -32,16 +32,20 @@ import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 
 public class CoalesceOperatorDefinition
-extends ArithmeticOperatorDefintion {
+extends ArithmeticOperatorDefinition {
 
 	private static final String HINT = "COALESCE(expr,value)";
 
 	public CoalesceOperatorDefinition(String name, int id) {
 		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN);
 		//
-
+	}
+	public CoalesceOperatorDefinition(String name, int id, int categoricalType) {
+		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN, categoricalType);
+		//
 	}
 
+	
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;

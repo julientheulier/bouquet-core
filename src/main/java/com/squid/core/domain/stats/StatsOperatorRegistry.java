@@ -26,6 +26,7 @@ package com.squid.core.domain.stats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorRegistry;
 import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.domain.operators.OperatorScopeException;
@@ -54,7 +55,7 @@ implements OperatorRegistry
 	
 	@Override
 	public void apply(OperatorScope scope) throws OperatorScopeException {
-		scope.registerExtension(new PercentileOperatorDefintion("PERCENTILE",PercentileOperatorDefintion.PERCENTILE));
+		scope.registerExtension(new PercentileOperatorDefintion("PERCENTILE",PercentileOperatorDefintion.PERCENTILE, OperatorDefinition.NUMERIC_TYPE));
 	}
 
 }

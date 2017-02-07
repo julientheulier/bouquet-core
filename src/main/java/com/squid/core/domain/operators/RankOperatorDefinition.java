@@ -48,11 +48,20 @@ extends OrderedAnalyticOperatorDefinition {
 	public RankOperatorDefinition(String name, String extendedId) {
 		super(name, extendedId, PREFIX_POSITION, name, IDomain.NUMERIC);
 	}
+
+	public RankOperatorDefinition(String name, String extendedId, int categoricalType) {
+		super(name, extendedId, PREFIX_POSITION, name, IDomain.NUMERIC, categoricalType);
+	}
 	
 	protected RankOperatorDefinition(String name, int id) {
 		super(name, id);
 		// TODO Auto-generated constructor stub
 	}
+	protected RankOperatorDefinition(String name, int id, int categoricalType) {
+		super(name, id, categoricalType);
+		// TODO Auto-generated constructor stub
+	}
+
 
 	@Override
 	public int getType() {

@@ -29,16 +29,19 @@ import java.util.List;
 import com.squid.core.domain.DomainAny;
 import com.squid.core.domain.IDomain;
 
-public class NullIfOperatorDefinition extends ArithmeticOperatorDefintion {
+public class NullIfOperatorDefinition extends ArithmeticOperatorDefinition {
 
 	private static final String HINT = "NULLIF(expr,value)";
 
 	public NullIfOperatorDefinition(String name, int id) {
 		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN);
 		//
-
 	}
-
+	public NullIfOperatorDefinition(String name, int id, int categoricalType) {
+		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN, categoricalType);
+		//
+	}
+	
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;

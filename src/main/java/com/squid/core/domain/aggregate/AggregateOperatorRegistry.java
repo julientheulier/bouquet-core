@@ -26,6 +26,7 @@ package com.squid.core.domain.aggregate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorRegistry;
 import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.domain.operators.OperatorScopeException;
@@ -49,9 +50,9 @@ implements OperatorRegistry {
 
 	@Override
 	public void apply(OperatorScope scope) throws OperatorScopeException {
-		scope.registerExtension(new QuotientOperatorDefinition());
-        scope.registerExtension(new GroupingIDOperatorDefinition());
-        scope.registerExtension(new GroupingOperatorDefinition());
+		scope.registerExtension(new QuotientOperatorDefinition( OperatorDefinition.AGGR_TYPE));
+        scope.registerExtension(new GroupingIDOperatorDefinition( OperatorDefinition.AGGR_TYPE));
+        scope.registerExtension(new GroupingOperatorDefinition( OperatorDefinition.AGGR_TYPE));
 	}
 
 }

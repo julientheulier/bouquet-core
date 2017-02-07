@@ -33,7 +33,7 @@ import com.squid.core.domain.associative.AssociativeDomainInformation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnaryArithmeticOperatorDefintion extends ArithmeticOperatorDefintion {
+public class UnaryArithmeticOperatorDefintion extends ArithmeticOperatorDefinition {
 
 	public UnaryArithmeticOperatorDefintion(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType) {
 		super(name, extendedID, position, symbol, domain, categoryType);
@@ -69,7 +69,12 @@ public class UnaryArithmeticOperatorDefintion extends ArithmeticOperatorDefintio
 		super(name, id, symbol, domain);
 		// TODO Auto-generated constructor stub
 	}
+	public UnaryArithmeticOperatorDefintion(String name, int id, String symbol, IDomain domain , int categoryType) {
+		super(name, id, symbol, domain, categoryType);
+		// TODO Auto-generated constructor stub
+	}
 
+	
 	public UnaryArithmeticOperatorDefintion(String name, int id, int position, String symbol, IDomain domain) {
 		super(name, id, position, symbol, domain);
 		// TODO Auto-generated constructor stub

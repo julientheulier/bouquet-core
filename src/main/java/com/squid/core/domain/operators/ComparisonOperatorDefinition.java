@@ -42,7 +42,10 @@ extends ConditionalOperatorDefinition {
 		super(name, id, symbol);
 		// TODO Auto-generated constructor stub
 	}
-
+	public ComparisonOperatorDefinition(String name, int id, String symbol, int categoryType) {
+		super(name, id, symbol, categoryType);
+		// TODO Auto-generated constructor stub
+	}
 	public ComparisonOperatorDefinition(String name, int id) {
 		super(name, id);
 		// TODO Auto-generated constructor stub

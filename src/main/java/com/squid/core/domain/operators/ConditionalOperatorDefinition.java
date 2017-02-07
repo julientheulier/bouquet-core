@@ -57,6 +57,10 @@ public class ConditionalOperatorDefinition extends AlgebraicOperatorDefinition {
 		super(name, id, symbol, IDomain.CONDITIONAL);
 		// TODO Auto-generated constructor stub
 	}
+	public ConditionalOperatorDefinition(String name, int id, String symbol, int categoryType) {
+		super(name, id, symbol, IDomain.CONDITIONAL, categoryType);
+		// TODO Auto-generated constructor stub
+	}
 	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {

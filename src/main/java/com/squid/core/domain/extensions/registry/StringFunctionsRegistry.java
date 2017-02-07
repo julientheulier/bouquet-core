@@ -97,13 +97,13 @@ public class StringFunctionsRegistry implements OperatorRegistry {
 				TranslateOperatorDefinition.STRING_TRANSLATE, IDomain.STRING, OperatorDefinition.STRING_TYPE));
 
 		scope.registerExtension(new RegexpCountOperatorDefinition("REGEXP_COUNT", RegexpOperatorDefinition.REGEXP_COUNT,
-				IDomain.NUMERIC, OperatorDefinition.STRING_TYPE));
+				IDomain.NUMERIC, OperatorDefinition.REGEXP_TYPE));
 		scope.registerExtension(new RegexpInstrOperatorDefinition("REGEXP_INSTR", RegexpOperatorDefinition.REGEXP_INSTR,
-				IDomain.NUMERIC, OperatorDefinition.STRING_TYPE));
+				IDomain.NUMERIC, OperatorDefinition.REGEXP_TYPE));
 		scope.registerExtension(new RegexpReplaceOperatorDefinition("REGEXP_REPLACE", RegexpOperatorDefinition.REGEXP_REPLACE,
-				IDomain.STRING, OperatorDefinition.STRING_TYPE));
+				IDomain.STRING, OperatorDefinition.REGEXP_TYPE));
 		scope.registerExtension(new RegexpSubstringOperatorDefinition("REGEXP_SUBSTRING", RegexpOperatorDefinition.REGEXP_SUBSTR,
-				IDomain.STRING, OperatorDefinition.STRING_TYPE));
+				IDomain.STRING, OperatorDefinition.REGEXP_TYPE));
 
 	}
 

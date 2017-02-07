@@ -64,6 +64,11 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
 		super(name, extendedID, position, symbol, domain);
 		init();
 	}
+	public AggregateOperatorDefinition(String name, String extendedID,
+			int position, String symbol, IDomain domain, int categoricalType) {
+		super(name, extendedID, position, symbol, domain, categoricalType);
+		init();
+	}
 
 	protected void init() {
 		setParamCount(1);

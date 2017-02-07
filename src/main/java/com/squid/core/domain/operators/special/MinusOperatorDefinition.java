@@ -24,7 +24,7 @@
 package com.squid.core.domain.operators.special;
 
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.operators.ArithmeticOperatorDefintion;
+import com.squid.core.domain.operators.ArithmeticOperatorDefinition;
 import com.squid.core.domain.operators.BinaryArithmeticOperatorDefintion;
 import com.squid.core.domain.operators.OperatorDefinition;
 

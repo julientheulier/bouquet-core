@@ -29,7 +29,7 @@ import com.squid.core.domain.IDomain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BinaryArithmeticOperatorDefintion extends ArithmeticOperatorDefintion {
+public class BinaryArithmeticOperatorDefintion extends ArithmeticOperatorDefinition {
 
 	public BinaryArithmeticOperatorDefintion(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType) {
 		super(name, extendedID, position, symbol, domain, categoryType);
@@ -65,7 +65,11 @@ public class BinaryArithmeticOperatorDefintion extends ArithmeticOperatorDefinti
 		super(name, id, symbol, domain);
 		// TODO Auto-generated constructor stub
 	}
-
+	public BinaryArithmeticOperatorDefintion(String name, int id, String symbol, IDomain domain, int categoryType) {
+		super(name, id, symbol, domain, categoryType);
+		// TODO Auto-generated constructor stub
+	}
+	
 	public BinaryArithmeticOperatorDefintion(String name, int id, int position, String symbol, IDomain domain) {
 		super(name, id, position, symbol, domain);
 		// TODO Auto-generated constructor stub
