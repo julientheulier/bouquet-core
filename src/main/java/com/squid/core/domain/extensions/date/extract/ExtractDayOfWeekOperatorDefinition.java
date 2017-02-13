@@ -35,12 +35,12 @@ public class ExtractDayOfWeekOperatorDefinition extends ExtractOperatorDefinitio
 
     public static final String ID = ExtractOperatorDefinition.EXTRACT_BASE+"DAY_OF_WEEK";
 
-    public ExtractDayOfWeekOperatorDefinition(String name, int categoryType) {
-        super(name, categoryType);
+    public ExtractDayOfWeekOperatorDefinition(String name) {
+        super(name);
     }
 
-    public ExtractDayOfWeekOperatorDefinition(String name, String ID, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractDayOfWeekOperatorDefinition(String name, String ID) {
+        super(name, ID);
     }
 
 

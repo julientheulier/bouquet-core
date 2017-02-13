@@ -38,10 +38,6 @@ extends OrderedAnalyticOperatorDefinition {
 		super(name, id);
 		// TODO Auto-generated constructor stub
 	}
-	public CountOperatorDefinition(String name, int id, int categoricalType) {
-		super(name, id, categoricalType);
-		// TODO Auto-generated constructor stub
-	}
 	
 	@Override
 	public IDomain computeImageDomain(List<IDomain> sourceDomain) {

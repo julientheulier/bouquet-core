@@ -46,12 +46,7 @@ public class PadOperatorDefinition extends OperatorDefinition {
     super(name, ID, PREFIX_POSITION, name, IDomain.STRING);
     setDomain(domain);
     hint = name + "(string,n,string_pad)";
-  }
-
-  public PadOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-    super(name, ID, PREFIX_POSITION, name, domain, categoryType);
-    setDomain(domain);
-    hint = name + "(string,n[,string_pad])";
+    this.setCategoryType(OperatorDefinition.STRING_TYPE);
   }
 
   @Override

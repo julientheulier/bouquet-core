@@ -49,10 +49,6 @@ public class StdevPopOperatorDefinition extends AggregateOperatorDefinition {
 		super(name, id);
 		setDomain(IDomain.NUMERIC);
 	}
-	public StdevPopOperatorDefinition(String name, int id, int categoricalType) {
-		super(name, id, categoricalType);
-		setDomain(IDomain.NUMERIC);
-	}
 	
 	
 	@Override

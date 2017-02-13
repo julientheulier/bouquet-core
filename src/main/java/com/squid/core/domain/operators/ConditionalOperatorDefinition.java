@@ -45,22 +45,19 @@ public class ConditionalOperatorDefinition extends AlgebraicOperatorDefinition {
 
 	public ConditionalOperatorDefinition(String name, int id) {
 		super(name, id, IDomain.CONDITIONAL);
-		// TODO Auto-generated constructor stub
-	}
+		this.setCategoryType(OperatorDefinition.LOGICAL_TYPE);
+			}
 
 	public ConditionalOperatorDefinition(String name, int id, int position) {
 		super(name, id, position, IDomain.CONDITIONAL);
-		// TODO Auto-generated constructor stub
-	}
+		this.setCategoryType(OperatorDefinition.LOGICAL_TYPE);
+			}
 
 	public ConditionalOperatorDefinition(String name, int id, String symbol) {
 		super(name, id, symbol, IDomain.CONDITIONAL);
-		// TODO Auto-generated constructor stub
+		this.setCategoryType(OperatorDefinition.LOGICAL_TYPE);
 	}
-	public ConditionalOperatorDefinition(String name, int id, String symbol, int categoryType) {
-		super(name, id, symbol, IDomain.CONDITIONAL, categoryType);
-		// TODO Auto-generated constructor stub
-	}
+
 	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {

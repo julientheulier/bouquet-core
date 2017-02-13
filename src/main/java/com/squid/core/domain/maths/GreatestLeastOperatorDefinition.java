@@ -41,14 +41,12 @@ public class GreatestLeastOperatorDefinition extends OperatorDefinition {
 
 	public GreatestLeastOperatorDefinition(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 	
 	public GreatestLeastOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
-	}
-	
-	public GreatestLeastOperatorDefinition(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 	
 	@Override

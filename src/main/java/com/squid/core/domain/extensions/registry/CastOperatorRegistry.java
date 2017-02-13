@@ -49,15 +49,15 @@ public class CastOperatorRegistry implements OperatorRegistry {
 	@Override
 	public void apply(OperatorScope scope) throws OperatorScopeException {
 		// TODO Auto-generated method stub
-		CastToCharOperatorDefinition to_char = new CastToCharOperatorDefinition("TO_CHAR",IDomain.STRING, OperatorDefinition.STRING_TYPE);
+		CastToCharOperatorDefinition to_char = new CastToCharOperatorDefinition("TO_CHAR",IDomain.STRING);
 		scope.registerExtension(to_char);
-		CastToDateOperatorDefinition to_date = new CastToDateOperatorDefinition("TO_DATE",IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+		CastToDateOperatorDefinition to_date = new CastToDateOperatorDefinition("TO_DATE",IDomain.DATE);
 		scope.registerExtension(to_date);
-		CastToNumberOperatorDefinition to_number = new CastToNumberOperatorDefinition("TO_NUMBER",IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE);
+		CastToNumberOperatorDefinition to_number = new CastToNumberOperatorDefinition("TO_NUMBER",IDomain.NUMERIC);
 		scope.registerExtension(to_number);
-		CastToIntegerOperatorDefinition to_integer = new CastToIntegerOperatorDefinition("TO_INTEGER",IDomain.NUMERIC, OperatorDefinition.MATHS_TYPE);
+		CastToIntegerOperatorDefinition to_integer = new CastToIntegerOperatorDefinition("TO_INTEGER",IDomain.NUMERIC);
 		scope.registerExtension(to_integer);
-		CastToTimestampOperatorDefinition to_timestamp = new CastToTimestampOperatorDefinition("TO_TIMESTAMP",IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
+		CastToTimestampOperatorDefinition to_timestamp = new CastToTimestampOperatorDefinition("TO_TIMESTAMP",IDomain.TIMESTAMP);
 		scope.registerExtension(to_timestamp);
 
 	}

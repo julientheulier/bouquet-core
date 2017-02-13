@@ -54,7 +54,7 @@ implements OperatorRegistry {
 	@Override
 	public void apply(OperatorScope scope) throws OperatorScopeException {
 		scope.registerExtension(new RowsOperatorDefinition("ROWS",WINDOWING_ROWS_ID));
-		scope.registerExtension(new UnboudedOperatorDefinition("UNBOUNDED",WINDOWING_UNBOUNDED_ID));
+		scope.registerExtension(new UnboundedOperatorDefinition("UNBOUNDED",WINDOWING_UNBOUNDED_ID));
 		scope.registerExtension(new CurrentOperatorDefinition("CURRENT",WINDOWING_CURRENT_ID));
 		scope.registerExtension(new PrecedingOperatorDefinition("PRECEDING",WINDOWING_PRECEDING_ID));
 		scope.registerExtension(new FollowingOperatorDefinition("FOLLOWING",WINDOWING_FOLLOWING_ID));

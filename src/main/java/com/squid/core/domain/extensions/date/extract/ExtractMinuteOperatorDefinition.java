@@ -39,12 +39,12 @@ public class ExtractMinuteOperatorDefinition extends ExtractOperatorDefinition {
 
     public static final String ID = ExtractOperatorDefinition.EXTRACT_BASE+"MINUTE";
 
-    public ExtractMinuteOperatorDefinition(String name, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractMinuteOperatorDefinition(String name) {
+        super(name, ID);
     }
 
-    public ExtractMinuteOperatorDefinition(String name, String ID, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractMinuteOperatorDefinition(String name, String ID) {
+        super(name, ID);
     }
 
     @Override

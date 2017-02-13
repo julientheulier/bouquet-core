@@ -57,12 +57,9 @@ public class SplitPartOperatorDefinition extends OperatorDefinition {
 	public SplitPartOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name, ID, PREFIX_POSITION, name, domain);
 		hint = name + "(string, delimiter, position)";
+		this.setCategoryType(OperatorDefinition.STRING_TYPE);
 	}
 
-	public SplitPartOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name, ID, PREFIX_POSITION, name, domain, categoryType);
-		hint = name + "(string, delimiter, position)";
-	}
 
 	@Override
 	public int getType() {

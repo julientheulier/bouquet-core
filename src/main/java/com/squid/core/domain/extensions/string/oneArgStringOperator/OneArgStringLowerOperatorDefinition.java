@@ -37,17 +37,9 @@ public class OneArgStringLowerOperatorDefinition extends OneArgStringOperatorDef
         super(name, ID, domain);
     }
 
-    public OneArgStringLowerOperatorDefinition(String name, IDomain domain,
-                                             int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     public OneArgStringLowerOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public OneArgStringLowerOperatorDefinition(String name, String ID, IDomain domain,
-                                             int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 }

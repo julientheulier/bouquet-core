@@ -40,19 +40,11 @@ public class OneArgStringMD5OperatorDefinition extends OneArgStringOperatorDefin
         super(name, ID, domain);
     }
 
-    public OneArgStringMD5OperatorDefinition(String name, IDomain domain,
-                                               int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     public OneArgStringMD5OperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public OneArgStringMD5OperatorDefinition(String name, String ID, IDomain domain,
-                                               int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     @Override
     public ExtendedType computeExtendedType(ExtendedType[] types) {

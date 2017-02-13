@@ -35,11 +35,7 @@ public class NullIfOperatorDefinition extends ArithmeticOperatorDefinition {
 
 	public NullIfOperatorDefinition(String name, int id) {
 		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN);
-		//
-	}
-	public NullIfOperatorDefinition(String name, int id, int categoricalType) {
-		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN, categoricalType);
-		//
+		this.setCategoryType(OperatorDefinition.LOGICAL_TYPE);
 	}
 	
 	@Override

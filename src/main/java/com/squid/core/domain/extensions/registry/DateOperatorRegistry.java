@@ -54,45 +54,45 @@ implements OperatorRegistry
 	}
 
 	public void apply(OperatorScope scope) throws OperatorScopeException {
-		DateOperatorDefinition months_between = new DateMonthsBetweenOperatorDefinition("MONTHS_BETWEEN",IDomain.NUMERIC, OperatorDefinition.DATE_TIME_TYPE);
+		DateOperatorDefinition months_between = new DateMonthsBetweenOperatorDefinition("MONTHS_BETWEEN",IDomain.NUMERIC);
 		scope.registerExtension(months_between);
-		DateOperatorDefinition date_add = new DateAddOperatorDefinition("DATE_ADD",IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+		DateOperatorDefinition date_add = new DateAddOperatorDefinition("DATE_ADD",IDomain.DATE);
 		scope.registerExtension(date_add);
-		DateOperatorDefinition date_sub = new DateSubOperatorDefinition("DATE_SUB",IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+		DateOperatorDefinition date_sub = new DateSubOperatorDefinition("DATE_SUB",IDomain.DATE);
 		scope.registerExtension(date_sub);
-		DateOperatorDefinition date_interval = new DateIntervalOperatorDefinition("DATE_INTERVAL",IDomain.NUMERIC, OperatorDefinition.DATE_TIME_TYPE);
+		DateOperatorDefinition date_interval = new DateIntervalOperatorDefinition("DATE_INTERVAL",IDomain.NUMERIC);
 		scope.registerExtension(date_interval);
-		DateOperatorDefinition current_date = new DateCurrentDateOperatorDefinition("CURRENT_DATE",IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+		DateOperatorDefinition current_date = new DateCurrentDateOperatorDefinition("CURRENT_DATE",IDomain.DATE);
 		scope.registerExtension(current_date);
-		DateOperatorDefinition current_timestamp = new DateCurrentTimestampOperatorDefinition("CURRENT_TIMESTAMP",IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
+		DateOperatorDefinition current_timestamp = new DateCurrentTimestampOperatorDefinition("CURRENT_TIMESTAMP",IDomain.TIMESTAMP);
 		scope.registerExtension(current_timestamp);
 		//
-		DateOperatorDefinition from_unixtime = new DateFromEpochOperatorDefinition("FROM_EPOCH",IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
+		DateOperatorDefinition from_unixtime = new DateFromEpochOperatorDefinition("FROM_EPOCH",IDomain.TIMESTAMP);
 		scope.registerExtension(from_unixtime);
-		DateOperatorDefinition to_unixtime = new DateToEpochOperatorDefinition("TO_EPOCH",IDomain.NUMERIC, OperatorDefinition.DATE_TIME_TYPE);
+		DateOperatorDefinition to_unixtime = new DateToEpochOperatorDefinition("TO_EPOCH",IDomain.NUMERIC);
 		scope.registerExtension(to_unixtime);
 		//
-		AddMonthsOperatorDefinition addMonths = new AddMonthsOperatorDefinition("ADD_MONTHS",AddMonthsOperatorDefinition.ADD_MONTHS, OperatorDefinition.DATE_TIME_TYPE);
+		AddMonthsOperatorDefinition addMonths = new AddMonthsOperatorDefinition("ADD_MONTHS",AddMonthsOperatorDefinition.ADD_MONTHS);
 		scope.registerExtension(addMonths);
 		scope.registerLegacy(addMonths,IntrinsicOperators.ADD_MONTHS);
 		//
-		scope.registerExtension(new ExtractDayOperatorDefinition("DAY", OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new ExtractDayOfWeekOperatorDefinition("DAY_OF_WEEK", OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new ExtractDayOfYearOperatorDefinition("DAY_OF_YEAR", OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new ExtractMonthOperatorDefinition("MONTH", OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new ExtractYearOperatorDefinition("YEAR", OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new ExtractHourOperatorDefinition("HOUR", OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new ExtractMinuteOperatorDefinition("MINUTE", OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new ExtractSecondOperatorDefinition("SECOND", OperatorDefinition.DATE_TIME_TYPE));
+		scope.registerExtension(new ExtractDayOperatorDefinition("DAY"));
+		scope.registerExtension(new ExtractDayOfWeekOperatorDefinition("DAY_OF_WEEK"));
+		scope.registerExtension(new ExtractDayOfYearOperatorDefinition("DAY_OF_YEAR"));
+		scope.registerExtension(new ExtractMonthOperatorDefinition("MONTH"));
+		scope.registerExtension(new ExtractYearOperatorDefinition("YEAR"));
+		scope.registerExtension(new ExtractHourOperatorDefinition("HOUR"));
+		scope.registerExtension(new ExtractMinuteOperatorDefinition("MINUTE"));
+		scope.registerExtension(new ExtractSecondOperatorDefinition("SECOND"));
 		//
-		scope.registerExtension(new DateTruncateOperatorDefinition("DATE_TRUNCATE",DateTruncateOperatorDefinition.DATE_TRUNCATE,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
+		scope.registerExtension(new DateTruncateOperatorDefinition("DATE_TRUNCATE",DateTruncateOperatorDefinition.DATE_TRUNCATE,IDomain.DATE));
 		// For this ones, I dont really need to separate.
-		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("HOURLY",DateTruncateShortcutsOperatorDefinition.HOURLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("DAILY",DateTruncateShortcutsOperatorDefinition.DAILY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("WEEKLY",DateTruncateShortcutsOperatorDefinition.WEEKLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("MONTHLY",DateTruncateShortcutsOperatorDefinition.MONTHLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("YEARLY",DateTruncateShortcutsOperatorDefinition.YEARLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
-		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("QUARTERLY",DateTruncateShortcutsOperatorDefinition.QUARTERLY_ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("HOURLY",DateTruncateShortcutsOperatorDefinition.HOURLY_ID,IDomain.DATE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("DAILY",DateTruncateShortcutsOperatorDefinition.DAILY_ID,IDomain.DATE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("WEEKLY",DateTruncateShortcutsOperatorDefinition.WEEKLY_ID,IDomain.DATE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("MONTHLY",DateTruncateShortcutsOperatorDefinition.MONTHLY_ID,IDomain.DATE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("YEARLY",DateTruncateShortcutsOperatorDefinition.YEARLY_ID,IDomain.DATE));
+		scope.registerExtension(new DateTruncateShortcutsOperatorDefinition("QUARTERLY",DateTruncateShortcutsOperatorDefinition.QUARTERLY_ID,IDomain.DATE));
 		//
 //See Ticket #1620
 //		scope.registerExtension(new IntervalOperatorDefinition("INTERVAL_DAY",IntervalOperatorDefinition.INTERVAL_DAY, OperatorDefinition.DATE_TIME_TYPE));

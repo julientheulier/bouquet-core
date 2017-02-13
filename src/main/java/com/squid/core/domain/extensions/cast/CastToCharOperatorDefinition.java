@@ -26,6 +26,7 @@ package com.squid.core.domain.extensions.cast;
 import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.ListContentAssistEntry;
+import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 import com.squid.core.domain.vector.VectorDomain;
 
@@ -41,21 +42,14 @@ public class CastToCharOperatorDefinition extends CastOperatorDefinition {
 
     public CastToCharOperatorDefinition(String name, IDomain domain) {
         super(name, ID, domain);
+        this.setCategoryType(OperatorDefinition.STRING_TYPE);
     }
-
-    public CastToCharOperatorDefinition(String name, IDomain domain,
-                                        int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
-
     public CastToCharOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
+        this.setCategoryType(OperatorDefinition.STRING_TYPE);
     }
 
-    public CastToCharOperatorDefinition(String name, String ID, IDomain domain,
-                                        int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
+
 
     @Override
     public IDomain computeImageDomain(List<IDomain> imageDomains) {

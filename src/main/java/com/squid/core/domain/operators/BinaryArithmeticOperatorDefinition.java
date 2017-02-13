@@ -29,56 +29,44 @@ import com.squid.core.domain.IDomain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BinaryArithmeticOperatorDefintion extends ArithmeticOperatorDefinition {
+public class BinaryArithmeticOperatorDefinition extends ArithmeticOperatorDefinition {
 
-	public BinaryArithmeticOperatorDefintion(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType) {
-		super(name, extendedID, position, symbol, domain, categoryType);
-		// TODO Auto-generated constructor stub
+	public BinaryArithmeticOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain) {
+		super(name, extendedID, position, symbol, domain);
 	}
 
-	public BinaryArithmeticOperatorDefintion(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType, ExtendedType extendedType) {
-		super(name, extendedID, position, symbol, domain, categoryType);
+	
+	public BinaryArithmeticOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain, ExtendedType extendedType) {
+		super(name, extendedID, position, symbol, domain);
 		this.extendedType = extendedType;
 	}
 
-	public BinaryArithmeticOperatorDefintion(String name, String extendedID, int position, String symbol, IDomain domain) {
-		super(name, extendedID, position, symbol, domain);
-		// TODO Auto-generated constructor stub
-	}
-
-	public BinaryArithmeticOperatorDefintion(String name, int id, IDomain domain) {
+	public BinaryArithmeticOperatorDefinition(String name, int id, IDomain domain) {
 		super(name, id, domain);
 		// TODO Auto-generated constructor stub
 	}
-
-	public BinaryArithmeticOperatorDefintion(String name, int id, IDomain domain, int categoryType) {
-		super(name, id, domain, categoryType);
-		// TODO Auto-generated constructor stub
+	
+	public BinaryArithmeticOperatorDefinition(String name, int id, IDomain domain, int categoryType) {
+		super(name, id, domain);
+		this.setCategoryType(categoryType);
 	}
 
-	public BinaryArithmeticOperatorDefintion(String name, int id, int position, IDomain domain) {
+
+	public BinaryArithmeticOperatorDefinition(String name, int id, int position, IDomain domain) {
 		super(name, id, position, domain);
 		// TODO Auto-generated constructor stub
 	}
 
-	public BinaryArithmeticOperatorDefintion(String name, int id, String symbol, IDomain domain) {
+	public BinaryArithmeticOperatorDefinition(String name, int id, String symbol, IDomain domain) {
 		super(name, id, symbol, domain);
 		// TODO Auto-generated constructor stub
 	}
-	public BinaryArithmeticOperatorDefintion(String name, int id, String symbol, IDomain domain, int categoryType) {
-		super(name, id, symbol, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
 	
-	public BinaryArithmeticOperatorDefintion(String name, int id, int position, String symbol, IDomain domain) {
+	public BinaryArithmeticOperatorDefinition(String name, int id, int position, String symbol, IDomain domain) {
 		super(name, id, position, symbol, domain);
 		// TODO Auto-generated constructor stub
 	}
 
-	public BinaryArithmeticOperatorDefintion(String name, int id, int position, String symbol, IDomain domain, int categoryType) {
-		super(name, id, position, symbol, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
 
 	@Override
 	public List getParametersTypes() {

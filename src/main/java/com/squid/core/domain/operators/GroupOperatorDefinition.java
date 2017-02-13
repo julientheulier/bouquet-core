@@ -27,16 +27,17 @@ import java.util.List;
 
 import com.squid.core.domain.IDomain;
 
-public class GroupOperatorDefintion extends AlgebraicOperatorDefinition {
+public class GroupOperatorDefinition extends AlgebraicOperatorDefinition {
 
     /**
      * @param name
      * @param id
      * @param position
      */
-    public GroupOperatorDefintion() {
+    public GroupOperatorDefinition() {
         super("GROUP", IntrinsicOperators.IDENTITY, WRAPPER_POSITION, IDomain.UNKNOWN);
         setParamCount(1);
+        this.setCategoryType(OperatorDefinition.MISC_TYPE);
     }
     
     @Override

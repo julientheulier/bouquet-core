@@ -42,8 +42,10 @@ public class IntervalOperatorDefinition extends OperatorDefinition {
 	public static final String INTERVAL_MINUTE = INTERVAL_BASE+"MINUTE";
 	public static final String INTERVAL_SECOND = INTERVAL_BASE+"SECOND";
 
-	public IntervalOperatorDefinition(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.INTERVAL,categoryType);
+	public IntervalOperatorDefinition(String name, String ID) {
+		super(name,ID,PREFIX_POSITION,name,IDomain.INTERVAL);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
+
 	}
 
 

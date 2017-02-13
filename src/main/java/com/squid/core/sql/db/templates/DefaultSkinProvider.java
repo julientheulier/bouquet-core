@@ -43,14 +43,14 @@ import com.squid.core.domain.extensions.string.translate.TranslateOperatorDefini
 import com.squid.core.domain.extensions.string.trim.TrimOperatorDefinition;
 import com.squid.core.domain.maths.CeilOperatorDefinition;
 import com.squid.core.domain.maths.DegreesOperatorDefintion;
-import com.squid.core.domain.maths.FloorOperatorDefintion;
+import com.squid.core.domain.maths.FloorOperatorDefinition;
 import com.squid.core.domain.maths.GreatestLeastOperatorDefinition;
-import com.squid.core.domain.maths.PiOperatorDefintion;
-import com.squid.core.domain.maths.PowerOperatorDefintion;
-import com.squid.core.domain.maths.RoundOperatorDefintion;
-import com.squid.core.domain.maths.SignOperatorDefintion;
-import com.squid.core.domain.maths.SinhCoshTanhOperatorDefintion;
-import com.squid.core.domain.maths.TruncateOperatorDefintion;
+import com.squid.core.domain.maths.PiOperatorDefinition;
+import com.squid.core.domain.maths.PowerOperatorDefinition;
+import com.squid.core.domain.maths.RoundOperatorDefinition;
+import com.squid.core.domain.maths.SignOperatorDefinition;
+import com.squid.core.domain.maths.SinhCoshTanhOperatorDefinition;
+import com.squid.core.domain.maths.TruncateOperatorDefinition;
 import com.squid.core.domain.operators.IntrinsicOperators;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorScope;
@@ -187,16 +187,16 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(CastOperatorDefinition.TO_NUMBER, new CastOperatorRenderer());
 		registerOperatorRender(CastOperatorDefinition.TO_TIMESTAMP, new CastOperatorRenderer());
 		registerOperatorRender(CeilOperatorDefinition.CEIL, new CeilOperatorRenderer());
-		registerOperatorRender(FloorOperatorDefintion.FLOOR, new FloorOperatorRenderer());
-		registerOperatorRender(SignOperatorDefintion.SIGN, new SignOperatorRenderer());
-		registerOperatorRender(TruncateOperatorDefintion.TRUNCATE, new TruncateOperatorRenderer());
-		registerOperatorRender(RoundOperatorDefintion.ROUND, new RoundOperatorRenderer());
-		registerOperatorRender(PowerOperatorDefintion.POWER, new PowerOperatorRenderer());
-		registerOperatorRender(PiOperatorDefintion.PI, new PiOperatorRenderer());
+		registerOperatorRender(FloorOperatorDefinition.FLOOR, new FloorOperatorRenderer());
+		registerOperatorRender(SignOperatorDefinition.SIGN, new SignOperatorRenderer());
+		registerOperatorRender(TruncateOperatorDefinition.TRUNCATE, new TruncateOperatorRenderer());
+		registerOperatorRender(RoundOperatorDefinition.ROUND, new RoundOperatorRenderer());
+		registerOperatorRender(PowerOperatorDefinition.POWER, new PowerOperatorRenderer());
+		registerOperatorRender(PiOperatorDefinition.PI, new PiOperatorRenderer());
 		registerOperatorRender(DegreesOperatorDefintion.DEGREES, new DegreesOperatorRenderer());
-		registerOperatorRender(SinhCoshTanhOperatorDefintion.SINH, new SinhCoshTanhOperatorRenderer("SINH"));
-		registerOperatorRender(SinhCoshTanhOperatorDefintion.COSH, new SinhCoshTanhOperatorRenderer("COSH"));
-		registerOperatorRender(SinhCoshTanhOperatorDefintion.TANH, new SinhCoshTanhOperatorRenderer("TANH"));
+		registerOperatorRender(SinhCoshTanhOperatorDefinition.SINH, new SinhCoshTanhOperatorRenderer("SINH"));
+		registerOperatorRender(SinhCoshTanhOperatorDefinition.COSH, new SinhCoshTanhOperatorRenderer("COSH"));
+		registerOperatorRender(SinhCoshTanhOperatorDefinition.TANH, new SinhCoshTanhOperatorRenderer("TANH"));
 		//
 		// VECTOR SUPPORT
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.AVG), new AverageOperatorRenderer());

@@ -21,32 +21,31 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.stats;
+package com.squid.core.domain.maths;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.squid.core.domain.DomainNumeric;
-import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.aggregate.AggregateDomain;
-import com.squid.core.domain.analytics.AnalyticDomain;
-import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.domain.operators.OperatorDiagnostic;
+import com.squid.core.domain.operators.*;
 
 /**
  * Ticket #1190 implements some ANSI functions
  * @author loivd
- * Ceil function definition
+ * Pi function definition
  */
-public class PercentileOperatorDefintion extends OperatorDefinition {
+public class PiOperatorDefinition extends OperatorDefinition {
 
-	public static final String PERCENTILE = StatsOperatorRegistry.STATS_BASE + "PERCENTILE";
+	public static final String PI = MathsOperatorRegistry.MATHS_BASE + "PI";
 
-	public PercentileOperatorDefintion(String name, String ID) {
-		super(name, ID, PREFIX_POSITION, name, AnalyticDomain.DOMAIN);
-		this.setCategoryType(OperatorDefinition.NUMERIC_TYPE);
+	public PiOperatorDefinition(String name, String ID) {
+		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
+	}
+
+	public PiOperatorDefinition(String name, String ID, IDomain domain) {
+		super(name,ID,PREFIX_POSITION,name,domain);
+		this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
 	}
 
 	@Override
@@ -57,41 +56,21 @@ public class PercentileOperatorDefintion extends OperatorDefinition {
 	@Override
 	public List<String> getHint() {
 		List<String> hint = new ArrayList<String>();
-		hint.add("return a set with the smallest cumulative distribution value greater than the given argument.");
+		hint.add("Return Pi, Takes no argument");
 		return hint;
 	}
 
 	@Override
 	public List getParametersTypes() {
-		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-
-		IDomain num = new DomainNumeric();
-
-		type.add(num);
+		List poly = new ArrayList<List>();
 		poly.add(type);
-
 		return poly;
-
-	}
-
-	@Override
-	public IDomain computeImageDomain(List<IDomain> imageDomains) {
-		if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
-        IDomain argument0 = imageDomains.get(0);
-		boolean is_aggregate = argument0.isInstanceOf(AggregateDomain.DOMAIN);
-		IDomain domain = IDomain.NUMERIC;
-        if (is_aggregate) {
-        	// compose with Aggregate
-        	domain = AggregateDomain.MANAGER.createMetaDomain(domain);
-        }
-        //
-        return domain;
 	}
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
-		return ExtendedType.INTEGER;
+		return ExtendedType.FLOAT;
 	}
 
 }

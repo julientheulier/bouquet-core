@@ -64,15 +64,10 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 	public DateTruncateOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.STRING);
 		setDomain(domain);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
 		hint = name + "( date or timestamp,  format = \"day\" or \"week\" or \"month\" or \"quarter\" or \"year\"  )";
 	}
-
-	public DateTruncateOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name, ID, PREFIX_POSITION, name, domain, categoryType);
-		setDomain(domain);
-		hint = name + "( date or timestamp,  format = \"day\" or \"week\" or \"month\" or \"quarter or \"year\"  )";
-	}
-
+	
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;

@@ -42,16 +42,9 @@ public class DateFromEpochOperatorDefinition extends DateOperatorDefinition {
         super(name,ID,domain);
     }
 
-    public DateFromEpochOperatorDefinition(String name, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     public DateFromEpochOperatorDefinition(String name, String ID, IDomain domain) {
         super(name,ID, domain);
-    }
-
-    public DateFromEpochOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-        super(name,ID, domain, categoryType);
     }
 
     @Override

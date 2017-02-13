@@ -53,10 +53,6 @@ public class LogicalOperatorDefinition extends ConditionalOperatorDefinition {
 		super(name, id, symbol);
 		// TODO Auto-generated constructor stub
 	}
-	public LogicalOperatorDefinition(String name, int id, String symbol, int categoricalType) {
-		super(name, id, symbol, categoricalType);
-		// TODO Auto-generated constructor stub
-	}
 	
 	public LogicalOperatorDefinition(String name, int id) {
 		super(name, id);

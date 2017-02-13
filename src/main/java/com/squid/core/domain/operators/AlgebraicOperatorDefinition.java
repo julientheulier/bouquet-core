@@ -40,53 +40,29 @@ public class AlgebraicOperatorDefinition extends OperatorDefinition {
 	
     public AlgebraicOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain) {
 		super(name, extendedID, position, symbol, domain);
-		// TODO Auto-generated constructor stub
-	}
-    
-    public AlgebraicOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType) {
-		super(name, extendedID, position, symbol, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
+	}    
 
 	public AlgebraicOperatorDefinition(String name, int id, IDomain domain) {
 		super(name, id, domain);
-		// TODO Auto-generated constructor stub
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 
-	public AlgebraicOperatorDefinition(String name, int id, IDomain domain, int categoryType) {
-		super(name, id, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
-	
 	public AlgebraicOperatorDefinition(String name, int id, int position, IDomain domain) {
 		super(name, id, position, domain);
-		// TODO Auto-generated constructor stub
-	}
-	public AlgebraicOperatorDefinition(String name, int id, int position, IDomain domain, int categoricalType) {
-		super(name, id, position, domain, categoricalType);
-		// TODO Auto-generated constructor stub
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 
 	public AlgebraicOperatorDefinition(String name, int id, String symbol, IDomain domain) {
 		super(name, id, symbol, domain);
-		// TODO Auto-generated constructor stub
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	} 
-	
-	public AlgebraicOperatorDefinition(String name, int id, String symbol, IDomain domain, int categoryType) {
-		super(name, id, symbol, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
-
 
 	public AlgebraicOperatorDefinition(String name, int id, int position, String symbol, IDomain domain) {
 		super(name, id, position, symbol, domain);
-		// TODO Auto-generated constructor stub
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 	
-	public AlgebraicOperatorDefinition(String name, int id, int position, String symbol, IDomain domain, int categoryType) {
-		super(name, id, position, symbol, domain,categoryType);
-		// TODO Auto-generated constructor stub
-	}
 
 	/* (non-Javadoc)
      * @see com.squid.ldm.model.expressions.OperatorDefinition#getType()

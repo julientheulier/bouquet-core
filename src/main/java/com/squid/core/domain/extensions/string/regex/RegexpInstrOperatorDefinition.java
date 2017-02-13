@@ -44,18 +44,9 @@ public class RegexpInstrOperatorDefinition extends RegexpOperatorDefinition {
         super(name, ID, domain);
     }
 
-    public RegexpInstrOperatorDefinition(String name, IDomain domain,
-                                         int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     public RegexpInstrOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
-    }
-
-    public RegexpInstrOperatorDefinition(String name, String ID, IDomain domain,
-                                         int categoryType) {
-        super(name, ID, domain, categoryType);
     }
 
     @Override

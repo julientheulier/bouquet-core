@@ -40,11 +40,10 @@ public class JSONOperatorDefinition extends OperatorDefinition {
 
   public JSONOperatorDefinition(String name, String ID, IDomain domain) {
     super(name, ID, PREFIX_POSITION, name, domain);
+    this.setCategoryType(OperatorDefinition.JSON_TYPE);
   }
 
-  public JSONOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-    super(name, ID, PREFIX_POSITION, name, domain, categoryType);
-  }
+ 
 
   @Override
   public int getType() {

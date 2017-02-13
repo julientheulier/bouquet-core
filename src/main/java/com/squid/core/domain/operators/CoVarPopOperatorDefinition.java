@@ -49,11 +49,6 @@ public class CoVarPopOperatorDefinition extends AggregateOperatorDefinition {
 		super(name, id);
 		setDomain(IDomain.NUMERIC);
 	}
-	public CoVarPopOperatorDefinition(String name, int id, int categoricalType) {
-		super(name, id, categoricalType);
-		setDomain(IDomain.NUMERIC);
-	}
-
 	
 	
 	@Override

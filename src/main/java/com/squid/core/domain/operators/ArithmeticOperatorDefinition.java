@@ -34,37 +34,26 @@ import com.squid.core.domain.associative.AssociativeDomainInformation;
 public class ArithmeticOperatorDefinition extends AlgebraicOperatorDefinition {
 
 	protected ExtendedType extendedType = null;
-	public ArithmeticOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType) {
-		super(name, extendedID, position, symbol, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ArithmeticOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType, ExtendedType extendedType) {
-		super(name, extendedID, position, symbol, domain, categoryType);
-		this.extendedType = extendedType;
-	}
-
+	
 	public ArithmeticOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain) {
 		super(name, extendedID, position, symbol, domain);
 		// TODO Auto-generated constructor stub
 	}
+
+	public ArithmeticOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain, ExtendedType extendedType) {
+		super(name, extendedID, position, symbol, domain);
+		this.extendedType = extendedType;
+	}
+
 
 	public ArithmeticOperatorDefinition(String name, int id, IDomain domain) {
 		super(name, id, domain);
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArithmeticOperatorDefinition(String name, int id, IDomain domain, int categoryType) {
-		super(name, id, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
 
 	public ArithmeticOperatorDefinition(String name, int id, int position, IDomain domain) {
 		super(name, id, position, domain);
-		// TODO Auto-generated constructor stub
-	}
-	public ArithmeticOperatorDefinition(String name, int id, int position, IDomain domain, int categoricalType) {
-		super(name, id, position, domain, categoricalType);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -73,18 +62,9 @@ public class ArithmeticOperatorDefinition extends AlgebraicOperatorDefinition {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArithmeticOperatorDefinition(String name, int id, String symbol, IDomain domain, int categoryType) {
-		super(name, id, symbol, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
 	
 	public ArithmeticOperatorDefinition(String name, int id, int position, String symbol, IDomain domain) {
 		super(name, id, position, symbol, domain);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ArithmeticOperatorDefinition(String name, int id, int position, String symbol, IDomain domain, int categoryType) {
-		super(name, id, position, symbol, domain, categoryType);
 		// TODO Auto-generated constructor stub
 	}
 

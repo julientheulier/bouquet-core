@@ -45,12 +45,7 @@ public class TranslateOperatorDefinition extends OperatorDefinition {
 		super(name,ID,PREFIX_POSITION,name,IDomain.STRING);
 		setDomain(domain);
 		hint = name+"(string, string_from, string_to)";
-	}
-
-	public TranslateOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,domain, categoryType);
-		setDomain(domain);
-		hint = name+"(string, string_from, string_to)";
+		this.setCategoryType(OperatorDefinition.STRING_TYPE);
 	}
 
 	@Override
