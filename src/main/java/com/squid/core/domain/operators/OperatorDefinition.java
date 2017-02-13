@@ -46,16 +46,16 @@ public abstract class OperatorDefinition {
     public static final int STANDARD_POSITIONS = PREFIX_POSITION | INFIX_POSITION | POSTFIX_POSITION;
 
     // loivd added category type, Ticket #1134
-    public static final int MATHS_TYPE = 0;
-    public static final int STRING_TYPE = 1;
-    public static final int DATE_TIME_TYPE = 2;
-    public static final int MISC_TYPE = 3;
-    public static final int TRIGO_TYPE = 4;
-    public static final int REGEXP_TYPE = 5;
-    public static final int JSON_TYPE = 6;
-    public static final int AGGR_TYPE = 7;
-    public static final int NUMERIC_TYPE = 8;
-    public static final int LOGICAL_TYPE = 9;
+    protected static final int MATHS_TYPE = 0;
+    protected static final int STRING_TYPE = 1;
+    protected static final int DATE_TIME_TYPE = 2;
+    protected static final int MISC_TYPE = 3;
+    protected static final int TRIGO_TYPE = 4;
+    protected static final int REGEXP_TYPE = 5;
+    protected static final int JSON_TYPE = 6;
+    protected static final int AGGR_TYPE = 7;
+    protected static final int NUMERIC_TYPE = 8;
+    protected static final int LOGICAL_TYPE = 9;
 
     private String m_name;
     private int m_id = IntrinsicOperators.UNDEFINED_ID;

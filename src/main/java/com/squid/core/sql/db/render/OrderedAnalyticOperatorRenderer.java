@@ -100,7 +100,7 @@ extends BaseOperatorRenderer
 
 	public String getLocalEpoch(SQLSkin skin, IPiece piece, ExtendedType type,
 			String arg) throws RenderingException {
-		DateOperatorDefinition dateInterval = new DateOperatorDefinition("DATE_INTERVAL", DateIntervalOperatorDefinition.ID,IDomain.NUMERIC, OperatorDefinition.DATE_TIME_TYPE);
+		DateOperatorDefinition dateInterval = new DateOperatorDefinition("DATE_INTERVAL", DateIntervalOperatorDefinition.ID,IDomain.NUMERIC);
 		
 		String intervalType = "SECOND";
 		Calendar cal = Calendar.getInstance();
@@ -117,7 +117,7 @@ extends BaseOperatorRenderer
 	}
 	
 	public String getTimestamp(SQLSkin skin, IPiece piece, String date) throws RenderingException {
-		CastOperatorDefinition toTimestamp= new CastOperatorDefinition("TO_TIMESTAMP", CastToTimestampOperatorDefinition.ID,IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
+		CastOperatorDefinition toTimestamp= new CastOperatorDefinition("TO_TIMESTAMP", CastToTimestampOperatorDefinition.ID,IDomain.TIMESTAMP);
 		OperatorPiece castPiece = new OperatorPiece(toTimestamp, new IPiece[]{piece}, new ExtendedType[] {ExtendedType.STRING});
 		return skin.render(skin, castPiece, toTimestamp, new String[] {date});
 

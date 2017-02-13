@@ -78,10 +78,10 @@ public class AddMonthsAsIntervalOperatorRenderer extends BaseOperatorRenderer {
 		newArgs[0] = args[0];
 		DateOperatorDefinition dod = null;
 		if (addMonths<0) {
-			dod = new DateOperatorDefinition("DATE_SUB", DateSubOperatorDefinition.ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+			dod = new DateOperatorDefinition("DATE_SUB", DateSubOperatorDefinition.ID,IDomain.DATE);
 			newArgs[1] = new Long(-addMonths).toString();
 		} else {
-			dod = new DateOperatorDefinition("DATE_ADD", DateAddOperatorDefinition.ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+			dod = new DateOperatorDefinition("DATE_ADD", DateAddOperatorDefinition.ID,IDomain.DATE);
 			newArgs[1] = args[1];
 		}
 		DomainNumericConstant valueDomain = new DomainNumericConstant(new Double(newArgs[1]).doubleValue());

@@ -58,11 +58,6 @@ public class DateOperatorDefinition extends OperatorDefinition {
 		init();
 	}
 
-	public DateOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,domain, categoryType);
-        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
-		init();
-	}
 	public void init() {
 		periods.put("SECOND", IDomain.TIMESTAMP);
 		periods.put("MINUTE", IDomain.TIMESTAMP);

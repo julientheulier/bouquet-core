@@ -53,8 +53,8 @@ implements OperatorRegistry
 
 	@Override
 	public void apply(OperatorScope scope) throws OperatorScopeException {
-		scope.registerExtension(new SortOperatorDefinition("ASC",SortOperatorDefinition.ASC_ID,DomainSort.SortDirection.ASC, OperatorDefinition.MISC_TYPE));
-		scope.registerExtension(new SortOperatorDefinition("DESC",SortOperatorDefinition.DESC_ID,DomainSort.SortDirection.DESC, OperatorDefinition.MISC_TYPE));
+		scope.registerExtension(new SortOperatorDefinition("ASC",SortOperatorDefinition.ASC_ID,DomainSort.SortDirection.ASC));
+		scope.registerExtension(new SortOperatorDefinition("DESC",SortOperatorDefinition.DESC_ID,DomainSort.SortDirection.DESC ));
 	}
 
 }
