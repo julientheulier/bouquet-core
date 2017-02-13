@@ -29,34 +29,43 @@ import java.util.List;
 import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
-import com.squid.core.domain.operators.*;
+import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.ListContentAssistEntry;
+import com.squid.core.domain.operators.OperatorDefinition;
+import com.squid.core.domain.operators.OperatorDiagnostic;
 
 /**
  * Ticket #1190 implements some ANSI functions
  * @author loivd
- * Floor definition
+ * Sinh, Cosh, Tanh functions definition
+ * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions147.htm
  */
-public class FloorOperatorDefintion extends OperatorDefinition {
+public class SinhCoshTanhOperatorDefinition extends OperatorDefinition {
 
-	public static final String FLOOR = MathsOperatorRegistry.MATHS_BASE
-			+ "FLOOR";
+	public static final String SINH = MathsOperatorRegistry.MATHS_BASE + "SINH";
+	public static final String COSH = MathsOperatorRegistry.MATHS_BASE + "COSH";
+	public static final String TANH = MathsOperatorRegistry.MATHS_BASE + "TANH";
 
-	public FloorOperatorDefintion(String name, String ID) {
+	public SinhCoshTanhOperatorDefinition(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+        this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
 	}
 
-	public FloorOperatorDefintion(String name, String ID, IDomain domain) {
+	public SinhCoshTanhOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
+        this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
 	}
 
-	public FloorOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
+
+	@Override
+	public int getType() {
+		return ALGEBRAIC_TYPE;
 	}
 
 	@Override
 	public List<String> getHint() {
 		List<String> hint = new ArrayList<String>();
-		hint.add("Return the floor of a number or a domain consisting of numbers");
+		hint.add("This function returns the hyperbolic sine, cosine or tangent of n");
 		return hint;
 	}
 
@@ -65,14 +74,15 @@ public class FloorOperatorDefintion extends OperatorDefinition {
 		List type = new ArrayList<IDomain>();
 		IDomain number = new DomainNumeric();
 		type.add(number);
+
 		List poly = new ArrayList<List>();
 		poly.add(type);
 		return poly;
 	}
 
 	@Override
-	public int getType() {
-		return ALGEBRAIC_TYPE;
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+		return ExtendedType.FLOAT;
 	}
 
 	@Override
@@ -80,18 +90,13 @@ public class FloorOperatorDefintion extends OperatorDefinition {
 		if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
         IDomain argument0 = imageDomains.get(0);
 		boolean is_aggregate = argument0.isInstanceOf(AggregateDomain.DOMAIN);
-		IDomain domain = IDomain.NUMERIC;
+		IDomain domain = IDomain.CONTINUOUS;
         if (is_aggregate) {
         	// compose with Aggregate
         	domain = AggregateDomain.MANAGER.createMetaDomain(domain);
         }
         //
         return domain;
-	}
-
-	@Override
-	public ExtendedType computeExtendedType(ExtendedType[] types) {
-		return ExtendedType.INTEGER;
 	}
 
 }

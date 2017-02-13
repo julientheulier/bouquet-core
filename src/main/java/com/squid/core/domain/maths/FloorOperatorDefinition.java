@@ -26,28 +26,47 @@ package com.squid.core.domain.maths;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.*;
 
 /**
  * Ticket #1190 implements some ANSI functions
  * @author loivd
- * Pi function definition
+ * Floor definition
  */
-public class PiOperatorDefintion extends OperatorDefinition {
+public class FloorOperatorDefinition extends OperatorDefinition {
 
-	public static final String PI = MathsOperatorRegistry.MATHS_BASE + "PI";
+	public static final String FLOOR = MathsOperatorRegistry.MATHS_BASE
+			+ "FLOOR";
 
-	public PiOperatorDefintion(String name, String ID) {
+	public FloorOperatorDefinition(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 
-	public PiOperatorDefintion(String name, String ID, IDomain domain) {
+	public FloorOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
+        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 
-	public PiOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
+
+	@Override
+	public List<String> getHint() {
+		List<String> hint = new ArrayList<String>();
+		hint.add("Return the floor of a number or a domain consisting of numbers");
+		return hint;
+	}
+
+	@Override
+	public List getParametersTypes() {
+		List type = new ArrayList<IDomain>();
+		IDomain number = new DomainNumeric();
+		type.add(number);
+		List poly = new ArrayList<List>();
+		poly.add(type);
+		return poly;
 	}
 
 	@Override
@@ -56,23 +75,22 @@ public class PiOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public List<String> getHint() {
-		List<String> hint = new ArrayList<String>();
-		hint.add("Return Pi, Takes no argument");
-		return hint;
-	}
-
-	@Override
-	public List getParametersTypes() {
-		List type = new ArrayList<IDomain>();
-		List poly = new ArrayList<List>();
-		poly.add(type);
-		return poly;
+	public IDomain computeImageDomain(List<IDomain> imageDomains) {
+		if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
+        IDomain argument0 = imageDomains.get(0);
+		boolean is_aggregate = argument0.isInstanceOf(AggregateDomain.DOMAIN);
+		IDomain domain = IDomain.NUMERIC;
+        if (is_aggregate) {
+        	// compose with Aggregate
+        	domain = AggregateDomain.MANAGER.createMetaDomain(domain);
+        }
+        //
+        return domain;
 	}
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
-		return ExtendedType.FLOAT;
+		return ExtendedType.INTEGER;
 	}
 
 }

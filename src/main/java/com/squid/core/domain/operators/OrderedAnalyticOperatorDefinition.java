@@ -62,10 +62,6 @@ public class OrderedAnalyticOperatorDefinition extends
 			int position, String symbol, IDomain domain) {
 		super(name, extendedId, position, symbol, domain);
 	}
-	public OrderedAnalyticOperatorDefinition(String name, String extendedId,
-			int position, String symbol, IDomain domain, int categoricalType) {
-		super(name, extendedId, position, symbol, domain,  categoricalType);
-	}
 	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {

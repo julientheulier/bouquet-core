@@ -55,7 +55,7 @@ implements OperatorRegistry
 	
 	@Override
 	public void apply(OperatorScope scope) throws OperatorScopeException {
-		scope.registerExtension(new PercentileOperatorDefintion("PERCENTILE",PercentileOperatorDefintion.PERCENTILE, OperatorDefinition.NUMERIC_TYPE));
+		scope.registerExtension(new PercentileOperatorDefintion("PERCENTILE",PercentileOperatorDefintion.PERCENTILE));
 	}
 
 }

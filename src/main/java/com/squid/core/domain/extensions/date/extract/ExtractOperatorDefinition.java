@@ -45,12 +45,14 @@ public class ExtractOperatorDefinition extends OperatorDefinition {
     public static final String EXTRACT_DAY_OF_WEEK = EXTRACT_BASE+"DAY_OF_WEEK";
     public static final String EXTRACT_DAY_OF_YEAR = EXTRACT_BASE+"DAY_OF_YEAR";
 
-    public ExtractOperatorDefinition(String name, int categoryType) {
-        super(name, EXTRACT_BASE + name, PREFIX_POSITION, name, IDomain.NUMERIC, categoryType);
+    public ExtractOperatorDefinition(String name) {
+        super(name, EXTRACT_BASE + name, PREFIX_POSITION, name, IDomain.NUMERIC);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
     }
 
-    public ExtractOperatorDefinition(String name, String ID, int categoryType) {
-        super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC, categoryType);
+    public ExtractOperatorDefinition(String name, String ID) {
+        super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
     }
 
     @Override

@@ -45,11 +45,6 @@ public class PercentileOperatorDefinition extends AggregateOperatorDefinition {
 		setDomain(AnalyticDomain.MANAGER.createMetaDomain(IDomain.NUMERIC));
 	}
 
-	public PercentileOperatorDefinition(String name, int id, int categoricalType) {
-		super(name, id, categoricalType);
-		setDomain(AnalyticDomain.MANAGER.createMetaDomain(IDomain.NUMERIC));
-	}
-	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.FLOAT;

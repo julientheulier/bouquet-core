@@ -39,12 +39,12 @@ public class ExtractSecondOperatorDefinition extends ExtractOperatorDefinition {
 
     public static final String ID = ExtractOperatorDefinition.EXTRACT_BASE+"SECOND";
 
-    public ExtractSecondOperatorDefinition(String name, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractSecondOperatorDefinition(String name) {
+        super(name, ID);
     }
 
-    public ExtractSecondOperatorDefinition(String name, String ID, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractSecondOperatorDefinition(String name, String ID) {
+        super(name, ID);
     }
 
     @Override

@@ -43,15 +43,14 @@ public class CeilOperatorDefinition extends OperatorDefinition {
 
     public CeilOperatorDefinition(String name, String ID) {
         super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
     }
 
     public CeilOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, PREFIX_POSITION, name, domain);
+        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
     }
 
-    public CeilOperatorDefinition(String name, String ID, int categoryType) {
-        super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC, categoryType);
-    }
 
     @Override
     public List<String> getHint() {

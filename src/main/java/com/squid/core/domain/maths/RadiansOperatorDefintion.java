@@ -46,15 +46,14 @@ public class RadiansOperatorDefintion extends OperatorDefinition {
 
 	public RadiansOperatorDefintion(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
 	}
 
 	public RadiansOperatorDefintion(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
+		this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
 	}
 
-	public RadiansOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.CONTINUOUS, categoryType);
-	}
 
 	@Override
 	public int getType() {

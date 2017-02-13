@@ -45,18 +45,6 @@ public class NoArgOperatorDefinition extends OperatorDefinition {
     }
 
     /**
-     * OperatorDefinition
-     *
-     * @param name
-     * @param id
-     * @param domain
-     * @param categoryType
-     */
-    public NoArgOperatorDefinition(String name, int id, IDomain domain, int categoryType) {
-        super(name, id, domain, categoryType);
-    }
-
-    /**
      * @param name
      * @param id
      * @param position
@@ -91,26 +79,8 @@ public class NoArgOperatorDefinition extends OperatorDefinition {
         super(name, id, position, symbol, domain);
     }
 
-    /**
-     * Create operator at the specified position...
-     *
-     * @param name
-     * @param id
-     * @param position
-     * @param symbol
-     * @param domain
-     * @param categoryType
-     */
-    public NoArgOperatorDefinition(String name, int id, int position, String symbol, IDomain domain, int categoryType) {
-        super(name, id, position, symbol, domain, categoryType);
-    }
-
     public NoArgOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain) {
         super(name, extendedID, position, symbol, domain);
-    }
-
-    public NoArgOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType) {
-        super(name, extendedID, position, symbol, domain, categoryType);
     }
 
     @Override

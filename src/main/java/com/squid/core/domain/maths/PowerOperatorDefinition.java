@@ -27,38 +27,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.squid.core.domain.DomainNumeric;
+import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
-import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.ListContentAssistEntry;
+import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 /**
  * Ticket #1190 implements some ANSI functions
- * @author loivd
- * Sinh, Cosh, Tanh functions definition
- * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions147.htm
+ * @author loivd 
+ * Power function definition
  */
-public class SinhCoshTanhOperatorDefintion extends OperatorDefinition {
+public class PowerOperatorDefinition extends OperatorDefinition {
 
-	public static final String SINH = MathsOperatorRegistry.MATHS_BASE + "SINH";
-	public static final String COSH = MathsOperatorRegistry.MATHS_BASE + "COSH";
-	public static final String TANH = MathsOperatorRegistry.MATHS_BASE + "TANH";
+	public static final String POWER = MathsOperatorRegistry.MATHS_BASE
+			+ "POWER";
 
-	public SinhCoshTanhOperatorDefintion(String name, String ID) {
+	public PowerOperatorDefinition(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
-
-	public SinhCoshTanhOperatorDefintion(String name, String ID, IDomain domain) {
+	
+	public PowerOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
-
-	public SinhCoshTanhOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.CONTINUOUS, categoryType);
-	}
-
-
+	
+	
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
@@ -67,18 +64,47 @@ public class SinhCoshTanhOperatorDefintion extends OperatorDefinition {
 	@Override
 	public List<String> getHint() {
 		List<String> hint = new ArrayList<String>();
-		hint.add("This function returns the hyperbolic sine, cosine or tangent of n");
+		hint.add("Function that take two arguments: a number and an exponent");
 		return hint;
 	}
 
 	@Override
 	public List getParametersTypes() {
-		List type = new ArrayList<IDomain>();
-		IDomain number = new DomainNumeric();
-		type.add(number);
-
 		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		IDomain number = new DomainNumeric();
+		IDomain exponent = new DomainNumeric();
+		exponent.setContentAssistLabel("exponent");
+		IDomain cst1 = new DomainNumericConstant(0.0);
+		IDomain cst2 = new DomainNumericConstant(0.0);
+		cst2.setContentAssistLabel("exponent");
+
+		type.add(number);
+		type.add(exponent);
+
 		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(cst1);
+		type.add(exponent);
+
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+
+		type.add(number);
+		type.add(cst2);
+
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(cst1);
+		type.add(cst2);
+
+		poly.add(type);
+
+
 		return poly;
 	}
 

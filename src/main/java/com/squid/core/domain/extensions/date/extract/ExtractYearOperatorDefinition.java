@@ -35,12 +35,12 @@ public class ExtractYearOperatorDefinition extends ExtractOperatorDefinition {
 
     public static final String ID = ExtractOperatorDefinition.EXTRACT_BASE+"YEAR";
 
-    public ExtractYearOperatorDefinition(String name, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractYearOperatorDefinition(String name) {
+        super(name, ID);
     }
 
-    public ExtractYearOperatorDefinition(String name, String ID, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractYearOperatorDefinition(String name, String ID) {
+        super(name, ID);
     }
 
     @Override

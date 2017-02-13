@@ -51,9 +51,9 @@ public class JSONOperatorRegistry implements OperatorRegistry {
 
   @Override
   public void apply(OperatorScope scope) throws OperatorScopeException {
-    scope.registerExtension(new JSONArrayLengthOperatorDefinition("JSON_ARRAY_LENGTH", IDomain.NUMERIC, OperatorDefinition.JSON_TYPE));
-    scope.registerExtension(new JSONExtractArrayElementTextOperatorDefinition("JSON_EXTRACT_ARRAY_ELEMENT_TEXT", IDomain.STRING, OperatorDefinition.JSON_TYPE));
-    scope.registerExtension(new JSONExtractPathTextOperatorDefinition("JSON_EXTRACT_PATH_TEXT", IDomain.STRING, OperatorDefinition.JSON_TYPE));
+    scope.registerExtension(new JSONArrayLengthOperatorDefinition("JSON_ARRAY_LENGTH", IDomain.NUMERIC));
+    scope.registerExtension(new JSONExtractArrayElementTextOperatorDefinition("JSON_EXTRACT_ARRAY_ELEMENT_TEXT", IDomain.STRING));
+    scope.registerExtension(new JSONExtractPathTextOperatorDefinition("JSON_EXTRACT_PATH_TEXT", IDomain.STRING));
 
   }
 

@@ -40,8 +40,9 @@ public class DegreesOperatorDefintion extends OperatorDefinition {
 
 	public static final String DEGREES = MathsOperatorRegistry.MATHS_BASE + "DEGREES";
 
-	public DegreesOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.CONTINUOUS, categoryType);
+	public DegreesOperatorDefintion(String name, String ID) {
+		super(name,ID,PREFIX_POSITION,name,IDomain.CONTINUOUS);
+		this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
 	}
 
 	@Override

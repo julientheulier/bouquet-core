@@ -37,17 +37,8 @@ public class TranslateTranslateOperatorDefinition extends TranslateOperatorDefin
         super(name, ID, domain);
     }
 
-    public TranslateTranslateOperatorDefinition(String name, IDomain domain,
-                                              int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     public TranslateTranslateOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
-    }
-
-    public TranslateTranslateOperatorDefinition(String name, String ID, IDomain domain,
-                                              int categoryType) {
-        super(name, ID, domain, categoryType);
     }
 }

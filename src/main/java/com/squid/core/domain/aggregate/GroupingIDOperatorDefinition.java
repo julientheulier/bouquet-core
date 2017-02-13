@@ -44,8 +44,9 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 	
 	public static final int ID = IntrinsicOperators.GROUPING_ID;
 
-	public GroupingIDOperatorDefinition(int categoryType) {
-		super("GROUPING_ID",ID,PREFIX_POSITION,"GROUPING_ID",IDomain.NUMERIC, categoryType);
+	public GroupingIDOperatorDefinition() {
+		super("GROUPING_ID",ID,PREFIX_POSITION,"GROUPING_ID",IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.AGGR_TYPE);
 	}
 
 	@Override

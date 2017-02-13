@@ -547,4 +547,9 @@ public abstract class OperatorDefinition {
     public void setHint(List<String> hint) {
         this.hint = hint;
     }
+    
+    public void setCategoryType(int categoryTypeName){
+    	this.categoryType = categoryTypeName;
+    	
+    }
 }

@@ -35,18 +35,8 @@ public class PadRPadOperatorDefinition extends PadOperatorDefinition {
     public PadRPadOperatorDefinition(String name, IDomain domain) {
         super(name, ID, domain);
     }
-
-    public PadRPadOperatorDefinition(String name, IDomain domain,
-                                     int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
-
     public PadRPadOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public PadRPadOperatorDefinition(String name, String ID, IDomain domain,
-                                     int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 }

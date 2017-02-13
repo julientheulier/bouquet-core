@@ -42,16 +42,8 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
         super(name, ID, domain);
     }
 
-    public DateSubOperatorDefinition(String name, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
-
     public DateSubOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
-    }
-
-    public DateSubOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
     }
 
     @Override

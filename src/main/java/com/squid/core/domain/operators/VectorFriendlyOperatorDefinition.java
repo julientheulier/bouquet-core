@@ -34,17 +34,14 @@ public class VectorFriendlyOperatorDefinition extends
 
 	public VectorFriendlyOperatorDefinition(String name, int id, int position) {
 		super(name, id, position);
-		// TODO Auto-generated constructor stub
 	}
 
 	public VectorFriendlyOperatorDefinition(String name, int id, String symbol) {
 		super(name, id, symbol);
-		// TODO Auto-generated constructor stub
 	}
 
 	public VectorFriendlyOperatorDefinition(String name, int id) {
 		super(name, id);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

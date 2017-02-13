@@ -36,17 +36,9 @@ public class OneArgStringUpperOperatorDefinition extends OneArgStringOperatorDef
         super(name, ID, domain);
     }
 
-    public OneArgStringUpperOperatorDefinition(String name, IDomain domain,
-                                         int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     public OneArgStringUpperOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public OneArgStringUpperOperatorDefinition(String name, String ID, IDomain domain,
-                                         int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 }

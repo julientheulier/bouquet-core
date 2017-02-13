@@ -69,11 +69,8 @@ public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition 
 	public DateTruncateShortcutsOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name, ID, PREFIX_POSITION, name, domain);
 		hint = name + "( date or timestamp)";
-	}
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
 
-	public DateTruncateShortcutsOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name, ID, PREFIX_POSITION, name, domain, categoryType);
-		hint = name + "( date or timestamp)";
 	}
 
 	@Override

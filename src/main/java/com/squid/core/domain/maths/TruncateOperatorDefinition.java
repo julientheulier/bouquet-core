@@ -40,22 +40,20 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
  * @author loivd 
  * Truncate definition
  */
-public class TruncateOperatorDefintion extends OperatorDefinition {
+public class TruncateOperatorDefinition extends OperatorDefinition {
 
 	public static final String TRUNCATE = MathsOperatorRegistry.MATHS_BASE
 			+ "TRUNCATE";
-	public TruncateOperatorDefintion(String name, String ID) {
+	public TruncateOperatorDefinition(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 	
-	public TruncateOperatorDefintion(String name, String ID, IDomain domain) {
+	public TruncateOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 	
-	public TruncateOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
-	}
-
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;

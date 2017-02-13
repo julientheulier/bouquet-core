@@ -29,8 +29,9 @@ import com.squid.core.domain.DomainMetaDomain;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.IDomainMetaDomain;
 import com.squid.core.domain.operators.ArithmeticOperatorDefinition;
-import com.squid.core.domain.operators.BinaryArithmeticOperatorDefintion;
+import com.squid.core.domain.operators.BinaryArithmeticOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.operators.OperatorDefinition;
 
 /**
  * Support Divide operator:
@@ -41,16 +42,13 @@ import com.squid.core.domain.operators.ExtendedType;
  *
  */
 public class DivideOperatorDefinition 
-extends BinaryArithmeticOperatorDefintion {
+extends BinaryArithmeticOperatorDefinition {
 
 	public DivideOperatorDefinition(String name, int id, String symbol,
 			IDomain domain) {
 		super(name,id,symbol,domain);
 	}
-	public DivideOperatorDefinition(String name, int id, String symbol,
-			IDomain domain, int categoryType) {
-		super(name,id,symbol,domain, categoryType);
-	}
+
 	
 	@Override
 	public IDomain computeImageDomain(List<IDomain> imageDomains) {

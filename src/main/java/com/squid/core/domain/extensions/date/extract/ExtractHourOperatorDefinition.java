@@ -40,12 +40,12 @@ public class ExtractHourOperatorDefinition extends ExtractOperatorDefinition {
 
     public static final String ID = ExtractOperatorDefinition.EXTRACT_BASE+"HOUR";
 
-    public ExtractHourOperatorDefinition(String name, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractHourOperatorDefinition(String name) {
+        super(name, ID);
     }
 
-    public ExtractHourOperatorDefinition(String name, String ID, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractHourOperatorDefinition(String name, String ID) {
+        super(name, ID);
     }
 
     @Override

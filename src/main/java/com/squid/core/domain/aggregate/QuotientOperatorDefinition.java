@@ -49,8 +49,9 @@ public class QuotientOperatorDefinition extends OperatorDefinition {
 	public static final String ERROR_MESSAGE_ARG_2 = "ON operator defines a filter";
 	public static final String ERROR_MESSAGE_HINT = "SUM(quantity) ON (quarter=Q1)";
 
-	public QuotientOperatorDefinition(int categoryType) {
-		super("ON",ID,INFIX_POSITION," ON ",IDomain.AGGREGATE, categoryType);
+	public QuotientOperatorDefinition() {
+		super("ON",ID,INFIX_POSITION," ON ",IDomain.AGGREGATE);
+		this.setCategoryType(OperatorDefinition.AGGR_TYPE);
 	}
 
 	@Override

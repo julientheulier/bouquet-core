@@ -43,18 +43,8 @@ public class RegexpCountOperatorDefinition extends RegexpOperatorDefinition {
         super(name, ID, domain);
     }
 
-    public RegexpCountOperatorDefinition(String name, IDomain domain,
-                                        int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
-
     public RegexpCountOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
-    }
-
-    public RegexpCountOperatorDefinition(String name, String ID, IDomain domain,
-                                        int categoryType) {
-        super(name, ID, domain, categoryType);
     }
 
     @Override

@@ -36,17 +36,8 @@ public class TrimRTrimOperatorDefinition extends TrimOperatorDefinition {
         super(name, ID, domain);
     }
 
-    public TrimRTrimOperatorDefinition(String name, IDomain domain,
-                                       int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
-
     public TrimRTrimOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public TrimRTrimOperatorDefinition(String name, String ID, IDomain domain,
-                                       int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 }

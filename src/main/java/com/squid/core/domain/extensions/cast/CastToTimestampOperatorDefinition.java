@@ -26,6 +26,7 @@ package com.squid.core.domain.extensions.cast;
 import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.ListContentAssistEntry;
+import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 import com.squid.core.domain.vector.VectorDomain;
 
@@ -40,21 +41,14 @@ public class CastToTimestampOperatorDefinition extends CastOperatorDefinition {
 
     public CastToTimestampOperatorDefinition(String name, IDomain domain) {
         super(name, ID, domain);
-    }
-
-    public CastToTimestampOperatorDefinition(String name, IDomain domain,
-                                        int categoryType) {
-        super(name, ID, domain, categoryType);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
     }
 
     public CastToTimestampOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
     }
 
-    public CastToTimestampOperatorDefinition(String name, String ID, IDomain domain,
-                                        int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     @Override
     public IDomain computeImageDomain(List<IDomain> imageDomains) {

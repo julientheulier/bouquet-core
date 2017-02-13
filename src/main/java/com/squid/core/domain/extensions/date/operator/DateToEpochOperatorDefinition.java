@@ -41,17 +41,10 @@ public class DateToEpochOperatorDefinition extends DateOperatorDefinition {
         super(name, ID, domain);
     }
 
-    public DateToEpochOperatorDefinition(String name, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
-
     public DateToEpochOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public DateToEpochOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     @Override
     public List<String> getHint() {

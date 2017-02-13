@@ -21,66 +21,44 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.maths;
+package com.squid.core.domain.analytics;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.squid.core.domain.DomainNumeric;
+import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.domain.operators.ListContentAssistEntry;
-import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
-/**
- * Ticket #1190 implements some ANSI functions
- * @author loivd 
- * Sign function definition
- * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions145.htm
- */
-public class SignOperatorDefintion extends OperatorDefinition {
-
-	public static final String SIGN = MathsOperatorRegistry.MATHS_BASE + "SIGN";
-
-	public SignOperatorDefintion(String name, String ID) {
-		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
-	}
-
-	public SignOperatorDefintion(String name, String ID, IDomain domain) {
-		super(name,ID,PREFIX_POSITION,name,domain);
-	}
+public class UnboundedOperatorDefinition 
+extends WindowingOperatorDefinition
+{
 	
-	public SignOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
-	}
-	
-	@Override
-	public int getType() {
-		return ALGEBRAIC_TYPE;
+	private static final String HINT = "UNBOUNDED()";
+
+	public UnboundedOperatorDefinition(String name, String ID) {
+		super(name, ID);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public List<String> getHint() {
 		List<String> hint = new ArrayList<String>();
-		hint.add("SIGN returns the sign of n (-1 for negative numbers, 0 for 0 and 1 for strictly positive numbers)");
+		hint.add("takes no argument");
 		return hint;
 	}
 
 	@Override
 	public List getParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
 		List type = new ArrayList<IDomain>();
-		IDomain number = new DomainNumeric();
-		type.add(number);
-
-		List poly = new ArrayList<List>();
 		poly.add(type);
 		return poly;
 	}
 
 	@Override
-	public ExtendedType computeExtendedType(ExtendedType[] types) {
-		return ExtendedType.INTEGER;
+	public IDomain computeImageDomain(List<IDomain> imageDomains) {
+		return WindowingDomainImp.createUnboundedDomain();
 	}
 
 }

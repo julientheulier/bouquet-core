@@ -29,6 +29,7 @@ import com.squid.core.domain.IDomain;
 import com.squid.core.domain.IDomainMetaDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.ListContentAssistEntry;
+import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 import com.squid.core.domain.vector.VectorDomain;
 
@@ -43,20 +44,12 @@ public class CastToIntegerOperatorDefinition extends CastOperatorDefinition {
 
     public CastToIntegerOperatorDefinition(String name, IDomain domain) {
         super(name, ID, domain);
-    }
-
-    public CastToIntegerOperatorDefinition(String name, IDomain domain,
-                                        int categoryType) {
-        super(name, ID, domain, categoryType);
+        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
     }
 
     public CastToIntegerOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
-    }
-
-    public CastToIntegerOperatorDefinition(String name, String ID, IDomain domain,
-                                        int categoryType) {
-        super(name, ID, domain, categoryType);
+        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
     }
 
     @Override

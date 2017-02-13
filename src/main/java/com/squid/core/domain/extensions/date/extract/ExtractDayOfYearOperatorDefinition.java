@@ -35,12 +35,12 @@ public class ExtractDayOfYearOperatorDefinition extends ExtractOperatorDefinitio
 
     public static final String ID = ExtractOperatorDefinition.EXTRACT_BASE+"DAY_OF_YEAR";
 
-    public ExtractDayOfYearOperatorDefinition(String name, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractDayOfYearOperatorDefinition(String name) {
+        super(name, ID);
     }
 
-    public ExtractDayOfYearOperatorDefinition(String name, String ID, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractDayOfYearOperatorDefinition(String name, String ID) {
+        super(name, ID);
     }
 
     @Override

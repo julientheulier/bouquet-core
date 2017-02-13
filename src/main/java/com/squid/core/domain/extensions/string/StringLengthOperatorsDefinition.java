@@ -43,12 +43,9 @@ public class StringLengthOperatorsDefinition extends OperatorDefinition {
 	public StringLengthOperatorsDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC);
 		setDomain(domain);
+		this.setCategoryType(OperatorDefinition.STRING_TYPE);
 	}
-	
-	public StringLengthOperatorsDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
-		setDomain(domain);
-	}
+
 	
 	@Override
 	public int getType() {

@@ -49,12 +49,6 @@ public class VarSampOperatorDefinition extends AggregateOperatorDefinition {
 		setDomain(IDomain.NUMERIC);
 	}
 	
-	public VarSampOperatorDefinition(String name, int id, int categoricalType) {
-		super(name, id, categoricalType);
-		setDomain(IDomain.NUMERIC);
-	}
-	
-	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.FLOAT;

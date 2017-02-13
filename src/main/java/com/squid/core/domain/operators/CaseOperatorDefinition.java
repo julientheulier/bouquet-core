@@ -43,13 +43,9 @@ extends ArithmeticOperatorDefinition {
 
 	public CaseOperatorDefinition(String name, int id) {
 		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN);
-		//		
+		this.setCategoryType(OperatorDefinition.LOGICAL_TYPE);
 	}
-	public CaseOperatorDefinition(String name, int id, int categoricalType) {
-		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN, categoricalType);
-		//		
-	}
-
+	
 	
 	@Override
 	public int getType() {

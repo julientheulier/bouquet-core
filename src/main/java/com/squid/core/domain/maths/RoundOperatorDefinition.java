@@ -39,22 +39,20 @@ import com.squid.core.domain.operators.OperatorDiagnostic;
  * @author loivd 
  * Round function definition
  */
-public class RoundOperatorDefintion extends OperatorDefinition {
+public class RoundOperatorDefinition extends OperatorDefinition {
 
 	public static final String ROUND = MathsOperatorRegistry.MATHS_BASE
 			+ "ROUND";
 	private ExtendedType extendedType = ExtendedType.INTEGER;
 
-	public RoundOperatorDefintion(String name, String ID) {
+	public RoundOperatorDefinition(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 	
-	public RoundOperatorDefintion(String name, String ID, IDomain domain) {
+	public RoundOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
-	}
-	
-	public RoundOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
+        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 
 	@Override

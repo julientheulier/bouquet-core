@@ -35,12 +35,7 @@ extends UnaryLogicalOperatorDefinition {
 		super(name, id);
 		// TODO Auto-generated constructor stub
 	}
-	public ExistsOperatorDefinition(String name, int id, int  categoricalType) {
-		super(name, id, categoricalType);
-		// TODO Auto-generated constructor stub
-	}
 
-	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.CONDITIONAL;
