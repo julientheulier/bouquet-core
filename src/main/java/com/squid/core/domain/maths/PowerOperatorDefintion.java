@@ -21,95 +21,110 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.extensions.date;
+package com.squid.core.domain.maths;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.squid.core.domain.*;
-import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.DomainNumeric;
+import com.squid.core.domain.DomainNumericConstant;
+import com.squid.core.domain.IDomain;
+import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ListContentAssistEntry;
+import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
-public class AddMonthsOperatorDefinition
-extends OperatorDefinition {
+/**
+ * Ticket #1190 implements some ANSI functions
+ * @author loivd 
+ * Power function definition
+ */
+public class PowerOperatorDefintion extends OperatorDefinition {
 
-	public static final String ADD_MONTHS_BASE = "com.squid.domain.operator.date.";
-	public static final String ADD_MONTHS = ADD_MONTHS_BASE+"ADD_MONTHS";
+	public static final String POWER = MathsOperatorRegistry.MATHS_BASE
+			+ "POWER";
 
+	public PowerOperatorDefintion(String name, String ID) {
+		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
+	}
+	
+	public PowerOperatorDefintion(String name, String ID, IDomain domain) {
+		super(name,ID,PREFIX_POSITION,name,domain);
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
+	}
 	
 	
-	private static final String HINT = "ADD_MONTHS(date or timestamp,integer)";
-
-	public AddMonthsOperatorDefinition(String name, int id, IDomain domain) {
-		super(name, id, domain);
-        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
-		setParamCount(2);
-	}
-
-	public AddMonthsOperatorDefinition(String name, String ID) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC);
-        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
-	}
-
-// for backward compatibility with plug ins
-	public AddMonthsOperatorDefinition(String name, String ID, int categoryName) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC);
-        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
-	}
-
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
 	}
 
 	@Override
-	public List<String> getHint(){
+	public List<String> getHint() {
 		List<String> hint = new ArrayList<String>();
-		hint.add("Add n months to the date");
-		hint.add("Add n months to the timestamp");
+		hint.add("Function that take two arguments: a number and an exponent");
 		return hint;
 	}
-
 
 	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
-		IDomain date = new DomainDate();
-		date.setContentAssistLabel("date");
-		IDomain timestamp = new DomainTimestamp();
-		timestamp.setContentAssistLabel("timestamp");
-		IDomain num = new DomainNumeric();
-		num.setContentAssistLabel("n");
-		type.add(date);
-		type.add(num);
+
+		IDomain number = new DomainNumeric();
+		IDomain exponent = new DomainNumeric();
+		exponent.setContentAssistLabel("exponent");
+		IDomain cst1 = new DomainNumericConstant(0.0);
+		IDomain cst2 = new DomainNumericConstant(0.0);
+		cst2.setContentAssistLabel("exponent");
+
+		type.add(number);
+		type.add(exponent);
+
 		poly.add(type);
 		type = new ArrayList<IDomain>();
-		type.add(timestamp);
-		type.add(num);
+
+		type.add(cst1);
+		type.add(exponent);
+
 		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+
+		type.add(number);
+		type.add(cst2);
+
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+
+		type.add(cst1);
+		type.add(cst2);
+
+		poly.add(type);
+
+
 		return poly;
 	}
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
-		if (types.length!=2) {
-			return ExtendedType.UNDEFINED;
-		} else {
-			return types[0];
-		}
+		return ExtendedType.FLOAT;
 	}
 
 	@Override
 	public IDomain computeImageDomain(List<IDomain> imageDomains) {
-		if (imageDomains.size()>0) {
-			//setDomain(types[0].getDomain());
-			return imageDomains.get(0);
-		} else {
-			return IDomain.NUMERIC;
-		}
+		if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
+        IDomain argument0 = imageDomains.get(0);
+		boolean is_aggregate = argument0.isInstanceOf(AggregateDomain.DOMAIN);
+		IDomain domain = IDomain.CONTINUOUS;
+        if (is_aggregate) {
+        	// compose with Aggregate
+        	domain = AggregateDomain.MANAGER.createMetaDomain(domain);
+        }
+        //
+        return domain;
 	}
 
 }
