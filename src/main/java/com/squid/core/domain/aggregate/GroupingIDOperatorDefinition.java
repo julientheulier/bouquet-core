@@ -97,6 +97,20 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 	}
 
 	@Override
+	public List getSimplifiedParametersTypes() { //Up to five level of path_elements.
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		type.add(any);
+		poly.add(type);
+		
+		return poly;
+	}
+
+	
+	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length==0) {
 			return ExtendedType.INTEGER;

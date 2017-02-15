@@ -127,7 +127,19 @@ extends ArithmeticOperatorDefinition {
 		poly.add(type);
 		return poly;
 	}
+	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		return poly;
+	}
 
+	
+	
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.isEmpty() || imageDomains.size()<=1) {

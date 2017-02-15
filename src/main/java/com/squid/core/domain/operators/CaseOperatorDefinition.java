@@ -92,6 +92,20 @@ extends ArithmeticOperatorDefinition {
 		return poly;
 	}
 
+	
+	
+	@Override
+	public List getSimplifiedParametersTypes() { // TODO handle infinite number of arguments.
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+
+		return poly;
+	}
+	
+	
+	
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.isEmpty()) {

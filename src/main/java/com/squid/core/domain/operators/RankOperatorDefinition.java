@@ -105,7 +105,6 @@ extends OrderedAnalyticOperatorDefinition {
 
 		type.add(IDomain.TIMESTAMP);
 		type.add(DomainSort.DOMAIN);
-		type.add(DomainSort.DOMAIN);
 		poly.add(type);
 		type = new ArrayList<IDomain>();
 

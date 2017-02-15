@@ -507,6 +507,41 @@ public abstract class OperatorDefinition {
         m_parameters = poly;
         return m_parameters;
     }
+    
+    
+    public List getSimplifiedParametersTypes(){
+    	return getParametersTypes();
+    	
+    }
+
+    public ListContentAssistEntry getSimplifiedListContentAssistEntry() {
+        if (this.listContentAssistEntry == null) {
+
+            List<String> descriptions = new ArrayList<String>();
+            List types = getSimplifiedParametersTypes();
+            if(getHint()!=null && getHint().size()==types.size()) {
+                descriptions = getHint();
+            }else if(getHint()!=null && getHint().size() == 1){
+                for(int i = 0; i<types.size();i++){
+                    descriptions.add(getHint().get(0));
+                }
+            }else{
+               if(types == null || types.size()==0){
+
+               } else {
+                   for (int i = 0; i < types.size(); i++) {
+                       descriptions.add(getName());
+                   }
+               }
+
+            }
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+            setListContentAssistEntry(entry);
+
+        }
+        return this.listContentAssistEntry;
+    }
+    
 
     public ListContentAssistEntry getListContentAssistEntry() {
         if (this.listContentAssistEntry == null) {
