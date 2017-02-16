@@ -67,7 +67,24 @@ public class PowerOperatorDefinition extends OperatorDefinition {
 		hint.add("Function that take two arguments: a number and an exponent");
 		return hint;
 	}
+	
+	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
 
+		IDomain number = new DomainNumeric();
+		IDomain exponent = new DomainNumeric();
+		exponent.setContentAssistLabel("exponent");
+
+		type.add(number);
+		type.add(exponent);
+
+		poly.add(type);
+		
+		return poly;
+	}
+	
 	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();

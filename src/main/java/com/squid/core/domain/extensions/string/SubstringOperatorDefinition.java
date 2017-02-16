@@ -123,6 +123,32 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 
 		return poly;
 	}
+	
+	
+	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		IDomain string1 = new DomainString();
+		string1.setContentAssistLabel("input_string");
+		IDomain num2 = new DomainNumeric();
+		num2.setContentAssistLabel("begin_index");
+		IDomain num3 = new DomainNumeric();
+		num3.setContentAssistLabel("end_index");
+
+		type.add(string1);
+		type.add(num2);
+		poly.add(type);
+		
+		type = new ArrayList<IDomain>();
+		type.add(string1);
+		type.add(num2);
+		type.add(num3);
+		poly.add(type);
+
+		return poly;
+	}
 
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
