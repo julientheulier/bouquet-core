@@ -42,12 +42,12 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 
     public CastToNumberOperatorDefinition(String name, IDomain domain) {
         super(name, ID, domain);
-        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
+        this.setCategoryType(OperatorDefinition.NUMERIC_TYPE);
     }
 
     public CastToNumberOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
-        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
+        this.setCategoryType(OperatorDefinition.NUMERIC_TYPE);
     }
 
     @Override

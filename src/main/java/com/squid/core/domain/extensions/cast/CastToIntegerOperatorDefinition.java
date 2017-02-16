@@ -44,12 +44,12 @@ public class CastToIntegerOperatorDefinition extends CastOperatorDefinition {
 
     public CastToIntegerOperatorDefinition(String name, IDomain domain) {
         super(name, ID, domain);
-        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
+        this.setCategoryType(OperatorDefinition.NUMERIC_TYPE);
     }
 
     public CastToIntegerOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
-        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
+        this.setCategoryType(OperatorDefinition.NUMERIC_TYPE);
     }
 
     @Override
