@@ -84,6 +84,18 @@ public class QuotientOperatorDefinition extends OperatorDefinition {
 	}
 	
 	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		type.add(AggregateDomain.DOMAIN); // && 		type.add(AggregateDomain.NUMERIC);
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+		return poly;		
+	}
+	
+	
+	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length==2) {
 			return types[0];
