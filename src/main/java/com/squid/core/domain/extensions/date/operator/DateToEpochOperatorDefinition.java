@@ -69,6 +69,9 @@ public class DateToEpochOperatorDefinition extends DateOperatorDefinition {
         poly.add(type);
         type = new ArrayList<IDomain>();
         type.add(temporal1);
+        poly.add(type);
+        type = new ArrayList<IDomain>();
+        type.add(temporal1);
         type.add(num);
         poly.add(type);
         type = new ArrayList<IDomain>();
