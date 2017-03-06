@@ -47,7 +47,7 @@ public class DateTruncateOperatorRenderer extends BaseOperatorRenderer {
 				&& opDef.getExtendedID().startsWith(DateTruncateShortcutsOperatorDefinition.SHORTCUT_BASE)) {
 			if (piece != null) {
 				ExtendedType type0 = piece.getParamTypes()[0];
-				if (type0.getDomain().isInstanceOf(IDomain.DATE)) {
+				if (type0.getDomain().isInstanceOf(IDomain.DATE) && !(type0.getDomain().isInstanceOf(IDomain.TIMESTAMP))) {
 					if (opDef.getExtendedID().equals(DateTruncateShortcutsOperatorDefinition.DAILY_ID)) {
 						// already a DATE
 						return args[0];
