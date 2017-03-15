@@ -49,16 +49,16 @@ public class DriverShim implements Driver{
 
 	public Connection connect(String u, Properties p) throws SQLException {
 		// make sure to use the driverLoader ctx
-		ClassLoader loader = this.driver.getClass().getClassLoader();
+/*		ClassLoader loader = this.driver.getClass().getClassLoader();
 		ClassLoader rollback = Thread.currentThread().getContextClassLoader();
-		Thread.currentThread().setContextClassLoader(loader);
+		Thread.currentThread().setContextClassLoader(loader); */
 		try {
 			
 			Connection c = this.driver.connect(u, p);
 			return new ConnectionShim(c);
 
 		} finally {
-			Thread.currentThread().setContextClassLoader(rollback);
+//			Thread.currentThread().setContextClassLoader(rollback);
 		}
 	}
 
