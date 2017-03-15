@@ -52,7 +52,7 @@ public class BinaryLogicalOperatorDefinition extends LogicalOperatorDefinition {
 		super(name, id, symbol);
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public BinaryLogicalOperatorDefinition(String name, int id) {
 		super(name, id);
 		// TODO Auto-generated constructor stub

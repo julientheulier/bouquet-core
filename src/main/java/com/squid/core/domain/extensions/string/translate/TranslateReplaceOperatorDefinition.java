@@ -37,17 +37,9 @@ public class TranslateReplaceOperatorDefinition extends TranslateOperatorDefinit
         super(name, ID, domain);
     }
 
-    public TranslateReplaceOperatorDefinition(String name, IDomain domain,
-                                         int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     public TranslateReplaceOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public TranslateReplaceOperatorDefinition(String name, String ID, IDomain domain,
-                                         int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 }

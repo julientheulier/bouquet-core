@@ -43,7 +43,7 @@ public class ExtendedType {
     public static final ExtendedType INTEGER = new ExtendedType(IDomain.NUMERIC,"INTEGER",Types.INTEGER,0,11);
     public static final ExtendedType BIGINT = new ExtendedType(IDomain.NUMERIC,"BIGINT",Types.BIGINT,0,19);
     public static final ExtendedType BOOLEAN = new ExtendedType(IDomain.CONDITIONAL,"BOOLEAN",Types.BOOLEAN,0,1);
-    public static final ExtendedType FLOAT = new ExtendedType(IDomain.NUMERIC,"FLOAT",Types.DOUBLE,0,15);
+    public static final ExtendedType FLOAT = new ExtendedType(IDomain.NUMERIC,"FLOAT",Types.DOUBLE,2,15);
     public static final ExtendedType REAL = new ExtendedType(IDomain.NUMERIC,"REAL",Types.REAL,0,7);
     public static final ExtendedType NUMERIC = new ExtendedType(IDomain.NUMERIC,"NUMERIC",Types.NUMERIC,2,10);
     public static final ExtendedType CONDITIONAL = BOOLEAN;
@@ -52,6 +52,9 @@ public class ExtendedType {
     public static final ExtendedType TIME = new ExtendedType(IDomain.TIME,"TIME",Types.TIME,0,0);
     public static final ExtendedType INTERVAL = new ExtendedType(IDomain.INTERVAL,"INTERVAL",CustomTypes.INTERVAL,0,0);
     public static final ExtendedType STRING = new ExtendedType(IDomain.STRING,"VARCHAR",Types.VARCHAR,0,250);
+    
+    // T1883 - use the type ANY instead of UNKNOWN: we know it's null, and null is compatible with any type
+    public static final ExtendedType NULL = new ExtendedType(IDomain.NULL,"NULL",Types.NULL,0,0);
 
     @JsonIgnore
     private IDomain domain = IDomain.NULL;

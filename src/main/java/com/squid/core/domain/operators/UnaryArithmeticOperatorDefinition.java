@@ -33,50 +33,40 @@ import com.squid.core.domain.associative.AssociativeDomainInformation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnaryArithmeticOperatorDefintion extends ArithmeticOperatorDefintion {
+public class UnaryArithmeticOperatorDefinition extends ArithmeticOperatorDefinition {
 
-	public UnaryArithmeticOperatorDefintion(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType) {
-		super(name, extendedID, position, symbol, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
 
-	public UnaryArithmeticOperatorDefintion(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType, ExtendedType extendedType) {
-		super(name, extendedID, position, symbol, domain, categoryType);
+	public UnaryArithmeticOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain, ExtendedType extendedType, int categoryType) {
+		super(name, extendedID, position, symbol, domain);
 		this.extendedType = extendedType;
+		this.setCategoryType(categoryType);
 	}
 
-	public UnaryArithmeticOperatorDefintion(String name, String extendedID, int position, String symbol, IDomain domain) {
+	public UnaryArithmeticOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain) {
 		super(name, extendedID, position, symbol, domain);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UnaryArithmeticOperatorDefintion(String name, int id, IDomain domain) {
+	public UnaryArithmeticOperatorDefinition(String name, int id, IDomain domain) {
 		super(name, id, domain);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UnaryArithmeticOperatorDefintion(String name, int id, IDomain domain, int categoryType) {
-		super(name, id, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
 
-	public UnaryArithmeticOperatorDefintion(String name, int id, int position, IDomain domain) {
+	public UnaryArithmeticOperatorDefinition(String name, int id, int position, IDomain domain) {
 		super(name, id, position, domain);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UnaryArithmeticOperatorDefintion(String name, int id, String symbol, IDomain domain) {
+	public UnaryArithmeticOperatorDefinition(String name, int id, String symbol, IDomain domain) {
 		super(name, id, symbol, domain);
 		// TODO Auto-generated constructor stub
 	}
 
-	public UnaryArithmeticOperatorDefintion(String name, int id, int position, String symbol, IDomain domain) {
-		super(name, id, position, symbol, domain);
-		// TODO Auto-generated constructor stub
-	}
 
-	public UnaryArithmeticOperatorDefintion(String name, int id, int position, String symbol, IDomain domain, int categoryType) {
-		super(name, id, position, symbol, domain, categoryType);
+	
+	public UnaryArithmeticOperatorDefinition(String name, int id, int position, String symbol, IDomain domain) {
+		super(name, id, position, symbol, domain);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -52,6 +52,10 @@ extends LiveObject
 	
 	public void setType(TableType type);
 	
+	public Object getVendorType();
+	
+	public void setVendorType(Object type);
+	
 	/**
 	 * return the generic domain associated with the table
 	 * @return

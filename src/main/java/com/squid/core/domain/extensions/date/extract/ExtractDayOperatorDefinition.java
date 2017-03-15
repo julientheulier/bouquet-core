@@ -30,12 +30,12 @@ public class ExtractDayOperatorDefinition extends ExtractOperatorDefinition {
 
     public static final String ID = ExtractOperatorDefinition.EXTRACT_BASE+"DAY";
 
-    public ExtractDayOperatorDefinition(String name, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractDayOperatorDefinition(String name) {
+        super(name, ID);
     }
 
-    public ExtractDayOperatorDefinition(String name, String ID, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractDayOperatorDefinition(String name, String ID) {
+        super(name, ID);
     }
     
 }

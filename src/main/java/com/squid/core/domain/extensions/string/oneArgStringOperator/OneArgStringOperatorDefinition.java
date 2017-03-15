@@ -44,11 +44,7 @@ public class OneArgStringOperatorDefinition extends OperatorDefinition {
 	public OneArgStringOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name, ID, PREFIX_POSITION, name, domain);
 		setDomain(domain);
-	}
-
-	public OneArgStringOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name, ID, PREFIX_POSITION, name, domain, categoryType);
-		setDomain(domain);
+		this.setCategoryType(OperatorDefinition.STRING_TYPE);
 	}
 
 	@Override

@@ -47,23 +47,28 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
     public AggregateOperatorDefinition(String name, int id) {
 		super(name, id, IDomain.AGGREGATE);
 		init();
+		this.setCategoryType(OperatorDefinition.AGGR_TYPE);
 	}
 
 	public AggregateOperatorDefinition(String name, int id, int position) {
 		super(name, id, position, IDomain.AGGREGATE);
 		init();
+		this.setCategoryType(OperatorDefinition.AGGR_TYPE);
 	}
 
 	public AggregateOperatorDefinition(String name, int id, String symbol) {
 		super(name, id, symbol, IDomain.AGGREGATE);
 		init();
+		this.setCategoryType(OperatorDefinition.AGGR_TYPE);
 	}
 	
 	public AggregateOperatorDefinition(String name, String extendedID,
 			int position, String symbol, IDomain domain) {
 		super(name, extendedID, position, symbol, domain);
 		init();
+		this.setCategoryType(OperatorDefinition.AGGR_TYPE);
 	}
+
 
 	protected void init() {
 		setParamCount(1);

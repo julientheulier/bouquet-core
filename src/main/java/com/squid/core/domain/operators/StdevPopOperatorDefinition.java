@@ -50,6 +50,7 @@ public class StdevPopOperatorDefinition extends AggregateOperatorDefinition {
 		setDomain(IDomain.NUMERIC);
 	}
 	
+	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.FLOAT;

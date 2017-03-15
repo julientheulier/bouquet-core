@@ -46,6 +46,7 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 
 	public GroupingIDOperatorDefinition() {
 		super("GROUPING_ID",ID,PREFIX_POSITION,"GROUPING_ID",IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.AGGR_TYPE);
 	}
 
 	@Override
@@ -95,6 +96,20 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 		return poly;
 	}
 
+	@Override
+	public List getSimplifiedParametersTypes() { //Up to five level of path_elements.
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		type.add(any);
+		poly.add(type);
+		
+		return poly;
+	}
+
+	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length==0) {

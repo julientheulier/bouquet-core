@@ -40,8 +40,8 @@ public class SortOperatorDefinition extends OperatorDefinition {
 	
 	private SortDirection direction;
 	
-	public SortOperatorDefinition(String name, String id, SortDirection direction, int categoryType) {
-		super(name,id,OperatorDefinition.PREFIX_POSITION,name,DomainSort.DOMAIN, categoryType);
+	public SortOperatorDefinition(String name, String id, SortDirection direction) {
+		super(name,id,OperatorDefinition.PREFIX_POSITION,name,DomainSort.DOMAIN);
 		setParamCount(1);
 		this.direction=direction;
 	}

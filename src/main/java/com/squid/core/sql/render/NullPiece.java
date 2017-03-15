@@ -23,9 +23,10 @@
  *******************************************************************************/
 package com.squid.core.sql.render;
 
+import com.squid.core.domain.operators.ExtendedType;
 
 public class NullPiece
-implements IPiece {
+implements IConstantPiece, ITypedPiece {
 	
 	public NullPiece() {
 		//
@@ -34,6 +35,14 @@ implements IPiece {
 	@Override
 	public String render(SQLSkin skin) throws RenderingException {
 		return skin.getToken(SQLTokenConstant.NULL);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.squid.core.sql.render.ITypedPiece#getType()
+	 */
+	@Override
+	public ExtendedType getType() {
+		return ExtendedType.NULL;
 	}
 
 }

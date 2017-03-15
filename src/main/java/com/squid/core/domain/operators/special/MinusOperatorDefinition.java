@@ -24,11 +24,11 @@
 package com.squid.core.domain.operators.special;
 
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.operators.ArithmeticOperatorDefintion;
-import com.squid.core.domain.operators.BinaryArithmeticOperatorDefintion;
+import com.squid.core.domain.operators.ArithmeticOperatorDefinition;
+import com.squid.core.domain.operators.BinaryArithmeticOperatorDefinition;
 import com.squid.core.domain.operators.OperatorDefinition;
 
-public class MinusOperatorDefinition extends BinaryArithmeticOperatorDefintion {
+public class MinusOperatorDefinition extends BinaryArithmeticOperatorDefinition {
 
 	public MinusOperatorDefinition(String name, int id, IDomain domain) {
 		super(name, id, domain);
@@ -47,13 +47,8 @@ public class MinusOperatorDefinition extends BinaryArithmeticOperatorDefintion {
 
 	public MinusOperatorDefinition(String name, int id, String symbol, IDomain domain) {
 		super(name, id, symbol, domain);
-		// TODO Auto-generated constructor stub
 	}
 	
-	public MinusOperatorDefinition(String name, int id,int position, String symbol,IDomain domain,int categoryType) {
-		super(name, id,position, symbol,domain,categoryType);
-		// TODO Auto-generated constructor stub
-	}
 
 	@Override
 	public String prettyPrint(String symbol, int position, String[] args, boolean showBrackets) {

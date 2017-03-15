@@ -26,6 +26,7 @@ package com.squid.core.domain.extensions.date.operator;
 import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.ListContentAssistEntry;
+import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.sql.Types;
@@ -42,16 +43,8 @@ public class DateMonthsBetweenOperatorDefinition extends DateOperatorDefinition{
         super(name, ID, domain);
     }
 
-    public DateMonthsBetweenOperatorDefinition(String name, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
-
     public DateMonthsBetweenOperatorDefinition(String name, String ID, IDomain domain) {
         super(name,ID, domain);
-    }
-
-    public DateMonthsBetweenOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-        super(name,ID, domain, categoryType);
     }
 
 

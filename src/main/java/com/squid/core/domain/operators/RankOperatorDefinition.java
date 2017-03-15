@@ -48,11 +48,15 @@ extends OrderedAnalyticOperatorDefinition {
 	public RankOperatorDefinition(String name, String extendedId) {
 		super(name, extendedId, PREFIX_POSITION, name, IDomain.NUMERIC);
 	}
+
+	
 	
 	protected RankOperatorDefinition(String name, int id) {
 		super(name, id);
 		// TODO Auto-generated constructor stub
 	}
+
+
 
 	@Override
 	public int getType() {
@@ -100,7 +104,6 @@ extends OrderedAnalyticOperatorDefinition {
 
 
 		type.add(IDomain.TIMESTAMP);
-		type.add(DomainSort.DOMAIN);
 		type.add(DomainSort.DOMAIN);
 		poly.add(type);
 		type = new ArrayList<IDomain>();

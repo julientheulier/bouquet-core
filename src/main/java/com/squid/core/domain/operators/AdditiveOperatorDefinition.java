@@ -31,7 +31,7 @@ import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 
 public class AdditiveOperatorDefinition 
-extends BinaryArithmeticOperatorDefintion
+extends BinaryArithmeticOperatorDefinition
 {
 
 	public AdditiveOperatorDefinition(String name, int id, IDomain domain,
@@ -52,12 +52,6 @@ extends BinaryArithmeticOperatorDefintion
 	}
 
 	public AdditiveOperatorDefinition(String name, int id, int position,
-			String symbol, IDomain domain, int categoryType) {
-		super(name, id, position, symbol, domain, categoryType);
-		// TODO Auto-generated constructor stub
-	}
-
-	public AdditiveOperatorDefinition(String name, int id, int position,
 			String symbol, IDomain domain) {
 		super(name, id, position, symbol, domain);
 		// TODO Auto-generated constructor stub
@@ -66,19 +60,6 @@ extends BinaryArithmeticOperatorDefintion
 	public AdditiveOperatorDefinition(String name, int id, String symbol,
 			IDomain domain) {
 		super(name, id, symbol, domain);
-		// TODO Auto-generated constructor stub
-	}
-
-	public AdditiveOperatorDefinition(String name, String extendedID,
-			int position, String symbol, IDomain domain, int categoryType,
-			ExtendedType extendedType) {
-		super(name, extendedID, position, symbol, domain, categoryType, extendedType);
-		// TODO Auto-generated constructor stub
-	}
-
-	public AdditiveOperatorDefinition(String name, String extendedID,
-			int position, String symbol, IDomain domain, int categoryType) {
-		super(name, extendedID, position, symbol, domain, categoryType);
 		// TODO Auto-generated constructor stub
 	}
 

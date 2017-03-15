@@ -35,7 +35,7 @@ extends UnaryLogicalOperatorDefinition {
 		super(name, id);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		return ExtendedType.CONDITIONAL;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright © Squid Solutions, 2016
+  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
  *  
@@ -47,12 +47,9 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 	public SubstringOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
 		hint = name+"(string,begin) or "+name+"(string,-begin) or "+name+"(string begin,end)";
+		this.setCategoryType(OperatorDefinition.STRING_TYPE);
 	}
 	
-	public SubstringOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,domain, categoryType);
-		hint = name+"(string,begin) or "+name+"(string,-begig) or "+name+"(string begin,end)";
-	}
 	
 	@Override
 	public int getType() {
@@ -122,6 +119,32 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 		type.add(numCst2);
 		type.add(numCst3);
 
+		poly.add(type);
+
+		return poly;
+	}
+	
+	
+	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		IDomain string1 = new DomainString();
+		string1.setContentAssistLabel("input_string");
+		IDomain num2 = new DomainNumeric();
+		num2.setContentAssistLabel("begin_index");
+		IDomain num3 = new DomainNumeric();
+		num3.setContentAssistLabel("end_index");
+
+		type.add(string1);
+		type.add(num2);
+		poly.add(type);
+		
+		type = new ArrayList<IDomain>();
+		type.add(string1);
+		type.add(num2);
+		type.add(num3);
 		poly.add(type);
 
 		return poly;

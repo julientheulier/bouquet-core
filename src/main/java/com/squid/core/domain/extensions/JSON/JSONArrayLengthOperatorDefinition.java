@@ -44,17 +44,11 @@ public class JSONArrayLengthOperatorDefinition extends JSONOperatorDefinition {
         super(name, ID, domain);
     }
 
-    public JSONArrayLengthOperatorDefinition(String name, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     public JSONArrayLengthOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public JSONArrayLengthOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     @Override
     public List<String> getHint() {

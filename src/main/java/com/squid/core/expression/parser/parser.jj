@@ -178,6 +178,7 @@ TOKEN : //[IGNORE_CASE] : /* OPERATORS */
 |	< MODULO : "%" >
 |   < DOLLAR : "$" >
 |   < AS : "AS" | "as" | "=>">
+|  <  COLON : ":" >
 }
 
 TOKEN : //[IGNORE_CASE] : /* OPERATORS */
@@ -225,6 +226,11 @@ TOKEN:
 TOKEN: /* Operator */
 {
     < IDENTIFIER: ( <LETTER> )+ ( "_" | <DIGIT> | <LETTER> )* >
+}
+
+TOKEN: /* Shortcut */
+{
+    < SHORTCUT_IDENTIFIER: "__" ( <LETTER> )+ >
 }
 
 TOKEN:
@@ -427,9 +433,12 @@ ExpressionAST simple_expression(ExpressionScope scope) :
     | expression = column_reference(scope)
 	| (LOOKAHEAD(composable_expression(scope) <DOT>) expression = compose_path(scope)
 	| expression = attribute_reference(scope)
+    | (LOOKAHEAD(< AROBASE > <IDENTIFIER > <COLON >) expression = short_typed_reference(scope)
 	| expression = id_reference(scope)
+    )
     | expression = typed_reference(scope)
-	| expression = parameter_reference(scope))
+	| expression = parameter_reference(scope)
+	| expression = shortcut_reference(scope))
 	)
 	{
 		return expression;
@@ -583,7 +592,13 @@ ExpressionAST compose_path(ExpressionScope scope) :
 ExpressionAST composable_expression(ExpressionScope scope) :
 {
   ExpressionAST expr = null;}
-{    (expr = composable_attribute_reference(scope) | expr = id_reference(scope) | expr = typed_reference(scope) | expr = parameter_reference(scope))
+{    (expr = composable_attribute_reference(scope)
+    | (LOOKAHEAD(< AROBASE > <IDENTIFIER > <COLON >) expr = short_typed_reference(scope)
+    | expr = id_reference(scope)
+    )
+    | expr = typed_reference(scope)
+    | expr = parameter_reference(scope)
+    | expr = shortcut_reference(scope))
     {        return expr;
     }
 }
@@ -640,6 +655,19 @@ ExpressionAST parameter_reference(ExpressionScope scope) :
 	}
 }
 
+ExpressionAST shortcut_reference(ExpressionScope scope) : 
+{
+    Token identifier;
+}
+{
+    identifier = <SHORTCUT_IDENTIFIER >
+    {
+        String image = identifier.image;
+        Object column = scope.lookupObject(IdentifierType.PARAMETER,image);
+        return bindPrefixedIdentifier(scope.createReferringExpression(column),identifier,IdentifierType.PARAMETER);
+    }
+}
+
 ExpressionAST id_reference(ExpressionScope scope) :
 {
 	Token identifier;
@@ -653,13 +681,27 @@ ExpressionAST id_reference(ExpressionScope scope) :
 	}
 }
 
+ExpressionAST short_typed_reference(ExpressionScope scope) :
+{
+    Token type;
+    Token identifier;
+}
+{
+    <AROBASE> type = <IDENTIFIER> <COLON > identifier = extended_identifier()
+    {
+        IdentifierType identifierType = scope.lookupIdentifierType(type.image);
+        Object instance = scope.lookupObject(identifierType,identifier.image);
+        return bindTypedIdentifier(scope.createReferringExpression(instance),identifier,identifierType);
+    }
+}
+
 ExpressionAST typed_reference(ExpressionScope scope) :
 {
 	Token type;
 	Token identifier;
 }
 {
-	<LBRACKET> type = <IDENTIFIER> ":" identifier = extended_identifier() <RBRACKET>
+	<LBRACKET> type = <IDENTIFIER> <COLON > identifier = extended_identifier() <RBRACKET>
 	{
 		IdentifierType identifierType = scope.lookupIdentifierType(type.image);
 		Object instance = scope.lookupObject(identifierType,identifier.image);

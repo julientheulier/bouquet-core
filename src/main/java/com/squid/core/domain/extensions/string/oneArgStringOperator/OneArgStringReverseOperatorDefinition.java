@@ -36,17 +36,9 @@ public class OneArgStringReverseOperatorDefinition extends OneArgStringOperatorD
         super(name, ID, domain);
     }
 
-    public OneArgStringReverseOperatorDefinition(String name, IDomain domain,
-                                               int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     public OneArgStringReverseOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public OneArgStringReverseOperatorDefinition(String name, String ID, IDomain domain,
-                                               int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 }

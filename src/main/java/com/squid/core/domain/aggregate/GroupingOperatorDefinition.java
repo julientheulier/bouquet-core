@@ -44,6 +44,7 @@ public class GroupingOperatorDefinition extends OperatorDefinition {
 
 	public GroupingOperatorDefinition() {
 		super("GROUPING",ID,PREFIX_POSITION,"GROUPING",IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.AGGR_TYPE);
 	}
 
 	@Override

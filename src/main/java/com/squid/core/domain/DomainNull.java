@@ -23,25 +23,18 @@
  *******************************************************************************/
 package com.squid.core.domain;
 
-
+/**
+ * This domain is the domain of the NULL value
+ * @author sergefantino
+ *
+ */
 public class DomainNull extends DomainBase {
-    
-	/*
-    private static Image ICON = null;
-    
-    static {
-        URL url = DomainModelPlugin.getDefault().getBundle().getEntry("/icons/null/null.png");
-        ImageDescriptor descriptor = ImageDescriptor.createFromURL(url);
-        ICON = descriptor.createImage();
-    }
-    */
 
     /**
      * 
      */
     public DomainNull() {
         this(UNKNOWN);
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -52,13 +45,11 @@ public class DomainNull extends DomainBase {
         setName("Null");
     }
 
-    /*
-    public Image getIcon() {
-        return ICON;
-    }
-    */
-
     public boolean isInstanceOf(IDomain domain) {
+    	// T1883: NULL should be a constant domain, but I prefer not to implement it to avoid side effects because it is not implementing the IConstantValueDomain interface
+    	//if (domain.equals(DomainConstant.DOMAIN)) {
+    	//	return true;
+    	//}
         return false;
     }
 

@@ -37,16 +37,16 @@ import com.squid.core.domain.aggregate.AggregateDomain;
  *
  */
 public class CaseOperatorDefinition 
-extends ArithmeticOperatorDefintion {
+extends ArithmeticOperatorDefinition {
 
 	private static final String HINT = "CASE(condition1,then1,...,[else])";
 
 	public CaseOperatorDefinition(String name, int id) {
 		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN);
-		//
-		
+		this.setCategoryType(OperatorDefinition.LOGICAL_TYPE);
 	}
-
+	
+	
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
@@ -92,6 +92,20 @@ extends ArithmeticOperatorDefintion {
 		return poly;
 	}
 
+	
+	
+	@Override
+	public List getSimplifiedParametersTypes() { // TODO handle infinite number of arguments.
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+
+		return poly;
+	}
+	
+	
+	
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.isEmpty()) {
@@ -102,12 +116,14 @@ extends ArithmeticOperatorDefintion {
 		int i=0;
 		while (iter.hasNext()) {
 			IDomain first = iter.next();
+			i++;
 			if (iter.hasNext()) {
 				if (!first.isInstanceOf(IDomain.CONDITIONAL)) {
-					return new OperatorDiagnostic("invalid CASE expression, not a condition",i,HINT);
+					return new OperatorDiagnostic("invalid CASE expression #"+i+", not a condition",i,HINT);
 				}
 				// get second
 				IDomain second = iter.next();
+				i++;
 				if (second!=IDomain.NULL) {
 					if (main==null) {
 						main = second;
@@ -116,7 +132,7 @@ extends ArithmeticOperatorDefintion {
 						main = second;
 					}
 					else if (!second.isInstanceOf(main)) {
-						return new OperatorDiagnostic("invalid CASE expression, ELSE clause type mismatch",i+1,HINT);
+						return new OperatorDiagnostic("invalid CASE expression, ELSE clause type mismatch",i,HINT);
 					}
 				}
 			} else {

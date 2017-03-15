@@ -51,6 +51,7 @@ public class QuotientOperatorDefinition extends OperatorDefinition {
 
 	public QuotientOperatorDefinition() {
 		super("ON",ID,INFIX_POSITION," ON ",IDomain.AGGREGATE);
+		this.setCategoryType(OperatorDefinition.AGGR_TYPE);
 	}
 
 	@Override
@@ -81,6 +82,18 @@ public class QuotientOperatorDefinition extends OperatorDefinition {
 
 		return poly;
 	}
+	
+	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		type.add(AggregateDomain.DOMAIN); // && 		type.add(AggregateDomain.NUMERIC);
+		type.add(IDomain.CONDITIONAL);
+		poly.add(type);
+		return poly;		
+	}
+	
 	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {

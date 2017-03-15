@@ -41,17 +41,10 @@ public class DateToEpochOperatorDefinition extends DateOperatorDefinition {
         super(name, ID, domain);
     }
 
-    public DateToEpochOperatorDefinition(String name, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
-
     public DateToEpochOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public DateToEpochOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     @Override
     public List<String> getHint() {
@@ -73,6 +66,9 @@ public class DateToEpochOperatorDefinition extends DateOperatorDefinition {
         IDomain timestamp = new DomainTimestamp();
         IDomain num = new DomainNumeric();
         type.add(timestamp);
+        poly.add(type);
+        type = new ArrayList<IDomain>();
+        type.add(temporal1);
         poly.add(type);
         type = new ArrayList<IDomain>();
         type.add(temporal1);

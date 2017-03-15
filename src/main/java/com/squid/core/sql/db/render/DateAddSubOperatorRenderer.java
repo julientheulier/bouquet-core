@@ -138,7 +138,7 @@ extends BaseOperatorRenderer
 	protected String castDateAsTimestamp(SQLSkin skin, IPiece piece, String arg) throws RenderingException {
 		String[] subArgs = new String[1];
 		subArgs[0] = arg;
-		CastOperatorDefinition toTimestamp = new CastOperatorDefinition("TO_TIMESTAMP", CastToTimestampOperatorDefinition.ID,IDomain.TIMESTAMP, OperatorDefinition.DATE_TIME_TYPE);
+		CastOperatorDefinition toTimestamp = new CastOperatorDefinition("TO_TIMESTAMP", CastToTimestampOperatorDefinition.ID,IDomain.TIMESTAMP);
 		OperatorPiece operatorPiece = new OperatorPiece(toTimestamp,new IPiece[]{piece});
 		return skin.render(skin, operatorPiece, toTimestamp, subArgs);
 	}

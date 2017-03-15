@@ -50,11 +50,13 @@ public class CastOperatorDefinition extends OperatorDefinition {
 		super(name, ID, PREFIX_POSITION, name, domain);
 	}
 
-	public CastOperatorDefinition(String name, String ID, IDomain domain,
-			int categoryType) {
-		super(name, ID, PREFIX_POSITION, name, domain, categoryType);
+
+	public CastOperatorDefinition(String name, String ID, IDomain domain, int categoryName) {
+		super(name, ID, PREFIX_POSITION, name, domain);
+		this.setCategoryType(categoryName);
 	}
 
+	
 	@Override
 	public int getType() {
 		// TODO Auto-generated method stub

@@ -26,6 +26,7 @@ package com.squid.core.domain.aggregate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorRegistry;
 import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.domain.operators.OperatorScopeException;

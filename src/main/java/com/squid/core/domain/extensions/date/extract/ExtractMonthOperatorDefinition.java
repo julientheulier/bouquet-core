@@ -30,11 +30,11 @@ public class ExtractMonthOperatorDefinition extends ExtractOperatorDefinition {
 
     public static final String ID = ExtractOperatorDefinition.EXTRACT_BASE+"MONTH";
 
-    public ExtractMonthOperatorDefinition(String name, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractMonthOperatorDefinition(String name) {
+        super(name, ID);
     }
 
-    public ExtractMonthOperatorDefinition(String name, String ID, int categoryType) {
-        super(name, ID, categoryType);
+    public ExtractMonthOperatorDefinition(String name, String ID) {
+        super(name, ID);
     }
 }

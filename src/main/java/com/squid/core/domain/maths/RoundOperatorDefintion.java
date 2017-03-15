@@ -47,14 +47,12 @@ public class RoundOperatorDefintion extends OperatorDefinition {
 
 	public RoundOperatorDefintion(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 	
 	public RoundOperatorDefintion(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
-	}
-	
-	public RoundOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
+        this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 
 	@Override

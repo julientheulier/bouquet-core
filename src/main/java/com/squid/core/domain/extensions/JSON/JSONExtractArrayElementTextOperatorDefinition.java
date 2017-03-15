@@ -44,17 +44,11 @@ public class JSONExtractArrayElementTextOperatorDefinition extends JSONOperatorD
         super(name, ID, domain);
     }
 
-    public JSONExtractArrayElementTextOperatorDefinition(String name, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     public JSONExtractArrayElementTextOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public JSONExtractArrayElementTextOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     @Override
     public List<String> getHint() {

@@ -23,6 +23,13 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.squid.core.domain.DomainAny;
+import com.squid.core.domain.DomainConditional;
+import com.squid.core.domain.IDomain;
+
 /**
  * operator definition for AND & OR operators
  * @author Serge Fantino
@@ -41,6 +48,7 @@ public class OrAndConditionalOperatorDefinition extends
 		// TODO Auto-generated constructor stub
 	}
 
+
 	public OrAndConditionalOperatorDefinition(String name, int id) {
 		super(name, id);
 		// TODO Auto-generated constructor stub
@@ -52,4 +60,16 @@ public class OrAndConditionalOperatorDefinition extends
 		return super.prettyPrint(" "+symbol+" ", position, args, showBrackets);
 	}
 
+	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain cond = new DomainConditional();
+		cond.setContentAssistLabel("condition");
+		type.add(cond);
+		type.add(cond);
+		poly.add(type);
+		return poly;
+	}
+	
 }

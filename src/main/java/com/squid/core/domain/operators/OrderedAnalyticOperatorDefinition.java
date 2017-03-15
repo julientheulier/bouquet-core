@@ -62,7 +62,7 @@ public class OrderedAnalyticOperatorDefinition extends
 			int position, String symbol, IDomain domain) {
 		super(name, extendedId, position, symbol, domain);
 	}
-
+	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
 		if (types.length<=1) {

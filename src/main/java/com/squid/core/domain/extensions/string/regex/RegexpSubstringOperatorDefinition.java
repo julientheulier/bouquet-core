@@ -41,19 +41,10 @@ public class RegexpSubstringOperatorDefinition extends RegexpOperatorDefinition 
         super(name, ID, domain);
     }
 
-    public RegexpSubstringOperatorDefinition(String name, IDomain domain,
-                                         int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
-
     public RegexpSubstringOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public RegexpSubstringOperatorDefinition(String name, String ID, IDomain domain,
-                                         int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     @Override
     public List<String> getHint() {

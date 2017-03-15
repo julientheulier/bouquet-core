@@ -54,13 +54,18 @@ public class DateOperatorDefinition extends OperatorDefinition {
 
 	public DateOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
+		init();
+	}
+	
+	// for backward compatibily in plug ins
+	public DateOperatorDefinition(String name, String ID, IDomain domain, int categoryName) {
+		super(name,ID,PREFIX_POSITION,name,domain);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
 		init();
 	}
 
-	public DateOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,domain, categoryType);
-		init();
-	}
+	
 	public void init() {
 		periods.put("SECOND", IDomain.TIMESTAMP);
 		periods.put("MINUTE", IDomain.TIMESTAMP);

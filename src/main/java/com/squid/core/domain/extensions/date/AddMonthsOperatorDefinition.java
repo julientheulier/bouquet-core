@@ -38,19 +38,25 @@ extends OperatorDefinition {
 	public static final String ADD_MONTHS_BASE = "com.squid.domain.operator.date.";
 	public static final String ADD_MONTHS = ADD_MONTHS_BASE+"ADD_MONTHS";
 
+	
+	
 	private static final String HINT = "ADD_MONTHS(date or timestamp,integer)";
 
-	public AddMonthsOperatorDefinition(String name, int id, IDomain domain, int categoryType) {
-		super(name, id, domain, categoryType);
+	public AddMonthsOperatorDefinition(String name, int id, IDomain domain) {
+		super(name, id, domain);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
 		setParamCount(2);
 	}
 
 	public AddMonthsOperatorDefinition(String name, String ID) {
 		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
 	}
 
-	public AddMonthsOperatorDefinition(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC,categoryType);
+// for backward compatibility with plug ins
+	public AddMonthsOperatorDefinition(String name, String ID, int categoryName) {
+		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC);
+        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
 	}
 
 	@Override

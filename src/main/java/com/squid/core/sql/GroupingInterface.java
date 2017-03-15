@@ -29,19 +29,20 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import com.squid.core.domain.DomainConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.expression.ExpressionAST;
 import com.squid.core.expression.scope.ScopeException;
 import com.squid.core.sql.model.SQLScopeException;
+import com.squid.core.sql.render.IConstantPiece;
 import com.squid.core.sql.render.IOrderByPiece;
 import com.squid.core.sql.render.IPiece;
 import com.squid.core.sql.render.ISelectPiece;
 import com.squid.core.sql.render.ITypedPiece;
 import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
-import com.squid.core.sql.render.SimpleConstantValuePiece;
 import com.squid.core.sql.render.groupby.GroupByElementPiece;
 import com.squid.core.sql.render.groupby.GroupType;
 import com.squid.core.sql.render.groupby.GroupingSetPiece;
@@ -324,16 +325,43 @@ public class GroupingInterface {
 				// if the piece is typed, this is a more precise information
 				ITypedPiece typed = (ITypedPiece)piece;
 				ExtendedType type = typed.getType();
-				if (!type.getDomain().isInstanceOf(AggregateDomain.DOMAIN)
-				 && !type.getDomain().equals(IDomain.UNKNOWN)) {// this is the case if the piece is a constant or the null value - if so don't need to group-by
-					groupBy.add(new GroupingElement(piece.getSelect()));
+				if (!type.getDomain().isInstanceOf(AggregateDomain.DOMAIN)) {
+					if (
+					 // next test is the case if the piece is a constant or the null value - if so don't need to group-by
+					 // T1883: we actually use IDomain.NULL now
+					 type.getDomain().equals(IDomain.NULL)
+					 // T1883: now constant domain is correctly computed
+					 || type.getDomain().isInstanceOf(DomainConstant.DOMAIN)) {
+						// T2003
+						// double check if the piece is an actual constant, it can be a constant function
+						IPiece check = piece;
+						if (piece instanceof ISelectPiece) {
+							check = ((ISelectPiece)piece).getSelect();
+						}
+						if (!(check instanceof IConstantPiece)) {
+							groupBy.add(new GroupingElement(piece.getSelect()));
+						}
+					} else {
+						groupBy.add(new GroupingElement(piece.getSelect()));
+					}
 				}
 			} else if (binding!=null && binding instanceof ExpressionAST) {
 				ExpressionAST expr = (ExpressionAST)binding;
-				if (!expr.getImageDomain().isInstanceOf(AggregateDomain.DOMAIN)) {
-					groupBy.add(new GroupingElement(expr));
-				} else {
-					// don't add
+				IDomain image = expr.getImageDomain();
+				if (!image.isInstanceOf(AggregateDomain.DOMAIN)) {
+					if (
+						 // next test is the case if the piece is a constant or the null value - if so don't need to group-by
+						 // T1883: we actually use IDomain.NULL now
+						 image.equals(IDomain.NULL)
+						 // T1883: now constant domain is correctly computed
+						 || image.isInstanceOf(DomainConstant.DOMAIN)) 
+					{
+						if (!expr.getSourceDomain().equals(IDomain.NULL)) {
+							groupBy.add(new GroupingElement(expr));
+						}
+					} else {
+						groupBy.add(new GroupingElement(expr));
+					}
 				}
 			} else 
 			{
@@ -341,7 +369,7 @@ public class GroupingInterface {
 				// throw new SQLScopeException("invalid select piece");
 				// loose hypothesis: if we don't know, add it
 				IPiece select = piece.getSelect();
-				if (select instanceof SimpleConstantValuePiece == false) {
+				if (select instanceof IConstantPiece == false) {
 					groupBy.add(new GroupingElement(select));
 				}
 			}

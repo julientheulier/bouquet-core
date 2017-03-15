@@ -45,17 +45,11 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
         super(name, JSONExtractPathTextOperatorDefinition.ID, domain);
     }
 
-    public JSONExtractPathTextOperatorDefinition(String name, IDomain domain, int categoryType) {
-        super(name, JSONExtractPathTextOperatorDefinition.ID, domain, categoryType);
-    }
 
     public JSONExtractPathTextOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
     }
 
-    public JSONExtractPathTextOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
-    }
 
     @Override
     public List<String> getHint() {
@@ -110,6 +104,21 @@ public class JSONExtractPathTextOperatorDefinition extends JSONOperatorDefinitio
         type.add(key3);
         type.add(key4);
         type.add(key5);
+        poly.add(type);
+        return poly;
+    }
+    
+    public List getSimplifiedParametersTypes() { //Up to five level of path_elements.
+        List poly = new ArrayList<List>();
+        List type = new ArrayList<IDomain>();
+
+        IDomain json = new DomainString();
+        json.setContentAssistLabel("json");
+        type = new ArrayList<IDomain>(); ;
+        IDomain key1 = new DomainString();
+        key1.setContentAssistLabel("key1");
+        type.add(json);
+        type.add(key1);
         poly.add(type);
         return poly;
     }

@@ -49,7 +49,8 @@ public class CoVarPopOperatorDefinition extends AggregateOperatorDefinition {
 		super(name, id);
 		setDomain(IDomain.NUMERIC);
 	}
-
+	
+	
 	@Override
 	public List<String> getHint() {
 		List<String> hint = new ArrayList<String>();

@@ -41,6 +41,16 @@ public class DatabaseProductImpl implements DatabaseProduct {
 	
 	private SQLSkin skin = null;// cache the skin
 	
+	/**
+	 * default constructor
+	 */
+	public DatabaseProductImpl() {
+	}
+	
+	public DatabaseProductImpl(String productName) {
+		this.productName = productName;
+	}
+	
 	public SQLSkin getSkin() {
 		if (skin==null) {
 			skin = SkinFactory.INSTANCE.createSkin(this);

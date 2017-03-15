@@ -78,17 +78,17 @@ public class AddMonthsAsIntervalOperatorRenderer extends BaseOperatorRenderer {
 		newArgs[0] = args[0];
 		DateOperatorDefinition dod = null;
 		if (addMonths<0) {
-			dod = new DateOperatorDefinition("DATE_SUB", DateSubOperatorDefinition.ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+			dod = new DateOperatorDefinition("DATE_SUB", DateSubOperatorDefinition.ID,IDomain.DATE);
 			newArgs[1] = new Long(-addMonths).toString();
 		} else {
-			dod = new DateOperatorDefinition("DATE_ADD", DateAddOperatorDefinition.ID,IDomain.DATE, OperatorDefinition.DATE_TIME_TYPE);
+			dod = new DateOperatorDefinition("DATE_ADD", DateAddOperatorDefinition.ID,IDomain.DATE);
 			newArgs[1] = args[1];
 		}
 		DomainNumericConstant valueDomain = new DomainNumericConstant(new Double(newArgs[1]).doubleValue());
-		IPiece piece1 =  new SimpleConstantValuePiece(newArgs[1], valueDomain);
+		IPiece piece1 =  new SimpleConstantValuePiece(newArgs[1], new ExtendedType(valueDomain, ExtendedType.NUMERIC));
 		newArgs[2] = "MONTH";
 		DomainStringConstant unitDomain = new DomainStringConstant(newArgs[2]);
-		IPiece piece2 =  new SimpleConstantValuePiece(newArgs[2], unitDomain);
+		IPiece piece2 =  new SimpleConstantValuePiece(newArgs[2], new ExtendedType(valueDomain, ExtendedType.STRING));
 		OperatorPiece intervalPiece = new OperatorPiece(dod, new IPiece[] {piece.getParams()[0], piece1, piece2}, new ExtendedType[] {getExtendedPieces(piece)[0], new ExtendedType(valueDomain, Types.INTEGER, 0, 11), new ExtendedType(unitDomain, Types.VARCHAR, 0, newArgs[2].length())} );
 		return skin.render(skin, intervalPiece, dod, newArgs);
 	}

@@ -21,54 +21,21 @@
  * you and Squid Solutions (above licenses and LICENSE.txt included).
  * See http://www.squidsolutions.com/EnterpriseBouquet/
  *******************************************************************************/
-package com.squid.core.domain.operators;
+package com.squid.core.database.metadata;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
-import com.squid.core.domain.IDomain;
+import com.squid.core.database.model.Table;
 
-public class GroupOperatorDefintion extends AlgebraicOperatorDefinition {
+/**
+ * @author sergefantino
+ *
+ */
+public interface VendorMetadataSupportExt {
 
-    /**
-     * @param name
-     * @param id
-     * @param position
-     */
-    public GroupOperatorDefintion() {
-        super("GROUP", IntrinsicOperators.IDENTITY, WRAPPER_POSITION, IDomain.UNKNOWN);
-        setParamCount(1);
-    }
-    
-    @Override
-    public IDomain computeImageDomain(List<IDomain> sourceDomain) {
-        // source domain should be one dimension
-        if (sourceDomain.size()!=1) {
-            return IDomain.UNKNOWN;
-        } else {
-            return sourceDomain.get(0);
-        }
-    }
-
-    public String prettyPrint(String[] args) {
-        return "("+super.prettyPrint(args,true)+")";
-    }
-    
-    @Override
-    public String prettyPrint(String[] args, boolean showBrackets) {
-        return "("+super.prettyPrint(args,true)+")";
-    }
-    
-    @Override
-    public ExtendedType computeExtendedType(ExtendedType[] types) {
-    	if (types.length==1) {
-    		return types[0];
-    	} else {
-    		return ExtendedType.UNDEFINED;
-    	}
-    }
-
-    @Override
-    public List getParametersTypes() {
-        return null;
-    }
+	 // T2315: send the actual table for context
+	 public List<ColumnData> getColumns(Connection conn, Table table) throws SQLException;
+	 
 }

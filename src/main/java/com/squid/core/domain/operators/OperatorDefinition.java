@@ -51,7 +51,11 @@ public abstract class OperatorDefinition {
     public static final int DATE_TIME_TYPE = 2;
     public static final int MISC_TYPE = 3;
     public static final int TRIGO_TYPE = 4;
-
+    public static final int REGEXP_TYPE = 5;
+    public static final int JSON_TYPE = 6;
+    public static final int AGGR_TYPE = 7;
+    public static final int NUMERIC_TYPE = 8;
+    public static final int LOGICAL_TYPE = 9;
 
     private String m_name;
     private int m_id = IntrinsicOperators.UNDEFINED_ID;
@@ -111,7 +115,17 @@ public abstract class OperatorDefinition {
     public OperatorDefinition(String name, int id, int position, IDomain domain) {
         this(name, id, position, name, domain);
     }
+    /**
+     * @param name
+     * @param id
+     * @param position
+     * @parem type
+     */
+    public OperatorDefinition(String name, int id, int position, IDomain domain, int categoricalType) {
+        this(name, id, position, name, domain, categoricalType);
+    }
 
+    
     /**
      * Create infix operator
      *
@@ -121,6 +135,18 @@ public abstract class OperatorDefinition {
      */
     public OperatorDefinition(String name, int id, String symbol, IDomain domain) {
         this(name, id, INFIX_POSITION, symbol, domain);
+    }
+    
+    /**
+     * Create infix operator
+     *
+     * @param name
+     * @param id
+     * @param symbol
+     * @param category
+     */
+    public OperatorDefinition(String name, int id, String symbol, IDomain domain, int categoryType) {
+        this(name, id, INFIX_POSITION, symbol, domain, categoryType);
     }
 
     /**
@@ -194,7 +220,9 @@ public abstract class OperatorDefinition {
         this.categoryType = categoryType;
     }
 
-    public int getId() {
+ 
+
+	public int getId() {
         return m_id;
     }
 
@@ -246,6 +274,22 @@ public abstract class OperatorDefinition {
 
     public int getCategoryType() {
         return categoryType;
+    }
+    
+    public String getCategoryTypeName() {
+    	switch (categoryType) {
+    	case TRIGO_TYPE:
+    	case MATHS_TYPE: return "Math";
+    	case STRING_TYPE: return "Text";
+    	case DATE_TIME_TYPE: return "Date";
+    	case REGEXP_TYPE: return "Regex";
+    	case JSON_TYPE: return "JSON";
+    	case AGGR_TYPE: return "Aggregate";
+    	case NUMERIC_TYPE: return "Numeric";
+    	case LOGICAL_TYPE: return "Logical";
+    	case MISC_TYPE:
+    	default: return "Miscellaneous";
+    	}
     }
 
     public OperatorDefinition setParamCount(int paramCount) {
@@ -463,6 +507,36 @@ public abstract class OperatorDefinition {
         m_parameters = poly;
         return m_parameters;
     }
+    
+    
+    public List getSimplifiedParametersTypes(){
+    	return getParametersTypes();
+    	
+    }
+
+    public ListContentAssistEntry getSimplifiedListContentAssistEntry() {
+               List<String> descriptions = new ArrayList<String>();
+                  List types = getSimplifiedParametersTypes();
+            if(getHint()!=null && getHint().size()==types.size()) {
+                descriptions = getHint();
+            }else if(getHint()!=null && getHint().size() == 1){
+                for(int i = 0; i<types.size();i++){
+                    descriptions.add(getHint().get(0));
+                }
+            }else{
+               if(types == null || types.size()==0){
+
+               } else {
+                   for (int i = 0; i < types.size(); i++) {
+                       descriptions.add(getName());
+                   }
+               }
+
+            }
+            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+         return entry;
+    }
+    
 
     public ListContentAssistEntry getListContentAssistEntry() {
         if (this.listContentAssistEntry == null) {
@@ -502,5 +576,10 @@ public abstract class OperatorDefinition {
 
     public void setHint(List<String> hint) {
         this.hint = hint;
+    }
+    
+    public void setCategoryType(int categoryTypeName){
+    	this.categoryType = categoryTypeName;
+    	
     }
 }

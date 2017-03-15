@@ -23,32 +23,34 @@
  *******************************************************************************/
 package com.squid.core.sql.db.templates;
 
+import java.util.List;
+
 import com.squid.core.database.model.DatabaseProduct;
 import com.squid.core.domain.aggregate.QuotientOperatorDefinition;
 import com.squid.core.domain.analytics.WindowingOperatorRegistry;
-import com.squid.core.domain.extensions.date.AddMonthsOperatorDefinition;
 import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
-import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
+import com.squid.core.domain.extensions.date.AddMonthsOperatorDefinition;
 import com.squid.core.domain.extensions.date.DateTruncateOperatorDefinition;
 import com.squid.core.domain.extensions.date.DateTruncateShortcutsOperatorDefinition;
 import com.squid.core.domain.extensions.date.extract.ExtractOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
+import com.squid.core.domain.extensions.string.SplitPartOperatorDefinition;
+import com.squid.core.domain.extensions.string.StringLengthOperatorsDefinition;
 import com.squid.core.domain.extensions.string.oneArgStringOperator.OneArgStringOperatorDefinition;
 import com.squid.core.domain.extensions.string.pad.PadOperatorDefinition;
 import com.squid.core.domain.extensions.string.regex.RegexpOperatorDefinition;
-import com.squid.core.domain.extensions.string.SplitPartOperatorDefinition;
-import com.squid.core.domain.extensions.string.StringLengthOperatorsDefinition;
 import com.squid.core.domain.extensions.string.translate.TranslateOperatorDefinition;
 import com.squid.core.domain.extensions.string.trim.TrimOperatorDefinition;
 import com.squid.core.domain.maths.CeilOperatorDefinition;
 import com.squid.core.domain.maths.DegreesOperatorDefintion;
-import com.squid.core.domain.maths.FloorOperatorDefintion;
+import com.squid.core.domain.maths.FloorOperatorDefinition;
 import com.squid.core.domain.maths.GreatestLeastOperatorDefinition;
-import com.squid.core.domain.maths.PiOperatorDefintion;
-import com.squid.core.domain.maths.PowerOperatorDefintion;
-import com.squid.core.domain.maths.RoundOperatorDefintion;
-import com.squid.core.domain.maths.SignOperatorDefintion;
-import com.squid.core.domain.maths.SinhCoshTanhOperatorDefintion;
-import com.squid.core.domain.maths.TruncateOperatorDefintion;
+import com.squid.core.domain.maths.PiOperatorDefinition;
+import com.squid.core.domain.maths.PowerOperatorDefinition;
+import com.squid.core.domain.maths.RoundOperatorDefinition;
+import com.squid.core.domain.maths.SignOperatorDefinition;
+import com.squid.core.domain.maths.SinhCoshTanhOperatorDefinition;
+import com.squid.core.domain.maths.TruncateOperatorDefinition;
 import com.squid.core.domain.operators.IntrinsicOperators;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorScope;
@@ -72,6 +74,7 @@ import com.squid.core.sql.db.render.FloorOperatorRenderer;
 import com.squid.core.sql.db.render.GreatestLeastOperatorRenderer;
 import com.squid.core.sql.db.render.InOperatorRenderer;
 import com.squid.core.sql.db.render.MinMaxOperatorRenderer;
+import com.squid.core.sql.db.render.NullIfOperatorRenderer;
 import com.squid.core.sql.db.render.OperatorRenderer;
 import com.squid.core.sql.db.render.PadOperatorRenderer;
 import com.squid.core.sql.db.render.PiOperatorRenderer;
@@ -92,8 +95,6 @@ import com.squid.core.sql.db.render.TruncateOperatorRenderer;
 import com.squid.core.sql.render.ISkinFeatureSupport;
 import com.squid.core.sql.render.ISkinPref;
 import com.squid.core.sql.render.SQLSkin;
-
-import java.util.List;
 
 /**
  * The default skin provider
@@ -124,6 +125,7 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.HOURLY_ID, new DateTruncateOperatorRenderer());
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.DAILY_ID, new DateTruncateOperatorRenderer());
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.WEEKLY_ID, new DateTruncateOperatorRenderer());
+		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.QUARTERLY_ID, new DateTruncateOperatorRenderer());
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.MONTHLY_ID, new DateTruncateOperatorRenderer());
 		registerOperatorRender(DateTruncateShortcutsOperatorDefinition.YEARLY_ID, new DateTruncateOperatorRenderer());
 		//
@@ -153,6 +155,7 @@ public class DefaultSkinProvider implements ISkinProvider {
 		// new IntervalOperatorRenderer("SECOND"));
 		//
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.CASE), new CaseOperatorRender());
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.NULLIF), new NullIfOperatorRenderer());
 		//
 		registerOperatorRender(StringLengthOperatorsDefinition.STRING_LENGTH, new StringLengthRenderer());
 		registerOperatorRender(TranslateOperatorDefinition.STRING_REPLACE, new ThreeArgsFunctionRenderer("REPLACE"));
@@ -184,16 +187,16 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(CastOperatorDefinition.TO_NUMBER, new CastOperatorRenderer());
 		registerOperatorRender(CastOperatorDefinition.TO_TIMESTAMP, new CastOperatorRenderer());
 		registerOperatorRender(CeilOperatorDefinition.CEIL, new CeilOperatorRenderer());
-		registerOperatorRender(FloorOperatorDefintion.FLOOR, new FloorOperatorRenderer());
-		registerOperatorRender(SignOperatorDefintion.SIGN, new SignOperatorRenderer());
-		registerOperatorRender(TruncateOperatorDefintion.TRUNCATE, new TruncateOperatorRenderer());
-		registerOperatorRender(RoundOperatorDefintion.ROUND, new RoundOperatorRenderer());
-		registerOperatorRender(PowerOperatorDefintion.POWER, new PowerOperatorRenderer());
-		registerOperatorRender(PiOperatorDefintion.PI, new PiOperatorRenderer());
+		registerOperatorRender(FloorOperatorDefinition.FLOOR, new FloorOperatorRenderer());
+		registerOperatorRender(SignOperatorDefinition.SIGN, new SignOperatorRenderer());
+		registerOperatorRender(TruncateOperatorDefinition.TRUNCATE, new TruncateOperatorRenderer());
+		registerOperatorRender(RoundOperatorDefinition.ROUND, new RoundOperatorRenderer());
+		registerOperatorRender(PowerOperatorDefinition.POWER, new PowerOperatorRenderer());
+		registerOperatorRender(PiOperatorDefinition.PI, new PiOperatorRenderer());
 		registerOperatorRender(DegreesOperatorDefintion.DEGREES, new DegreesOperatorRenderer());
-		registerOperatorRender(SinhCoshTanhOperatorDefintion.SINH, new SinhCoshTanhOperatorRenderer("SINH"));
-		registerOperatorRender(SinhCoshTanhOperatorDefintion.COSH, new SinhCoshTanhOperatorRenderer("COSH"));
-		registerOperatorRender(SinhCoshTanhOperatorDefintion.TANH, new SinhCoshTanhOperatorRenderer("TANH"));
+		registerOperatorRender(SinhCoshTanhOperatorDefinition.SINH, new SinhCoshTanhOperatorRenderer("SINH"));
+		registerOperatorRender(SinhCoshTanhOperatorDefinition.COSH, new SinhCoshTanhOperatorRenderer("COSH"));
+		registerOperatorRender(SinhCoshTanhOperatorDefinition.TANH, new SinhCoshTanhOperatorRenderer("TANH"));
 		//
 		// VECTOR SUPPORT
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.AVG), new AverageOperatorRenderer());

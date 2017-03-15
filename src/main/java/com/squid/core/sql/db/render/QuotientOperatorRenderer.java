@@ -23,7 +23,7 @@
  *******************************************************************************/
 package com.squid.core.sql.db.render;
 
-import com.squid.core.domain.IDomain;
+import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.IntrinsicOperators;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.Operators;
@@ -97,7 +97,7 @@ implements OperatorRenderer
 						IPiece case_pieces[] = new IPiece[3];
 						case_pieces[0] = filter;
 						case_pieces[1] = subexp;
-						case_pieces[2] = handleDefault?new SimpleConstantValuePiece(0,IDomain.NUMERIC):new NullPiece();
+						case_pieces[2] = handleDefault?new SimpleConstantValuePiece(0,ExtendedType.NUMERIC):new NullPiece();
 						OperatorPiece subcase = new OperatorPiece(Operators.CASE,case_pieces);
 						OperatorPiece copy = new OperatorPiece(op.getOpDef(),new IPiece[]{subcase});
 						//
@@ -140,7 +140,7 @@ implements OperatorRenderer
 					{
 						IPiece case_pieces[] = new IPiece[3];
 						case_pieces[0] = filter;
-						case_pieces[1] = new SimpleConstantValuePiece(1,IDomain.NUMERIC);
+						case_pieces[1] = new SimpleConstantValuePiece(1, ExtendedType.NUMERIC);
 						case_pieces[2] = new NullPiece();
 						OperatorPiece subcase = new OperatorPiece(Operators.CASE,case_pieces);
 						OperatorPiece copy = new OperatorPiece(op.getOpDef(),new IPiece[]{subcase});

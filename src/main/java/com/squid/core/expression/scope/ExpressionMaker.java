@@ -34,6 +34,7 @@ import com.squid.core.domain.extensions.date.AddMonthsOperatorDefinition;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.domain.operators.Operators;
+import com.squid.core.domain.sort.SortOperatorDefinition;
 import com.squid.core.domain.vector.VectorDomain;
 import com.squid.core.expression.Compose;
 import com.squid.core.expression.ConditionalConstant;
@@ -295,6 +296,14 @@ public class ExpressionMaker {
 
 	public static ExpressionAST IN(ExpressionAST expr, List<ExpressionAST> values) {
 		return op(Operators.IN, expr, op(Operators.VECTOR, values));
+	}
+
+	public static ExpressionAST DESC(ExpressionAST a1) {
+		return op(OperatorScope.getDefault().lookupByExtendedID(SortOperatorDefinition.DESC_ID),a1);
+	}
+
+	public static ExpressionAST ASC(ExpressionAST a1) {
+		return op(OperatorScope.getDefault().lookupByExtendedID(SortOperatorDefinition.ASC_ID),a1);
 	}
 	
 	// date

@@ -48,14 +48,12 @@ public class SinhCoshTanhOperatorDefintion extends OperatorDefinition {
 
 	public SinhCoshTanhOperatorDefintion(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+        this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
 	}
 
 	public SinhCoshTanhOperatorDefintion(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
-	}
-
-	public SinhCoshTanhOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.CONTINUOUS, categoryType);
+        this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
 	}
 
 

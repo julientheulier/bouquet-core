@@ -37,7 +37,7 @@ import com.squid.core.sql.render.SQLSkin;
 public class CoVarianceRenderer extends OrderedAnalyticOperatorRenderer {
 
 	private static final OperatorDefinition AVG = OperatorScope.getDefault().lookupByID(IntrinsicOperators.AVG);	
-	CastOperatorDefinition toNumber = new CastOperatorDefinition("TO_NUMBER", CastToNumberOperatorDefinition.ID,IDomain.NUMERIC, OperatorDefinition.ALGEBRAIC_TYPE);
+	CastOperatorDefinition toNumber = new CastOperatorDefinition("TO_NUMBER", CastToNumberOperatorDefinition.ID,IDomain.NUMERIC);
 	
 	@Override
 	public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef,

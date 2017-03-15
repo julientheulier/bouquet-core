@@ -41,13 +41,9 @@ public class PosStringOperatorDefinition extends OperatorDefinition {
 	public PosStringOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC);
 		setDomain(domain);
+		this.setCategoryType(OperatorDefinition.STRING_TYPE);
 	}
-	
-	public PosStringOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
-		setDomain(domain);
-	}
-	
+		
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;

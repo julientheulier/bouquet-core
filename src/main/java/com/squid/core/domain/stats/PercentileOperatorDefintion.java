@@ -46,6 +46,7 @@ public class PercentileOperatorDefintion extends OperatorDefinition {
 
 	public PercentileOperatorDefintion(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, AnalyticDomain.DOMAIN);
+		this.setCategoryType(OperatorDefinition.AGGR_TYPE);
 	}
 
 	@Override

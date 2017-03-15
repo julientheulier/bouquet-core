@@ -47,6 +47,7 @@ public class TableImpl implements Table {
 	private String description = "";
 	
 	private TableType type;
+	private Object vendorType;
 	
 	private Schema schema = null;
 	
@@ -93,6 +94,14 @@ public class TableImpl implements Table {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Object getVendorType() {
+		return vendorType;
+	}
+
+	public void setVendorType(Object vendorType) {
+		this.vendorType = vendorType;
 	}
 
 	public TableType getType() {

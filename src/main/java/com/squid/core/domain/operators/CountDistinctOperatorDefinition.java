@@ -38,7 +38,8 @@ extends AggregateOperatorDefinition {
 		super(name, id);
 		setParamCount(1);
 	}
-
+	
+	
 	@Override
 	public List<String> getHint() {
 		List<String> hint = new ArrayList<String>();

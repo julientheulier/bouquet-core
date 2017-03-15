@@ -48,14 +48,8 @@ public class TrimOperatorDefinition extends OperatorDefinition {
     super(name, ID, PREFIX_POSITION, name, IDomain.STRING);
     setDomain(domain);
     hint = name + "(string[,trim_character])";
+    this.setCategoryType(OperatorDefinition.STRING_TYPE);
   }
-
-  public TrimOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-    super(name, ID, PREFIX_POSITION, name, domain);
-    setDomain(domain);
-    hint = name + "(string[,trim_character])";
-  }
-
 
 
   @Override

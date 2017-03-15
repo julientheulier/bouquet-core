@@ -47,16 +47,15 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 
 	public PowerOperatorDefintion(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 	
 	public PowerOperatorDefintion(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
+		this.setCategoryType(OperatorDefinition.MATHS_TYPE);
 	}
 	
-	public PowerOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
-	}
-
+	
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
@@ -69,6 +68,24 @@ public class PowerOperatorDefintion extends OperatorDefinition {
 		return hint;
 	}
 
+	
+	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		IDomain number = new DomainNumeric();
+		IDomain exponent = new DomainNumeric();
+		exponent.setContentAssistLabel("exponent");
+
+		type.add(number);
+		type.add(exponent);
+
+		poly.add(type);
+		
+		return poly;
+	}
+	
 	@Override
 	public List getParametersTypes() {
 		List poly = new ArrayList<List>();

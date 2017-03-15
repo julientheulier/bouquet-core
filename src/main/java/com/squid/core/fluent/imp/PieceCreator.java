@@ -23,7 +23,6 @@
  *******************************************************************************/
 package com.squid.core.fluent.imp;
 
-import java.sql.Types;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,9 +40,7 @@ import com.squid.core.expression.Compose;
 import com.squid.core.expression.ConstantValue;
 import com.squid.core.expression.ExpressionAST;
 import com.squid.core.expression.NullExpression;
-import com.squid.core.expression.NumericConstant;
 import com.squid.core.expression.Operator;
-import com.squid.core.expression.StringConstant;
 import com.squid.core.expression.reference.ColumnReference;
 import com.squid.core.expression.reference.ForeignKeyReference;
 import com.squid.core.expression.scope.ExpressionMaker;
@@ -136,7 +133,7 @@ public class PieceCreator {
 		}
 		if (expression instanceof ConstantValue) {
 			ConstantValue cst = (ConstantValue)expression;
-			return new SimpleConstantValuePiece(cst.getValue(),cst.getImageDomain());
+			return new SimpleConstantValuePiece(cst.getValue(), cst.computeType(getSkin()));
 		}
 		// else	
 		throw new SQLScopeException("expression not supported");

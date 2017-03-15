@@ -39,6 +39,11 @@ public class PrettyPrintOptions {
 		IDENTIFIER// use canonical ID
 	}
 	
+	// constant option for HUMAN display
+	public static final PrettyPrintOptions HUMAN_GLOBAL = new PrettyPrintOptions(ReferenceStyle.NAME, null);
+	// constant option for ROBOT reference
+	public static final PrettyPrintOptions ROBOT_GLOBAL = new PrettyPrintOptions(ReferenceStyle.IDENTIFIER, null);
+	
 	private ReferenceStyle style = ReferenceStyle.LEGACY;
 	
 	private boolean explicitType = false;
@@ -46,6 +51,13 @@ public class PrettyPrintOptions {
 	private IDomain scope = null; // default is global scope == null
 	
 	public PrettyPrintOptions() {
+	}
+	
+	public PrettyPrintOptions(PrettyPrintOptions copy) {
+		super();
+		this.style = copy.style;
+		this.explicitType = copy.explicitType;
+		this.scope = copy.scope;
 	}
 
 	public PrettyPrintOptions(ReferenceStyle style, IDomain scope) {
@@ -62,6 +74,10 @@ public class PrettyPrintOptions {
 		return scope;
 	}
 
+	/**
+	 * if true the prettyPrinter must explicitly type the identifier (e.g; @explicitType:'identifier')
+	 * @return
+	 */
 	public boolean isExplicitType() {
 		return explicitType;
 	}

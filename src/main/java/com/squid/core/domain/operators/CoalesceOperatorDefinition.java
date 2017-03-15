@@ -32,16 +32,17 @@ import com.squid.core.domain.DomainString;
 import com.squid.core.domain.IDomain;
 
 public class CoalesceOperatorDefinition
-extends ArithmeticOperatorDefintion {
+extends ArithmeticOperatorDefinition {
 
 	private static final String HINT = "COALESCE(expr,value)";
 
 	public CoalesceOperatorDefinition(String name, int id) {
 		super(name, id, OperatorDefinition.PREFIX_POSITION, IDomain.UNKNOWN);
-		//
-
+		this.setCategoryType(OperatorDefinition.LOGICAL_TYPE);
 	}
+	
 
+	
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
@@ -126,7 +127,19 @@ extends ArithmeticOperatorDefintion {
 		poly.add(type);
 		return poly;
 	}
+	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		return poly;
+	}
 
+	
+	
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if (imageDomains.isEmpty() || imageDomains.size()<=1) {

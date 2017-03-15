@@ -40,14 +40,12 @@ public class PiOperatorDefintion extends OperatorDefinition {
 
 	public PiOperatorDefintion(String name, String ID) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.NUMERIC);
+		this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
 	}
 
 	public PiOperatorDefintion(String name, String ID, IDomain domain) {
 		super(name,ID,PREFIX_POSITION,name,domain);
-	}
-
-	public PiOperatorDefintion(String name, String ID, int categoryType) {
-		super(name,ID,PREFIX_POSITION,name,IDomain.NUMERIC, categoryType);
+		this.setCategoryType(OperatorDefinition.TRIGO_TYPE);
 	}
 
 	@Override

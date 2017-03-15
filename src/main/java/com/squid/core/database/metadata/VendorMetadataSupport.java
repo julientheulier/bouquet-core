@@ -45,7 +45,7 @@ public interface VendorMetadataSupport {
 
 	 public ResultSet getPrimaryKeys(Connection conn, String catalog, String schema, String table) throws SQLException;
 
-	 //T128: Metadata per DB plugin 
+	 // T128: Metadata per DB plugin 
 	 public List<ColumnData> getColumns(Connection conn, String catalog, String schemaPattern, String tableNamePattern, String columnNamePattern) throws SQLException;
 	 
 	 public List<Schema> getSchemas(DatabaseFactory df, Connection conn) throws ExecutionException; 
@@ -70,7 +70,5 @@ public interface VendorMetadataSupport {
     public boolean handleSurrogateCharacters();
 
 	int[] normalizeColumnType(ResultSet rs) throws SQLException;
-
-
 
 }

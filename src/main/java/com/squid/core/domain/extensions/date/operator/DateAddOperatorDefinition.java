@@ -26,6 +26,7 @@ package com.squid.core.domain.extensions.date.operator;
 import com.squid.core.domain.*;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.ListContentAssistEntry;
+import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
 import java.sql.Types;
@@ -43,16 +44,8 @@ public class DateAddOperatorDefinition extends DateOperatorDefinition {
         super(name, DateAddOperatorDefinition.ID, domain);
     }
 
-    public DateAddOperatorDefinition(String name, IDomain domain, int categoryType) {
-        super(name, DateAddOperatorDefinition.ID, domain, categoryType);
-    }
-
     public DateAddOperatorDefinition(String name, String ID, IDomain domain) {
         super(name, ID, domain);
-    }
-
-    public DateAddOperatorDefinition(String name, String ID, IDomain domain, int categoryType) {
-        super(name, ID, domain, categoryType);
     }
 
     @Override

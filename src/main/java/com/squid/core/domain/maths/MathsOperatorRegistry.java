@@ -55,22 +55,22 @@ implements OperatorRegistry
 	
 	@Override
 	public void apply(OperatorScope scope) throws OperatorScopeException {
-		scope.registerExtension(new CeilOperatorDefinition("CEIL", CeilOperatorDefinition.CEIL,OperatorDefinition.MATHS_TYPE));
-		scope.registerExtension(new FloorOperatorDefintion("FLOOR",FloorOperatorDefintion.FLOOR,OperatorDefinition.MATHS_TYPE));
-		scope.registerExtension(new SignOperatorDefintion("SIGN",SignOperatorDefintion.SIGN,OperatorDefinition.MATHS_TYPE));		
-		scope.registerExtension(new TruncateOperatorDefintion("TRUNCATE",TruncateOperatorDefintion.TRUNCATE,OperatorDefinition.MATHS_TYPE));
-		scope.registerExtension(new RoundOperatorDefintion("ROUND",RoundOperatorDefintion.ROUND,OperatorDefinition.MATHS_TYPE));
-		scope.registerExtension(new RandOperatorDefinition("RAND",RandOperatorDefinition.RAND,OperatorDefinition.MATHS_TYPE));
-		scope.registerExtension(new PowerOperatorDefintion("POWER",PowerOperatorDefintion.POWER,OperatorDefinition.MATHS_TYPE));
-		scope.registerExtension(new PiOperatorDefintion("PI",PiOperatorDefintion.PI,OperatorDefinition.TRIGO_TYPE));
-		scope.registerExtension(new DegreesOperatorDefintion("DEGREES",DegreesOperatorDefintion.DEGREES,OperatorDefinition.TRIGO_TYPE));
-		scope.registerExtension(new RadiansOperatorDefintion("RADIANS",RadiansOperatorDefintion.RADIANS,OperatorDefinition.TRIGO_TYPE));
-		scope.registerExtension(new SinhCoshTanhOperatorDefintion("SINH",SinhCoshTanhOperatorDefintion.SINH,OperatorDefinition.TRIGO_TYPE));
-		scope.registerExtension(new SinhCoshTanhOperatorDefintion("COSH",SinhCoshTanhOperatorDefintion.COSH,OperatorDefinition.TRIGO_TYPE));
-		scope.registerExtension(new SinhCoshTanhOperatorDefintion("TANH",SinhCoshTanhOperatorDefintion.TANH,OperatorDefinition.TRIGO_TYPE));
+		scope.registerExtension(new CeilOperatorDefinition("CEIL", CeilOperatorDefinition.CEIL));
+		scope.registerExtension(new FloorOperatorDefinition("FLOOR",FloorOperatorDefinition.FLOOR));
+		scope.registerExtension(new SignOperatorDefinition("SIGN",SignOperatorDefinition.SIGN));		
+		scope.registerExtension(new TruncateOperatorDefinition("TRUNCATE",TruncateOperatorDefinition.TRUNCATE));
+		scope.registerExtension(new RoundOperatorDefinition("ROUND",RoundOperatorDefinition.ROUND));
+		scope.registerExtension(new RandOperatorDefinition("RAND",RandOperatorDefinition.RAND));
+		scope.registerExtension(new PowerOperatorDefinition("POWER",PowerOperatorDefinition.POWER));
+		scope.registerExtension(new PiOperatorDefinition("PI",PiOperatorDefinition.PI));
+		scope.registerExtension(new DegreesOperatorDefintion("DEGREES",DegreesOperatorDefintion.DEGREES));
+		scope.registerExtension(new RadiansOperatorDefintion("RADIANS",RadiansOperatorDefintion.RADIANS));
+		scope.registerExtension(new SinhCoshTanhOperatorDefinition("SINH",SinhCoshTanhOperatorDefinition.SINH));
+		scope.registerExtension(new SinhCoshTanhOperatorDefinition("COSH",SinhCoshTanhOperatorDefinition.COSH));
+		scope.registerExtension(new SinhCoshTanhOperatorDefinition("TANH",SinhCoshTanhOperatorDefinition.TANH));
 		
-		scope.registerExtension(new GreatestLeastOperatorDefinition("GREATEST",GreatestLeastOperatorDefinition.GREATEST,OperatorDefinition.MATHS_TYPE));
-		scope.registerExtension(new GreatestLeastOperatorDefinition("LEAST",GreatestLeastOperatorDefinition.LEAST,OperatorDefinition.MATHS_TYPE));
+		scope.registerExtension(new GreatestLeastOperatorDefinition("GREATEST",GreatestLeastOperatorDefinition.GREATEST));
+		scope.registerExtension(new GreatestLeastOperatorDefinition("LEAST",GreatestLeastOperatorDefinition.LEAST));
 	}
 
 }

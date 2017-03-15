@@ -42,19 +42,9 @@ public class OneNumericArgOperatorDefinition extends OperatorDefinition {
      */
     public OneNumericArgOperatorDefinition(String name, int id, IDomain domain) {
         super(name, id, domain);
+        this.setCategoryType(OperatorDefinition.NUMERIC_TYPE);
     }
 
-    /**
-     * OperatorDefinition
-     *
-     * @param name
-     * @param id
-     * @param domain
-     * @param categoryType
-     */
-    public OneNumericArgOperatorDefinition(String name, int id, IDomain domain, int categoryType) {
-        super(name, id, domain, categoryType);
-    }
 
     /**
      * @param name
@@ -64,6 +54,8 @@ public class OneNumericArgOperatorDefinition extends OperatorDefinition {
      */
     public OneNumericArgOperatorDefinition(String name, int id, int position, IDomain domain) {
         super(name, id, position, domain);
+        this.setCategoryType(OperatorDefinition.NUMERIC_TYPE);
+
     }
 
     /**
@@ -76,6 +68,7 @@ public class OneNumericArgOperatorDefinition extends OperatorDefinition {
      */
     public OneNumericArgOperatorDefinition(String name, int id, String symbol, IDomain domain) {
         super(name, id, symbol, domain);
+        this.setCategoryType(OperatorDefinition.NUMERIC_TYPE);
     }
 
     /**
@@ -89,29 +82,15 @@ public class OneNumericArgOperatorDefinition extends OperatorDefinition {
      */
     public OneNumericArgOperatorDefinition(String name, int id, int position, String symbol, IDomain domain) {
         super(name, id, position, symbol, domain);
+        this.setCategoryType(OperatorDefinition.NUMERIC_TYPE);
     }
 
-    /**
-     * Create operator at the specified position...
-     *
-     * @param name
-     * @param id
-     * @param position
-     * @param symbol
-     * @param domain
-     * @param categoryType
-     */
-    public OneNumericArgOperatorDefinition(String name, int id, int position, String symbol, IDomain domain, int categoryType) {
-        super(name, id, position, symbol, domain, categoryType);
-    }
 
     public OneNumericArgOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain) {
         super(name, extendedID, position, symbol, domain);
+        this.setCategoryType(OperatorDefinition.NUMERIC_TYPE);
     }
 
-    public OneNumericArgOperatorDefinition(String name, String extendedID, int position, String symbol, IDomain domain, int categoryType) {
-        super(name, extendedID, position, symbol, domain, categoryType);
-    }
 
     @Override
     public List<String> getHint() {
