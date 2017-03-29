@@ -81,7 +81,7 @@ public class VectorOperatorDefinition extends OperatorDefinition {
 	 * SFA: copied from AlgebraicOperatorDefinition
 	 */
     @Override
-    public ExtendedType computeExtendedType(ExtendedType[] types) {
+    public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
     	ExtendedType result = ExtendedType.UNDEFINED;
     	for (int i=0;i<types.length;i++) {
     		ExtendedType challenger = types[i];
@@ -110,6 +110,12 @@ public class VectorOperatorDefinition extends OperatorDefinition {
     	}
     	return result;
     }
+    
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
 
 	@Override
 	public List<String> getHint() {

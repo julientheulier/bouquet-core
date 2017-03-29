@@ -72,9 +72,14 @@ public class GreatestLeastOperatorDefinition extends OperatorDefinition {
 
 		return OperatorDiagnostic.IS_VALID;
 	}
-
+	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length>0) {
 			//setDomain(types[0].getDomain());
 			return types[0];

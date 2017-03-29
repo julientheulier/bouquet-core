@@ -90,8 +90,14 @@ public class PercentileOperatorDefintion extends OperatorDefinition {
 	}
 
 	@Override
-	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		return ExtendedType.INTEGER;
 	}
+	
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
 
 }

@@ -73,8 +73,14 @@ public class IntervalOperatorDefinition extends OperatorDefinition {
 		return poly;
 	}
 
+	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (this.getExtendedID().equals(INTERVAL_YEAR)) {
 			return new ExtendedType(IDomain.INTERVAL,CustomTypes.INTERVAL,1,0);
 		} else if (this.getExtendedID().equals(INTERVAL_MONTH)) {

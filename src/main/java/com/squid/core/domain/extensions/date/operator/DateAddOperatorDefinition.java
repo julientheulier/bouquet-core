@@ -121,12 +121,12 @@ public class DateAddOperatorDefinition extends DateOperatorDefinition {
 
     }
 
-    @Override
-    public ExtendedType computeExtendedType(ExtendedType[] types) {
-        return fixExtendedTypeDomain(computeRawExtendedType(types), types);
-    }
-
-    public ExtendedType computeRawExtendedType(ExtendedType[] types) {
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+	@Override
+    public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
         if (types.length == 2) {
             if (types[0].getDomain().isInstanceOf(IDomain.TIMESTAMP) && types[1].getDomain().isInstanceOf(IDomain.TIMESTAMP)) {
                 return ExtendedType.INTERVAL;

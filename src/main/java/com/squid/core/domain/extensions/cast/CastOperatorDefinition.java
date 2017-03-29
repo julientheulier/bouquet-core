@@ -63,6 +63,26 @@ public class CastOperatorDefinition extends OperatorDefinition {
 		return ALGEBRAIC_TYPE;
 	}
 
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
+		if (getDomain().equals(IDomain.TIMESTAMP)){
+			return ExtendedType.TIMESTAMP;
+		}
+		if (getDomain().equals(IDomain.NUMERIC)){
+			return ExtendedType.NUMERIC;
+		}
+		if (getDomain().equals(IDomain.DATE)){
+			return ExtendedType.DATE;
+		}
+		return ExtendedType.UNDEFINED;
+	}
+
+	
 
 
 	@Override

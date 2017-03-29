@@ -37,7 +37,7 @@ import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
 
-public class DateOperatorDefinition extends OperatorDefinition {
+public  class DateOperatorDefinition extends OperatorDefinition {
 
 	public static final String DATE_BASE = "com.squid.domain.operator.date.";
 	public static final String DATE_MONTHS_BETWEEN = DATE_BASE+"MONTHS_BETWEEN";
@@ -78,6 +78,21 @@ public class DateOperatorDefinition extends OperatorDefinition {
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
+	}
+
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
+		if (getDomain().equals(IDomain.DATE)){
+			return ExtendedType.DATE;
+		}else{
+			return ExtendedType.UNDEFINED;
+		}
+		
 	}
 
 

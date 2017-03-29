@@ -54,9 +54,15 @@ extends OperatorDefinition {
 	}
 
 	@Override
-	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		return ExtendedType.UNDEFINED;
 	}
+	
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
 
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {

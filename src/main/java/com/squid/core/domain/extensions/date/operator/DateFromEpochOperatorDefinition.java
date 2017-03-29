@@ -79,12 +79,13 @@ public class DateFromEpochOperatorDefinition extends DateOperatorDefinition {
         return poly;
     }
 
-    @Override
-    public ExtendedType computeExtendedType(ExtendedType[] types) {
-        return fixExtendedTypeDomain(computeRawExtendedType(types), types);
-    }
-
-    public ExtendedType computeRawExtendedType(ExtendedType[] types) {
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+	
+	@Override
+    public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
         return ExtendedType.TIMESTAMP;
     }
 

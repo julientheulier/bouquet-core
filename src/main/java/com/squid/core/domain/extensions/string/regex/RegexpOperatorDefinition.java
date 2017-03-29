@@ -51,6 +51,11 @@ public class RegexpOperatorDefinition extends OperatorDefinition {
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		return new ExtendedType(IDomain.STRING, Types.VARCHAR, 0, (types[0].getSize()));
 	}
 

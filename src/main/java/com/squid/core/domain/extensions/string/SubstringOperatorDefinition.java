@@ -178,6 +178,11 @@ public class SubstringOperatorDefinition extends OperatorDefinition {
 	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length>0) {
 			if (types.length==2) {
 				if (types[1].getDomain() instanceof DomainNumericConstant) {

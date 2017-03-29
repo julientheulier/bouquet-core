@@ -66,10 +66,16 @@ public class CompareToOperatorDefinition extends OperatorDefinition {
 	 * @see com.squid.core.domain.operators.OperatorDefinition#computeExtendedType(com.squid.core.domain.operators.ExtendedType[])
 	 */
 	@Override
-	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length==1) return types[0];
 		// else
 		return ExtendedType.UNDEFINED;
 	}
+	
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
 
 }

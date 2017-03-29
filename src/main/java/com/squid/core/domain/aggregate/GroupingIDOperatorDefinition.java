@@ -109,9 +109,13 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 		return poly;
 	}
 
-	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length==0) {
 			return ExtendedType.INTEGER;
 		} else {

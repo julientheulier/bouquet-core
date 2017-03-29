@@ -115,9 +115,14 @@ public class DateTruncateShortcutsOperatorDefinition extends OperatorDefinition 
 		}
 		return OperatorDiagnostic.IS_VALID;
 	}
-
+	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		ExtendedType dateType = types[0];
 		return fixExtendedTypeDomain(dateType, types);
 	}

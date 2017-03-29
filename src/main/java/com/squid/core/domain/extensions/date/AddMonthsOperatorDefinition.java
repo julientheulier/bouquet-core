@@ -93,8 +93,14 @@ extends OperatorDefinition {
 		return poly;
 	}
 
+	
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length!=2) {
 			return ExtendedType.UNDEFINED;
 		} else {

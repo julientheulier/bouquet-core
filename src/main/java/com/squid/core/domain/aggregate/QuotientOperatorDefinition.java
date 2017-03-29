@@ -93,10 +93,14 @@ public class QuotientOperatorDefinition extends OperatorDefinition {
 		poly.add(type);
 		return poly;		
 	}
-	
-	
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+	
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length==2) {
 			return types[0];
 		} else {

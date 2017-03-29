@@ -25,7 +25,7 @@ package com.squid.core.domain.operators;
 
 import com.squid.core.domain.IDomain;
 
-public class DelegateOperatorDefinition extends OperatorDefinition {
+public abstract class DelegateOperatorDefinition extends OperatorDefinition {
 
 	public DelegateOperatorDefinition(String name) {
 		super (name, -1, IDomain.AGGREGATE);

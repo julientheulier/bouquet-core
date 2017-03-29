@@ -51,10 +51,14 @@ public class JSONOperatorDefinition extends OperatorDefinition {
   }
 
   @Override
-  public ExtendedType computeExtendedType(ExtendedType[] types) {
+  public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
     return new ExtendedType(IDomain.NUMERIC, Types.INTEGER, 0, 0);
   }
-
+  @Override
+  public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+  
   @Override
   public IDomain computeImageDomain(List<IDomain> imageDomains) {
     return IDomain.NUMERIC;

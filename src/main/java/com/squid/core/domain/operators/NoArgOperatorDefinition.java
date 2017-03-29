@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by lrabiet on 12/05/16.
  */
-public class NoArgOperatorDefinition extends OperatorDefinition {
+public abstract class NoArgOperatorDefinition extends OperatorDefinition {
 
     /**
      * create simple prefix operator with symbol equals to operator's name
@@ -89,6 +89,8 @@ public class NoArgOperatorDefinition extends OperatorDefinition {
         hint.add("Description");
         return hint;
     }
+    
+    
 
 
     @Override

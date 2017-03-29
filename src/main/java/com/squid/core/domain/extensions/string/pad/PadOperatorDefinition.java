@@ -90,9 +90,15 @@ public class PadOperatorDefinition extends OperatorDefinition {
     return poly;
 
   }
+  
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
 
   @Override
-  public ExtendedType computeExtendedType(ExtendedType[] types) {
+  public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
     if (types.length > 0) {
       int size = 250;
       try {

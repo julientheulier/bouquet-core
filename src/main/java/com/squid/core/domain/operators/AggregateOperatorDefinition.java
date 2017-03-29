@@ -196,8 +196,14 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
     	return super.validateParameters(imageDomains);
     }
     
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+    
     @Override
-    public ExtendedType computeExtendedType(ExtendedType[] types) {
+    public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
     	//
 		ExtendedType result = types.length>0?types[0]:ExtendedType.NUMERIC;
 		//

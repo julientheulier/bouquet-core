@@ -44,11 +44,16 @@ extends OperatorDefinition
 		return 0;
 	}
 	
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+	
 	/**
 	 * The windowing operator family does NOT support extendedType calculation
 	 */
 	@Override
-	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		ArrayList<IDomain> imageDomains = new ArrayList<IDomain>();
 		for (ExtendedType type : types) {
 			imageDomains.add(type.getDomain());

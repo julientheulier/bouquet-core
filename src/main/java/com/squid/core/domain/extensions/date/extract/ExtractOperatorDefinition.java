@@ -69,9 +69,14 @@ public class ExtractOperatorDefinition extends OperatorDefinition {
         poly.add(type);
         return poly;
     }
+    
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
 
     @Override
-    public ExtendedType computeExtendedType(ExtendedType[] types) {
+    public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
         return new ExtendedType(IDomain.NUMERIC, Types.NUMERIC, 0, 2);
     }
 

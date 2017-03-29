@@ -98,6 +98,11 @@ public class SplitPartOperatorDefinition extends OperatorDefinition {
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length > 0) {
 			return types[0];
 		} else {

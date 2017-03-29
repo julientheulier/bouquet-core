@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by lrabiet on 12/05/16.
  */
-public class OneNumericArgOperatorDefinition extends OperatorDefinition {
+public abstract class OneNumericArgOperatorDefinition extends OperatorDefinition {
 
     /**
      * create simple prefix operator with symbol equals to operator's name

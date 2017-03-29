@@ -72,7 +72,7 @@ public class SortOperatorDefinition extends OperatorDefinition {
 	}
 	
 	@Override
-	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length==1) {
 			ExtendedType copy = new ExtendedType(types[0]);
 			return fixExtendedTypeDomain(copy, types);
@@ -80,6 +80,12 @@ public class SortOperatorDefinition extends OperatorDefinition {
 			return ExtendedType.UNDEFINED;
 		}
 	}
+	
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
 	
 	@Override
 	public IDomain computeImageDomain(List<IDomain> imageDomains) {

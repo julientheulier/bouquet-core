@@ -86,6 +86,11 @@ public class RoundOperatorDefintion extends OperatorDefinition {
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+	
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length==1 || types[0].isInteger()) {
 			return ExtendedType.INTEGER;
 		} else {

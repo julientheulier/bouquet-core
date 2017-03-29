@@ -88,9 +88,14 @@ public class CeilOperatorDefinition extends OperatorDefinition {
         //
         return domain;
     }
+    
+	@Override
+	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
 
     @Override
-    public ExtendedType computeExtendedType(ExtendedType[] types) {
+    public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
         return ExtendedType.INTEGER;
     }
 

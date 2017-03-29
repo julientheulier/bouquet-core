@@ -131,6 +131,11 @@ public class TruncateOperatorDefintion extends OperatorDefinition {
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length >1) {
 			ExtendedType currentType = types[0];
 			if (types[0].getDomain() instanceof DomainNumericConstant) {

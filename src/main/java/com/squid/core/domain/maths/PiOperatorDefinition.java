@@ -70,6 +70,11 @@ public class PiOperatorDefinition extends OperatorDefinition {
 
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
+	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+	}
+	
+	@Override
+	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		return ExtendedType.FLOAT;
 	}
 

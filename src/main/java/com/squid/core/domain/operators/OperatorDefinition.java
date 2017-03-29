@@ -360,6 +360,7 @@ public abstract class OperatorDefinition {
     public ExtendedType computeExtendedType(ExtendedType[] types) {
         return null;
     }
+    public abstract ExtendedType computeExtendedTypeRaw(ExtendedType[] types); 
 
     /**
      * fix the extendedType to enforce that the domain is consistent with computeImageDomain()
