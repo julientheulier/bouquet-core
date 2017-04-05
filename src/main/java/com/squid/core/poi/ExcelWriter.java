@@ -111,7 +111,7 @@ public class ExcelWriter implements Closeable, Flushable {
 	}
 
 	public void writeSelection(List<Selection> selections) {
-		Sheet selectionSheet  = wb.createSheet("Selection");
+		Sheet selectionSheet  = wb.createSheet("Information");
 		CellStyle cs = wb.createCellStyle();
 		cs.setWrapText(true);
 		if (selectionSheet instanceof SXSSFSheet) {
