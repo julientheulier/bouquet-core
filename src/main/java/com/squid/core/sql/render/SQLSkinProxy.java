@@ -80,10 +80,6 @@ implements SQLSkin
 	public ISkinFeatureSupport getFeatureSupport(String featureID) {
 		return this.skin.getFeatureSupport(featureID);
 	}
-	
-	public ISkinPref getPreferences(String featureID) {
-		return this.skin.getPreferences(featureID);
-	}
 
 	public String getSkinPrefix() {
 		return this.skin.getSkinPrefix();
