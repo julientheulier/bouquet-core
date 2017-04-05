@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -33,7 +33,9 @@ import java.sql.Types;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -41,11 +43,14 @@ import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.squid.core.export.IRawExportSource;
+import com.squid.core.export.Selection;
 import com.squid.core.jdbc.formatter.DurationFormatUtils;
 import com.squid.core.jdbc.formatter.IJDBCDataFormatter;
 
@@ -65,6 +70,7 @@ public class ExcelWriter implements Closeable, Flushable {
 
 	private Workbook wb = null;
 	private Sheet sheet;
+	private Sheet selectionSheet;
 
 	private DataFormat dataFormat = null;
 
@@ -94,7 +100,67 @@ public class ExcelWriter implements Closeable, Flushable {
 		maxRows = getMaxRows();
 
 		dataFormat = wb.createDataFormat();
-		sheet = wb.createSheet();
+		sheet = wb.createSheet("Data");
+	}
+
+	public Sheet getSelectionSheet() {
+		if (selectionSheet == null) {
+
+		}
+		return selectionSheet;
+	}
+
+	public void writeSelection(List<Selection> selections) {
+		Sheet selectionSheet  = wb.createSheet("Selection");
+		CellStyle cs = wb.createCellStyle();
+		cs.setWrapText(true);
+		if (selectionSheet instanceof SXSSFSheet) {
+			((SXSSFSheet)selectionSheet).trackAllColumnsForAutoSizing();
+			cs.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+		} else {
+			cs.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		}
+		if (selections != null && selections.size()>0) {
+			int rowNr = 0;
+			Row headerRow = selectionSheet.createRow(rowNr++);
+			Cell cell = headerRow.createCell(0);
+			cell.setCellValue("Filter");
+			cell = headerRow.createCell(1);
+			cell.setCellValue("Selection");
+			boolean hasCompare = false;
+			for(Selection selection : selections) {
+				Row row = selectionSheet.createRow(rowNr++);
+				int cellNr = 0;
+				cell = row.createCell(cellNr++);
+				cell.setCellValue(selection.getName());
+				cell = row.createCell(cellNr++);
+				String separator = "";
+				for (String value: selection.getValues()){
+					cell.setCellValue(cell.getStringCellValue() + separator + value);
+					separator = " \n";
+				}
+				row.setHeightInPoints((selection.getValues().size()*sheet.getDefaultRowHeightInPoints()));
+				cell.setCellStyle(cs);
+				if (selection.getCompared() != null && selection.getCompared().size()>0) {
+					hasCompare = true;
+					cell = row.createCell(cellNr++);
+					separator = "";
+					for (String value: selection.getCompared()){
+						cell.setCellValue(cell.getStringCellValue() + separator + value);
+						separator = " \n";
+					}
+				}
+			}
+			if (hasCompare) {
+				cell = headerRow.createCell(2);
+				cell.setCellValue("Compared with");
+			}
+			selectionSheet.autoSizeColumn(0);
+			selectionSheet.autoSizeColumn(1);
+			if (hasCompare) {
+				selectionSheet.autoSizeColumn(2);
+			}
+		}
 	}
 
 	protected void writeColumnNames(final String[] columnNames) throws SQLException {
@@ -178,14 +244,14 @@ public class ExcelWriter implements Closeable, Flushable {
 	private int getMaxRows() {
 		int maxRows = XLS_MAX_ROWS;
 		switch (excelFile) {
-		case XLS:
-			maxRows = XLS_MAX_ROWS;
-			break;
-		case XLSX:
-			maxRows = XLSX_MAX_ROWS;
-			break;
-		default:
-			break;
+			case XLS:
+				maxRows = XLS_MAX_ROWS;
+				break;
+			case XLSX:
+				maxRows = XLSX_MAX_ROWS;
+				break;
+			default:
+				break;
 		}
 		;
 		return maxRows;
@@ -273,28 +339,28 @@ public class ExcelWriter implements Closeable, Flushable {
 		String stringFormat = null;
 		switch (colType) {
 
-		case Types.DATE:
-			stringFormat = "yyyy-mm-dd";
-			break;
-		case Types.TIME:
-			stringFormat = "hh:mm:ss";
-			break;
-		case Types.TIMESTAMP:
-			stringFormat = "yyyy-mm-dd hh:mm:ss";
-			break;
-		case Types.TINYINT:
-		case Types.SMALLINT:
-		case Types.INTEGER:
-		case Types.BIGINT:
-		case Types.NUMERIC:
-			stringFormat = "0";
-			break;
+			case Types.DATE:
+				stringFormat = "yyyy-mm-dd";
+				break;
+			case Types.TIME:
+				stringFormat = "hh:mm:ss";
+				break;
+			case Types.TIMESTAMP:
+				stringFormat = "yyyy-mm-dd hh:mm:ss";
+				break;
+			case Types.TINYINT:
+			case Types.SMALLINT:
+			case Types.INTEGER:
+			case Types.BIGINT:
+			case Types.NUMERIC:
+				stringFormat = "0";
+				break;
 
-		case Types.DOUBLE:
-		case Types.FLOAT:
-		case Types.DECIMAL:
-			stringFormat = "0.00";
-			break;
+			case Types.DOUBLE:
+			case Types.FLOAT:
+			case Types.DECIMAL:
+				stringFormat = "0.00";
+				break;
 		}
 		return stringFormat;
 	}
@@ -303,22 +369,22 @@ public class ExcelWriter implements Closeable, Flushable {
 		int cellType = Cell.CELL_TYPE_STRING;
 		switch (colType) {
 
-		case Types.DATE:
-		case Types.TIME:
-		case Types.TIMESTAMP:
-		case Types.TINYINT:
-		case Types.SMALLINT:
-		case Types.INTEGER:
-		case Types.BIGINT:
-		case Types.NUMERIC:
-		case Types.DOUBLE:
-		case Types.FLOAT:
-		case Types.DECIMAL:
-			cellType = Cell.CELL_TYPE_NUMERIC;
-			break;
-		case Types.BOOLEAN:
-			cellType = Cell.CELL_TYPE_BOOLEAN;
-			break;
+			case Types.DATE:
+			case Types.TIME:
+			case Types.TIMESTAMP:
+			case Types.TINYINT:
+			case Types.SMALLINT:
+			case Types.INTEGER:
+			case Types.BIGINT:
+			case Types.NUMERIC:
+			case Types.DOUBLE:
+			case Types.FLOAT:
+			case Types.DECIMAL:
+				cellType = Cell.CELL_TYPE_NUMERIC;
+				break;
+			case Types.BOOLEAN:
+				cellType = Cell.CELL_TYPE_BOOLEAN;
+				break;
 		}
 		return cellType;
 	}
