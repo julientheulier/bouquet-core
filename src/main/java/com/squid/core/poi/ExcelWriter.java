@@ -36,10 +36,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -70,7 +72,6 @@ public class ExcelWriter implements Closeable, Flushable {
 
 	private Workbook wb = null;
 	private Sheet sheet;
-	private Sheet selectionSheet;
 
 	private DataFormat dataFormat = null;
 
@@ -103,13 +104,6 @@ public class ExcelWriter implements Closeable, Flushable {
 		sheet = wb.createSheet("Data");
 	}
 
-	public Sheet getSelectionSheet() {
-		if (selectionSheet == null) {
-
-		}
-		return selectionSheet;
-	}
-
 	public void writeSelection(List<Selection> selections) {
 		Sheet selectionSheet  = wb.createSheet("Information");
 		CellStyle cs = wb.createCellStyle();
@@ -120,19 +114,23 @@ public class ExcelWriter implements Closeable, Flushable {
 		} else {
 			cs.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
 		}
+		CellStyle csh = getHeaderStyle();
 		if (selections != null && selections.size()>0) {
 			int rowNr = 0;
 			Row headerRow = selectionSheet.createRow(rowNr++);
 			Cell cell = headerRow.createCell(0);
 			cell.setCellValue("Filter");
+			cell.setCellStyle(csh);
 			cell = headerRow.createCell(1);
 			cell.setCellValue("Selection");
+			cell.setCellStyle(csh);
 			boolean hasCompare = false;
 			for(Selection selection : selections) {
 				Row row = selectionSheet.createRow(rowNr++);
 				int cellNr = 0;
 				cell = row.createCell(cellNr++);
 				cell.setCellValue(selection.getName());
+				cell.setCellStyle(cs);
 				cell = row.createCell(cellNr++);
 				String separator = "";
 				for (String value: selection.getValues()){
@@ -149,11 +147,13 @@ public class ExcelWriter implements Closeable, Flushable {
 						cell.setCellValue(cell.getStringCellValue() + separator + value);
 						separator = " \n";
 					}
+					cell.setCellStyle(cs);
 				}
 			}
 			if (hasCompare) {
 				cell = headerRow.createCell(2);
 				cell.setCellValue("Compared with");
+				cell.setCellStyle(csh);
 			}
 			selectionSheet.autoSizeColumn(0);
 			selectionSheet.autoSizeColumn(1);
@@ -161,6 +161,14 @@ public class ExcelWriter implements Closeable, Flushable {
 				selectionSheet.autoSizeColumn(2);
 			}
 		}
+	}
+
+	private CellStyle getHeaderStyle() {
+		CellStyle csh = wb.createCellStyle();
+		Font font = wb.createFont();
+		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		csh.setFont(font);
+		return csh;
 	}
 
 	protected void writeColumnNames(final String[] columnNames) throws SQLException {
@@ -181,6 +189,16 @@ public class ExcelWriter implements Closeable, Flushable {
 
 	private void writeNext(final Object[] nextLine, final boolean isHeader, String[] columnsFormat, int[] cellsType) {
 		Row row = getRow();
+		CellStyle csh = null;
+		if (isHeader) {
+			csh = getHeaderStyle();
+			if (sheet instanceof SXSSFSheet) {
+				((SXSSFSheet)sheet).trackAllColumnsForAutoSizing();
+				csh.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+			} else {
+				csh.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+			}
+		}
 		for (int iCell = 0; iCell < nextLine.length; iCell++) {
 			Cell cell = row.createCell(iCell); // Create cell
 			if (isHeader) { // Apply header and footer style
@@ -218,6 +236,10 @@ public class ExcelWriter implements Closeable, Flushable {
 				} else {
 					cell.setCellValue(((Number) value).doubleValue());
 				}
+			}
+			if (isHeader) { // Apply header and footer style
+				cell.getRow().setHeight((short) 500);
+				cell.setCellStyle(csh);
 			}
 
 		}
@@ -292,7 +314,9 @@ public class ExcelWriter implements Closeable, Flushable {
 		if (logger.isDebugEnabled()) {
 			logger.debug((source.getColumnTypes().toString()));
 		}
-
+		if (sheet instanceof SXSSFSheet) {
+			((SXSSFSheet)sheet).trackAllColumnsForAutoSizing();
+		}
 		if (insertHeader) {
 			writeColumnNames(source.getColumnNames());
 			++linesWritten;
@@ -308,6 +332,10 @@ public class ExcelWriter implements Closeable, Flushable {
 			if (linesWritten >= maxRows) {
 				break;
 			}
+		}
+		for (int i=0; i<source.getColumnNames().length; i++) {
+			sheet.autoSizeColumn(i);
+			sheet.setColumnWidth(i, Math.min(sheet.getColumnWidth(i), 10000));
 		}
 		return true;
 
@@ -353,13 +381,13 @@ public class ExcelWriter implements Closeable, Flushable {
 			case Types.INTEGER:
 			case Types.BIGINT:
 			case Types.NUMERIC:
-				stringFormat = "0";
+				stringFormat = HSSFDataFormat.getBuiltinFormat((short) 3);
 				break;
 
 			case Types.DOUBLE:
 			case Types.FLOAT:
 			case Types.DECIMAL:
-				stringFormat = "0.00";
+				stringFormat = HSSFDataFormat.getBuiltinFormat((short) 4);
 				break;
 		}
 		return stringFormat;

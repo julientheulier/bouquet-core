@@ -2,7 +2,7 @@ package com.squid.core.export;
 
 import java.util.List;
 
-public class Selection {
+public class Selection implements Comparable<Selection> {
 
 	private String name;
 	private List<String> values;
@@ -34,5 +34,15 @@ public class Selection {
 		} else {
 			return this.getName().equals(o.toString());
 		}
+	}
+
+	@Override
+	public int compareTo(Selection o) {
+		return this.getName().compareTo(o.getName());
+	}
+
+	@Override
+	public String toString() {
+		return this.getName();
 	}
 }
