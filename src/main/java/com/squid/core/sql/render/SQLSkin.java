@@ -172,12 +172,6 @@ public interface SQLSkin {
 	 * The resulting object may be interpreted depending on the feature.
 	 */
 	public ISkinFeatureSupport getFeatureSupport(String featureID);
-	
-	/**
-	 * return information regarding the preferences for a feature ; by default return none;
-	 * The resulting object may be interpreted depending on the feature.
-	 */
-	public ISkinPref getPreferences(String featureID);
 
 	/**
 	 * return the Skin Handler used to create that skin

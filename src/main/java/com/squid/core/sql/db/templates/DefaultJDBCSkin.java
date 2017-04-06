@@ -48,7 +48,6 @@ import com.squid.core.sql.model.SQLScopeException;
 import com.squid.core.sql.render.IJoinDecorator;
 import com.squid.core.sql.render.IPiece;
 import com.squid.core.sql.render.ISkinFeatureSupport;
-import com.squid.core.sql.render.ISkinPref;
 import com.squid.core.sql.render.OperatorPiece;
 import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
@@ -538,11 +537,6 @@ public class DefaultJDBCSkin extends DefaultSQLSkin {
 	@Override
 	public ISkinFeatureSupport getFeatureSupport(String featureID) {
 		return getProvider().getFeatureSupport(this, featureID);
-	}
-
-	@Override
-	public ISkinPref getPreferences(String featureID) {
-		return getProvider().getPreferences(this, featureID);
 	}
 
 	public boolean isCreatingSkinSucess() {

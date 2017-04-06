@@ -25,7 +25,9 @@ package com.squid.core.sql.render;
 
 public interface ISkinPref {
 
-	public ISkinPref NOPREF = new ISkinPref(){};
-	public ISkinPref TEMP = new ISkinPref(){};
+	public ISkinPref NOPREF = new ISkinPref(){};// the driver doesn't know
+	public ISkinPref TEMP = new ISkinPref(){};// use temporary table if possible
+	public ISkinPref ROLLUP_OPT_WITH = new ISkinPref(){};// use with optimization if possible
+	public ISkinPref ROLLUP_NO_OPT = new ISkinPref(){};// do not use optimization
 
 }

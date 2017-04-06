@@ -25,7 +25,6 @@ package com.squid.core.sql.db.templates;
 
 import com.squid.core.database.model.DatabaseProduct;
 import com.squid.core.sql.render.ISkinFeatureSupport;
-import com.squid.core.sql.render.ISkinPref;
 import com.squid.core.sql.template.ISkinHandler;
 
 public interface ISkinProvider
@@ -56,8 +55,6 @@ extends ISkinHandler
 	 * The resulting object may be interpreted depending on the feature.
 	 */
 	public ISkinFeatureSupport getFeatureSupport(DefaultJDBCSkin skin, String featureID);
-	
-	public ISkinPref getPreferences(DefaultJDBCSkin skin, String featureID);
 
 	
 }

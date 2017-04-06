@@ -55,6 +55,7 @@ import com.squid.core.domain.operators.IntrinsicOperators;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.domain.sort.SortOperatorDefinition;
+import com.squid.core.sql.db.features.IRollupStrategySupport;
 import com.squid.core.sql.db.render.AddMonthsOperatorRenderer;
 import com.squid.core.sql.db.render.AverageOperatorRenderer;
 import com.squid.core.sql.db.render.CaseOperatorRender;
@@ -93,7 +94,6 @@ import com.squid.core.sql.db.render.ThreeArgsFunctionRenderer;
 import com.squid.core.sql.db.render.TrimOperatorRenderer;
 import com.squid.core.sql.db.render.TruncateOperatorRenderer;
 import com.squid.core.sql.render.ISkinFeatureSupport;
-import com.squid.core.sql.render.ISkinPref;
 import com.squid.core.sql.render.SQLSkin;
 
 /**
@@ -263,6 +263,9 @@ public class DefaultSkinProvider implements ISkinProvider {
 
 	@Override
 	public ISkinFeatureSupport getFeatureSupport(DefaultJDBCSkin skin, String featureID) {
+		if (featureID.equals(IRollupStrategySupport.ID)) {
+			return IRollupStrategySupport.DO_NOT_OPTIMIZE_STRATEGY;
+		}
 		return ISkinFeatureSupport.IS_NOT_SUPPORTED;
 	}
 
@@ -275,9 +278,5 @@ public class DefaultSkinProvider implements ISkinProvider {
 	public ISkinProvider getParentSkinProvider() {
 		return null;
 	}
-
-	@Override
-	public ISkinPref getPreferences(DefaultJDBCSkin skin, String featureID) {
-		return ISkinPref.NOPREF;
-	}
+	
 }
