@@ -208,6 +208,10 @@ implements ExpressionScope
     		return new ExpressionDiagnostic("the expression is not well defined (unknown type)");
     	}
     }
-    
-
+    @Override
+    public IDomain getScopeContext() throws ScopeException{
+    	ExpressionAST self = this.parseExpression("$'SELF'");
+    	IDomain context = self.getImageDomain();
+    	return context ;
+    }
 }

@@ -26,6 +26,7 @@ package com.squid.core.expression.scope;
 import java.util.List;
 import java.util.Set;
 
+import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.expression.ConstantValue;
 import com.squid.core.expression.ExpressionAST;
@@ -210,4 +211,5 @@ public interface ExpressionScope {
 	 */
 	public ExpressionDiagnostic validateExpression(ExpressionAST expression);
 
+	public IDomain getScopeContext() throws ScopeException;
 }
