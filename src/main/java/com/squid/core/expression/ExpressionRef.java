@@ -75,9 +75,10 @@ public abstract class ExpressionRef extends NamedExpression implements Expressio
 			return PrettyPrintConstant.OPEN_IDENT+getReferenceName()+PrettyPrintConstant.CLOSE_IDENT;
 		} else {
 			if (getReferenceType()!=null) {
-				return PrettyPrintConstant.OPEN_TYPED_IDENTIFIER+getReferenceType()+PrettyPrintConstant.TYPE_SEPARATOR+PrettyPrintConstant.OPEN_IDENT+getReferenceIdentifier()+PrettyPrintConstant.CLOSE_IDENT;
+				return PrettyPrintConstant.OPEN_TYPED_IDENTIFIER+getReferenceType()+PrettyPrintConstant.TYPE_SEPARATOR+PrettyPrintConstant.OPEN_IDENT+getReferenceIdentifier()+PrettyPrintConstant.CLOSE_IDENT+PrettyPrintConstant.CLOSE_TYPED_IDENTIFIER;
 			} else {
-				return PrettyPrintConstant.OPEN_TYPED_IDENTIFIER+getReferenceType()+PrettyPrintConstant.TYPE_SEPARATOR+PrettyPrintConstant.OPEN_IDENT+getReferenceIdentifier()+PrettyPrintConstant.CLOSE_IDENT;
+				// if type is not defined use the default Identifier type
+				return PrettyPrintConstant.OPEN_TYPED_IDENTIFIER+IdentifierType.IDENTIFIER+PrettyPrintConstant.TYPE_SEPARATOR+PrettyPrintConstant.OPEN_IDENT+getReferenceIdentifier()+PrettyPrintConstant.CLOSE_IDENT+PrettyPrintConstant.CLOSE_TYPED_IDENTIFIER;
 			}
 		}
 	}
