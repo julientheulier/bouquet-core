@@ -75,7 +75,7 @@ public abstract class OperatorDefinition {
 
     private IDomain m_domain = IDomain.UNKNOWN;
 
-    private List m_parameters;
+    private List<List<IDomain>> m_parameters;
 
     private ListContentAssistEntry listContentAssistEntry;
 
@@ -392,7 +392,7 @@ public abstract class OperatorDefinition {
         int pos = 0;
         //T1202
         // Use get parameters type to validate the input parameters.
-        List poly = getParametersTypes();
+        List<List<IDomain>> poly = getSimplifiedParametersTypes();
         if (poly != null) {
             for (List<IDomain> type : (List<List<IDomain>>) poly) {
                 if (type != null) {
@@ -500,50 +500,53 @@ public abstract class OperatorDefinition {
         return getSymbol();
     }
 
-
-    public List getParametersTypes() {
-        List type = new ArrayList<IDomain>();
-        List poly = new ArrayList<List>();
+    // make this one protected, so actual OpDef can override
+    // must use getimplifiedParametersTypes() method to actually access the list
+    protected List<List<IDomain>> getParametersTypes() {
+        List<IDomain> type = new ArrayList<IDomain>();
+        List<List<IDomain>> poly = new ArrayList<List<IDomain>>();
         poly.add(type);
         m_parameters = poly;
         return m_parameters;
     }
     
     
-    public List getSimplifiedParametersTypes(){
-    	return getParametersTypes();
-    	
+    public List<List<IDomain>> getSimplifiedParametersTypes(){
+    	if (m_parameters==null) {
+    		return getParametersTypes();
+    	} else {
+    		return m_parameters;
+    	}
     }
 
     public ListContentAssistEntry getSimplifiedListContentAssistEntry() {
-               List<String> descriptions = new ArrayList<String>();
-                  List types = getSimplifiedParametersTypes();
-            if(getHint()!=null && getHint().size()==types.size()) {
-                descriptions = getHint();
-            }else if(getHint()!=null && getHint().size() == 1){
-                for(int i = 0; i<types.size();i++){
-                    descriptions.add(getHint().get(0));
-                }
-            }else{
-               if(types == null || types.size()==0){
+    	List<String> descriptions = new ArrayList<String>();
+    	List<List<IDomain>> types = getSimplifiedParametersTypes();
+    	if(getHint()!=null && getHint().size()==types.size()) {
+    		descriptions = getHint();
+    	}else if(getHint()!=null && getHint().size() == 1){
+    		for(int i = 0; i<types.size();i++){
+    			descriptions.add(getHint().get(0));
+    		}
+    	}else{
+    		if(types == null || types.size()==0){
 
-               } else {
-                   for (int i = 0; i < types.size(); i++) {
-                       descriptions.add(getName());
-                   }
-               }
+    		} else {
+    			for (int i = 0; i < types.size(); i++) {
+    				descriptions.add(getName());
+    			}
+    		}
 
-            }
-            ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
-         return entry;
+    	}
+    	ListContentAssistEntry entry = new ListContentAssistEntry(descriptions, types);
+    	return entry;
     }
     
 
     public ListContentAssistEntry getListContentAssistEntry() {
         if (this.listContentAssistEntry == null) {
-
             List<String> descriptions = new ArrayList<String>();
-            List types = getParametersTypes();
+            List<List<IDomain>> types = getSimplifiedParametersTypes();
             if(getHint()!=null && getHint().size()==types.size()) {
                 descriptions = getHint();
             }else if(getHint()!=null && getHint().size() == 1){
