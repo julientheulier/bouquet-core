@@ -75,11 +75,11 @@ extends AbstractSingletonDomain
 	@Override
 	public String getContentAssistLabel(){
 		if(label=="" && name!=""){
-			return (getName()+" "+getName().toLowerCase().charAt(0));
+			return (getName().toLowerCase());
 		}else if(label=="" && name==""){
-			return ("Unknown");
+			return ("unknown");
 		}
-		return label;
+		return label.toLowerCase();
 	}
 
 	@Override
