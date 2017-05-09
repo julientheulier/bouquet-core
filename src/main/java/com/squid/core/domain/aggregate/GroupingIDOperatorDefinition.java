@@ -70,34 +70,12 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 		IDomain any = new DomainAny();
 		type.add(any);
 		poly.add(type);
-		type = new ArrayList<IDomain>();
-		type.add(any);
-		type.add(any);
-		poly.add(type);
-		type = new ArrayList<IDomain>();
-		type.add(any);
-		type.add(any);
-		type.add(any);
-		poly.add(type);
-		type = new ArrayList<IDomain>();
-		type.add(any);
-		type.add(any);
-		type.add(any);
-		type.add(any);
-		poly.add(type);
-		type = new ArrayList<IDomain>();
-		type.add(any);
-		type.add(any);
-		type.add(any);
-		type.add(any);
-		type.add(any);
-		poly.add(type);
 		
 		return poly;
 	}
 
 	@Override
-	public List getSimplifiedParametersTypes() { //Up to five level of path_elements.
+	public List getSimplifiedParametersTypes() {
 		List poly = new ArrayList<List>();
 		List type = new ArrayList<IDomain>();
 		poly.add(type);
@@ -107,11 +85,6 @@ public class GroupingIDOperatorDefinition extends OperatorDefinition {
 		poly.add(type);
 		
 		return poly;
-	}
-
-	@Override
-	public ExtendedType computeExtendedType(ExtendedType[] types) {
-	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
 	}
 
 	@Override

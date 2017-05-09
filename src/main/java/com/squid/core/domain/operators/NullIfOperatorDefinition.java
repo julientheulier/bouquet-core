@@ -70,7 +70,7 @@ public class NullIfOperatorDefinition extends ArithmeticOperatorDefinition {
 	}
 
 	@Override
-	public List<List> getParametersTypes() {
+	public List getParametersTypes() {
 		List poly = new ArrayList<List<IDomain>>();
 		List type = new ArrayList<IDomain>();
 		IDomain any = new DomainAny();
