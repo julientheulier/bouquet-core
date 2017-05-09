@@ -502,7 +502,7 @@ public abstract class OperatorDefinition {
 
     // make this one protected, so actual OpDef can override
     // must use getimplifiedParametersTypes() method to actually access the list
-    protected List<List<IDomain>> getParametersTypes() {
+    protected List getParametersTypes() {
         List<IDomain> type = new ArrayList<IDomain>();
         List<List<IDomain>> poly = new ArrayList<List<IDomain>>();
         poly.add(type);
