@@ -76,6 +76,8 @@ implements ISelectStatement
 	private String comment = null;
 	private String intoTemporaryTableName;
 	
+	private boolean hasSimpleOrderBys = false;
+	
 	public SelectStatement() {
 		this.aliaser = new Aliaser();
 		this.groupByPiece = createGroupByPiece();// late binding => pb d'index...
@@ -314,6 +316,14 @@ implements ISelectStatement
 	
 	public boolean hasIntoTemporaryTable() {
 		return intoTemporaryTableName!=null;
+	}
+
+	public boolean isHasSimpleOrderBys() {
+		return hasSimpleOrderBys;
+	}
+
+	public void setHasSimpleOrderBys(boolean hasSimpleOrderBys) {
+		this.hasSimpleOrderBys = hasSimpleOrderBys;
 	}
 
 }
