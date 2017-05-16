@@ -58,14 +58,6 @@ public class DateCurrentTimestampOperatorDefinition extends DateOperatorDefiniti
     public List getParametersTypes() {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
-
-        IDomain any = new DomainAny();
-        any.setContentAssistLabel("ignored");
-        any.setContentAssistProposal("${1:ANY:ignored}");
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
-        type.add(any);
         poly.add(type);
 
         return poly;

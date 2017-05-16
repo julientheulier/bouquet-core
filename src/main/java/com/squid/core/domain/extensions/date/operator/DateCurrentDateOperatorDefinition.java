@@ -58,12 +58,6 @@ public class DateCurrentDateOperatorDefinition extends DateOperatorDefinition {
         List poly = new ArrayList<List>();
         List type = new ArrayList<IDomain>();
 
-        IDomain any = new DomainAny();
-        any.setContentAssistLabel("ignored");
-        poly.add(type);
-
-        type = new ArrayList<IDomain>();
-        type.add(any);
         poly.add(type);
 
         return poly;
