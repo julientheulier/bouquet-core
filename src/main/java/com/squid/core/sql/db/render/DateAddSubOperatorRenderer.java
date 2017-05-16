@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -27,8 +27,8 @@ import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
-import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
 import com.squid.core.domain.extensions.cast.CastToTimestampOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.sql.render.IPiece;
@@ -45,17 +45,17 @@ public class DateAddSubOperatorRenderer
 extends BaseOperatorRenderer
 {
 	public static final String INTERVAL = "INTERVAL ";
-	
+
 	public enum OperatorType {
 		ADD,SUB;
 	}
-	
+
 	private OperatorType builtinType = null;
 
 	public DateAddSubOperatorRenderer(OperatorType builtinType) {
 		this.builtinType = builtinType;
 	}
-	
+
 	protected OperatorType getBuiltinType() {
 		return builtinType;
 	}
@@ -76,9 +76,9 @@ extends BaseOperatorRenderer
 		ExtendedType[] extendedTypes = null;
 		extendedTypes = getExtendedPieces(piece);
 		if (args.length==2) {
-			if (extendedTypes[0].getDomain().isInstanceOf(IDomain.TIMESTAMP) && extendedTypes[1].getDomain().isInstanceOf(IDomain.TIMESTAMP)) {		
+			if (extendedTypes[0].getDomain().isInstanceOf(IDomain.TIMESTAMP) && extendedTypes[1].getDomain().isInstanceOf(IDomain.TIMESTAMP)) {
 				txt += args[0] + getOperator(type);
-				txt += args[1];			
+				txt += args[1];
 			} else if (extendedTypes[0].getDomain().isInstanceOf(IDomain.DATE)&& extendedTypes[1].getDomain().isInstanceOf(IDomain.DATE) && !extendedTypes[0].getDomain().isInstanceOf(IDomain.TIMESTAMP) && !extendedTypes[1].getDomain().isInstanceOf(IDomain.TIMESTAMP)) {
 				txt += getDate(args[0]) + getOperator(type);
 				txt += getDate(args[1]);
@@ -105,26 +105,27 @@ extends BaseOperatorRenderer
 				if (extendedTypes[1].getDomain().isInstanceOf(IDomain.DATE) && extendedTypes[1].getDomain().isInstanceOf(IDomain.TIMESTAMP)==false) {
 					txt += castDateAsTimestamp(skin, piece.getParams()[1], args[1]);
 				} else {
-					txt += args[1];					
+					txt += args[1];
 				}
 			} else if (extendedTypes[0].getDomain().isInstanceOf(IDomain.INTERVAL) ){
 				txt += args[0] + getOperator(type);
 				txt += args[1];
 			}
 		} else {
-			String mode = ((DomainStringConstant)extendedTypes[2].getDomain()).getValue();
+			String mode = ((DomainStringConstant)extendedTypes[2].getDomain()).getValue().toUpperCase();
 			int unit = new Double(((DomainNumericConstant)extendedTypes[1].getDomain()).getValue()).intValue();
 			if (DateOperatorDefinition.periods.get(mode)==IDomain.TIMESTAMP && DateOperatorDefinition.periods.get(mode)!=extendedTypes[0].getDomain()) {
 				txt += castDateAsTimestamp(skin, piece.getParams()[0], args[0]);
 			} else {
-				txt += args[0];				
+				txt += args[0];
 			}
 			txt += getOperator(type);
 			txt += getInterval(unit,mode);
-		}		
+		}
 		return txt;
 	}
-	
+
+	@Override
 	public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
 		return prettyPrint(skin, null, opDef, args);
 	}
@@ -142,21 +143,21 @@ extends BaseOperatorRenderer
 		OperatorPiece operatorPiece = new OperatorPiece(toTimestamp,new IPiece[]{piece});
 		return skin.render(skin, operatorPiece, toTimestamp, subArgs);
 	}
-	
+
 	protected String getInterval(int unit, String period) {
 		return INTERVAL + "'" + unit + "' " + period;
 	}
-	
+
 	protected String getDate(String date) {
 		return date;
 	}
 
 	protected String getOperator(OperatorType type) throws RenderingException {
 		switch (type) {
-		case ADD:return " + ";
-		case SUB:return " - ";
-		default: 
-			throw new RenderingException("invalid operator definition");
+			case ADD:return " + ";
+			case SUB:return " - ";
+			default:
+				throw new RenderingException("invalid operator definition");
 		}
 	}
 }
