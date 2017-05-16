@@ -50,24 +50,24 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 
 	public static final String DATE_TRUNCATE = DATE_TRUNCATE_BASE + "DATE_TRUNCATE";
 
-	public static final String DAY = "day";
-	public static final String WEEK = "week";
-	public static final String MONTH = "month";
-	public static final String QUARTER = "quarter";
-	public static final String YEAR = "year";
-	public static final String HOUR = "hour";
-	public static final String MINUTE = "minute";
-	public static final String SECOND = "second";
+	public static final String DAY = "DAY";
+	public static final String WEEK = "WEEK";
+	public static final String MONTH = "MONTH";
+	public static final String QUARTER = "QUARTER";
+	public static final String YEAR = "YEAR";
+	public static final String HOUR = "HOUR";
+	public static final String MINUTE = "MINUTE";
+	public static final String SECOND = "SECOND";
 
 	private String hint = "";
 
 	public DateTruncateOperatorDefinition(String name, String ID, IDomain domain) {
 		super(name, ID, PREFIX_POSITION, name, IDomain.STRING);
 		setDomain(domain);
-        this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
-		hint = name + "( date or timestamp,  format = \"day\" or \"week\" or \"month\" or \"quarter\" or \"year\"  )";
+		this.setCategoryType(OperatorDefinition.DATE_TIME_TYPE);
+		hint = name + "( date or timestamp,  format = \"DAY\" or \"WEEK\" or \"MONTH\" or \"QUARTER\" or \"YEAR\"  )";
 	}
-	
+
 	@Override
 	public int getType() {
 		return ALGEBRAIC_TYPE;
@@ -116,7 +116,7 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 		} else {
 			// check the constant value
 			String unit = ((DomainStringConstant) imageDomains.get(1)).getValue();
-			if (!DAY.equals(unit) && !WEEK.equals(unit) && !MONTH.equals(unit) && !QUARTER.equals(unit)
+			if (!DAY.equalsIgnoreCase(unit) && !WEEK.equalsIgnoreCase(unit) && !MONTH.equalsIgnoreCase(unit) && !QUARTER.equalsIgnoreCase(unit)
 					&& !YEAR.equals(unit)) {
 				return new OperatorDiagnostic("Invalid format constant for parameter #2", 2, hint);
 			}
@@ -127,12 +127,12 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 		}
 		return OperatorDiagnostic.IS_VALID;
 	}
-	
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
-	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+		return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
 	}
-	
+
 	@Override
 	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		ExtendedType dateType = types[0];
