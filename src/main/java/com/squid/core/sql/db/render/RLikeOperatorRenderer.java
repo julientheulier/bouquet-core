@@ -45,6 +45,8 @@ public class RLikeOperatorRenderer extends BaseOperatorRenderer implements Opera
 	@Override
 	public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef, String[] args)
 			throws RenderingException {
+//		return opDef.prettyPrint(" ~ ", opDef.getPosition(), args, true);
+
 		return prettyPrint(skin, piece, opDef, args);
 	}
 

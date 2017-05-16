@@ -474,54 +474,10 @@ public class DefaultJDBCSkin extends DefaultSQLSkin {
 		// the default is to let the driver override
 		if (getProvider().getDelegateRendererRegistry().canRender(opDef.getExtendedID())) {
 			return getProvider().getDelegateRendererRegistry().render(skin, piece, opDef, args);
-		} else if (opDef.getId() == IntrinsicOperators.DIVIDE && args.length == 2) {
-			// handle ticket #627
-			// return "(CASE WHEN "+args[1]+"=0 THEN NULL ELSE
-			// "+args[0]+"/"+args[1]+" END)";
-			String arg0 = args[0];
-			String arg1 = "(NULLIF(" + args[1] + ",0))";
-			if (piece.getParamTypes() != null) {
-				ExtendedType t0 = piece.getParamTypes()[0];
-				ExtendedType t1 = piece.getParamTypes()[1];
-				if (t0 != null && t1 != null && t0.isExactNumber()) {
-					// cast result as float ?
-					ExtendedType ext = ExtendedType.FLOAT;
-					// ColumnType type =
-					// createColumnType(ext.getDomain(),ext.getDataType(),null,ext.getSize(),ext.getScale());
-					arg0 = "(CAST ((" + arg0 + ") AS " + getTypeDefinition(ext) + "))";
-				}
-			}
-			String safeOp = arg0 + opDef.getSymbol() + arg1;
-			return safeOp;
-		} else if (opDef.getId() == IntrinsicOperators.ISNULL && args.length == 1) {
-			return "(" + args[0] + ") IS NULL";
-		} else if (opDef.getId() == IntrinsicOperators.IS_NOTNULL && args.length == 1) {
-			return "(" + args[0] + ") IS NOT NULL";
-		} else if (opDef.getId() == IntrinsicOperators.LIKE) {
-			return opDef.prettyPrint(" LIKE ", opDef.getPosition(), args, true);
-		} else if (opDef.getId() == IntrinsicOperators.RLIKE) {
-			return opDef.prettyPrint(" ~ ", opDef.getPosition(), args, true);
-		} else if (opDef.getId() == IntrinsicOperators.AND) {
-			return opDef.prettyPrint(" AND ", opDef.getPosition(), args, true);
-		} else if (opDef.getId() == IntrinsicOperators.OR) {
-			return opDef.prettyPrint(" OR ", opDef.getPosition(), args, true);
-		} else if (opDef.getId() == IntrinsicOperators.SUBTRACTION && args.length == 2) {
-			//
-			// rule: if A-B where A is timestamp and B is date (resp B and
-			// A...), then cast the Timestamp as a Date
-			//
-			if (piece.getParamTypes()[0].getDomain() == IDomain.TIMESTAMP
-					&& piece.getParamTypes()[1].getDomain() == IDomain.DATE) {
-				args[0] = "CAST(" + args[0] + " AS DATE)";
-			} else if (piece.getParamTypes()[0].getDomain() == IDomain.DATE
-					&& piece.getParamTypes()[1].getDomain() == IDomain.TIMESTAMP) {
-				args[1] = "CAST(" + args[1] + " AS DATE)";
-			}
-		} else if (opDef.getId() == IntrinsicOperators.COUNT_DISTINCT) {
-			return "COUNT(DISTINCT (" + args[0] + "))";
+		} else{
+			// let the opDef do the job...
+			return opDef.prettyPrint(args, true);
 		}
-		// let the opDef do the job...
-		return opDef.prettyPrint(args, true);
 	}
 
 	@Override

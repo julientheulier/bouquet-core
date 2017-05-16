@@ -160,8 +160,8 @@ public class OperatorScope implements IntrinsicOperators {
 		// -----------------------------------------------------------------------------
 		registerSafe(new VectorOperatorDefinition());
 		// support for compareTo() and growth() - T2511
-		registerSafe(new CompareToOperatorDefinition("COMPARETO"));
-		registerSafe(new CompareToOperatorDefinition("GROWTH"));
+		registerSafe(new CompareToOperatorDefinition("COMPARETO", CompareToOperatorDefinition.COMPARE_TO));
+		registerSafe(new CompareToOperatorDefinition("GROWTH", CompareToOperatorDefinition.GROWTH));
 	}
 
 	/**

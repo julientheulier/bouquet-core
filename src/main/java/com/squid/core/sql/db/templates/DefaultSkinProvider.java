@@ -26,18 +26,29 @@ package com.squid.core.sql.db.templates;
 import java.util.List;
 
 import com.squid.core.database.model.DatabaseProduct;
+import com.squid.core.domain.IDomain;
+import com.squid.core.domain.aggregate.GroupingIDOperatorDefinition;
+import com.squid.core.domain.aggregate.GroupingOperatorDefinition;
 import com.squid.core.domain.aggregate.QuotientOperatorDefinition;
 import com.squid.core.domain.analytics.WindowingOperatorRegistry;
+import com.squid.core.domain.extensions.JSON.JSONArrayLengthOperatorDefinition;
+import com.squid.core.domain.extensions.JSON.JSONExtractArrayElementTextOperatorDefinition;
+import com.squid.core.domain.extensions.JSON.JSONExtractPathTextOperatorDefinition;
 import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
 import com.squid.core.domain.extensions.date.AddMonthsOperatorDefinition;
 import com.squid.core.domain.extensions.date.DateTruncateOperatorDefinition;
 import com.squid.core.domain.extensions.date.DateTruncateShortcutsOperatorDefinition;
 import com.squid.core.domain.extensions.date.extract.ExtractOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateMonthsBetweenOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
+import com.squid.core.domain.extensions.string.PosStringOperatorDefinition;
 import com.squid.core.domain.extensions.string.SplitPartOperatorDefinition;
 import com.squid.core.domain.extensions.string.StringLengthOperatorsDefinition;
+import com.squid.core.domain.extensions.string.SubstringOperatorDefinition;
 import com.squid.core.domain.extensions.string.oneArgStringOperator.OneArgStringOperatorDefinition;
 import com.squid.core.domain.extensions.string.pad.PadOperatorDefinition;
+import com.squid.core.domain.extensions.string.regex.RegexpCountOperatorDefinition;
+import com.squid.core.domain.extensions.string.regex.RegexpInstrOperatorDefinition;
 import com.squid.core.domain.extensions.string.regex.RegexpOperatorDefinition;
 import com.squid.core.domain.extensions.string.translate.TranslateOperatorDefinition;
 import com.squid.core.domain.extensions.string.trim.TrimOperatorDefinition;
@@ -47,21 +58,32 @@ import com.squid.core.domain.maths.FloorOperatorDefinition;
 import com.squid.core.domain.maths.GreatestLeastOperatorDefinition;
 import com.squid.core.domain.maths.PiOperatorDefinition;
 import com.squid.core.domain.maths.PowerOperatorDefinition;
+import com.squid.core.domain.maths.RadiansOperatorDefintion;
+import com.squid.core.domain.maths.RandOperatorDefinition;
 import com.squid.core.domain.maths.RoundOperatorDefinition;
 import com.squid.core.domain.maths.SignOperatorDefinition;
 import com.squid.core.domain.maths.SinhCoshTanhOperatorDefinition;
 import com.squid.core.domain.maths.TruncateOperatorDefinition;
+import com.squid.core.domain.operators.CompareToOperatorDefinition;
+import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.IntrinsicOperators;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorScope;
+import com.squid.core.domain.operators.RankOperatorDefinition;
+import com.squid.core.domain.operators.UnaryArithmeticOperatorDefinition;
 import com.squid.core.domain.sort.SortOperatorDefinition;
+import com.squid.core.domain.stats.PercentileOperatorDefintion;
+import com.squid.core.domain.vector.VectorOperatorDefinition;
 import com.squid.core.sql.db.features.IRollupStrategySupport;
 import com.squid.core.sql.db.render.AddMonthsOperatorRenderer;
+import com.squid.core.sql.db.render.AndOperatorRenderer;
 import com.squid.core.sql.db.render.AverageOperatorRenderer;
 import com.squid.core.sql.db.render.CaseOperatorRender;
 import com.squid.core.sql.db.render.CastOperatorRenderer;
 import com.squid.core.sql.db.render.CeilOperatorRenderer;
 import com.squid.core.sql.db.render.CoVarianceRenderer;
+import com.squid.core.sql.db.render.CoalesceOperatorRenderer;
+import com.squid.core.sql.db.render.CountDistinctOperatorRenderer;
 import com.squid.core.sql.db.render.CountOperatorRenderer;
 import com.squid.core.sql.db.render.CurrentDateTimestampRenderer;
 import com.squid.core.sql.db.render.DateAddOperatorRenderer;
@@ -69,18 +91,26 @@ import com.squid.core.sql.db.render.DateEpochOperatorRenderer;
 import com.squid.core.sql.db.render.DateIntervalOperatorRenderer;
 import com.squid.core.sql.db.render.DateSubOperatorRenderer;
 import com.squid.core.sql.db.render.DateTruncateOperatorRenderer;
+import com.squid.core.sql.db.render.DefaultOperatorRenderer;
 import com.squid.core.sql.db.render.DegreesOperatorRenderer;
+import com.squid.core.sql.db.render.DivideOperatorRenderer;
 import com.squid.core.sql.db.render.ExtractOperatorRenderer;
 import com.squid.core.sql.db.render.FloorOperatorRenderer;
 import com.squid.core.sql.db.render.GreatestLeastOperatorRenderer;
 import com.squid.core.sql.db.render.InOperatorRenderer;
+import com.squid.core.sql.db.render.IsNotNullOperatorRenderer;
+import com.squid.core.sql.db.render.IsNullOperatorRenderer;
+import com.squid.core.sql.db.render.LikeOperatorRenderer;
 import com.squid.core.sql.db.render.MinMaxOperatorRenderer;
 import com.squid.core.sql.db.render.NullIfOperatorRenderer;
 import com.squid.core.sql.db.render.OperatorRenderer;
+import com.squid.core.sql.db.render.OrOperatorRenderer;
 import com.squid.core.sql.db.render.PadOperatorRenderer;
 import com.squid.core.sql.db.render.PiOperatorRenderer;
 import com.squid.core.sql.db.render.PowerOperatorRenderer;
 import com.squid.core.sql.db.render.QuotientOperatorRenderer;
+import com.squid.core.sql.db.render.RLikeOperatorRenderer;
+import com.squid.core.sql.db.render.RankOperatorRenderer;
 import com.squid.core.sql.db.render.RegexpOperatorRenderer;
 import com.squid.core.sql.db.render.RoundOperatorRenderer;
 import com.squid.core.sql.db.render.RowsOperatorRenderer;
@@ -90,6 +120,7 @@ import com.squid.core.sql.db.render.SortOperatorRenderer;
 import com.squid.core.sql.db.render.StddevOperatorRenderer;
 import com.squid.core.sql.db.render.StringLengthRenderer;
 import com.squid.core.sql.db.render.StringOneArgOperatorRenderer;
+import com.squid.core.sql.db.render.SubstractionOperatorRenderer;
 import com.squid.core.sql.db.render.ThreeArgsFunctionRenderer;
 import com.squid.core.sql.db.render.TrimOperatorRenderer;
 import com.squid.core.sql.db.render.TruncateOperatorRenderer;
@@ -109,6 +140,86 @@ public class DefaultSkinProvider implements ISkinProvider {
 	public DefaultSkinProvider() {
 		delegateRendererRegistry = new DelegateOperatorRendererRegistry();
 		//
+		
+		// INSTRISTIC OPERATOR		
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.ABS), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.ADD_MONTHS), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.AND), new AndOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.CONCAT), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.COUNT_DISTINCT), new CountDistinctOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.DIVIDE), new DivideOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.EQUAL), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.EXISTS), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.EXPONENTIATE), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.GREATER), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.GREATER_OR_EQUAL), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.IS_NOTNULL), new IsNotNullOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.ISNULL), new IsNullOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.LESS), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.LESS_OR_EQUAL), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.LIKE), new LikeOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.MEDIAN), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.MINUS), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.MODULO), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.MULTIPLY), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.NOT), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.NOT_EQUAL), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.NULLIF), new NullIfOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.OR), new OrOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.PLUS), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.STDDEV_POP), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.STDDEV_SAMP), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.SUBTRACTION), new SubstractionOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.SUM), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.VAR_SAMP), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.VARIANCE), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.IDENTITY), new DefaultOperatorRenderer() );
+
+		final String[] ops = { "EXP", "LN", "LOG", "SQRT" };
+		for (String op : ops) {
+			registerOperatorRender("com.squid.domain.operators.extension." + op, new DefaultOperatorRenderer() );
+		}
+		final String[] opstrigo = { "COS", "SIN", "TAN", "ACOS", "ASIN", "ATAN" };
+		for (String op : opstrigo) {
+			registerOperatorRender("com.squid.domain.operators.extension." + op, new DefaultOperatorRenderer() );
+		}
+
+		registerOperatorRender(RadiansOperatorDefintion.RADIANS, new DefaultOperatorRenderer());
+		
+		registerOperatorRender(RankOperatorDefinition.RANK_ID, new RankOperatorRenderer() );
+		registerOperatorRender(RandOperatorDefinition.RAND, new DefaultOperatorRenderer() );
+		registerOperatorRender(RankOperatorDefinition.ROWNUMBER_ID, new DefaultOperatorRenderer() );
+		
+		registerOperatorRender(	JSONExtractPathTextOperatorDefinition.ID, new DefaultOperatorRenderer() );
+		registerOperatorRender(JSONArrayLengthOperatorDefinition.ID, new DefaultOperatorRenderer() );
+		registerOperatorRender(JSONExtractArrayElementTextOperatorDefinition.ID, new DefaultOperatorRenderer() );
+				
+		registerOperatorRender(RegexpOperatorDefinition.REGEXP_COUNT, new DefaultOperatorRenderer() );
+		registerOperatorRender(RegexpOperatorDefinition.REGEXP_INSTR, new DefaultOperatorRenderer() );
+		
+		registerOperatorRender(CompareToOperatorDefinition.GROWTH,new DefaultOperatorRenderer() );
+		registerOperatorRender(CompareToOperatorDefinition.COMPARE_TO,new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.COALESCE) ,new CoalesceOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.RLIKE), new RLikeOperatorRenderer("~") );
+		registerOperatorRender(PercentileOperatorDefintion.PERCENTILE, new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId( IntrinsicOperators.UNDEFINED_ID),new DefaultOperatorRenderer() );
+
+		registerOperatorRender(WindowingOperatorRegistry.WINDOWING_FOLLOWING_ID,new DefaultOperatorRenderer() );
+		registerOperatorRender(WindowingOperatorRegistry.WINDOWING_UNBOUNDED_ID,new DefaultOperatorRenderer() );
+		registerOperatorRender(WindowingOperatorRegistry.WINDOWING_PRECEDING_ID,new DefaultOperatorRenderer() );
+		registerOperatorRender(WindowingOperatorRegistry.WINDOWING_CURRENT_ID,new DefaultOperatorRenderer() );
+
+		
+		registerOperatorRender(SubstringOperatorDefinition.STRING_SUBSTRING,new DefaultOperatorRenderer() );
+		registerOperatorRender(PosStringOperatorDefinition.STRING_POSITION,new DefaultOperatorRenderer() );
+		registerOperatorRender(VectorOperatorDefinition.ID,new DefaultOperatorRenderer() );
+		
+		registerOperatorRender(OperatorDefinition.getExtendedId(GroupingIDOperatorDefinition.ID),new DefaultOperatorRenderer() );
+		registerOperatorRender(GroupingOperatorDefinition.ID,new DefaultOperatorRenderer() );
+		
+		registerOperatorRender(DateMonthsBetweenOperatorDefinition.ID,new DefaultOperatorRenderer() );
+
+			
 		registerOperatorRender(OperatorScope.getDefault().lookupByID(OperatorScope.COUNT).getExtendedID(),
 				new CountOperatorRenderer());
 		//

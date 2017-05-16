@@ -40,10 +40,17 @@ public class CompareToOperatorDefinition extends OperatorDefinition {
 	
 	private List parameters = null;
 	
+	public static final String GROWTH= "COMPARETO_GROWTH";
+	public static final String COMPARE_TO = "COMPARETO_COMPARETO";
+
+	
 	public CompareToOperatorDefinition(String name) {
 		super(name, "compareTo"+name, OperatorDefinition.PREFIX_POSITION, name, IDomain.AGGREGATE);
 		// init parameters
 		parameters = Collections.singletonList(Collections.singletonList(IDomain.AGGREGATE));
+	}
+	public CompareToOperatorDefinition(String name, String id) {
+		super(name, id, OperatorDefinition.PREFIX_POSITION, name, IDomain.AGGREGATE);
 	}
 	
 	/* (non-Javadoc)
