@@ -117,7 +117,7 @@ public class DateTruncateOperatorDefinition extends OperatorDefinition {
 			// check the constant value
 			String unit = ((DomainStringConstant) imageDomains.get(1)).getValue();
 			if (!DAY.equalsIgnoreCase(unit) && !WEEK.equalsIgnoreCase(unit) && !MONTH.equalsIgnoreCase(unit) && !QUARTER.equalsIgnoreCase(unit)
-					&& !YEAR.equals(unit)) {
+					&& !YEAR.equalsIgnoreCase(unit)) {
 				return new OperatorDiagnostic("Invalid format constant for parameter #2", 2, hint);
 			}
 		}
