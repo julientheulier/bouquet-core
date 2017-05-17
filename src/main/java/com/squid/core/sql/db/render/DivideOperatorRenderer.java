@@ -26,7 +26,7 @@ public class DivideOperatorRenderer extends  BaseOperatorRenderer{
 					ExtendedType ext = ExtendedType.FLOAT;
 					// ColumnType type =
 					// createColumnType(ext.getDomain(),ext.getDataType(),null,ext.getSize(),ext.getScale());
-					arg0 = "(CAST ((" + arg0 + ") AS " + DefaultJDBCSkin.DEFAULT.getTypeDefinition(ext) + "))";
+					arg0 = "(CAST ((" + arg0 + ") AS " + skin.getTypeDefinition(ext) + "))";
 				}
 			}
 			String safeOp = arg0 + opDef.getSymbol() + arg1;
