@@ -35,19 +35,21 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.SheetUtil;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,6 +80,10 @@ public class ExcelWriter implements Closeable, Flushable {
 	private OutputStream stream;
 
 	private boolean insertHeader;
+
+	private int[] maxCharsInColumns = null;
+	private int[] maxRawCharsInColumns = null;
+	private DataFormatter formatter = new DataFormatter();
 
 	private Hashtable<String, CellStyle> styles = new Hashtable<String, CellStyle>();
 
@@ -110,9 +116,9 @@ public class ExcelWriter implements Closeable, Flushable {
 		cs.setWrapText(true);
 		if (selectionSheet instanceof SXSSFSheet) {
 			((SXSSFSheet)selectionSheet).trackAllColumnsForAutoSizing();
-			cs.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+			cs.setVerticalAlignment(VerticalAlignment.CENTER);
 		} else {
-			cs.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+			cs.setVerticalAlignment(VerticalAlignment.CENTER);
 		}
 		CellStyle csh = getHeaderStyle();
 		if (selections != null && selections.size()>0) {
@@ -166,7 +172,7 @@ public class ExcelWriter implements Closeable, Flushable {
 	private CellStyle getHeaderStyle() {
 		CellStyle csh = wb.createCellStyle();
 		Font font = wb.createFont();
-		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		font.setBold(true);
 		csh.setFont(font);
 		return csh;
 	}
@@ -187,16 +193,15 @@ public class ExcelWriter implements Closeable, Flushable {
 
 	}
 
-	private void writeNext(final Object[] nextLine, final boolean isHeader, String[] columnsFormat, int[] cellsType) {
+	private void writeNext(final Object[] nextLine, final boolean isHeader, String[] columnsFormat, CellType[] cellsType) {
 		Row row = getRow();
 		CellStyle csh = null;
 		if (isHeader) {
 			csh = getHeaderStyle();
 			if (sheet instanceof SXSSFSheet) {
-				((SXSSFSheet)sheet).trackAllColumnsForAutoSizing();
-				csh.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+				csh.setVerticalAlignment(VerticalAlignment.CENTER);
 			} else {
-				csh.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+				csh.setVerticalAlignment(VerticalAlignment.CENTER);
 			}
 		}
 		for (int iCell = 0; iCell < nextLine.length; iCell++) {
@@ -217,14 +222,25 @@ public class ExcelWriter implements Closeable, Flushable {
 			if (cellsType != null && cellsType.length > iCell) {
 				cell.setCellType(cellsType[iCell]);
 			} else {
-				cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellType(CellType.STRING);
 			}
-
 			if (value instanceof String) {
+				int length = ((String) value).length() + (isHeader? 1:0);
+				if (maxCharsInColumns[iCell]<length) {
+					maxCharsInColumns[iCell] = length;
+					maxRawCharsInColumns[iCell] = length;
+				}
 				cell.setCellValue((String) value);
 			} else if (value instanceof Date) {
+				int length = columnsFormat[iCell].length();
+				if (maxCharsInColumns[iCell]<length) {
+					maxCharsInColumns[iCell] = length;
+				}
 				cell.setCellValue((Date) value);
 			} else if (value instanceof Boolean) {
+				if (maxCharsInColumns[iCell]<5) {
+					maxCharsInColumns[iCell] = 5;
+				}
 				cell.setCellValue((Boolean) value);
 			} else if (value instanceof Number) {
 				String durationFormat = "";
@@ -233,8 +249,18 @@ public class ExcelWriter implements Closeable, Flushable {
 				}
 				if (DurationFormatUtils.isDurationFormatPattern(durationFormat)) {
 					cell.setCellValue(DurationFormatUtils.format(durationFormat, ((Number) value).doubleValue()));
+					int length = columnsFormat[iCell].length();
+					if (maxCharsInColumns[iCell]<length) {
+						maxCharsInColumns[iCell] = length;
+					}
 				} else {
 					cell.setCellValue(((Number) value).doubleValue());
+					int length = ((Number) value).toString().length();
+					if (maxRawCharsInColumns[iCell]<length) {
+						String result = formatter.formatCellValue(cell);
+						maxRawCharsInColumns[iCell] = length;
+						maxCharsInColumns[iCell] = result.length();
+					}
 				}
 			}
 			if (isHeader) { // Apply header and footer style
@@ -310,13 +336,17 @@ public class ExcelWriter implements Closeable, Flushable {
 
 	public boolean writeResultSet(IRawExportSource source, IJDBCDataFormatter formatter) throws SQLException {
 		String[] columnsFormat = getColumnsFormat(source);
-		int[] cellsType = getCellsType(source);
+		CellType[] cellsType = getCellsType(source);
+		maxCharsInColumns = new int[columnsFormat.length];
+		maxRawCharsInColumns = new int[columnsFormat.length];
 		if (logger.isDebugEnabled()) {
 			logger.debug((source.getColumnTypes().toString()));
 		}
+		/*
 		if (sheet instanceof SXSSFSheet) {
 			((SXSSFSheet)sheet).trackAllColumnsForAutoSizing();
 		}
+		 */
 		if (insertHeader) {
 			writeColumnNames(source.getColumnNames());
 			++linesWritten;
@@ -333,9 +363,11 @@ public class ExcelWriter implements Closeable, Flushable {
 				break;
 			}
 		}
+		SheetUtil.getDefaultCharWidth(sheet.getWorkbook());
 		for (int i=0; i<source.getColumnNames().length; i++) {
-			sheet.autoSizeColumn(i);
-			sheet.setColumnWidth(i, Math.min(sheet.getColumnWidth(i), 10000));
+			//int width = ((maxCharsInColumns[i]*defaultCharWidth+5)/defaultCharWidth*256);
+			int width = maxCharsInColumns[i] * 256;
+			sheet.setColumnWidth(i, Math.min(width, 40*256));
 		}
 		return true;
 
@@ -352,10 +384,10 @@ public class ExcelWriter implements Closeable, Flushable {
 		return columnsFormat;
 	}
 
-	private int[] getCellsType(IRawExportSource source) throws SQLException {
-		int[] cellTypes = null;
+	private CellType[] getCellsType(IRawExportSource source) throws SQLException {
+		CellType[] cellTypes = null;
 		if (source != null && source.getNumberOfColumns() > 0) {
-			cellTypes = new int[source.getNumberOfColumns()];
+			cellTypes = new CellType[source.getNumberOfColumns()];
 			for (int i = 0; i < source.getNumberOfColumns(); i++) {
 				cellTypes[i] = ExcelWriter.getCellTypeFromColumn(source.getColumnType(i));
 			}
@@ -393,8 +425,8 @@ public class ExcelWriter implements Closeable, Flushable {
 		return stringFormat;
 	}
 
-	private static int getCellTypeFromColumn(int colType) {
-		int cellType = Cell.CELL_TYPE_STRING;
+	private static CellType getCellTypeFromColumn(int colType) {
+		CellType cellType = CellType.STRING;
 		switch (colType) {
 
 			case Types.DATE:
@@ -408,10 +440,10 @@ public class ExcelWriter implements Closeable, Flushable {
 			case Types.DOUBLE:
 			case Types.FLOAT:
 			case Types.DECIMAL:
-				cellType = Cell.CELL_TYPE_NUMERIC;
+				cellType = CellType.NUMERIC;
 				break;
 			case Types.BOOLEAN:
-				cellType = Cell.CELL_TYPE_BOOLEAN;
+				cellType = CellType.BOOLEAN;
 				break;
 		}
 		return cellType;
