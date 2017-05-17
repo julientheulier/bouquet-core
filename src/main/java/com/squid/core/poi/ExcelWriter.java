@@ -47,7 +47,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.SheetUtil;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.slf4j.Logger;
@@ -363,7 +362,6 @@ public class ExcelWriter implements Closeable, Flushable {
 				break;
 			}
 		}
-		SheetUtil.getDefaultCharWidth(sheet.getWorkbook());
 		for (int i=0; i<source.getColumnNames().length; i++) {
 			//int width = ((maxCharsInColumns[i]*defaultCharWidth+5)/defaultCharWidth*256);
 			int width = maxCharsInColumns[i] * 256;
