@@ -108,7 +108,7 @@ public class OperatorScope implements IntrinsicOperators {
 		registerSafe(new VectorFriendlyOperatorDefinition("MAX", MAX));
 		registerSafe(new VectorFriendlyOperatorDefinition("MIN", MIN));
 		registerSafe(new VectorFriendlyOperatorDefinition("AVG", AVG));
-		registerSafe(new VectorFriendlyOperatorDefinition("STDDEV", STDDEV));
+		//registerSafe(new VectorFriendlyOperatorDefinition("STDDEV", STDDEV));
 		registerSafe(new OrderedAnalyticOperatorDefinition("SUM", SUM));
 		registerSafe(new VarianceOperatorDefinition("VAR_POP", VAR_POP ));
 		registerSafe(new CoVarPopOperatorDefinition("COVAR_POP", COVAR_POP));

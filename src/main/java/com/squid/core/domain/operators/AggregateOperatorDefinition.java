@@ -82,7 +82,7 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
 			case IntrinsicOperators.VAR_SAMP:
 			case IntrinsicOperators.STDDEV_SAMP:
 			case IntrinsicOperators.STDDEV_POP:
-			case IntrinsicOperators.STDDEV:
+				//case IntrinsicOperators.STDDEV:
 			case IntrinsicOperators.AVG:
 				validDomains.add(IDomain.NUMERIC);
 				validDomains.add(IDomain.TEMPORAL);
@@ -150,7 +150,7 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
 			case IntrinsicOperators.VAR_SAMP:
 			case IntrinsicOperators.STDDEV_SAMP:
 			case IntrinsicOperators.STDDEV_POP:
-			case IntrinsicOperators.STDDEV:
+				//case IntrinsicOperators.STDDEV:
 			case IntrinsicOperators.AVG:
 				type.add(num1);
 				poly.add(type);
@@ -219,7 +219,7 @@ public class AggregateOperatorDefinition extends OperatorDefinition {
 				case IntrinsicOperators.VAR_SAMP:
 				case IntrinsicOperators.STDDEV_SAMP:
 				case IntrinsicOperators.STDDEV_POP:
-				case IntrinsicOperators.STDDEV:
+					//case IntrinsicOperators.STDDEV:
 					// force floating
 				{
 					result = ExtendedType.FLOAT.size(result.getSize());

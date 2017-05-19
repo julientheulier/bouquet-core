@@ -112,7 +112,6 @@ import com.squid.core.sql.db.render.RowsOperatorRenderer;
 import com.squid.core.sql.db.render.SignOperatorRenderer;
 import com.squid.core.sql.db.render.SinhCoshTanhOperatorRenderer;
 import com.squid.core.sql.db.render.SortOperatorRenderer;
-import com.squid.core.sql.db.render.StddevOperatorRenderer;
 import com.squid.core.sql.db.render.StringLengthRenderer;
 import com.squid.core.sql.db.render.StringOneArgOperatorRenderer;
 import com.squid.core.sql.db.render.SubstractionOperatorRenderer;
@@ -168,6 +167,7 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.SUM), new DefaultOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.VAR_SAMP), new DefaultOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.VAR_POP), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.COVAR_POP),new CoVarianceRenderer());
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.IDENTITY), new DefaultOperatorRenderer() );
 
 		final String[] ops = { "EXP", "LN", "LOG", "SQRT" };
@@ -304,15 +304,16 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(SinhCoshTanhOperatorDefinition.COSH, new SinhCoshTanhOperatorRenderer("COSH"));
 		registerOperatorRender(SinhCoshTanhOperatorDefinition.TANH, new SinhCoshTanhOperatorRenderer("TANH"));
 		//
-		// VECTOR SUPPORT
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.AVG), new AverageOperatorRenderer());
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.MIN), new MinMaxOperatorRenderer());
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.MAX), new MinMaxOperatorRenderer());
-		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.STDDEV),new StddevOperatorRenderer());
+
+		//JTH 20170519: STDDEV is STDDEV_SAMP & not supported as ordered analytical function, so remove it
+		//registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.STDDEV),new StddevOperatorRenderer());
+
+		// VECTOR SUPPORT
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.IN), new InOperatorRenderer());
 		//
-		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.COVAR_POP),
-				new CoVarianceRenderer());
 		// default support for LEAST and GREATEST
 		registerOperatorRender(GreatestLeastOperatorDefinition.LEAST, new GreatestLeastOperatorRenderer());
 		registerOperatorRender(GreatestLeastOperatorDefinition.GREATEST, new GreatestLeastOperatorRenderer());

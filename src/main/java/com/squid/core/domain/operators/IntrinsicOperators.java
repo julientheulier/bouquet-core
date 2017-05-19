@@ -25,7 +25,7 @@ package com.squid.core.domain.operators;
 
 /**
  * Static definition of intrinsic operators
- * 
+ *
  * @author serge fantino
  */
 public interface IntrinsicOperators {
@@ -63,7 +63,7 @@ public interface IntrinsicOperators {
 	public static final int IDENTITY = FIRST_ID + 22;
 	public static final int MODULO = FIRST_ID + 23;
 	public static final int EXPONENTIATE = FIRST_ID + 24;
-	public static final int STDDEV = FIRST_ID + 25;
+	//public static final int STDDEV = FIRST_ID + 25;
 	public static final int LIKE = FIRST_ID + 26;
 	public static final int VAR_SAMP = FIRST_ID + 27;
 	public static final int STDDEV_POP = FIRST_ID + 28;
@@ -83,8 +83,8 @@ public interface IntrinsicOperators {
 	public static final int NULLIF = FIRST_ID + 121;
 
 	public static final int SUBTRACTION = FIRST_ID + 200;// added to make the
-															// distinction with
-															// MINUS...
+	// distinction with
+	// MINUS...
 
 	public static final int EXISTS = FIRST_ID + 300;
 
