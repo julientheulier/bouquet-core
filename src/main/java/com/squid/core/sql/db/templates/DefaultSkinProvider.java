@@ -26,7 +26,6 @@ package com.squid.core.sql.db.templates;
 import java.util.List;
 
 import com.squid.core.database.model.DatabaseProduct;
-import com.squid.core.domain.IDomain;
 import com.squid.core.domain.aggregate.GroupingIDOperatorDefinition;
 import com.squid.core.domain.aggregate.GroupingOperatorDefinition;
 import com.squid.core.domain.aggregate.QuotientOperatorDefinition;
@@ -47,8 +46,6 @@ import com.squid.core.domain.extensions.string.StringLengthOperatorsDefinition;
 import com.squid.core.domain.extensions.string.SubstringOperatorDefinition;
 import com.squid.core.domain.extensions.string.oneArgStringOperator.OneArgStringOperatorDefinition;
 import com.squid.core.domain.extensions.string.pad.PadOperatorDefinition;
-import com.squid.core.domain.extensions.string.regex.RegexpCountOperatorDefinition;
-import com.squid.core.domain.extensions.string.regex.RegexpInstrOperatorDefinition;
 import com.squid.core.domain.extensions.string.regex.RegexpOperatorDefinition;
 import com.squid.core.domain.extensions.string.translate.TranslateOperatorDefinition;
 import com.squid.core.domain.extensions.string.trim.TrimOperatorDefinition;
@@ -65,12 +62,10 @@ import com.squid.core.domain.maths.SignOperatorDefinition;
 import com.squid.core.domain.maths.SinhCoshTanhOperatorDefinition;
 import com.squid.core.domain.maths.TruncateOperatorDefinition;
 import com.squid.core.domain.operators.CompareToOperatorDefinition;
-import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.IntrinsicOperators;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.domain.operators.RankOperatorDefinition;
-import com.squid.core.domain.operators.UnaryArithmeticOperatorDefinition;
 import com.squid.core.domain.sort.SortOperatorDefinition;
 import com.squid.core.domain.stats.PercentileOperatorDefintion;
 import com.squid.core.domain.vector.VectorOperatorDefinition;
@@ -140,8 +135,8 @@ public class DefaultSkinProvider implements ISkinProvider {
 	public DefaultSkinProvider() {
 		delegateRendererRegistry = new DelegateOperatorRendererRegistry();
 		//
-		
-		// INSTRISTIC OPERATOR		
+
+		// INSTRISTIC OPERATOR
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.ABS), new DefaultOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.ADD_MONTHS), new DefaultOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.AND), new AndOperatorRenderer() );
@@ -172,7 +167,7 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.SUBTRACTION), new SubstractionOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.SUM), new DefaultOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.VAR_SAMP), new DefaultOperatorRenderer() );
-		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.VARIANCE), new DefaultOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.VAR_POP), new DefaultOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.IDENTITY), new DefaultOperatorRenderer() );
 
 		final String[] ops = { "EXP", "LN", "LOG", "SQRT" };
@@ -185,18 +180,18 @@ public class DefaultSkinProvider implements ISkinProvider {
 		}
 
 		registerOperatorRender(RadiansOperatorDefintion.RADIANS, new DefaultOperatorRenderer());
-		
+
 		registerOperatorRender(RankOperatorDefinition.RANK_ID, new RankOperatorRenderer() );
 		registerOperatorRender(RandOperatorDefinition.RAND, new DefaultOperatorRenderer() );
 		registerOperatorRender(RankOperatorDefinition.ROWNUMBER_ID, new DefaultOperatorRenderer() );
-		
+
 		registerOperatorRender(	JSONExtractPathTextOperatorDefinition.ID, new DefaultOperatorRenderer() );
 		registerOperatorRender(JSONArrayLengthOperatorDefinition.ID, new DefaultOperatorRenderer() );
 		registerOperatorRender(JSONExtractArrayElementTextOperatorDefinition.ID, new DefaultOperatorRenderer() );
-				
+
 		registerOperatorRender(RegexpOperatorDefinition.REGEXP_COUNT, new DefaultOperatorRenderer() );
 		registerOperatorRender(RegexpOperatorDefinition.REGEXP_INSTR, new DefaultOperatorRenderer() );
-		
+
 		registerOperatorRender(CompareToOperatorDefinition.GROWTH,new DefaultOperatorRenderer() );
 		registerOperatorRender(CompareToOperatorDefinition.COMPARE_TO,new DefaultOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.COALESCE) ,new CoalesceOperatorRenderer() );
@@ -209,17 +204,17 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(WindowingOperatorRegistry.WINDOWING_PRECEDING_ID,new DefaultOperatorRenderer() );
 		registerOperatorRender(WindowingOperatorRegistry.WINDOWING_CURRENT_ID,new DefaultOperatorRenderer() );
 
-		
+
 		registerOperatorRender(SubstringOperatorDefinition.STRING_SUBSTRING,new DefaultOperatorRenderer() );
 		registerOperatorRender(PosStringOperatorDefinition.STRING_POSITION,new DefaultOperatorRenderer() );
 		registerOperatorRender(VectorOperatorDefinition.ID,new DefaultOperatorRenderer() );
-		
+
 		registerOperatorRender(OperatorDefinition.getExtendedId(GroupingIDOperatorDefinition.ID),new DefaultOperatorRenderer() );
 		registerOperatorRender(GroupingOperatorDefinition.ID,new DefaultOperatorRenderer() );
-		
+
 		registerOperatorRender(DateMonthsBetweenOperatorDefinition.ID,new DefaultOperatorRenderer() );
 
-			
+
 		registerOperatorRender(OperatorScope.getDefault().lookupByID(OperatorScope.COUNT).getExtendedID(),
 				new CountOperatorRenderer());
 		//
@@ -313,8 +308,7 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.AVG), new AverageOperatorRenderer());
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.MIN), new MinMaxOperatorRenderer());
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.MAX), new MinMaxOperatorRenderer());
-		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.STDDEV),
-				new StddevOperatorRenderer());
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.STDDEV),new StddevOperatorRenderer());
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.IN), new InOperatorRenderer());
 		//
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.COVAR_POP),
@@ -389,5 +383,5 @@ public class DefaultSkinProvider implements ISkinProvider {
 	public ISkinProvider getParentSkinProvider() {
 		return null;
 	}
-	
+
 }

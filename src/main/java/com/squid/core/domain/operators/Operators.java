@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -23,7 +23,11 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
-import com.squid.core.domain.extensions.cast.*;
+import com.squid.core.domain.extensions.cast.CastToCharOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastToDateOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastToIntegerOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastToNumberOperatorDefinition;
+import com.squid.core.domain.extensions.cast.CastToTimestampOperatorDefinition;
 import com.squid.core.domain.extensions.date.DateTruncateOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateAddOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateSubOperatorDefinition;
@@ -47,7 +51,7 @@ public class Operators {
 	public static final OperatorDefinition AVG = OperatorScope.getDefault().lookupByID(IntrinsicOperators.AVG);
 	public static final OperatorDefinition MAX = OperatorScope.getDefault().lookupByID(IntrinsicOperators.MAX);
 	public static final OperatorDefinition MIN = OperatorScope.getDefault().lookupByID(IntrinsicOperators.MIN);
-	public static final OperatorDefinition VAR_POP = OperatorScope.getDefault().lookupByID(IntrinsicOperators.VARIANCE);
+	public static final OperatorDefinition VAR_POP = OperatorScope.getDefault().lookupByID(IntrinsicOperators.VAR_POP);
 	public static final OperatorDefinition VAR_SAMP = OperatorScope.getDefault().lookupByID(IntrinsicOperators.VAR_SAMP);
 	public static final OperatorDefinition ISNULL = OperatorScope.getDefault().lookupByID(IntrinsicOperators.ISNULL);
 	public static final OperatorDefinition IS_NOTNULL = OperatorScope.getDefault().lookupByID(IntrinsicOperators.IS_NOTNULL);
@@ -69,12 +73,12 @@ public class Operators {
 	public static final OperatorDefinition DATE_TRUNCATE = OperatorScope.getDefault().lookupByExtendedID(DateTruncateOperatorDefinition.DATE_TRUNCATE);
 	public static final OperatorDefinition PERCENTILE = OperatorScope.getDefault().lookupByID(IntrinsicOperators.PERCENTILE);
 	public static final OperatorDefinition COALESCE = OperatorScope.getDefault().lookupByID(IntrinsicOperators.COALESCE);
-	
+
 	//
-	
+
 	public static final OperatorDefinition DATE_ADD = OperatorScope.getDefault().lookupByExtendedID(DateAddOperatorDefinition.ID);
 	public static final OperatorDefinition DATE_SUB = OperatorScope.getDefault().lookupByExtendedID(DateSubOperatorDefinition.ID);
-	
+
 	public static final OperatorDefinition CONCAT = OperatorScope.getDefault().lookupByID(IntrinsicOperators.CONCAT);
 
 	public static final OperatorDefinition VECTOR = OperatorScope.getDefault().lookupByExtendedID(VectorOperatorDefinition.ID);

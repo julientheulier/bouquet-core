@@ -49,7 +49,7 @@ public interface IntrinsicOperators {
 	public static final int SUM = FIRST_ID + 8;
 	public static final int MEDIAN = FIRST_ID + 9;
 	public static final int ABS = FIRST_ID + 10;
-	public static final int VARIANCE = FIRST_ID + 11;
+	public static final int VAR_POP = FIRST_ID + 11;
 	public static final int COUNT = FIRST_ID + 12;
 	public static final int LESS = FIRST_ID + 13;
 	public static final int LESS_OR_EQUAL = FIRST_ID + 14;

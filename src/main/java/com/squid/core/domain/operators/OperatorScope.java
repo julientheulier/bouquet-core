@@ -94,7 +94,7 @@ public class OperatorScope implements IntrinsicOperators {
 		final String[] ops = { "EXP", "LN", "LOG", "SQRT" };
 		for (String op : ops) {
 			registerSafe(new UnaryArithmeticOperatorDefinition(op, "com.squid.domain.operators.extension." + op,
-					OperatorDefinition.PREFIX_POSITION, op, IDomain.CONTINUOUS, 
+					OperatorDefinition.PREFIX_POSITION, op, IDomain.CONTINUOUS,
 					ExtendedType.FLOAT,OperatorDefinition.MATHS_TYPE));
 		}
 		// -----------------------------------------------------------------------------
@@ -110,7 +110,7 @@ public class OperatorScope implements IntrinsicOperators {
 		registerSafe(new VectorFriendlyOperatorDefinition("AVG", AVG));
 		registerSafe(new VectorFriendlyOperatorDefinition("STDDEV", STDDEV));
 		registerSafe(new OrderedAnalyticOperatorDefinition("SUM", SUM));
-		registerSafe(new VarianceOperatorDefinition("VARIANCE", VARIANCE ));
+		registerSafe(new VarianceOperatorDefinition("VAR_POP", VAR_POP ));
 		registerSafe(new CoVarPopOperatorDefinition("COVAR_POP", COVAR_POP));
 		registerSafe(new VarSampOperatorDefinition("VAR_SAMP", VAR_SAMP));
 		registerSafe(new StdevPopOperatorDefinition("STDDEV_POP", STDDEV_POP));
@@ -217,7 +217,7 @@ public class OperatorScope implements IntrinsicOperators {
 		for (String func : set) {
 			if (func.startsWith(name)) {
 				proposal.add(m_lookupByName.get(func)); // take the first one
-														// for now
+				// for now
 				// return m_lookupByName.get(func);
 			}
 		}
@@ -303,12 +303,12 @@ public class OperatorScope implements IntrinsicOperators {
 		lookupByExtendedID.put(def.getExtendedID(), def);
 		//
 		switch (def.getType()) {
-		case OperatorDefinition.ALGEBRAIC_TYPE:
-			m_algebraicList.add(def);
-			break;
-		case OperatorDefinition.AGGREGATE_TYPE:
-			m_aggregateList.add(def);
-			break;
+			case OperatorDefinition.ALGEBRAIC_TYPE:
+				m_algebraicList.add(def);
+				break;
+			case OperatorDefinition.AGGREGATE_TYPE:
+				m_aggregateList.add(def);
+				break;
 		}
 	}
 
@@ -319,12 +319,12 @@ public class OperatorScope implements IntrinsicOperators {
 	 */
 	public List<OperatorDefinition> getOperators(int type) {
 		switch (type) {
-		case OperatorDefinition.ALGEBRAIC_TYPE:
-			return m_algebraicList;
-		case OperatorDefinition.AGGREGATE_TYPE:
-			return m_aggregateList;
-		default:
-			return Collections.emptyList();
+			case OperatorDefinition.ALGEBRAIC_TYPE:
+				return m_algebraicList;
+			case OperatorDefinition.AGGREGATE_TYPE:
+				return m_aggregateList;
+			default:
+				return Collections.emptyList();
 		}
 	}
 

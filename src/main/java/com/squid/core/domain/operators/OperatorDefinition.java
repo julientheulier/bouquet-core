@@ -319,7 +319,7 @@ public abstract class OperatorDefinition {
             case IntrinsicOperators.MEDIAN:
             case IntrinsicOperators.ABS:
             case IntrinsicOperators.STDDEV:
-            case IntrinsicOperators.VARIANCE:
+            case IntrinsicOperators.VAR_POP:
             case IntrinsicOperators.COUNT:
             case IntrinsicOperators.ADD_MONTHS:
             case IntrinsicOperators.IDENTITY:

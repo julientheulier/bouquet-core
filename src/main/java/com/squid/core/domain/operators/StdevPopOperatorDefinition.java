@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -35,31 +35,21 @@ import java.util.List;
 import com.squid.core.domain.IDomain;
 
 public class StdevPopOperatorDefinition extends AggregateOperatorDefinition {
-	
+
 	/**
 	 * @param name
 	 * @param id
 	 */
 	public StdevPopOperatorDefinition(String name, String extendedId) {
-		super(name, extendedId, PREFIX_POSITION, name, IDomain.NUMERIC);
-		setDomain(IDomain.NUMERIC);
+		super(name, extendedId, PREFIX_POSITION, name, IDomain.AGGREGATE);
+		//setDomain(IDomain.NUMERIC);
 	}
-	
+
 	public StdevPopOperatorDefinition(String name, int id) {
 		super(name, id);
-		setDomain(IDomain.NUMERIC);
+		//setDomain(IDomain.NUMERIC);
 	}
-	
-	
-	@Override
-	public ExtendedType computeExtendedType(ExtendedType[] types) {
-		return ExtendedType.FLOAT;
-	}
-	
-	@Override
-	public IDomain computeImageDomain(List<IDomain> sourceDomain) {
-		return IDomain.NUMERIC;
-	}
+
 
 	@Override
 	public List getParametersTypes() {
@@ -74,13 +64,14 @@ public class StdevPopOperatorDefinition extends AggregateOperatorDefinition {
 
 		return poly;
 	}
-	
+
+	@Override
 	public String prettyPrint(String symbol, int position, String[] args, boolean showBrackets) {
 		if (args.length == 1) {
 			return "STDDEV_POP("+ args[0]+")";
 		}
 		return "UNDEFINED()";
-		
+
 	}
 
 }

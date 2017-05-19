@@ -107,7 +107,7 @@ implements OperatorRenderer
 					case IntrinsicOperators.MIN:
 					case IntrinsicOperators.AVG:
 					case IntrinsicOperators.MEDIAN:
-					case IntrinsicOperators.VARIANCE:
+					case IntrinsicOperators.VAR_POP:
 					case IntrinsicOperators.VAR_SAMP:
 					case IntrinsicOperators.COVAR_POP:
 					{
