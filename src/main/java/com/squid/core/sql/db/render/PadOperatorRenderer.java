@@ -30,32 +30,32 @@ import com.squid.core.sql.render.SQLSkin;
 
 public class PadOperatorRenderer extends BaseOperatorRenderer {
 
-  protected final String prepend;
+	protected final String prepend;
 
-  public PadOperatorRenderer(String mode) {
-    this.prepend = mode;
-  }
+	public PadOperatorRenderer(String mode) {
+		this.prepend = mode;
+	}
 
-  @Override
-  public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef, String[] args) throws RenderingException {
-    if (args != null) {
-      if (args.length < 2 || args.length > 3) {
-        throw new RenderingException("invalid syntax for " + prepend + " function");
-      }
+	@Override
+	public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef, String[] args) throws RenderingException {
+		if (args != null) {
+			if (args.length < 2 || args.length > 3) {
+				throw new RenderingException("invalid syntax for " + prepend + " function");
+			}
 
-    }
-    String complement = " ";
-    if (args.length == 3) {
-      complement = args[2];
-    }
-    String str = prepend + "(" + args[0] + ", " + args[1] + ", " + complement + ")";
-    return str;
-  }
+		}
+		String complement = "' '";
+		if (args.length == 3) {
+			complement = args[2];
+		}
+		String str = prepend + "(" + args[0] + ", " + args[1] + ", " + complement + ")";
+		return str;
+	}
 
-  @Override
-  public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
-    // TODO Auto-generated method stub
-    return prettyPrint(skin, null, opDef, args);
-  }
+	@Override
+	public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
+		// TODO Auto-generated method stub
+		return prettyPrint(skin, null, opDef, args);
+	}
 
 }
