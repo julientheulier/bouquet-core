@@ -25,7 +25,9 @@ package com.squid.core.sql.db.render;
 
 import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.extensions.cast.CastToDateOperatorDefinition;
 import com.squid.core.domain.extensions.date.DateTruncateShortcutsOperatorDefinition;
+import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.sql.render.OperatorPiece;
@@ -76,17 +78,23 @@ public class AddMonthsAsIntervalOperatorRenderer extends BaseOperatorRenderer {
 		}
 
 		OperatorDefinition truncate = OperatorScope.getDefault().lookupByExtendedID(DateTruncateShortcutsOperatorDefinition.MONTHLY_ID);
-		DateTruncateOperatorRenderer truncateRenderer = new DateTruncateOperatorRenderer();
-		String truncated = truncateRenderer.prettyPrint(skin, truncate, new String[]{args[0]});
+		String truncated = skin.render(skin, piece, truncate, new String[]{args[0]});
+		OperatorDefinition cast = OperatorScope.getDefault().lookupByExtendedID(CastToDateOperatorDefinition.TO_DATE);
 
 		String operator = " + ";
 		if (addMonths<0) {
 			operator = " - ";
 			addMonths = addMonths *-1;
 		}
+		String endOfMonth = truncated + " + interval '1 month' - interval '1 day'";
+		if (piece.getParamTypes()[0].equals(ExtendedType.DATE)) {
+			endOfMonth = skin.render(skin, piece, cast, new String[]{endOfMonth});
+		}
 
-		String txt = "CASE WHEN " + args[0] + " = " + truncated + "interval '1 month' - interval '1 day' THEN " + truncated + operator + "interval'"+ (addMonths+1) +" month"+((addMonths+1)>1?"s":"")+"' - interval'1 day' ELSE "+args[0]+ operator + "interval'"+ addMonths +" months' END";
-
+		String txt = "CASE WHEN " + args[0] + " = " + endOfMonth + " THEN " + truncated + operator + "interval'"+ (addMonths+1) +" month"+((addMonths+1)>1?"s":"")+"' - interval'1 day' ELSE "+args[0]+ operator + "interval'"+ addMonths +" months' END";
+		if (piece.getParamTypes()[0].equals(ExtendedType.DATE)) {
+			txt = skin.render(skin, piece, cast, new String[]{txt});
+		}
 		return txt;
 	}
 
