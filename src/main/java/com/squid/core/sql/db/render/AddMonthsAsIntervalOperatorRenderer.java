@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -23,24 +23,24 @@
  *******************************************************************************/
 package com.squid.core.sql.db.render;
 
-import java.sql.Types;
-
 import com.squid.core.domain.DomainNumericConstant;
-import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
-import com.squid.core.domain.extensions.date.operator.DateAddOperatorDefinition;
-import com.squid.core.domain.extensions.date.operator.DateSubOperatorDefinition;
-import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.domain.extensions.date.DateTruncateShortcutsOperatorDefinition;
 import com.squid.core.domain.operators.OperatorDefinition;
-import com.squid.core.sql.render.IPiece;
+import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.sql.render.OperatorPiece;
 import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
-import com.squid.core.sql.render.SimpleConstantValuePiece;
 /**
  * This class is to implement ADD_MONTHS as an interval when not supported by a database vendor
  * This is for MySQL and Postgres
+ * A code generating the same logic as Oracle or Redshift is (ex with 1 month to add:
+ * <code>
+ * 	case when
+ *		transaction_date=date_trunc('month',transaction_date)+interval'1 month'-interval'1 day'
+ *		THEN date_trunc('month',transaction_date)+interval'2 month'-interval'1 day'
+ *	else date_trunc('month',transaction_date)+interval'1 month' end
+ * </code>
  * @author jtheulier
  *
  */
@@ -49,6 +49,7 @@ public class AddMonthsAsIntervalOperatorRenderer extends BaseOperatorRenderer {
 	public AddMonthsAsIntervalOperatorRenderer() {
 	}
 
+	@Override
 	public String prettyPrint(SQLSkin skin, OperatorDefinition opDef, String[] args) throws RenderingException {
 		throw new RenderingException("invalid arguments for "+opDef.getName()+"() operator");
 	}
@@ -73,24 +74,20 @@ public class AddMonthsAsIntervalOperatorRenderer extends BaseOperatorRenderer {
 		if (addMonths!=value) {
 			throw new RenderingException("invalid argument '"+args[1]+"' for "+opDef.getName()+"() operator at position 1: invalid integer constant");
 		}
-		
-		String[] newArgs = new String[3];
-		newArgs[0] = args[0];
-		DateOperatorDefinition dod = null;
+
+		OperatorDefinition truncate = OperatorScope.getDefault().lookupByExtendedID(DateTruncateShortcutsOperatorDefinition.MONTHLY_ID);
+		DateTruncateOperatorRenderer truncateRenderer = new DateTruncateOperatorRenderer();
+		String truncated = truncateRenderer.prettyPrint(skin, truncate, new String[]{args[0]});
+
+		String operator = " + ";
 		if (addMonths<0) {
-			dod = new DateOperatorDefinition("DATE_SUB", DateSubOperatorDefinition.ID,IDomain.DATE);
-			newArgs[1] = new Long(-addMonths).toString();
-		} else {
-			dod = new DateOperatorDefinition("DATE_ADD", DateAddOperatorDefinition.ID,IDomain.DATE);
-			newArgs[1] = args[1];
+			operator = " - ";
+			addMonths = addMonths *-1;
 		}
-		DomainNumericConstant valueDomain = new DomainNumericConstant(new Double(newArgs[1]).doubleValue());
-		IPiece piece1 =  new SimpleConstantValuePiece(newArgs[1], new ExtendedType(valueDomain, ExtendedType.NUMERIC));
-		newArgs[2] = "MONTH";
-		DomainStringConstant unitDomain = new DomainStringConstant(newArgs[2]);
-		IPiece piece2 =  new SimpleConstantValuePiece(newArgs[2], new ExtendedType(valueDomain, ExtendedType.STRING));
-		OperatorPiece intervalPiece = new OperatorPiece(dod, new IPiece[] {piece.getParams()[0], piece1, piece2}, new ExtendedType[] {getExtendedPieces(piece)[0], new ExtendedType(valueDomain, Types.INTEGER, 0, 11), new ExtendedType(unitDomain, Types.VARCHAR, 0, newArgs[2].length())} );
-		return skin.render(skin, intervalPiece, dod, newArgs);
+
+		String txt = "CASE WHEN " + args[0] + " = " + truncated + "interval '1 month' - interval '1 day' THEN " + truncated + operator + "interval'"+ (addMonths+1) +" month"+((addMonths+1)>1?"s":"")+"' - interval'1 day' ELSE "+args[0]+ operator + "interval'"+ addMonths +" months' END";
+
+		return txt;
 	}
 
 }
