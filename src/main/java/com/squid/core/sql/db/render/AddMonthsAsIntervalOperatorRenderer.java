@@ -86,12 +86,12 @@ public class AddMonthsAsIntervalOperatorRenderer extends BaseOperatorRenderer {
 			operator = " - ";
 			addMonths = addMonths *-1;
 		}
-		String endOfMonth = truncated + " + interval '1 month' - interval '1 day'";
+		String endOfMonth = truncated + " + interval '1' MONTH - interval '1' DAY";
 		if (piece.getParamTypes()[0].equals(ExtendedType.DATE)) {
 			endOfMonth = skin.render(skin, piece, cast, new String[]{endOfMonth});
 		}
 
-		String txt = "CASE WHEN " + args[0] + " = " + endOfMonth + " THEN " + truncated + operator + "interval'"+ (addMonths+1) +" month"+((addMonths+1)>1?"s":"")+"' - interval'1 day' ELSE "+args[0]+ operator + "interval'"+ addMonths +" months' END";
+		String txt = "CASE WHEN " + args[0] + " = " + endOfMonth + " THEN " + truncated + operator + "interval'"+ (addMonths+1) +"' MONTH - interval'1' DAY ELSE "+args[0]+ operator + "interval'"+ addMonths +"' MONTH END";
 		if (piece.getParamTypes()[0].equals(ExtendedType.DATE)) {
 			txt = skin.render(skin, piece, cast, new String[]{txt});
 		}
