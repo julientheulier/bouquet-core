@@ -125,12 +125,11 @@ public class AddMonthsAsIntervalOperatorRenderer extends BaseOperatorRenderer {
 
 		if (piece.getParamTypes()[0].equals(ExtendedType.DATE)) {
 			endOfMonth = skin.render(skin, piece, cast, new String[]{endOfMonth});
+			endOfComputedMonth = skin.render(skin, piece, cast, new String[]{endOfComputedMonth});
+			addMonth = skin.render(skin, piece, cast, new String[]{addMonth});
 		}
 
 		String txt = "CASE WHEN " + args[0] + " = " + endOfMonth + " THEN " + endOfComputedMonth + " ELSE "+ addMonth + " END";
-		if (piece.getParamTypes()[0].equals(ExtendedType.DATE)) {
-			txt = skin.render(skin, piece, cast, new String[]{txt});
-		}
 		return txt;
 	}
 
