@@ -96,7 +96,7 @@ public class AddMonthsAsIntervalOperatorRenderer extends BaseOperatorRenderer {
 		}
 		NumericConstant one = new NumericConstant(1);
 		NumericConstant months = new NumericConstant(addMonths);
-		NumericConstant months1 = new NumericConstant(addMonths+1);
+		NumericConstant months1 = new NumericConstant(addMonths + (isPositive?1:-1));
 		StringConstant day = new StringConstant("day");
 		StringConstant month = new StringConstant("month");
 
