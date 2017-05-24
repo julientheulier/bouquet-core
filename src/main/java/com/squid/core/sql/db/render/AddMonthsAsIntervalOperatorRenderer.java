@@ -27,12 +27,18 @@ import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.extensions.cast.CastToDateOperatorDefinition;
 import com.squid.core.domain.extensions.date.DateTruncateShortcutsOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateAddOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateSubOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorScope;
+import com.squid.core.expression.NumericConstant;
+import com.squid.core.expression.StringConstant;
+import com.squid.core.sql.render.IPiece;
 import com.squid.core.sql.render.OperatorPiece;
 import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
+import com.squid.core.sql.render.SimpleConstantValuePiece;
 /**
  * This class is to implement ADD_MONTHS as an interval when not supported by a database vendor
  * This is for MySQL and Postgres
@@ -78,20 +84,50 @@ public class AddMonthsAsIntervalOperatorRenderer extends BaseOperatorRenderer {
 		}
 
 		OperatorDefinition truncate = OperatorScope.getDefault().lookupByExtendedID(DateTruncateShortcutsOperatorDefinition.MONTHLY_ID);
-		String truncated = skin.render(skin, piece, truncate, new String[]{args[0]});
 		OperatorDefinition cast = OperatorScope.getDefault().lookupByExtendedID(CastToDateOperatorDefinition.TO_DATE);
+		OperatorDefinition intervalAdd = OperatorScope.getDefault().lookupByExtendedID(DateAddOperatorDefinition.ID);
+		OperatorDefinition intervalSub = OperatorScope.getDefault().lookupByExtendedID(DateSubOperatorDefinition.ID);
 
-		String operator = " + ";
+		String truncated = skin.render(skin, piece, truncate, new String[]{args[0]});
+		boolean isPositive = true;
 		if (addMonths<0) {
-			operator = " - ";
+			isPositive = false;
 			addMonths = addMonths *-1;
 		}
-		String endOfMonth = truncated + " + interval '1' MONTH - interval '1' DAY";
+		NumericConstant one = new NumericConstant(1);
+		NumericConstant months = new NumericConstant(addMonths);
+		NumericConstant months1 = new NumericConstant(addMonths+1);
+		StringConstant day = new StringConstant("day");
+		StringConstant month = new StringConstant("month");
+
+		IPiece onePiece = new SimpleConstantValuePiece(one.getValue(), one.computeType(skin));
+		IPiece monthsPiece = new SimpleConstantValuePiece(months.getValue(), months.computeType(skin));
+		IPiece months1Piece = new SimpleConstantValuePiece(months1.getValue(), months1.computeType(skin));
+
+		IPiece dayPiece = new SimpleConstantValuePiece(day.getValue(), day.computeType(skin));
+		IPiece monthPiece = new SimpleConstantValuePiece(month.getValue(), month.computeType(skin));
+
+		String endOfMonth = truncated;
+		String endOfComputedMonth = truncated;
+
+		OperatorPiece oneDay =  new OperatorPiece(intervalSub, new IPiece[]{piece.getParams()[0], onePiece, dayPiece});
+		OperatorPiece oneMonth = new OperatorPiece(intervalAdd, new IPiece[]{piece.getParams()[0], onePiece, monthPiece});
+		OperatorPiece addedMonth = new OperatorPiece(intervalAdd, new IPiece[]{piece.getParams()[0], monthsPiece, monthPiece});
+		OperatorPiece addedMonth1 = new OperatorPiece(intervalAdd, new IPiece[]{piece.getParams()[0], months1Piece, monthPiece});
+
+		endOfMonth = skin.render(skin, oneMonth, intervalAdd, new String[]{endOfMonth, one.toString(), month.toString()});
+		endOfMonth = skin.render(skin, oneDay, intervalSub, new String[]{endOfMonth, one.toString(), day.toString()});
+
+		endOfComputedMonth = skin.render(skin, addedMonth1, (isPositive?intervalAdd:intervalSub), new String[]{endOfComputedMonth, months1.toString(), months1.toString()});
+		endOfComputedMonth = skin.render(skin, oneDay, intervalSub, new String[]{endOfComputedMonth, one.toString(), day.toString()});
+
+		String addMonth = skin.render(skin, addedMonth, (isPositive?intervalAdd:intervalSub), new String[]{args[0], months.toString(), month.toString()});
+
 		if (piece.getParamTypes()[0].equals(ExtendedType.DATE)) {
 			endOfMonth = skin.render(skin, piece, cast, new String[]{endOfMonth});
 		}
 
-		String txt = "CASE WHEN " + args[0] + " = " + endOfMonth + " THEN " + truncated + operator + "interval'"+ (addMonths+1) +"' MONTH - interval'1' DAY ELSE "+args[0]+ operator + "interval'"+ addMonths +"' MONTH END";
+		String txt = "CASE WHEN " + args[0] + " = " + endOfMonth + " THEN " + endOfComputedMonth + " ELSE "+ addMonth + " END";
 		if (piece.getParamTypes()[0].equals(ExtendedType.DATE)) {
 			txt = skin.render(skin, piece, cast, new String[]{txt});
 		}
