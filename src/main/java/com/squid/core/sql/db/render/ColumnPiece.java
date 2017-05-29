@@ -25,6 +25,7 @@ package com.squid.core.sql.db.render;
 
 import com.squid.core.database.model.Column;
 import com.squid.core.domain.operators.ExtendedType;
+import com.squid.core.sql.model.SQLScopeException;
 import com.squid.core.sql.model.Scope;
 import com.squid.core.sql.render.BoundPiece;
 import com.squid.core.sql.render.ITypedPiece;
@@ -39,14 +40,13 @@ implements ITypedPiece
 	protected Column column;
 	private String alias;
 	
-	public ColumnPiece(Scope scope, Column column) {
+	public ColumnPiece(Scope scope, Column column) throws SQLScopeException {
 		super(scope);
 		this.column = column;
 		try {
 			this.alias = getAlias(column.getTable());
 		} catch (RenderingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SQLScopeException("cannot find column '"+column.getName()+"' in the scope");
 		}
 	}
 	
