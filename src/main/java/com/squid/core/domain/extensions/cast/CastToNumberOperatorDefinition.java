@@ -195,11 +195,12 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 				}
 			} else if (TO_NUMBER.equals(getExtendedID())) {
 				if ((imageDomains.get(0).isInstanceOf(IDomain.STRING) == false
-						&& imageDomains.get(0).isInstanceOf(IDomain.NUMERIC) == false) || imageDomains.get(0).isInstanceOf(IDomain.ANY)) {
+						//&& imageDomains.get(0).isInstanceOf(IDomain.NUMERIC) == false) || imageDomains.get(0).isInstanceOf(IDomain.ANY)
+						)) {
 					return new OperatorDiagnostic(
 							"Invalid type of parameters",
 							getName()
-							+ ": first parameter must be a numeric or a string");
+							+ ": first parameter must be a text");
 				}
 				if (imageDomains.size() == 2
 						&& (imageDomains.get(1).isInstanceOf(IDomain.STRING)==false || imageDomains.get(1).isInstanceOf(IDomain.ANY))) {
