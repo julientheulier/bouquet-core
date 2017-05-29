@@ -28,6 +28,7 @@ import java.util.Iterator;
 import com.squid.core.database.model.Column;
 import com.squid.core.database.model.Key;
 import com.squid.core.sql.db.render.ColumnPiece;
+import com.squid.core.sql.model.SQLScopeException;
 import com.squid.core.sql.model.Scope;
 import com.squid.core.sql.render.ExpressionListPiece;
 import com.squid.core.sql.render.IPiece;
@@ -39,11 +40,11 @@ import com.squid.core.sql.render.IPiece;
  */
 public class CreatePieceInterface {
 	
-	public ColumnPiece createPiece(Scope parent, Column column) {
+	public ColumnPiece createPiece(Scope parent, Column column) throws SQLScopeException {
 		return new ColumnPiece(parent,column);
 	}
 	
-	public ExpressionListPiece createPiece(Scope parent, Key key) {
+	public ExpressionListPiece createPiece(Scope parent, Key key) throws SQLScopeException {
 		IPiece[] pieces = new IPiece[key.getColumns().size()];
 		int i=0;
 		for (Iterator<Column> iter = key.getColumns().iterator();iter.hasNext();) {

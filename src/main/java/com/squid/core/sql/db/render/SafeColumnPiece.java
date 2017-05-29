@@ -24,6 +24,7 @@
 package com.squid.core.sql.db.render;
 
 import com.squid.core.database.model.Column;
+import com.squid.core.sql.model.SQLScopeException;
 import com.squid.core.sql.model.Scope;
 import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
@@ -36,7 +37,7 @@ import com.squid.core.sql.render.SQLSkin;
  */
 public class SafeColumnPiece extends ColumnPiece {
 
-	public SafeColumnPiece(Scope scope, Column column) {
+	public SafeColumnPiece(Scope scope, Column column) throws SQLScopeException {
 		super(scope, column);
 		// TODO Auto-generated constructor stub
 	}

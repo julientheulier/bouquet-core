@@ -36,6 +36,18 @@ public interface ISelect {
 	Scope getScope();
 
 	IPiece createPiece(Context ctx, Scope scope, ExpressionAST expression) throws SQLScopeException, ScopeException;
+	
+	/**
+	 * 
+	 * @param ctx
+	 * @param scope
+	 * @param expression
+	 * @param mapping is the expression source domain mapping. In case this is a sub-select, that may allow to inject some definition on the fly (column for instance)
+	 * @return
+	 * @throws SQLScopeException
+	 * @throws ScopeException
+	 */
+	IPiece createPiece(Context ctx, Scope scope, ExpressionAST expression, Object mapping) throws SQLScopeException, ScopeException;
 
 	SelectStatement getStatement();
 

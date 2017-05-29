@@ -167,8 +167,9 @@ public class PieceCreator {
 	 * @param parent
 	 * @param column
 	 * @return
+	 * @throws SQLScopeException 
 	 */
-	public IPiece createPiece(Scope parent, Column column) {
+	public IPiece createPiece(Scope parent, Column column) throws SQLScopeException {
 		return new ColumnPiece(parent,column);
 	}
 

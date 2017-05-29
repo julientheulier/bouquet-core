@@ -153,11 +153,11 @@ implements ISelectInterface
 		return result;
 	}
 	
-	protected SelectPiece createSelectPiece(Scope scope,Column column) {
+	protected SelectPiece createSelectPiece(Scope scope,Column column) throws SQLScopeException {
 		return createSelectPiece(scope,new ColumnPiece(scope,column),column.getName());
 	}
 	
-	protected SelectPiece createSelectPiece(Scope scope,Column column, String alias) {
+	protected SelectPiece createSelectPiece(Scope scope,Column column, String alias) throws SQLScopeException {
 		return createSelectPiece(scope,new ColumnPiece(scope,column),alias);
 	}
 	
@@ -280,7 +280,7 @@ implements ISelectInterface
 		}
 	}
 	
-	public IPiece createPiece(Scope parent, Column column) {
+	public IPiece createPiece(Scope parent, Column column) throws SQLScopeException {
 		Object override = parent.get(column);
 		if (override!=null && override instanceof IPiece) {
 			if (override instanceof ISelectPiece) {
@@ -293,7 +293,7 @@ implements ISelectInterface
 		}
 	}
 	
-	public IPiece createPiece(Scope parent, Column column, boolean safe) {
+	public IPiece createPiece(Scope parent, Column column, boolean safe) throws SQLScopeException {
 		Object override = parent.get(column);
 		if (override!=null && override instanceof IPiece) {
 			if (override instanceof ISelectPiece) {
@@ -306,7 +306,7 @@ implements ISelectInterface
 		return new ColumnPiece(parent,column);
 	}
 	
-	public ExpressionListPiece createPiece(Scope parent, Key key) {
+	public ExpressionListPiece createPiece(Scope parent, Key key) throws SQLScopeException {
 		IPiece[] pieces = new IPiece[key.getColumns().size()];
 		for (int i=0;i<pieces.length;i++) {
 			pieces[i] = createPiece(parent, (Column)key.getColumns().get(i),false);

@@ -104,6 +104,12 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 			throws SQLScopeException {
 		return this.pieceCreator.createPiece(ctx, scope, expression);
 	}
+
+	@Override
+	public IPiece createPiece(Context ctx, Scope scope, ExpressionAST expression, Object mapping)
+			throws SQLScopeException, ScopeException {
+		return this.pieceCreator.createPiece(ctx, scope, expression);
+	}
 	
 	/**
 	 * select the given expression in the current scope
@@ -348,5 +354,6 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 		}
 		return where;
 	}
+
 
 }

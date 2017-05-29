@@ -98,7 +98,7 @@ extends CreatePieceInterface implements IUpdateInterface
 		return piece;
 	}
 	
-	public void join(Scope scope1, Key primaryKey1, Scope scope2, Key primaryKey2) {
+	public void join(Scope scope1, Key primaryKey1, Scope scope2, Key primaryKey2) throws SQLScopeException {
 		IPiece[] p = new IPiece[2];
 		for (int i=0;i<primaryKey1.getColumns().size();i++) {
 			Column c1 = (Column)primaryKey1.getColumns().get(i);
