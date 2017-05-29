@@ -101,11 +101,6 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 		IDomain string4 = new DomainNumeric();
 		string4.setContentAssistLabel("format");
 
-
-		type.add(num1);
-		type.add(string2);
-
-		poly.add(type);
 		type = new ArrayList<IDomain>();
 
 		type.add(string1);
@@ -120,15 +115,8 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 		type.add(num3);
 
 		poly.add(type);
+
 		type = new ArrayList<IDomain>();
-
-		type.add(string1);
-		type.add(num2);
-		type.add(num3);
-
-		poly.add(type);
-		type = new ArrayList<IDomain>();
-
 
 		type.add(num1);
 		type.add(num2);
