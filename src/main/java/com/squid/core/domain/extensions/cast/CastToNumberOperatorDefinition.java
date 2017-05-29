@@ -101,11 +101,6 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 		IDomain string4 = new DomainNumeric();
 		string4.setContentAssistLabel("format");
 
-
-		type.add(num1);
-		type.add(string2);
-
-		poly.add(type);
 		type = new ArrayList<IDomain>();
 
 		type.add(string1);
@@ -120,15 +115,8 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 		type.add(num3);
 
 		poly.add(type);
+
 		type = new ArrayList<IDomain>();
-
-		type.add(string1);
-		type.add(num2);
-		type.add(num3);
-
-		poly.add(type);
-		type = new ArrayList<IDomain>();
-
 
 		type.add(num1);
 		type.add(num2);
@@ -195,17 +183,18 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 				}
 			} else if (TO_NUMBER.equals(getExtendedID())) {
 				if ((imageDomains.get(0).isInstanceOf(IDomain.STRING) == false
-						&& imageDomains.get(0).isInstanceOf(IDomain.NUMERIC) == false) || imageDomains.get(0).isInstanceOf(IDomain.ANY)) {
+						//&& imageDomains.get(0).isInstanceOf(IDomain.NUMERIC) == false) || imageDomains.get(0).isInstanceOf(IDomain.ANY)
+						)) {
 					return new OperatorDiagnostic(
 							"Invalid type of parameters",
 							getName()
-							+ ": first parameter must be a numeric or a string");
+							+ ": first parameter must be a text");
 				}
 				if (imageDomains.size() == 2
 						&& (imageDomains.get(1).isInstanceOf(IDomain.STRING)==false || imageDomains.get(1).isInstanceOf(IDomain.ANY))) {
 					return new OperatorDiagnostic(
 							"Invalid number of parameters", getName()
-							+ "(any,format)");
+							+ "(text,format)");
 				} else if (imageDomains.size() == 3) {
 					if (!(imageDomains.get(1) instanceof DomainNumericConstant) || imageDomains.get(1).isInstanceOf(IDomain.ANY)
 							|| !(imageDomains.get(2) instanceof DomainNumericConstant) || imageDomains.get(2).isInstanceOf(IDomain.ANY)) {
