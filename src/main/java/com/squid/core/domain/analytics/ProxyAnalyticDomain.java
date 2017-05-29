@@ -45,7 +45,7 @@ implements AnalyticDomain
 	@Override
 	public String getName() {
 		if (subdomain!=null) {
-			return subdomain.getName();
+			return "||"+subdomain.getName()+"||";
 		} else {
 			return "||???||";
 		}
