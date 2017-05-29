@@ -43,7 +43,7 @@ implements AnalyticDomain
      */
     protected AnalyticDomainImp(IDomain parent) {
         super(parent);
-        setName("Set");
+        setName("Analytics");
     }
 
     /*
