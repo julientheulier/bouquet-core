@@ -194,7 +194,7 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 						&& (imageDomains.get(1).isInstanceOf(IDomain.STRING)==false || imageDomains.get(1).isInstanceOf(IDomain.ANY))) {
 					return new OperatorDiagnostic(
 							"Invalid number of parameters", getName()
-							+ "(any,format)");
+							+ "(text,format)");
 				} else if (imageDomains.size() == 3) {
 					if (!(imageDomains.get(1) instanceof DomainNumericConstant) || imageDomains.get(1).isInstanceOf(IDomain.ANY)
 							|| !(imageDomains.get(2) instanceof DomainNumericConstant) || imageDomains.get(2).isInstanceOf(IDomain.ANY)) {
