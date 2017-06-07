@@ -23,11 +23,8 @@
  *******************************************************************************/
 package com.squid.core.domain.operators;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.squid.core.domain.DomainIntrinsic;
-import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.IDomain;
 
 public class AdditiveOperatorDefinition 
