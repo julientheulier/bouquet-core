@@ -213,6 +213,7 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 						}
 					}
 				} else if (imageDomains.size() == 4
+						&& imageDomains.get(0).isInstanceOf(IDomain.STRING) == false
 						&& (imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)==false || imageDomains.get(1).isInstanceOf(IDomain.ANY)
 						|| imageDomains.get(2).isInstanceOf(IDomain.NUMERIC)==false || imageDomains.get(2).isInstanceOf(IDomain.ANY) || imageDomains
 						.get(3).isInstanceOf(IDomain.STRING)==false || imageDomains.get(3).isInstanceOf(IDomain.ANY))) {
