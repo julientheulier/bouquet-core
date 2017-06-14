@@ -103,6 +103,21 @@ public class ConditionalOperatorDefinition extends AlgebraicOperatorDefinition {
 		any.setContentAssistLabel("any");
 		type.add(any);
 		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(any);
+		type.add(any);
+		poly.add(type);
+		return poly;
+	}
+	
+	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List<IDomain>>();
+		List type = new ArrayList<IDomain>();
+		IDomain any = new DomainAny();
+		any.setContentAssistLabel("any");
+		type.add(any);
+		poly.add(type);
 		return poly;
 	}
 
