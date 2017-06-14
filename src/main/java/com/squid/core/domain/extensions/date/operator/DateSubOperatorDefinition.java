@@ -125,6 +125,58 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
 	}
 
 	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+
+		IDomain temporal1 = new DomainTemporal();
+		temporal1.setContentAssistLabel("temporal");
+		IDomain temporal2 = new DomainTemporal();
+		temporal2.setContentAssistLabel("temporal");
+		IDomain timestamp1 = new DomainTimestamp();
+		timestamp1.setContentAssistLabel("timestamp");
+		IDomain num2 = new DomainNumeric();
+		num2.setContentAssistLabel("num");
+		IDomain date1 = new DomainDate();
+		date1.setContentAssistLabel("date");
+		IDomain interval2 = new DomainInterval();
+		interval2.setContentAssistLabel("interval");
+		IDomain numConst2 = new DomainNumericConstant();
+		numConst2.setContentAssistLabel("numConst");
+		IDomain stringConst3 = new DomainStringConstant("");
+		stringConst3.setContentAssistLabel("unit");
+
+		type = new ArrayList<IDomain>();
+		type.add(temporal1);
+		type.add(temporal2);
+		poly.add(type);
+
+		type = new ArrayList<IDomain>();
+		type.add(timestamp1);
+		type.add(num2);
+		poly.add(type);
+
+		type = new ArrayList<IDomain>();
+		type.add(timestamp1);
+		type.add(interval2);
+		poly.add(type);
+
+		type = new ArrayList<IDomain>();
+		type.add(date1);
+		type.add(num2);
+		poly.add(type);
+
+		type = new ArrayList<IDomain>();
+		type.add(date1);
+		type.add(numConst2);
+		type.add(stringConst3);
+		poly.add(type);
+
+		return poly;
+	}
+
+	
+	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if(imageDomains.size()>2){
 			if(imageDomains.get(1).isInstanceOf(DomainNumericConstant.DOMAIN) && !imageDomains.get(1).isInstanceOf(IDomain.ANY) && !imageDomains.get(2).isInstanceOf(IDomain.ANY) && imageDomains.get(2).isInstanceOf(DomainStringConstant.DOMAIN)) {
