@@ -30,6 +30,7 @@ import java.util.List;
 import com.squid.core.domain.DomainNumeric;
 import com.squid.core.domain.DomainNumericConstant;
 import com.squid.core.domain.IDomain;
+import com.squid.core.domain.aggregate.AggregateDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.ListContentAssistEntry;
 import com.squid.core.domain.operators.OperatorDefinition;
@@ -153,8 +154,22 @@ public class TruncateOperatorDefinition extends OperatorDefinition {
 	
 	@Override
 	public IDomain  computeImageDomain(List<IDomain> imageDomains) {
-		return IDomain.NUMERIC;
-		
+
+		if (imageDomains.isEmpty()) return IDomain.UNKNOWN;
+        IDomain argument0 = imageDomains.get(0);
+		boolean is_aggregate = argument0.isInstanceOf(AggregateDomain.DOMAIN);
+		IDomain domain = IDomain.UNKNOWN;
+		if (imageDomains.size()==1) {
+			domain = IDomain.NUMERIC;
+		} else {
+			domain = IDomain.CONTINUOUS;
+		}
+        if (is_aggregate) {
+        	// compose with Aggregate
+        	domain = AggregateDomain.MANAGER.createMetaDomain(domain);
+        }
+        //
+        return domain;
 	}
 
 }
