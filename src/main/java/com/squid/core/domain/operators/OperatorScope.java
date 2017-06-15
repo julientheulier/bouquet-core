@@ -75,7 +75,7 @@ public class OperatorScope implements IntrinsicOperators {
 	 *
 	 */
 	private void initIntrinsicOperators() {
-		registerSafe(undefinedOperatorDef);
+//		registerSafe(undefinedOperatorDef);
 		// -----------------------------------------------------------------------------
 		registerSafe(new BinaryArithmeticOperatorDefinition("CONCAT", CONCAT, IDomain.STRING,
 				OperatorDefinition.STRING_TYPE));
