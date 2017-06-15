@@ -118,14 +118,6 @@ public class CastToNumberOperatorDefinition extends CastOperatorDefinition {
 
 		type = new ArrayList<IDomain>();
 
-		type.add(num1);
-		type.add(num2);
-		type.add(num3);
-		type.add(string4);
-
-		poly.add(type);
-		type = new ArrayList<IDomain>();
-
 		type.add(string1);
 		type.add(num2);
 		type.add(num3);
