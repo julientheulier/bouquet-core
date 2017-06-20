@@ -190,6 +190,12 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
 				}
 			}
 		}
+		
+		if (imageDomains.size() == 2 ){
+			if (imageDomains.get(0).isInstanceOf(IDomain.TEMPORAL) && imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)){
+				return OperatorDiagnostic.IS_VALID;
+			}
+		}
 		return super.validateParameters(imageDomains);
 
 	}
