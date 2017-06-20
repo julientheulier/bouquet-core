@@ -90,6 +90,23 @@ public class TruncateOperatorDefinition extends OperatorDefinition {
 		poly.add(type);
 		return poly;
 	}
+	@Override
+	public List getSimplifiedParametersTypes() {
+		List poly = new ArrayList<List>();
+		List type = new ArrayList<IDomain>();
+		IDomain number = new DomainNumeric();
+		type.add(number);
+		poly.add(type);
+		type = new ArrayList<IDomain>();
+		type.add(number);
+		IDomain num = new DomainNumericConstant();
+		num.setContentAssistLabel("constant");
+		type.add(num);
+		poly.add(type);
+		return poly;
+	}
+	
+	
 
 	// We need  to add integer idomain and interger constant idomain to have the notion needed for the validate.
 	@Override
