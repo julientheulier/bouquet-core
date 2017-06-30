@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.squid.core.export.IRawExportSource;
+import com.squid.core.export.Selection;
 import com.squid.core.jdbc.formatter.IJDBCDataFormatter;
 
 /**
@@ -50,7 +51,7 @@ import com.squid.core.jdbc.formatter.IJDBCDataFormatter;
  */
 public class CSVWriter {
 
-    static final Logger logger = LoggerFactory.getLogger(CSVWriter.class);
+	static final Logger logger = LoggerFactory.getLogger(CSVWriter.class);
 
 	private char separator;
 
@@ -68,15 +69,17 @@ public class CSVWriter {
 
 	private boolean handleSurrogateCharacters = false;
 
-    private boolean computeStatistics = false;
+	private boolean computeStatistics = false;
 
 	private int[] statistics = null;
 
 	//protected Boolean[] isStringLikeColumn;
 
 	private boolean doubleEnclose = false;
-	
+
 	private long linesWritten;
+
+	private List<Selection> selection;
 
 	public CSVWriter(CSVSettingsBean settings) {
 		// perform a local copy for performances ?
@@ -124,7 +127,7 @@ public class CSVWriter {
 			writer = openFile(singleFile);
 			manifest.add(singleFile);
 			resetLinesWritten();
-		
+
 			return writeResultSet(writer, splitSize, rs, normalizedTypes, formatter);
 		} finally {
 			if (writer!=null) {
@@ -138,13 +141,17 @@ public class CSVWriter {
 		return splitSize>0?(fileName+"_"+index+fileExtension):(fileName+fileExtension);
 	}
 
-	protected Writer openFile(String fileName) throws IOException {
-		OutputStream stream = new FileOutputStream(fileName);
+
+	protected Writer openFile(String fileName, boolean append) throws IOException {
+		OutputStream stream = new FileOutputStream(fileName, append);
 		if (fileName.endsWith(".gzip")||fileName.endsWith(".gz")) {
 			stream = new GZIPOutputStream(stream);
 		}
 		OutputStreamWriter writer = new OutputStreamWriter(stream, fileEncoding);
 		return new PrintWriter(writer);
+	}
+	protected Writer openFile(String fileName) throws IOException {
+		return openFile(fileName, false);
 	}
 
 	/**
@@ -157,13 +164,13 @@ public class CSVWriter {
 	 */
 	public boolean writeResultSet(Writer writer, int splitSize, java.sql.ResultSet rs,int[] normalizedTypes, IJDBCDataFormatter formatter)  throws SQLException, IOException {
 		ResultSetMetaData metadata = rs.getMetaData();
-		
+
 		int columnCount =  metadata.getColumnCount();
 
 		for (int i=0;i<columnCount;i++) {
 			logger.info(metadata.getColumnLabel(i+1) +"  "+ metadata.getColumnName(i+1) + " " + metadata.getColumnTypeName(i+1));
 		}
-		
+
 		int[] columnTypes = normalizedTypes;
 
 		if(logger.isDebugEnabled()){logger.debug((columnTypes.toString()));}
@@ -174,9 +181,9 @@ public class CSVWriter {
 		}
 
 		// write header if require, even if the resultset is empty
-        if (computeStatistics && statistics==null) {
-            statistics = new int[columnCount];
-        }
+		if (computeStatistics && statistics==null) {
+			statistics = new int[columnCount];
+		}
 		if (insertHeader ) {
 			writer.write(writeColumnNames(metadata, isStringLikeColumn));
 		}
@@ -201,13 +208,16 @@ public class CSVWriter {
 		}
 		// done
 		if(logger.isDebugEnabled()){logger.debug(("wrote "+linesWritten+" to file, reach end of file"));}
+		if (selection != null) {
+			writeSelection(writer);
+		}
 		return false;
 	}
 
-	
+
 	public boolean writeResultSet(Writer writer, int splitSize, IRawExportSource source, IJDBCDataFormatter formatter) throws SQLException, IOException{
-		
-		
+
+
 		int columnCount = source.getNumberOfColumns();
 
 		if(logger.isDebugEnabled()){logger.debug((source.getColumnTypes().toString()));}
@@ -218,23 +228,23 @@ public class CSVWriter {
 		}
 
 		// write header if require, even if the resultset is empty
-        if (computeStatistics && statistics==null) {
-            statistics = new int[columnCount];
-        }
+		if (computeStatistics && statistics==null) {
+			statistics = new int[columnCount];
+		}
 		if (insertHeader ) {
-			
+
 			writer.write(writeColumnNames(source.getColumnNames(), isStringLikeColumn));
 		}
 		// write data up to split limit
 		Iterator<Object[]> iter = source.iterator();
-		
+
 		while (iter.hasNext())
 		{
 			++linesWritten;
-			
+
 			Object[] rawRow = iter.next();
 			if (rawRow !=null){
-				String[] nextLine = new String[columnCount];			
+				String[] nextLine = new String[columnCount];
 				for (int i = 0; i < columnCount; i++) {
 					Object value = rawRow[i];
 					nextLine[i] = value!=null?formatter.formatJDBCObject(value, source.getColumnType(i)):"";
@@ -252,20 +262,19 @@ public class CSVWriter {
 		}
 		// done
 		if(logger.isDebugEnabled()){logger.debug(("wrote "+linesWritten+" to file, reach end of file"));}
+		if (selection != null) {
+			writeSelection(writer);
+		}
 		return false;
-		
-		
-		
-		
 	}
-	
-	
+
+
 	protected String writeColumnNames(String[] columnNames, boolean[] isStringLikeColumn ){
 		return formatLine(columnNames, true, isStringLikeColumn).toString();
 	}
-	
-	
-	
+
+
+
 	protected String writeColumnNames(ResultSetMetaData metadata, boolean[] isStringLikeColumn) throws SQLException {
 		int columnCount =  metadata.getColumnCount();
 		String[] nextLine = new String[columnCount];
@@ -276,8 +285,8 @@ public class CSVWriter {
 	}
 
 	protected boolean append(boolean isStringLikeColumn, char at) {
-        // Remove UTF-16 chars, not supported in RS
-        return handleSurrogateCharacters || !isStringLikeColumn || (!Character.isSurrogate(at));
+		// Remove UTF-16 chars, not supported in RS
+		return handleSurrogateCharacters || !isStringLikeColumn || (!Character.isSurrogate(at));
 	}
 
 	/**
@@ -302,7 +311,7 @@ public class CSVWriter {
 			if (nextElement == null) {
 				continue;
 			} else if (!isHeader && computeStatistics && isStringLikeColumn[i]) { //Only for char types
-			    statistics[i]=Math.max(statistics[i], nextElement.getBytes(StandardCharsets.UTF_8).length);
+				statistics[i]=Math.max(statistics[i], nextElement.getBytes(StandardCharsets.UTF_8).length);
 			}
 			if (nextElement.length()>0) {
 				if (quotechar !=  CSVSettingsBean.NO_QUOTE_CHARACTER && useEnclosing && (isStringLikeColumn[i] ||isHeader)) {
@@ -344,45 +353,104 @@ public class CSVWriter {
 		return sb;
 	}
 
+	public void setSelection(List<Selection> selection) {
+		this.selection = selection;
+	}
+
+	protected void writeSelection(Writer writer) {
+		if (selection != null && selection.size()>0) {
+			try {
+				writer.write("\n");
+				writer.write("\n");
+				writer.write(formatLine(new String[]{"------------"}, false, new boolean[]{false}).toString());
+				writer.write(formatLine(new String[]{"Information"}, false, new boolean[]{false}).toString());
+				boolean hasCompare = false;
+				for(Selection selection : selection) {
+					if (selection.getCompared() != null && selection.getCompared().size()>0) {
+						hasCompare = true;
+					}
+				}
+				if (hasCompare) {
+					writer.write(formatLine(new String[]{"Filter", "Selection", "Compared with"}, false, new boolean[]{false, false, false}).toString());
+				} else {
+					writer.write(formatLine(new String[]{"Filter", "Selection"}, false, new boolean[]{false, false}).toString());
+				}
+				for(Selection selection : selection) {
+					int cpt = Math.max(selection.getValues().size(), (selection.getCompared() != null?selection.getCompared().size():0));
+					for (int i=0; i< cpt; i++) {
+						writer.write(formatLine(new String[]{(i==0?selection.getName():null)
+								, (i<selection.getValues().size()?selection.getValues().get(i):null)
+								, (selection.getCompared() != null && i<selection.getCompared().size()?selection.getCompared().get(i):null)}, false, new boolean[]{true, true, true}).toString());
+					}
+					/*
+					String values = "";
+					String valueSeparator="";
+					for (String value: selection.getValues()){
+						values += valueSeparator + value;
+						valueSeparator="\n";
+					}
+
+					String comparedValues = "";
+					valueSeparator="";
+					if (selection.getCompared() != null && selection.getCompared().size()>0) {
+						for (String value: selection.getCompared()){
+							comparedValues += valueSeparator + value;
+							valueSeparator="\n";
+						}
+					}
+					if (hasCompare) {
+						writer.write(formatLine(new String[]{selection.getName(), values, comparedValues}, false, new boolean[]{true, true, true}).toString());
+					} else {
+						writer.write(formatLine(new String[]{selection.getName(), values}, false, new boolean[]{true, true}).toString());
+					}
+					 */
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public static boolean isColumnStringLike(int colType) throws SQLException {
 		switch (colType)
 		{
-		case Types.BOOLEAN:
-		case Types.CLOB:
-		case Types.JAVA_OBJECT:
-		case Types.LONGVARCHAR:
-		case Types.VARCHAR:
-		case Types.CHAR:
-			return true;
-		default:
-			return false;
+			case Types.BOOLEAN:
+			case Types.CLOB:
+			case Types.JAVA_OBJECT:
+			case Types.LONGVARCHAR:
+			case Types.VARCHAR:
+			case Types.CHAR:
+				return true;
+			default:
+				return false;
 		}
 	}
 
 
-    public boolean isComputeStatistics() {
-        return computeStatistics;
-    }
+	public boolean isComputeStatistics() {
+		return computeStatistics;
+	}
 
-    public void setComputeStatistics(boolean computeStatistics) {
-        this.computeStatistics = computeStatistics;
-    }
+	public void setComputeStatistics(boolean computeStatistics) {
+		this.computeStatistics = computeStatistics;
+	}
 
-    public int[] getStatistics() {
-        return statistics;
-    }
+	public int[] getStatistics() {
+		return statistics;
+	}
 
-    public void setStatistics(int[] statistics) {
-        this.statistics = statistics;
-    }
+	public void setStatistics(int[] statistics) {
+		this.statistics = statistics;
+	}
 
-    public boolean handleSurrogateCharacters() {
-        return handleSurrogateCharacters;
-    }
+	public boolean handleSurrogateCharacters() {
+		return handleSurrogateCharacters;
+	}
 
-    public void setHandleSurrogateCharacters(boolean handleSurrogateCharacters) {
-        this.handleSurrogateCharacters = handleSurrogateCharacters;
-    }
+	public void setHandleSurrogateCharacters(boolean handleSurrogateCharacters) {
+		this.handleSurrogateCharacters = handleSurrogateCharacters;
+	}
 
 	public long getLinesWritten() {
 		return linesWritten;
@@ -392,5 +460,5 @@ public class CSVWriter {
 		this.linesWritten = 0;
 	}
 
-    
+
 }
