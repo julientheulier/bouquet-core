@@ -160,11 +160,21 @@ public class Compose extends NamedExpression {
 	@Override
 	public String prettyPrint(PrettyPrintOptions options) {
 		StringBuilder res = new StringBuilder();
+		boolean first = true;
+		boolean removedSpace=false;
 		for (ExpressionAST item : body) {
-			res.append(item.prettyPrint(options));
-			if (item!=this.head) {
+			if (first 
+				&& options!=null 
+				&& options.getScope()!=null 
+				&& item.getImageDomain().isInstanceOf(options.getScope())){
+				removedSpace=true;
+			}else{
+				res.append(item.prettyPrint(options));
+			}
+			if(!(first && removedSpace) && item!=this.head) {
 				res.append(PrettyPrintConstant.COMPOSE_TAG);
 			}
+			first= false;
 		}
 		return res.toString();
 	}
