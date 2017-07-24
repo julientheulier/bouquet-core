@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -37,22 +37,22 @@ import com.squid.core.domain.IDomain;
  *
  */
 public class CompareToOperatorDefinition extends OperatorDefinition {
-	
+
 	private List parameters = null;
-	
+
 	public static final String GROWTH= "COMPARETO_GROWTH";
 	public static final String COMPARE_TO = "COMPARETO_COMPARETO";
 
-	
+
 	public CompareToOperatorDefinition(String name) {
-		super(name, "compareTo"+name, OperatorDefinition.PREFIX_POSITION, name, IDomain.AGGREGATE);
-		// init parameters
-		parameters = Collections.singletonList(Collections.singletonList(IDomain.AGGREGATE));
+		this(name, "compareTo"+name);
 	}
 	public CompareToOperatorDefinition(String name, String id) {
 		super(name, id, OperatorDefinition.PREFIX_POSITION, name, IDomain.AGGREGATE);
+		// init parameters
+		parameters = Collections.singletonList(Collections.singletonList(IDomain.AGGREGATE));
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.squid.core.domain.operators.OperatorDefinition#getParametersTypes()
 	 */
@@ -68,7 +68,7 @@ public class CompareToOperatorDefinition extends OperatorDefinition {
 	public int getType() {
 		return AGGR_TYPE;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.squid.core.domain.operators.OperatorDefinition#computeExtendedType(com.squid.core.domain.operators.ExtendedType[])
 	 */
@@ -78,10 +78,10 @@ public class CompareToOperatorDefinition extends OperatorDefinition {
 		// else
 		return ExtendedType.UNDEFINED;
 	}
-	
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
-	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+		return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
 	}
 
 
