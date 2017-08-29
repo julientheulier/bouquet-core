@@ -91,7 +91,7 @@ public class OrderByPiece implements IOrderByPiece {
 			catch(RenderingException e) {
 				//case alias is null then  else end requires a group by on Redshift if uses aggregate, commented
 				//return " CASE WHEN " + (piece instanceof IAlias && ((IAlias) piece).getAlias() != null ? ((((SelectPiece)piece).isQuoteAlias()) ? skin.quoteIdentifier(((IAlias) piece).getAlias()):((IAlias) piece).getAlias()):piece.render(skin)) + " IS NULL THEN 0 ELSE 1 END , "+render;
-				return " CASE WHEN " + (piece instanceof SelectPiece ? ((SelectPiece)piece).getSelect().render(skin) : piece.render(skin)) + " IS NULL THEN 0 ELSE 1 END , "+render;
+				return "(" + (piece instanceof SelectPiece ? ((SelectPiece)piece).getSelect().render(skin) : piece.render(skin)) + " IS NOT NULL) , "+render;
 			}
 		} else if (this.nullsOrdering == NULLS_ORDERING.NULLS_LAST) {
 			try{
@@ -101,7 +101,7 @@ public class OrderByPiece implements IOrderByPiece {
 			catch(RenderingException e) {
 				//case alias is null then  else end requires a group by on Redshift if uses aggregate, commented
 				//return " CASE WHEN " + (piece instanceof IAlias && ((IAlias) piece).getAlias() != null ? ((((SelectPiece)piece).isQuoteAlias()) ? skin.quoteIdentifier(((IAlias) piece).getAlias()):((IAlias) piece).getAlias()):piece.render(skin)) + " IS NULL THEN 1 ELSE 0 END , "+render;
-				return " CASE WHEN " + (piece instanceof SelectPiece ? ((SelectPiece)piece).getSelect().render(skin) : piece.render(skin)) + " IS NULL THEN 1 ELSE 0 END , "+render;
+				return "(" + (piece instanceof SelectPiece ? ((SelectPiece)piece).getSelect().render(skin) : piece.render(skin)) + " IS NULL) , "+render;
 			}
 		}	 else {
 			return render;
