@@ -426,8 +426,12 @@ public class DefaultJDBCSkin extends DefaultSQLSkin {
 
 	protected String render(SQLSkin skin, FromSelectStatementPiece piece) throws RenderingException, IOException {
 		String render = "(";
-		render = render + piece.getSelect().render(skin);
-		render = render + ")";
+		String union = "";
+		for (SelectStatement select:piece.getSelect()) {
+			render = render + union + select.render(skin);
+			union = "\nUNION ALL\n";
+		}
+		render = render.replaceAll("\n", "\n\t") + ")";
 		// alias
 		render += " " + piece.getAlias();
 		String joinRender = "";
