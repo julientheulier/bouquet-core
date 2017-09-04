@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -25,6 +25,7 @@ package com.squid.core.sql.statements;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.squid.core.sql.model.Aliaser;
 import com.squid.core.sql.model.Scope;
@@ -46,7 +47,7 @@ implements IFromPiece {
 	private ISamplingDecorator sampling;
 	private Collection<IJoinDecorator> joins;
 	private String alias;
-	private SelectStatement select;
+	private List<SelectStatement> select = new ArrayList<SelectStatement>();
 	private Aliaser aliaser;
 	private IJoinDecorator definingJoinDecorator;
 
@@ -59,30 +60,35 @@ implements IFromPiece {
 		}else{
 			this.alias = alias;
 		}
-		this.select = select;
+		this.select.add(select);
 		// TODO Auto-generated constructor stub
 	}
-	
+
+	@Override
 	public IStatement getStatement() {
 		return statement;
 	}
 
+	@Override
 	public void addJoinDecorator(IJoinDecorator join) {
 		//
 		if (joins==null) joins = new ArrayList<IJoinDecorator>();
 		this.joins.add(join);
 	}
 
+	@Override
 	public Collection<IJoinDecorator> getJoinDecorators() {
 		//
 		return joins;
 	}
 
+	@Override
 	public ISamplingDecorator getSamplingDecorator() {
 		//
 		return sampling;
 	}
 
+	@Override
 	public void setSamplingDecorator(ISamplingDecorator sampling) {
 		//
 		this.sampling = sampling;
@@ -90,20 +96,21 @@ implements IFromPiece {
 
 	@Override
 	public String render(SQLSkin skin) throws RenderingException {
-		// 
+		//
 		return skin.render(skin,this);
 	}
 
+	@Override
 	public String getAlias() {
 		//
 		return alias;
 	}
 
-	public SelectStatement getSelect(){
+	public List<SelectStatement> getSelect(){
 		//
 		return select;
 	}
-	
+
 	@Override
 	public boolean isDense() {
 		// TODO check that hypothesis
@@ -119,5 +126,5 @@ implements IFromPiece {
 	public IJoinDecorator getDefiningJoinDecorator() {
 		return this.definingJoinDecorator;
 	}
-	
+
 }

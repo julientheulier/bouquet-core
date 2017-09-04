@@ -38,8 +38,6 @@ import com.squid.core.database.model.DatabaseProduct;
 import com.squid.core.database.model.Schema;
 import com.squid.core.database.model.Table;
 import com.squid.core.domain.IDomain;
-import com.squid.core.domain.operators.ExtendedType;
-import com.squid.core.domain.operators.IntrinsicOperators;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.expression.scope.ScopeException;
 import com.squid.core.sql.db.features.IGroupingSetSupport;
@@ -51,6 +49,7 @@ import com.squid.core.sql.render.ISkinFeatureSupport;
 import com.squid.core.sql.render.OperatorPiece;
 import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
+import com.squid.core.sql.render.SelectPiece;
 import com.squid.core.sql.render.groupby.GroupType;
 import com.squid.core.sql.render.groupby.GroupingSetPiece;
 import com.squid.core.sql.render.groupby.IGroupByElementPiece;
@@ -350,7 +349,15 @@ public class DefaultJDBCSkin extends DefaultSQLSkin {
 			if (!first) {
 				result += " , ";
 			}
-			result += piece.render(skin);
+			if (piece instanceof SelectPiece && ((SelectPiece)piece).getAlias() != null) {
+				if (((SelectPiece)piece).isQuoteAlias()) {
+					result += skin.quoteIdentifier(((SelectPiece)piece).getAlias());
+				} else {
+					result += ((SelectPiece)piece).getAlias();
+				}
+			} else {
+				result += piece.render(skin);
+			}
 			first = false;
 		}
 		return result;
@@ -361,7 +368,7 @@ public class DefaultJDBCSkin extends DefaultSQLSkin {
 		String render = "";
 		if (piece.getJoinDecorators() != null) {
 			render += "(";// need to inforce evaluation order because outer
-							// joins are not associative/commutative operations
+			// joins are not associative/commutative operations
 		}
 		//
 		final Table table = piece.getTable();
@@ -419,8 +426,12 @@ public class DefaultJDBCSkin extends DefaultSQLSkin {
 
 	protected String render(SQLSkin skin, FromSelectStatementPiece piece) throws RenderingException, IOException {
 		String render = "(";
-		render = render + piece.getSelect().render(skin);
-		render = render + ")";
+		String union = "";
+		for (SelectStatement select:piece.getSelect()) {
+			render = render + union + select.render(skin);
+			union = "\nUNION ALL\n";
+		}
+		render = render.replaceAll("\n", "\n\t") + ")";
 		// alias
 		render += " " + piece.getAlias();
 		String joinRender = "";
@@ -452,18 +463,18 @@ public class DefaultJDBCSkin extends DefaultSQLSkin {
 
 	protected String renderType(SQLSkin skin, GroupType groupType) throws RenderingException {
 		switch (groupType) {
-		case CUBE:
-			return "CUBE";
-		case GROUP_BY:
-			return "GROUP BY";
-		case GROUPING_SETS:
-			return "GROUPING SETS";
-		case ROLLUP:
-			return "ROLLUP";
-		case INNER:
-			return "";
-		default:
-			throw new RenderingException("Unsupported Group Type");
+			case CUBE:
+				return "CUBE";
+			case GROUP_BY:
+				return "GROUP BY";
+			case GROUPING_SETS:
+				return "GROUPING SETS";
+			case ROLLUP:
+				return "ROLLUP";
+			case INNER:
+				return "";
+			default:
+				throw new RenderingException("Unsupported Group Type");
 		}
 	}
 

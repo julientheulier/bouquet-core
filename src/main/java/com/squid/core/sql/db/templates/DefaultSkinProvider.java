@@ -69,6 +69,7 @@ import com.squid.core.domain.operators.RankOperatorDefinition;
 import com.squid.core.domain.sort.SortOperatorDefinition;
 import com.squid.core.domain.stats.PercentileOperatorDefintion;
 import com.squid.core.domain.vector.VectorOperatorDefinition;
+import com.squid.core.sql.db.features.IAliasInGroupingSupport;
 import com.squid.core.sql.db.features.IRollupStrategySupport;
 import com.squid.core.sql.db.render.AddMonthsOperatorRenderer;
 import com.squid.core.sql.db.render.AndOperatorRenderer;
@@ -371,7 +372,10 @@ public class DefaultSkinProvider implements ISkinProvider {
 	public ISkinFeatureSupport getFeatureSupport(DefaultJDBCSkin skin, String featureID) {
 		if (featureID.equals(IRollupStrategySupport.ID)) {
 			return IRollupStrategySupport.DO_NOT_OPTIMIZE_STRATEGY;
+		} else if (featureID.equals(IAliasInGroupingSupport.ID)) {
+			return ISkinFeatureSupport.IS_SUPPORTED;
 		}
+
 		return ISkinFeatureSupport.IS_NOT_SUPPORTED;
 	}
 

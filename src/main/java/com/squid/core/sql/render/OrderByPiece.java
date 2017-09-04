@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -28,23 +28,23 @@ public class OrderByPiece implements IOrderByPiece {
 	private ORDERING ordering = ORDERING.ASCENT;
 	private IPiece piece;
 	private NULLS_ORDERING nullsOrdering;
-	
+
 	public OrderByPiece (IPiece piece) {
 		super ();
 		this.piece = piece;
 	}
-	
+
 	public OrderByPiece (IPiece piece, ORDERING ordering) {
 		super ();
 		this.piece = piece;
 		this.ordering = ordering;
 	}
-	
+
 	@Override
 	public IPiece getPiece() {
 		return piece;
 	}
-	
+
 	@Override
 	public ORDERING getOrdering() {
 		return ordering;
@@ -54,11 +54,11 @@ public class OrderByPiece implements IOrderByPiece {
 	public void setOrdering(ORDERING o) {
 		ordering = o;
 	}
-	
+
 	public NULLS_ORDERING getNullsOrdering() {
 		return nullsOrdering;
 	}
-	
+
 	public void setNullsOrdering(NULLS_ORDERING nullsOrdering) {
 		this.nullsOrdering = nullsOrdering;
 	}
@@ -81,15 +81,17 @@ public class OrderByPiece implements IOrderByPiece {
 		//
 		return renderNullsOrdering(skin, render.toString());
 	}
-	
+
 	private String renderNullsOrdering(SQLSkin skin, String render) throws RenderingException {
 		if (this.nullsOrdering == NULLS_ORDERING.NULLS_FIRST) {
-			try{	
+			try{
 				String token = skin.getToken(SQLTokenConstant.NULLS_FIRST);
 				return render +" "+ token;
 			}
 			catch(RenderingException e) {
-				return " CASE WHEN " + piece.render(skin) + " IS NULL THEN 0 ELSE 1 END , "+render;
+				//case alias is null then  else end requires a group by on Redshift if uses aggregate, commented
+				//return " CASE WHEN " + (piece instanceof IAlias && ((IAlias) piece).getAlias() != null ? ((((SelectPiece)piece).isQuoteAlias()) ? skin.quoteIdentifier(((IAlias) piece).getAlias()):((IAlias) piece).getAlias()):piece.render(skin)) + " IS NULL THEN 0 ELSE 1 END , "+render;
+				return "(" + (piece instanceof SelectPiece ? ((SelectPiece)piece).getSelect().render(skin) : piece.render(skin)) + " IS NOT NULL) , "+render;
 			}
 		} else if (this.nullsOrdering == NULLS_ORDERING.NULLS_LAST) {
 			try{
@@ -97,7 +99,9 @@ public class OrderByPiece implements IOrderByPiece {
 				return (render + " "+ token);
 			}
 			catch(RenderingException e) {
-				return " CASE WHEN " + piece.render(skin) + " IS NULL THEN 1 ELSE 0 END , "+render;
+				//case alias is null then  else end requires a group by on Redshift if uses aggregate, commented
+				//return " CASE WHEN " + (piece instanceof IAlias && ((IAlias) piece).getAlias() != null ? ((((SelectPiece)piece).isQuoteAlias()) ? skin.quoteIdentifier(((IAlias) piece).getAlias()):((IAlias) piece).getAlias()):piece.render(skin)) + " IS NULL THEN 1 ELSE 0 END , "+render;
+				return "(" + (piece instanceof SelectPiece ? ((SelectPiece)piece).getSelect().render(skin) : piece.render(skin)) + " IS NULL) , "+render;
 			}
 		}	 else {
 			return render;
