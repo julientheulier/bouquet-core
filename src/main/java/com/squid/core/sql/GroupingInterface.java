@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -50,10 +50,10 @@ import com.squid.core.sql.render.groupby.IGroupByElementPiece;
 import com.squid.core.sql.render.groupby.IGroupByPiece;
 
 public class GroupingInterface {
-	
+
 	private ISelect select;
 	private boolean forceGroupBy;
-	
+
 	public class AdaptiveGroupByPiece
 	implements IGroupByPiece
 	{
@@ -62,7 +62,7 @@ public class GroupingInterface {
 		public List<IGroupByElementPiece> getAllPieces() throws ScopeException, SQLScopeException {
 			return Collections.unmodifiableList(computeGroupByPieces());
 		}
-		
+
 		@Override
 		public List<IGroupByElementPiece> getPieces(int filter) throws ScopeException, SQLScopeException {
 			return Collections.unmodifiableList(computeGroupByPieces(filter));
@@ -72,9 +72,9 @@ public class GroupingInterface {
 		public String render(SQLSkin skin) throws RenderingException {
 			return skin.render(skin, this);
 		}
-		
+
 	}
-	
+
 	protected List<GroupingElement> createList(List<ExpressionAST> expressions) {
 		ArrayList<GroupingElement> result = new ArrayList<GroupingElement>();
 		for (ExpressionAST e : expressions) {
@@ -82,11 +82,11 @@ public class GroupingInterface {
 		}
 		return result;
 	}
-	
+
 	public class GroupingSet {
-		
+
 		private LinkedHashSet<GroupingElement> set;
-		
+
 		public GroupingSet() {
 			super();
 			this.set = new LinkedHashSet<GroupingElement>();
@@ -102,13 +102,13 @@ public class GroupingInterface {
 			this.set = new LinkedHashSet<GroupingElement>();
 			this.set.add(singleton);
 		}
-		
+
 		public void add(IPiece piece) {
 			GroupingElement ep = new GroupingElement(piece);
 			this.set.add(ep);
 			GroupingInterface.this.sets_scope.add(ep);
 		}
-		
+
 		public void add(ExpressionAST expression) {
 			GroupingElement ep = new GroupingElement(expression);
 			this.set.add(ep);
@@ -118,12 +118,12 @@ public class GroupingInterface {
 		public HashSet<GroupingElement> getSet() {
 			return set;
 		}
-		
+
 		@Override
 		public int hashCode() {
 			return this.set.hashCode();
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof GroupingSet) {
@@ -132,22 +132,22 @@ public class GroupingInterface {
 				return super.equals(obj);
 			}
 		}
-		
+
 	}
-	
+
 	private ArrayList<GroupingSet> sets = new ArrayList<GroupingSet>();
 	private LinkedHashSet<GroupingElement> sets_scope = new LinkedHashSet<GroupingElement>();
-	
+
 	private ArrayList<GroupingElement> groups = new ArrayList<GroupingElement>();
 	private LinkedHashSet<GroupingElement> groups_scope = new LinkedHashSet<GroupingElement>();
-	
+
 	private ArrayList<GroupingElement> rollup = new ArrayList<GroupingElement>();
-	
+
 	public GroupingInterface(ISelect select) {
 		super();
 		this.select = select;
 	}
-	
+
 	/**
 	 * clear all groups and grouping sets
 	 */
@@ -179,7 +179,7 @@ public class GroupingInterface {
 			groups.add(ep);
 		}
 	}
-	
+
 	public List<GroupingSet> getGroupingSet() {
 		return Collections.unmodifiableList(sets);
 	}
@@ -210,7 +210,7 @@ public class GroupingInterface {
 		}
 	}
 
-	/** 
+	/**
 	 * native rollup support
 	 * @param axis
 	 */
@@ -220,7 +220,7 @@ public class GroupingInterface {
 		}
 		rollup.add(new GroupingElement(expr));
 	}
-	
+
 	public IGroupByPiece createGroupByPiece() {
 		return new AdaptiveGroupByPiece();
 	}
@@ -228,7 +228,7 @@ public class GroupingInterface {
 	public List<IGroupByElementPiece> computeGroupByPieces() throws ScopeException, SQLScopeException {
 		return computeGroupByPieces(IGroupByPiece.ALL);
 	}
-	
+
 	public List<IGroupByElementPiece> computeGroupByPieces(int filter) throws ScopeException, SQLScopeException {
 		ArrayList<GroupingElement> my_groups = new ArrayList<GroupingElement>(groups);
 		HashSet<GroupingElement> my_scope = new HashSet<GroupingElement>();
@@ -315,7 +315,7 @@ public class GroupingInterface {
 	/**
 	 * create a list of expression that must be added to the group by set
 	 * @return
-	 * @throws SQLScopeException 
+	 * @throws SQLScopeException
 	 */
 	private List<GroupingElement> computeGroupByExpressions() throws SQLScopeException {
 		ArrayList<GroupingElement> groupBy = new ArrayList<GroupingElement>();
@@ -327,56 +327,63 @@ public class GroupingInterface {
 				ExtendedType type = typed.getType();
 				if (!type.getDomain().isInstanceOf(AggregateDomain.DOMAIN)) {
 					if (
-					 // next test is the case if the piece is a constant or the null value - if so don't need to group-by
-					 // T1883: we actually use IDomain.NULL now
-					 type.getDomain().equals(IDomain.NULL)
-					 // T1883: now constant domain is correctly computed
-					 || type.getDomain().isInstanceOf(DomainConstant.DOMAIN)) {
+							// next test is the case if the piece is a constant or the null value - if so don't need to group-by
+							// T1883: we actually use IDomain.NULL now
+							type.getDomain().equals(IDomain.NULL)
+							// T1883: now constant domain is correctly computed
+							|| type.getDomain().isInstanceOf(DomainConstant.DOMAIN)) {
 						// T2003
 						// double check if the piece is an actual constant, it can be a constant function
 						IPiece check = piece;
 						if (piece instanceof ISelectPiece) {
-							check = ((ISelectPiece)piece).getSelect();
+							check = piece.getSelect();
 						}
 						if (!(check instanceof IConstantPiece)) {
-							groupBy.add(new GroupingElement(piece.getSelect()));
+							groupBy.add(new GroupingElement(piece));
 						}
 					} else {
-						groupBy.add(new GroupingElement(piece.getSelect()));
+						//T3190 Must check if the piece isn't just a true/false expression
+						IPiece check = piece;
+						if (piece instanceof ISelectPiece) {
+							check = piece.getSelect();
+						}
+						if (!(check instanceof IConstantPiece)) {
+							groupBy.add(new GroupingElement(piece));
+						}
 					}
 				}
 			} else
-			if (binding!=null && binding instanceof ExpressionAST) {
-				ExpressionAST expr = (ExpressionAST)binding;
-				IDomain image = expr.getImageDomain();
-				if (!image.isInstanceOf(AggregateDomain.DOMAIN)) {
-					if (
-						 // next test is the case if the piece is a constant or the null value - if so don't need to group-by
-						 // T1883: we actually use IDomain.NULL now
-						 image.equals(IDomain.NULL)
-						 // T1883: now constant domain is correctly computed
-						 || image.isInstanceOf(DomainConstant.DOMAIN)) 
-					{
-						if (!expr.getSourceDomain().equals(IDomain.NULL)) {
+				if (binding!=null && binding instanceof ExpressionAST) {
+					ExpressionAST expr = (ExpressionAST)binding;
+					IDomain image = expr.getImageDomain();
+					if (!image.isInstanceOf(AggregateDomain.DOMAIN)) {
+						if (
+								// next test is the case if the piece is a constant or the null value - if so don't need to group-by
+								// T1883: we actually use IDomain.NULL now
+								image.equals(IDomain.NULL)
+								// T1883: now constant domain is correctly computed
+								|| image.isInstanceOf(DomainConstant.DOMAIN))
+						{
+							if (!expr.getSourceDomain().equals(IDomain.NULL)) {
+								groupBy.add(new GroupingElement(expr));
+							}
+						} else {
 							groupBy.add(new GroupingElement(expr));
 						}
-					} else {
-						groupBy.add(new GroupingElement(expr));
+					}
+				} else {
+					// no binding, so we cannot add it...
+					// throw new SQLScopeException("invalid select piece");
+					// loose hypothesis: if we don't know, add it
+					IPiece select = piece.getSelect();
+					if (select instanceof IConstantPiece == false) {
+						groupBy.add(new GroupingElement(select));
 					}
 				}
-			} else {
-				// no binding, so we cannot add it...
-				// throw new SQLScopeException("invalid select piece");
-				// loose hypothesis: if we don't know, add it
-				IPiece select = piece.getSelect();
-				if (select instanceof IConstantPiece == false) {
-					groupBy.add(new GroupingElement(select));
-				}
-			}
 		}
 		return groupBy;
 	}
-	
+
 	/**
 	 * check the orderBy clause and add expression if not yet in the group by scope and its not an aggregate
 	 * T130
@@ -394,7 +401,7 @@ public class GroupingInterface {
 					ITypedPiece typed = (ITypedPiece)piece;
 					ExtendedType type = typed.getType();
 					if (!type.getDomain().isInstanceOf(AggregateDomain.DOMAIN)
-					 && !type.getDomain().equals(IDomain.UNKNOWN)) {// this is the case if the piece is a constant or the null value - if so don't need to group-by
+							&& !type.getDomain().equals(IDomain.UNKNOWN)) {// this is the case if the piece is a constant or the null value - if so don't need to group-by
 						groupBy.add(new GroupingElement(piece));
 					}
 				}
