@@ -373,7 +373,7 @@ public class DefaultSkinProvider implements ISkinProvider {
 		if (featureID.equals(IRollupStrategySupport.ID)) {
 			return IRollupStrategySupport.DO_NOT_OPTIMIZE_STRATEGY;
 		} else if (featureID.equals(IAliasInGroupingSupport.ID)) {
-			return ISkinFeatureSupport.IS_SUPPORTED;
+			return ISkinFeatureSupport.IS_NOT_SUPPORTED;
 		}
 
 		return ISkinFeatureSupport.IS_NOT_SUPPORTED;

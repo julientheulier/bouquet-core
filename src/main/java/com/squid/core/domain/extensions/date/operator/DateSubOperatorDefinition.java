@@ -175,7 +175,7 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
 		return poly;
 	}
 
-	
+
 	@Override
 	public OperatorDiagnostic validateParameters(List<IDomain> imageDomains) {
 		if(imageDomains.size()>2){
@@ -190,7 +190,7 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
 				}
 			}
 		}
-		
+
 		if (imageDomains.size() == 2 ){
 			if (imageDomains.get(0).isInstanceOf(IDomain.TEMPORAL) && imageDomains.get(1).isInstanceOf(IDomain.NUMERIC)){
 				return OperatorDiagnostic.IS_VALID;
@@ -235,7 +235,7 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
 				return ExtendedType.INTERVAL;
 			}
 		} else if (types.length==3) {
-			if (types[0].getDomain().isInstanceOf(IDomain.DATE) && types[0].getDomain().isInstanceOf(IDomain.TIMESTAMP)==false) {
+			/*if (types[0].getDomain().isInstanceOf(IDomain.DATE) && types[0].getDomain().isInstanceOf(IDomain.TIMESTAMP)==false) {
 				if (types[2].getDomain() instanceof DomainStringConstant) {
 					String unit = ((DomainStringConstant)types[2].getDomain()).getValue();
 					if ("SECOND".equals(unit) || "MINUTE".equals(unit) || "HOUR".equals(unit)) {
@@ -244,7 +244,7 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
 						return ExtendedType.DATE;
 					}
 				}
-			}
+			}*/
 			return ExtendedType.TIMESTAMP;
 		}
 
@@ -288,17 +288,17 @@ public class DateSubOperatorDefinition extends DateOperatorDefinition {
 				return IDomain.INTERVAL;
 			}
 		} else if (imageDomains.size()==3) {
-			if (imageDomains.get(0).isInstanceOf(IDomain.DATE) && imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP)==false) {
+			/*if (imageDomains.get(0).isInstanceOf(IDomain.DATE) && imageDomains.get(0).isInstanceOf(IDomain.TIMESTAMP) == false) {
 				if (imageDomains.get(2) instanceof DomainStringConstant) {
-					String unit = ((DomainStringConstant)imageDomains.get(2)).getValue();
+					String unit = ((DomainStringConstant) imageDomains.get(2)).getValue();
 					if ("SECOND".equals(unit) || "MINUTE".equals(unit) || "HOUR".equals(unit)) {
 						return IDomain.TIMESTAMP;
 					} else {
 						return IDomain.DATE;
 					}
 				}
-				return IDomain.TIMESTAMP;
-			}
+			}*/
+			return IDomain.TIMESTAMP;
 		}
 		return IDomain.NUMERIC;
 	}

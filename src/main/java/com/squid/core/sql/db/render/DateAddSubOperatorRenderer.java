@@ -32,6 +32,7 @@ import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.sql.render.IPiece;
+import com.squid.core.sql.render.ITypedPiece;
 import com.squid.core.sql.render.OperatorPiece;
 import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
@@ -120,7 +121,11 @@ extends BaseOperatorRenderer
 				txt += args[0];
 			}
 			txt += getOperator(type);
-			txt += ("DAY".equals(mode) && extendedTypes[0].getDomain().isInstanceOf(IDomain.DATE))? unit:getInterval(unit,mode);
+			IDomain d = extendedTypes[0].getDomain();
+			if (piece  instanceof ITypedPiece) {
+				d = piece.getType().getDomain();
+			}
+			txt += (!"DAY".equals(mode) || d.isInstanceOf(IDomain.TIMESTAMP))? getInterval(unit,mode):unit;
 		}
 		return txt;
 	}
