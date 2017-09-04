@@ -120,7 +120,7 @@ extends BaseOperatorRenderer
 				txt += args[0];
 			}
 			txt += getOperator(type);
-			txt += getInterval(unit,mode);
+			txt += ("DAY".equals(mode) && extendedTypes[0].getDomain().isInstanceOf(IDomain.DATE))? unit:getInterval(unit,mode);
 		}
 		return txt;
 	}
