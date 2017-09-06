@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -27,16 +27,14 @@ import java.util.ArrayList;
 
 
 /**
- * 
+ *
  * @author serge fantino
  *
  */
-public class JoinDecorator 
+public class JoinDecorator
 implements IJoinDecorator
 {
-	
-	public enum JoinType { LEFT, RIGHT, FULL, INNER, CROSS_JOIN }; 
-	
+
 	protected JoinType type;
 	private IWherePiece condition;
 	protected IFromPiece joinTable;
@@ -47,7 +45,7 @@ implements IJoinDecorator
 		this.condition = condition;
 		this.joinTable.setDefiningJoinDecorator(this);
 	}
-	
+
 	/**
 	 * add the new condition to the join (using AND)
 	 * @param condition
@@ -67,20 +65,20 @@ implements IJoinDecorator
 	public String render(SQLSkin skin) throws RenderingException {
 		String render = "";
 		switch (type) {
-		case LEFT:
-			render = skin.getToken(SQLTokenConstant.LEFT_OUTER_JOIN);
-			break;
-		case RIGHT:
-			render = skin.getToken(SQLTokenConstant.RIGHT_OUTER_JOIN);
-			break;
-		case FULL:
-			render = skin.getToken(SQLTokenConstant.FULL_OUTER_JOIN);
-			break;
-		case INNER:
-			render = skin.getToken(SQLTokenConstant.INNER_JOIN);
-			break;
-		default:
-			throw new RenderingException("unsupported join type");
+			case LEFT:
+				render = skin.getToken(SQLTokenConstant.LEFT_OUTER_JOIN);
+				break;
+			case RIGHT:
+				render = skin.getToken(SQLTokenConstant.RIGHT_OUTER_JOIN);
+				break;
+			case FULL:
+				render = skin.getToken(SQLTokenConstant.FULL_OUTER_JOIN);
+				break;
+			case INNER:
+				render = skin.getToken(SQLTokenConstant.INNER_JOIN);
+				break;
+			default:
+				throw new RenderingException("unsupported join type");
 		}
 		render += " "+joinTable.render(skin);
 		render += " ON ";

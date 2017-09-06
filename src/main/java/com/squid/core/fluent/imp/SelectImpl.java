@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -48,11 +48,11 @@ import com.squid.core.sql.db.templates.SkinFactory;
 import com.squid.core.sql.model.SQLScopeException;
 import com.squid.core.sql.model.Scope;
 import com.squid.core.sql.render.IFromPiece;
+import com.squid.core.sql.render.IJoinDecorator.JoinType;
 import com.squid.core.sql.render.IPiece;
 import com.squid.core.sql.render.ISelectPiece;
 import com.squid.core.sql.render.IWherePiece;
 import com.squid.core.sql.render.JoinDecorator;
-import com.squid.core.sql.render.JoinDecorator.JoinType;
 import com.squid.core.sql.render.SQLSkin;
 import com.squid.core.sql.render.SelectPiece;
 import com.squid.core.sql.render.WherePiece;
@@ -67,16 +67,16 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 	private SQLSkin skin;
 	private PieceCreator pieceCreator;
 	private GroupingInterface grouping;
-	
+
 	private AnalyzerMapping analyzer;
-	
+
 	public SelectImpl(Database db) {
 		this.skin = SkinFactory.INSTANCE.createSkin(db);
 		this.pieceCreator = createPieceCreator(this);
 		//
 		this.analyzer = createAnalyzer();
 	}
-	
+
 	/**
 	 * shorthand that performs a from(table)
 	 * @param table
@@ -86,19 +86,19 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 		this(table.getSchema().getDatabase());
 		from(table);
 	}
-	
+
 	protected AnalyzerMapping createAnalyzer() {
 		return new AnalyzerMapping();
 	}
-	
+
 	@Override
 	public GroupingInterface getGrouping() {
 		if (grouping==null) {
-			 grouping = new GroupingInterface(this);
+			grouping = new GroupingInterface(this);
 		}
 		return grouping;
 	}
-	
+
 	@Override
 	public IPiece createPiece(Context ctx, Scope scope, ExpressionAST expression)
 			throws SQLScopeException {
@@ -110,27 +110,27 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 			throws SQLScopeException, ScopeException {
 		return this.pieceCreator.createPiece(ctx, scope, expression);
 	}
-	
+
 	/**
 	 * select the given expression in the current scope
 	 * @param expr
 	 * @return
-	 * @throws SQLScopeException 
-	 * @throws ScopeException 
+	 * @throws SQLScopeException
+	 * @throws ScopeException
 	 */
 	public ISelectPiece select(ExpressionAST expression) throws SQLScopeException {
 		return select(getScope(),expression);
 	}
-	
+
 	public ISelectPiece select(ExpressionAST expression, String name) throws SQLScopeException {
 		return select(getScope(), expression, name, true,true);
 	}
-	
+
 	public ISelectPiece select(Scope parent, ExpressionAST expression) throws SQLScopeException {
 		String baseName = guessExpressionName(expression);
 		return select(parent, expression, baseName, true, true);
 	}
-	
+
 	public ISelectPiece select(Scope parent, ExpressionAST expression, String baseName, boolean useAlias, boolean normalizeAlias) throws SQLScopeException {
 		IDomain source = expression.getSourceDomain();
 		Object mapping = null;
@@ -138,7 +138,7 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 			// check for availability in the parent scope
 			Object object = source.getAdapter(Table.class);
 			if (object!=null && object instanceof Table) {
-				mapping = parent.get((Table)object);
+				mapping = parent.get(object);
 			}
 		}
 		if (mapping==null && !source.equals(IDomain.NULL)) { // null domain will be automatically bound to the main scope
@@ -157,7 +157,7 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 					throw new SQLScopeException("Binding is already mapped to a different value");
 				}
 			}
-		} 
+		}
 		// else
 		// bound the expression
 		parent.override(expression, select);
@@ -166,7 +166,7 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 		getStatement().getSelectPieces().add(select);
 		return select;
 	}
-	
+
 	protected String guessExpressionName(ExpressionAST expression) {
 		if (expression instanceof ExpressionRef) {
 			ExpressionRef ref = (ExpressionRef)expression;
@@ -183,7 +183,7 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 	protected PieceCreator createPieceCreator(SelectImpl select) {
 		return new PieceCreator(select);
 	}
-	
+
 	public SQLSkin getSkin() {
 		return skin;
 	}
@@ -246,30 +246,30 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 			}
 		}
 	}
-	
+
 	private IFromPiece createJoin(Context ctx, JoinType type, IFromPiece from, ForeignKeyRelationReference relation) throws SQLScopeException {
 		switch (type) {
-		case LEFT:
-			return createLeftJoin(ctx, from, relation);
-		case INNER:
-			return createInnerJoin(ctx, from, relation);
-		case RIGHT:
-			return createRightJoin(ctx, from, relation);
-		default:
-			throw new RuntimeException("Unsupported join type");
+			case LEFT:
+				return createLeftJoin(ctx, from, relation);
+			case INNER:
+				return createInnerJoin(ctx, from, relation);
+			case RIGHT:
+				return createRightJoin(ctx, from, relation);
+			default:
+				throw new RuntimeException("Unsupported join type");
 		}
 	}
-	
+
 	private JoinType computeJoinType(Cardinality sourceCardinality, Cardinality targetCardinality) {
 		switch (targetCardinality) {
-		case ZERO_OR_ONE:
-			return JoinType.LEFT;
-		case ONE:
-			return JoinType.INNER;
-		case MANY:
-			return JoinType.LEFT;
-		default:
-			throw new RuntimeException("Unexpected cardinality definition");
+			case ZERO_OR_ONE:
+				return JoinType.LEFT;
+			case ONE:
+				return JoinType.INNER;
+			case MANY:
+				return JoinType.LEFT;
+			default:
+				throw new RuntimeException("Unexpected cardinality definition");
 		}
 	}
 
@@ -293,19 +293,19 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 		//
 		return targetFromPiece;
 	}
-	
+
 	private IFromPiece createRightJoin(Context ctx, IFromPiece from, ForeignKeyRelationReference relation) throws SQLScopeException {
 		return createDecoratedJoin(ctx, from, JoinType.RIGHT, relation);
 	}
-	
+
 	private IFromPiece createLeftJoin(Context ctx, IFromPiece from, ForeignKeyRelationReference relation) throws SQLScopeException {
 		return createDecoratedJoin(ctx, from, JoinType.LEFT, relation);
 	}
-	
+
 	private IFromPiece createInnerJoin(Context ctx, IFromPiece from, ForeignKeyRelationReference relation) throws SQLScopeException {
 		return createDecoratedJoin(ctx, from, JoinType.INNER, relation);
 	}
-	
+
 	private IFromPiece createDecoratedJoin(Context ctx, IFromPiece from, JoinType joinType, ForeignKeyRelationReference relation) throws SQLScopeException {
 		// just add the target and link
 		Scope subscope = new Scope(from.getScope());
@@ -331,21 +331,20 @@ public class SelectImpl extends DatabaseSelectInterface implements ISelect {
 		//
 		return targetFromPiece;
 	}
-	
+
 	public IWherePiece where(ExpressionAST filter) throws SQLScopeException {
 		return where(getScope(),filter);
 	}
-	
+
 	public IWherePiece where(Scope parent, ExpressionAST filter) throws SQLScopeException {
 		IDomain image = filter.getImageDomain();
 		if (!image.isInstanceOf(IDomain.CONDITIONAL)) {
-			@SuppressWarnings("unused")
-			IDomain try_again = filter.getImageDomain();
+			filter.getImageDomain();
 			throw new SQLScopeException("Invalid WHERE expression: it must be a condition ");
 		}
 		IPiece piece = createPiece(Context.WHERE, parent, filter);// must use the local scope
 		IWherePiece where = addWherePiece(parent,piece);
-		// add support for HAVING and QUALIFY 
+		// add support for HAVING and QUALIFY
 		//
 		if (image.isInstanceOf(AggregateDomain.DOMAIN)) {
 			where.setType(IWherePiece.HAVING);
