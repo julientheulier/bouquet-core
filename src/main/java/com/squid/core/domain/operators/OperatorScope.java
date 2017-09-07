@@ -75,7 +75,7 @@ public class OperatorScope implements IntrinsicOperators {
 	 *
 	 */
 	private void initIntrinsicOperators() {
-//		registerSafe(undefinedOperatorDef);
+		//registerSafe(undefinedOperatorDef);
 		// -----------------------------------------------------------------------------
 		registerSafe(new BinaryArithmeticOperatorDefinition("CONCAT", CONCAT, IDomain.STRING,
 				OperatorDefinition.STRING_TYPE));
@@ -120,8 +120,8 @@ public class OperatorScope implements IntrinsicOperators {
 		registerSafe(new RankOperatorDefinition("RANK", RankOperatorDefinition.RANK_ID));
 		registerSafe(new RankOperatorDefinition("ROW_NUMBER", RankOperatorDefinition.ROWNUMBER_ID));
 		registerSafe(new CountOperatorDefinition("COUNT", COUNT));
-		registerSafe(new CountDistinctOperatorDefinition("COUNT_DISTINCT", COUNT_DISTINCT));
-		registerSafe(new CountDistinctOperatorDefinition("DISTINCT", COUNT_DISTINCT));// short-hand
+		registerSafe(new CountOperatorDefinition("COUNT_DISTINCT", COUNT_DISTINCT));
+		registerSafe(new CountOperatorDefinition("DISTINCT", COUNT_DISTINCT));// short-hand
 		// -----------------------------------------------------------------------------
 		registerSafe(new ComparisonOperatorDefinition("LESS", LESS, "<"));
 		registerSafe(new ComparisonOperatorDefinition("LESS_OR_EQUAL", LESS_OR_EQUAL, "<="));

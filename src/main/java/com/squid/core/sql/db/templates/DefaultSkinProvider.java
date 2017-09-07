@@ -79,7 +79,6 @@ import com.squid.core.sql.db.render.CastOperatorRenderer;
 import com.squid.core.sql.db.render.CeilOperatorRenderer;
 import com.squid.core.sql.db.render.CoVarianceRenderer;
 import com.squid.core.sql.db.render.CoalesceOperatorRenderer;
-import com.squid.core.sql.db.render.CountDistinctOperatorRenderer;
 import com.squid.core.sql.db.render.CountOperatorRenderer;
 import com.squid.core.sql.db.render.CurrentDateTimestampRenderer;
 import com.squid.core.sql.db.render.DateAddOperatorRenderer;
@@ -141,7 +140,7 @@ public class DefaultSkinProvider implements ISkinProvider {
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.ADD_MONTHS), new DefaultOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.AND), new AndOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.CONCAT), new DefaultOperatorRenderer() );
-		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.COUNT_DISTINCT), new CountDistinctOperatorRenderer() );
+		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.COUNT_DISTINCT), new CountOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.DIVIDE), new DivideOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.EQUAL), new DefaultOperatorRenderer() );
 		registerOperatorRender(OperatorDefinition.getExtendedId(IntrinsicOperators.EXISTS), new DefaultOperatorRenderer() );

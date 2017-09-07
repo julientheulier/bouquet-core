@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -30,11 +30,12 @@ import com.squid.core.domain.DomainStringConstant;
 import com.squid.core.domain.IDomain;
 import com.squid.core.domain.analytics.WindowingDomain;
 import com.squid.core.domain.extensions.cast.CastOperatorDefinition;
-import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
 import com.squid.core.domain.extensions.cast.CastToTimestampOperatorDefinition;
 import com.squid.core.domain.extensions.date.operator.DateIntervalOperatorDefinition;
+import com.squid.core.domain.extensions.date.operator.DateOperatorDefinition;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
+import com.squid.core.domain.operators.OperatorScope;
 import com.squid.core.domain.sort.DomainSort;
 import com.squid.core.sql.render.IPiece;
 import com.squid.core.sql.render.OperatorPiece;
@@ -42,14 +43,14 @@ import com.squid.core.sql.render.RenderingException;
 import com.squid.core.sql.render.SQLSkin;
 import com.squid.core.sql.render.SimpleConstantValuePiece;
 
-public class OrderedAnalyticOperatorRenderer 
+public class OrderedAnalyticOperatorRenderer
 extends BaseOperatorRenderer
 {
-	
+
 	public OrderedAnalyticOperatorRenderer() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public String prettyPrint(SQLSkin skin, OperatorDefinition opDef,
 			String[] args) throws RenderingException {
@@ -64,9 +65,9 @@ extends BaseOperatorRenderer
 		if (args.length==0) {
 			result += "()";
 		} else if (args.length==1) {
-			result += "("+args[0]+")";
+			result += "("+(opDef.getId()==OperatorScope.COUNT_DISTINCT?"DISTINCT ":"")+args[0]+")";
 		} else {
-			result += "("+args[0]+")";
+			result += "("+(opDef.getId()==OperatorScope.COUNT_DISTINCT?"DISTINCT ":"")+args[0]+")";
 		}
 		if (args.length>1) {
 			result += " OVER (";
@@ -101,7 +102,7 @@ extends BaseOperatorRenderer
 	public String getLocalEpoch(SQLSkin skin, IPiece piece, ExtendedType type,
 			String arg) throws RenderingException {
 		DateOperatorDefinition dateInterval = new DateOperatorDefinition("DATE_INTERVAL", DateIntervalOperatorDefinition.ID,IDomain.NUMERIC);
-		
+
 		String intervalType = "SECOND";
 		Calendar cal = Calendar.getInstance();
 		cal.set(1970, 1, 1, 0, 0, 0);
@@ -115,7 +116,7 @@ extends BaseOperatorRenderer
 		return skin.render(skin, intervalPiece, dateInterval, new String[] {arg, dateRef,intervalType});
 
 	}
-	
+
 	public String getTimestamp(SQLSkin skin, IPiece piece, String date) throws RenderingException {
 		CastOperatorDefinition toTimestamp= new CastOperatorDefinition("TO_TIMESTAMP", CastToTimestampOperatorDefinition.ID,IDomain.TIMESTAMP);
 		OperatorPiece castPiece = new OperatorPiece(toTimestamp, new IPiece[]{piece}, new ExtendedType[] {ExtendedType.STRING});
