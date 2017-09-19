@@ -64,9 +64,7 @@ extends BaseOperatorRenderer
 		ExtendedType[] types = piece.getParamTypes();
 		if (args.length==0) {
 			result += "()";
-		} else if (args.length==1) {
-			result += "("+(opDef.getId()==OperatorScope.COUNT_DISTINCT?"DISTINCT ":"")+args[0]+")";
-		} else {
+		} else if (args.length>=1) {
 			result += "("+(opDef.getId()==OperatorScope.COUNT_DISTINCT?"DISTINCT ":"")+args[0]+")";
 		}
 		if (args.length>1) {
