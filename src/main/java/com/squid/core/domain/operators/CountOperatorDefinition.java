@@ -74,7 +74,11 @@ extends OrderedAnalyticOperatorDefinition {
 
 	@Override
 	public String getSymbol() {
-		return "COUNT";
+		if (this.getId() == IntrinsicOperators.COUNT) {
+			return "COUNT";
+		} else {
+			return "COUNT_DISTINCT";
+		}
 	}
 
 }

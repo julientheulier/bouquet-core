@@ -61,6 +61,9 @@ extends BaseOperatorRenderer
 	public String prettyPrint(SQLSkin skin, OperatorPiece piece, OperatorDefinition opDef,
 			String[] args) throws RenderingException {
 		String result = piece.getOpDef().getSymbol();
+		if (opDef.getId()==OperatorScope.COUNT_DISTINCT) {
+			result = "COUNT";
+		}
 		ExtendedType[] types = piece.getParamTypes();
 		if (args.length==0) {
 			result += "()";

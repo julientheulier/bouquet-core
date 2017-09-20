@@ -39,7 +39,7 @@ extends OrderedAnalyticOperatorRenderer
 		if (opDef.getId()==OperatorScope.COUNT && args.length==0) {
 			return opDef.getSymbol()+"(*)";
 		} else if (opDef.getId()==OperatorScope.COUNT_DISTINCT && args.length==0) {
-			return opDef.getSymbol()+"(DISTINCT *)";
+			return "COUNT(DISTINCT *)";
 		} else {
 			return super.prettyPrint(skin, piece, opDef, args);
 		}
