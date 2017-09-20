@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -27,7 +27,7 @@ import com.squid.core.domain.IDomain;
 import com.squid.core.domain.IDomainMetaDomain;
 
 /**
- * Sort domain is a meta-domain that carries a sort direction. 
+ * Sort domain is a meta-domain that carries a sort direction.
  * This domain is created by using SortOperators for instance.
  * If an ExpressionAST has this type it can be use to sort/orderBy
  * @author sergefantino
@@ -36,22 +36,31 @@ import com.squid.core.domain.IDomainMetaDomain;
 public interface DomainSort
 extends IDomain, IDomainMetaDomain
 {
-	
+
 	public enum SortDirection {
 		ASC, DESC
 	}
-	
+
+	public enum NullsPosition {
+		NULLS_FIRST, NULLS_LAST, UNDEFINED
+	}
+
 	public static final DomainSort DOMAIN = new DomainSortImp();
-	
+
 	public SortDirection getDirection();
-	
+
 	public void setDirection(SortDirection direction);
-	
+
+	public NullsPosition getNullsPosition();
+
+	public void setNullsPosition(NullsPosition nullsPosition);
+
+	@Override
 	public IDomain getSubdomain();
 
 	/**
 	 * custom constructor
 	 */
-	public IDomain createMetaDomain(IDomain baseDomain, SortDirection direction);
+	public IDomain createMetaDomain(IDomain baseDomain, SortDirection direction, NullsPosition nullsPosition);
 
 }

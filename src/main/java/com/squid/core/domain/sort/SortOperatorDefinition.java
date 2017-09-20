@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -31,19 +31,26 @@ import com.squid.core.domain.IDomain;
 import com.squid.core.domain.operators.ExtendedType;
 import com.squid.core.domain.operators.OperatorDefinition;
 import com.squid.core.domain.operators.OperatorDiagnostic;
+import com.squid.core.domain.sort.DomainSort.NullsPosition;
 import com.squid.core.domain.sort.DomainSort.SortDirection;
 
 public class SortOperatorDefinition extends OperatorDefinition {
-	
+
 	public static final String ASC_ID = "com.squid.domain.model.sort.ASC";
 	public static final String DESC_ID = "com.squid.domain.model.sort.DESC";
-	
+	public static final String ASC_FIRST_ID = "com.squid.domain.model.sort.ASC_FIRST";
+	public static final String DESC_FIRST_ID = "com.squid.domain.model.sort.DESC_FIRST";
+	public static final String ASC_LAST_ID = "com.squid.domain.model.sort.ASC_LAST";
+	public static final String DESC_LAST_ID = "com.squid.domain.model.sort.DESC_LAST";
+
 	private SortDirection direction;
-	
-	public SortOperatorDefinition(String name, String id, SortDirection direction) {
+	private NullsPosition nullsPosition;
+
+	public SortOperatorDefinition(String name, String id, SortDirection direction, NullsPosition nullsPosition) {
 		super(name,id,OperatorDefinition.PREFIX_POSITION,name,DomainSort.DOMAIN);
 		setParamCount(1);
 		this.direction=direction;
+		this.nullsPosition = nullsPosition;
 	}
 
 
@@ -70,7 +77,7 @@ public class SortOperatorDefinition extends OperatorDefinition {
 		} else
 			return OperatorDiagnostic.IS_VALID;
 	}
-	
+
 	@Override
 	public ExtendedType computeExtendedTypeRaw(ExtendedType[] types) {
 		if (types.length==1) {
@@ -80,17 +87,17 @@ public class SortOperatorDefinition extends OperatorDefinition {
 			return ExtendedType.UNDEFINED;
 		}
 	}
-	
+
 	@Override
 	public ExtendedType computeExtendedType(ExtendedType[] types) {
-	    return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
+		return fixExtendedTypeDomain(computeExtendedTypeRaw(types), types);
 	}
 
-	
+
 	@Override
 	public IDomain computeImageDomain(List<IDomain> imageDomains) {
 		if (imageDomains.size()==1) {
-			return DomainSort.DOMAIN.createMetaDomain(imageDomains.get(0), this.direction);
+			return DomainSort.DOMAIN.createMetaDomain(imageDomains.get(0), this.direction, this.nullsPosition);
 		} else {
 			return IDomain.UNKNOWN;
 		}

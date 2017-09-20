@@ -2,12 +2,12 @@
  * Copyright © Squid Solutions, 2016
  *
  * This file is part of Open Bouquet software.
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation (version 3 of the License).
  *
- * There is a special FOSS exception to the terms and conditions of the 
+ * There is a special FOSS exception to the terms and conditions of the
  * licenses as they are applied to this program. See LICENSE.txt in
  * the directory of this program distribution.
  *
@@ -27,35 +27,37 @@ package com.squid.core.domain.sort;
 import com.squid.core.domain.DomainBase;
 import com.squid.core.domain.IDomain;
 
-public class ProxyDomainSort 
+public class ProxyDomainSort
 extends DomainBase
 implements DomainSort
 {
-	
+
 	private IDomain subdomain = IDomain.UNKNOWN;
 	private SortDirection direction;
+	private NullsPosition nullsPosition;
 
 	public ProxyDomainSort() {
 		super(DomainSort.DOMAIN);
 	}
-	
+
 	protected ProxyDomainSort(IDomain subdomain) {
 		this();
 		this.subdomain = subdomain;
 	}
-	
-	protected ProxyDomainSort(IDomain subdomain, SortDirection direction) {
+
+	protected ProxyDomainSort(IDomain subdomain, SortDirection direction, NullsPosition nullsPosition) {
 		this();
 		this.subdomain = subdomain;
 		this.direction = direction;
+		this.nullsPosition = nullsPosition;
 	}
 
 	@Override
 	public String getName() {
 		if (subdomain!=null) {
-			return direction.name()+"{"+subdomain.getName()+"}";
+			return direction.name()+"{"+subdomain.getName()+"}" + (nullsPosition != NullsPosition.UNDEFINED?" "+nullsPosition.toString():"");
 		} else {
-			return direction.name()+"{}";
+			return direction.name()+"{}" + (nullsPosition != NullsPosition.UNDEFINED?" "+nullsPosition.toString():"");
 		}
 	}
 
@@ -63,12 +65,12 @@ implements DomainSort
 	public IDomain getSubdomain() {
 		return subdomain;
 	}
-	
+
 	@Override
 	public SortDirection getDirection() {
 		return direction;
 	}
-	
+
 	@Override
 	public void setDirection(SortDirection direction) {
 		this.direction = direction;
@@ -91,12 +93,12 @@ implements DomainSort
 			return super.isInstanceOf(domain);
 		}
 	}
-	
+
 	@Override
 	public IDomain compose(IDomain anotherDomain) {
 		return null;// unable to compose
 	}
-	
+
 	@Override
 	public Object getAdapter(Class<?> adapter) {
 		Object ancestorSays = super.getAdapter(adapter);
@@ -110,20 +112,30 @@ implements DomainSort
 		// don't know
 		return null;
 	}
-    
-    @Override
-    public IDomain createMetaDomain(IDomain subdomain) {
-    	return new ProxyDomainSort(subdomain);
-    }
-    
-    @Override
-    public IDomain createMetaDomain(IDomain baseDomain, SortDirection direction) {
-    	return new ProxyDomainSort(subdomain, direction);
-    }
+
+	@Override
+	public IDomain createMetaDomain(IDomain subdomain) {
+		return new ProxyDomainSort(subdomain);
+	}
+
+	@Override
+	public IDomain createMetaDomain(IDomain baseDomain, SortDirection direction, NullsPosition nullsPosition) {
+		return new ProxyDomainSort(subdomain, direction, nullsPosition);
+	}
 
 	@Override
 	public IDomain getMetadomain() {
 		return DomainSort.DOMAIN;
+	}
+
+	@Override
+	public NullsPosition getNullsPosition() {
+		return nullsPosition;
+	}
+
+	@Override
+	public void setNullsPosition(NullsPosition nullsPosition) {
+		this.nullsPosition = nullsPosition;
 	}
 
 }
