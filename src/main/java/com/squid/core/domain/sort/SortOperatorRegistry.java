@@ -54,9 +54,9 @@ implements OperatorRegistry
 	public void apply(OperatorScope scope) throws OperatorScopeException {
 		scope.registerExtension(new SortOperatorDefinition("ASC",SortOperatorDefinition.ASC_ID,DomainSort.SortDirection.ASC, DomainSort.NullsPosition.UNDEFINED));
 		scope.registerExtension(new SortOperatorDefinition("DESC",SortOperatorDefinition.DESC_ID,DomainSort.SortDirection.DESC, DomainSort.NullsPosition.UNDEFINED));
-		scope.registerExtension(new SortOperatorDefinition("ASC_NULLS_FIRST",SortOperatorDefinition.ASC_FIRST_ID,DomainSort.SortDirection.DESC, DomainSort.NullsPosition.NULLS_FIRST));
+		scope.registerExtension(new SortOperatorDefinition("ASC_NULLS_FIRST",SortOperatorDefinition.ASC_FIRST_ID,DomainSort.SortDirection.ASC, DomainSort.NullsPosition.NULLS_FIRST));
 		scope.registerExtension(new SortOperatorDefinition("DESC_NULLS_FIRST",SortOperatorDefinition.DESC_FIRST_ID,DomainSort.SortDirection.DESC, DomainSort.NullsPosition.NULLS_FIRST));
-		scope.registerExtension(new SortOperatorDefinition("ASC_NULLS_LAST",SortOperatorDefinition.ASC_LAST_ID,DomainSort.SortDirection.DESC, DomainSort.NullsPosition.NULLS_LAST));
+		scope.registerExtension(new SortOperatorDefinition("ASC_NULLS_LAST",SortOperatorDefinition.ASC_LAST_ID,DomainSort.SortDirection.ASC, DomainSort.NullsPosition.NULLS_LAST));
 		scope.registerExtension(new SortOperatorDefinition("DESC_NULLS_LAST",SortOperatorDefinition.DESC_FIRST_ID,DomainSort.SortDirection.DESC, DomainSort.NullsPosition.NULLS_LAST));
 	}
 
